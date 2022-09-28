@@ -4,7 +4,7 @@ import Navs from './components/Navs';
 import Notfound from './components/Notfound';
 
 //redux를 사용해 상태관리
-import { craeteStore, createStore } from 'redux'
+import { createStore } from 'redux'
 import { Provider, useSelctor, UseDispatch, useDispatch } from 'react-redux'
 import Signin from './components/Signin';
 
@@ -18,11 +18,16 @@ const initialstate = {
 
   users: [
     {
+      name: '백우진',
+      phonenumber: '01050118246',
       id: 'bwj0509',
       password: 'abcd1234',
       email: 'bwj59@naevr.com'
+
     },
     {
+      name: '김길동',
+      phonenumber: '01000000000',
       id: 'gildong1234',
       password: 'hong12341',
       email: 'gildong12@gamil.com'
@@ -42,8 +47,12 @@ function reducer(state = initialstate, action) {
       return state
     case 'SIGNINUSER': // USER를 등록
       console.log('유저등록 완료!')
-      const { id, password, email } = action.data
-      return { ...state, users: [...state.users, { id: id, password: password, email: email }] }
+      const { id, password, email, name, phonenumber } = action.data
+      return { ...state, users: [...state.users, { id: id, password: password, email: email, name: name, phonenumber: phonenumber }] }
+    case 'OVERLAPCHECKID':
+      console.log('중복체크타임')
+      const checkid = action.data
+      console.log(`확인하려는 ID는 ${checkid}입니다.`)
     default:
       return { ...state }
   }
