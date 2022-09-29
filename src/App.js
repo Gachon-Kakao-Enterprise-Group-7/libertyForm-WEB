@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+
 import Main from './components/Main';
 import Navs from './components/Navs';
 import Notfound from './components/Notfound';
