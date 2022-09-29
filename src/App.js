@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Main from './components/Main';
 import Navs from './components/Navs';
 import Notfound from './components/Notfound';
+import Login from './components/Login';
 
 //redux를 사용해 상태관리
 import { createStore } from 'redux'
@@ -73,6 +74,7 @@ function App() {
         <Routes>
           <Route path="/" element={<><Navs /><Main /></>}></Route>
           <Route path="/signin" element={<><Navs /><Signin /></>}></Route>
+          <Route path="/login" element={<><Navs /><Login /></>}></Route>
           <Route path="*" element={<Notfound />}></Route>
         </Routes>
       </BrowserRouter>
