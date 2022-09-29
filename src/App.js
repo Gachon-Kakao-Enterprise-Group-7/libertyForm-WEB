@@ -23,7 +23,6 @@ const initialstate = {
       id: 'bwj0509',
       password: 'abcd1234',
       email: 'bwj59@naevr.com',
-      name:'백우진',
       phone:'01050118246'
     },
     {
@@ -32,7 +31,6 @@ const initialstate = {
       id: 'gildong1234',
       password: 'hong12341',
       email: 'gildong12@gamil.com',
-      name:'김길동',
       phone:'01012345678'
     },
   ]

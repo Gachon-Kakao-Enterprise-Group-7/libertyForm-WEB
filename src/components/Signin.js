@@ -166,7 +166,7 @@ function Signin() {
                     <Button //카카오 소셜 로그인
                         className='mt-3' 
                         variant="contained" 
-                        style={{ backgroundColor: 'yellow', width:'22vw', color:'black' }} 
+                        style={{ backgroundColor: 'yellow', width:'80%', color:'black' }} 
                          >카카오 회원가입
                     </Button>
                 </Box>
