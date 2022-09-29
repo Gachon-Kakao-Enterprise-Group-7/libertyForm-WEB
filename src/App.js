@@ -4,7 +4,7 @@ import Navs from './components/Navs';
 import Notfound from './components/Notfound';
 
 //redux를 사용해 상태관리
-import { craeteStore, createStore } from 'redux'
+import { createStore } from 'redux'
 import { Provider, useSelctor, UseDispatch, useDispatch } from 'react-redux'
 import Signin from './components/Signin';
 
@@ -20,12 +20,16 @@ const initialstate = {
     {
       id: 'bwj0509',
       password: 'abcd1234',
-      email: 'bwj59@naevr.com'
+      email: 'bwj59@naevr.com',
+      name:'백우진',
+      phone:'01050118246'
     },
     {
       id: 'gildong1234',
       password: 'hong12341',
-      email: 'gildong12@gamil.com'
+      email: 'gildong12@gamil.com',
+      name:'김길동',
+      phone:'01012345678'
     },
   ]
 }
@@ -42,9 +46,14 @@ function reducer(state = initialstate, action) {
       return state
     case 'SIGNINUSER': // USER를 등록
       console.log('유저등록 완료!')
-      const { id, password, email } = action.data
-      return { ...state, users: [...state.users, { id: id, password: password, email: email }] }
-    default:
+      const { id, password, email, name, phone } = action.data
+      return { ...state, users: [...state.users, { id: id, password: password, email: email, name:name, phone:phone }] }
+    case 'CHECKID':
+      const checkid = action.data
+      //아이디 체크를 진행하는 조건식을 넣어주기
+      alert(`${checkid}는 이미 사용중입니다. 다른 아이디를 사용해주세요.`)
+      return state
+      default:
       return { ...state }
   }
 }

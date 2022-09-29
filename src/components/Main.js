@@ -21,7 +21,7 @@ const Backgrounddiv = styled.div` // styled components를 사용하여 div를 �
 
 const Spacingdiv = styled.div`
     width: 80%;
-    height: 25vw;
+    height: 20vw;
     margin: auto;
 `
 
@@ -44,7 +44,7 @@ const H2slogan = styled.h2`
 
 function Main() {
 
-    const state = useSelector((state) => state)
+    const state = useSelector((state) => state) // useSelector를 이용해서 store를 읽어옴
     const dispatch = useDispatch();
 
     return (
