@@ -71,10 +71,11 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
+      <Navs />
         <Routes>
-          <Route path="/" element={<><Navs /><Main /></>}></Route>
-          <Route path="/signin" element={<><Navs /><Signin /></>}></Route>
-          <Route path="/login" element={<><Navs /><Login /></>}></Route>
+          <Route path="/" element={<><Main /></>}></Route>
+          <Route path="/signin" element={<><Signin /></>}></Route>
+          <Route path="/login" element={<><Login /></>}></Route>
           <Route path="*" element={<Notfound />}></Route>
         </Routes>
       </BrowserRouter>
