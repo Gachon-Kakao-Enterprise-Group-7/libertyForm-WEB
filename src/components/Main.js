@@ -57,7 +57,7 @@ function Main() {
                 <H2slogan>누구든지 편하고, 자유롭게 이용하고, 당신의 의견을 표현하세요</H2slogan>
             </Bodydiv>
             <Bodydiv>
-                <Button className='mt-3' variant="contained" size="large" style={{ backgroundColor: 'gray' }} onClick={() => { dispatch({ type: 'TEST' }) }}>
+                <Button className='mt-3' variant="contained" size="large" style={{ maxWidth: '20%', maxHeight: '25%', minWidth: '20%', minHeight: '25%', backgroundColor: 'gray' }} onClick={() => { dispatch({ type: 'TEST' }) }}>
                     시작하기
                 </Button>
             </Bodydiv>

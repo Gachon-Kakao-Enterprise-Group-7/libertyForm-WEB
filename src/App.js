@@ -18,6 +18,8 @@ const initialstate = {
 
   users: [
     {
+      name: '백우진',
+      phonenumber: '01050118246',
       id: 'bwj0509',
       password: 'abcd1234',
       email: 'bwj59@naevr.com',
@@ -25,6 +27,8 @@ const initialstate = {
       phone:'01050118246'
     },
     {
+      name: '김길동',
+      phonenumber: '01000000000',
       id: 'gildong1234',
       password: 'hong12341',
       email: 'gildong12@gamil.com',
