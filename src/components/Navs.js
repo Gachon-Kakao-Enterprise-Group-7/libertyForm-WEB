@@ -15,12 +15,12 @@ function Navs() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#features">null</Nav.Link>
-                        <Nav.Link href="#pricing">null</Nav.Link>
+                        <Nav.Link href="/null1">null</Nav.Link>
+                        <Nav.Link href="/null2">null</Nav.Link>
                         <NavDropdown title="null" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action1</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Action2</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Action3</NavDropdown.Item>
+                            <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
+                            <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
+                            <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                         </NavDropdown>
