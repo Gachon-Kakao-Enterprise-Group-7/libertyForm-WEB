@@ -4,6 +4,7 @@ import Navs from './components/Navs';
 import Notfound from './components/Notfound';
 import Login from './components/Login';
 
+
 //redux를 사용해 상태관리
 import { createStore } from 'redux'
 import { Provider, useSelctor, UseDispatch, useDispatch } from 'react-redux'
@@ -39,7 +40,6 @@ const initialstate = {
 
 
 
-
 //reducer함수를 사용해 action에 대해서 state를 관리한다
 function reducer(state = initialstate, action) {
   switch (action.type) {
@@ -56,14 +56,21 @@ function reducer(state = initialstate, action) {
       //아이디 체크를 진행하는 조건식을 넣어주기
       alert(`${checkid}는 이미 사용중입니다. 다른 아이디를 사용해주세요.`)
       return state
-      default:
+    case 'LOGIN':
+      console.log('로그인 들어옴')
+      localStorage.setItem('id',action.data.id)
+      localStorage.setItem('password',action.data.password)
+      return state
+    case 'LOGOUT':
+      localStorage.clear()
+      return state
+    default:
       return { ...state }
   }
 }
 
-//createStore를 통해서 상태관리 변수 생성
-const store = createStore(reducer);
 
+const store = createStore(reducer); //createStore를 통해서 상태관리 변수 생성
 
 
 function App() {
