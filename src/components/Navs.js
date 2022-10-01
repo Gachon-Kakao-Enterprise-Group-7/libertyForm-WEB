@@ -36,7 +36,7 @@ function Navs() {
                                 <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
                                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4" onClick={()=>{dispatch({type:'LOGOUT'})}}>로그아웃</NavDropdown.Item>
+                                <NavDropdown.Item href="/" onClick={()=>{dispatch({type:'LOGOUT'})}}>로그아웃</NavDropdown.Item>
                             </NavDropdown>
                         </> :
                         <>{/*localStorage의 값을 확인해서 로그인이 되어있으면 회원가입이랑 로그인은 안보이게함  */}
