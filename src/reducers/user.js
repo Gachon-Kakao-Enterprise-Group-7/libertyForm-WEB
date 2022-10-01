@@ -34,7 +34,7 @@ export default function userReducer(state = initialstate, action){
           console.log('로그인 들어옴')
           localStorage.setItem('id',action.data.id)
           localStorage.setItem('password',action.data.password)
-          document.location.href('/')
+          
           return state
         case 'LOGOUT':
           localStorage.clear()

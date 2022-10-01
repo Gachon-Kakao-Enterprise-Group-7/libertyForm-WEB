@@ -158,7 +158,7 @@ function Signin() {
                         variant="contained" 
                         size="large" 
                         style={{ backgroundColor: 'gray' }}
-                        href="/"
+                        
                         onClick={onSummit} >등록하기
                     </Button>
                     <br />

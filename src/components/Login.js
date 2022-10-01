@@ -40,7 +40,7 @@ function Login() {
         password: '',
     })
 
-    const { id, password,  } = inputs // 구조분해할당
+    const { id, password  } = inputs // 구조분해할당
 
     const onChange = (e) => {
         const { name, value } = e.target
@@ -97,6 +97,7 @@ function Login() {
                         variant="contained" 
                         size="large" 
                         style={{ backgroundColor: 'gray' }} 
+                        href="/"
                         onClick={onLogin} >로그인
                     </Button>
                     <hr />

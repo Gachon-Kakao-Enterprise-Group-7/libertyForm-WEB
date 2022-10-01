@@ -1,20 +1,16 @@
-
+//컴포넌트 불러오는곳
 import Main from './components/Main';
 import Navs from './components/Navs';
 import Notfound from './components/Notfound';
 import Login from './components/Login';
 import Signin from './components/Signin';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
-import { useSelector } from 'react-redux'
+import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 사용
 
 
 
 function App() {
   
-  const state = useSelector(state => state)
-  console.log(state)
 
   return (
     <BrowserRouter>
