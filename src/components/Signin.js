@@ -38,6 +38,9 @@ function Signin() {
     //     console.log(state)
     // }, [state]) // 의존성 배열에 state를 넣어서 state값이 바뀔때마다 state값을 보여준다. state를 통해서 USER가 등록되었는지 확인 가능하다.
 
+
+    console.log(state)
+
     const [inputs, setInputs] = useState({
         id: '',
         password: '',
@@ -158,7 +161,6 @@ function Signin() {
                         variant="contained" 
                         size="large" 
                         style={{ backgroundColor: 'gray' }}
-                        
                         onClick={onSummit} >등록하기
                     </Button>
                     <br />
