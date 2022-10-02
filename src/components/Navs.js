@@ -5,9 +5,12 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import { useDispatch  } from 'react-redux';
 
 function Navs() {
+
+    const dispatch = useDispatch()
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -26,8 +29,23 @@ function Navs() {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="/Signin">Signin</Nav.Link>
-                        <Nav.Link eventKey={2} href="/login">Login</Nav.Link>
+                        {/*localStorage의 값을 확인해서 존재하면 실행시킴  */}
+                        {localStorage.getItem('id') ? <> 
+                            <NavDropdown title={`반갑습니다! ${localStorage.getItem('id')}님`} id="collasible-nav-dropdown">
+                                <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
+                                <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
+                                <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="/" onClick={()=>{dispatch({type:'LOGOUT'})}}>로그아웃</NavDropdown.Item>
+                            </NavDropdown>
+                        </> :
+                        <>{/*localStorage의 값을 확인해서 로그인이 되어있으면 회원가입이랑 로그인은 안보이게함  */}
+                            <Nav.Link href="/Signin">Signin</Nav.Link>
+                            <Nav.Link eventKey={2} href="/login">Login</Nav.Link>
+                        </>
+                        } 
+                        
+                        
                     </Nav>
                 </Navbar.Collapse>
             </Container>

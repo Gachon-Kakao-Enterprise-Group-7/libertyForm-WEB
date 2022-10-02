@@ -40,7 +40,7 @@ function Login() {
         password: '',
     })
 
-    const { id, password,  } = inputs // 구조분해할당
+    const { id, password  } = inputs // 구조분해할당
 
     const onChange = (e) => {
         const { name, value } = e.target
@@ -57,7 +57,6 @@ function Login() {
             id: '',
             password: '',
         })
-        alert("로그인완료!")
     }
 
     return (
@@ -98,6 +97,7 @@ function Login() {
                         variant="contained" 
                         size="large" 
                         style={{ backgroundColor: 'gray' }} 
+                        href="/"
                         onClick={onLogin} >로그인
                     </Button>
                     <hr />
@@ -107,6 +107,9 @@ function Login() {
                         style={{ backgroundColor: 'yellow', width:'80%', color:'black' }} 
                          >카카오 로그인
                     </Button>
+                    <div>현재 로그인되어 있는 ID : {localStorage.getItem('id')}</div>
+                    <div>현재 로그인되어 있는 PASSWORD : {localStorage.getItem('password')}</div>
+                    <button >LOGOUT</button>
                 </Box>
             </Signindiv>
         </Backgrounddiv>

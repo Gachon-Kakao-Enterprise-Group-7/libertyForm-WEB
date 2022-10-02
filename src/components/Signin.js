@@ -34,9 +34,12 @@ function Signin() {
     const dispatch = useDispatch()  // useDispatch를 이용해 reducer로 action을 보낸다.
     const state = useSelector((state) => state) // useSelector를 이용해 state값을 사용 할 수 있게 한다
 
-    useEffect(() => {
-        console.log(state)
-    }, [state]) // 의존성 배열에 state를 넣어서 state값이 바뀔때마다 state값을 보여준다. state를 통해서 USER가 등록되었는지 확인 가능하다.
+    // useEffect(() => {
+    //     console.log(state)
+    // }, [state]) // 의존성 배열에 state를 넣어서 state값이 바뀔때마다 state값을 보여준다. state를 통해서 USER가 등록되었는지 확인 가능하다.
+
+
+    console.log(state)
 
     const [inputs, setInputs] = useState({
         id: '',
@@ -157,7 +160,7 @@ function Signin() {
                         className='mt-3' 
                         variant="contained" 
                         size="large" 
-                        style={{ backgroundColor: 'gray' }} 
+                        style={{ backgroundColor: 'gray' }}
                         onClick={onSummit} >등록하기
                     </Button>
                     <br />
