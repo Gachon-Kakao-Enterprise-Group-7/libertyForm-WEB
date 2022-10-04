@@ -8,6 +8,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 
+//import IconButton from './gayoung_test/IconButton';
+//import { images } from './gayoung_test/images';
+
 
 const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
     background-image: url(${background});
@@ -106,6 +109,8 @@ function Login() {
                         variant="contained" 
                         style={{ backgroundColor: 'yellow', width:'80%', color:'black' }} 
                          >카카오 로그인
+
+                    {/* <IconButton type={images.kakao_logoin} /> */}
                     </Button>
                     <div>현재 로그인되어 있는 ID : {localStorage.getItem('id')}</div>
                     <div>현재 로그인되어 있는 PASSWORD : {localStorage.getItem('password')}</div>

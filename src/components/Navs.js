@@ -7,13 +7,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useDispatch  } from 'react-redux';
 
+import Logo from './gayoung_test/Logo';
+
 function Navs() {
 
     const dispatch = useDispatch()
 
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
             <Container>
+                {/* <Logo to = "/"></Logo> */}
                 <Navbar.Brand href="/">Libertyform</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">

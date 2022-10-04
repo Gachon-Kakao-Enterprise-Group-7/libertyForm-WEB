@@ -3,7 +3,8 @@ import Main from './components/Main';
 import Navs from './components/Navs';
 import Notfound from './components/Notfound';
 import Login from './components/Login';
-import Signin from './components/Signin';
+//import Signin from './components/Signin';
+import Signin from './components/gayoung_test/Signin';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 사용
 
