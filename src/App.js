@@ -11,19 +11,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라
 
 
 function App() {
-  
+
 
   return (
     <BrowserRouter>
-      <Navs /> 
-        <Routes>
-          <Route path="/" element={<><Main /></>}></Route>
-          <Route path="/signin" element={<><Signin /></>}></Route>
-          <Route path="/login" element={<><Login /></>}></Route>
-          <Route path='/dashboard' element={<><Dashboard /></>}></Route>
-          <Route path="*" element={<Notfound />}></Route>
-        </Routes>
-      </BrowserRouter>
+      <Navs />
+      <Routes>
+        <Route path="/" element={<><Main /></>}></Route>
+        <Route path="/signin" element={<><Signin /></>}></Route>
+        <Route path="/login" element={<><Login /></>}></Route>
+        <Route path='/dashboard' element={<><Dashboard /></>}></Route>
+        <Route path="*" element={<Notfound />}></Route>
+      </Routes>
+    </BrowserRouter>
 
   );
 }
