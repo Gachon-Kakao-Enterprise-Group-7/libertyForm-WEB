@@ -5,6 +5,9 @@ import Paper from '@mui/material/Paper';
 
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
+
+import { useSelector } from 'react-redux';
+
 const LeftDiv = styled.div`
     background-color: yellow;
     height: 100vw;
@@ -24,17 +27,26 @@ const SurveyDiv = styled.div`
     border-radius: 0.5rem;
 `
 
-
+const classes = {
+    root: {
+      flexGrow: 1
+    },
+    paper: {
+      padding: 20,
+      textAlign: "center",
+      fontFamily: "Roboto"
+    }
+  };
 
 
 function Dashboard() {
 
 
-
-
     const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 }) // 데스크탑 에서 보여질 화면
     const isTabletOrMobileDevice = useMediaQuery({ maxDeviceWidth: 1224 }) // 모바일, 테블릿에서 보여질 화면
 
+    const state = useSelector(state => state)
+    console.log(state)
 
     return (
 
@@ -48,7 +60,30 @@ function Dashboard() {
                             </LeftDiv>
                         </Grid>
                         <Grid item xs={10}>
-                            <RightDiv>우측</RightDiv>
+                            <RightDiv>
+                            <div style={classes.root}>
+                                <Grid container spacing={3}>
+                                <Grid item xs={6} sm={4}>
+                                 <Paper style={classes.paper}>테스트</Paper>
+                                    </Grid>
+                                   <Grid item xs={6} sm={4}>
+                                 <Paper style={classes.paper}>테스트</Paper>
+                                    </Grid>
+                                   <Grid item xs={6} sm={4}>
+                                 <Paper style={classes.paper}>테스트</Paper>
+                                    </Grid>
+                                   <Grid item xs={6} sm={4}>
+                                 <Paper style={classes.paper}>테스트</Paper>
+                                    </Grid>
+                                   <Grid item xs={6} sm={4}>
+                                 <Paper style={classes.paper}>테스트</Paper>
+                                    </Grid>
+                                   <Grid item xs={6} sm={4}>
+                                 <Paper style={classes.paper}>테스트</Paper>
+                                    </Grid>
+                                </Grid>
+                                </div>
+                            </RightDiv>
                         </Grid>
                     </Grid>
                 </Box>

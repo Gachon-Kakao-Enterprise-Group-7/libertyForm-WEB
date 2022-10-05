@@ -6,7 +6,27 @@ const initialstate =  {
           id: 'bwj0509',
           password: 'abcd1234',
           email: 'bwj59@naevr.com',
-          phone:'01050118246'
+          phone:'01050118246',
+          survey:[
+            {
+              surveyId:1,
+              title:'제품 만족도 조사',
+              question:15,
+              finish:false
+            },
+            {
+              surveyId:2,
+              title:'음식 만족도 조사',
+              question:8,
+              finish:false
+            },
+            {
+              surveyId:3,
+              title:'시설 만족도 조사',
+              question:8,
+              finish:true
+            }
+          ]
         },
         {
           name: '김길동',
