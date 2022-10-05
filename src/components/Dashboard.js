@@ -1,7 +1,10 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+
+import ProgressBar from 'react-bootstrap/ProgressBar';
+
 
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
@@ -9,44 +12,64 @@ import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제�
 import { useSelector } from 'react-redux';
 
 const LeftDiv = styled.div`
-    background-color: yellow;
-    height: 100vw;
+    background-color: #e1e1e1;
+    height: 100vh;
     text-align: center;
     padding-top: 1vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
 `
 const RightDiv = styled.div`
-    background-color: blue;
+    background-color: white;
     height: 100%;
+    padding: 2rem;
 `
 
 const SurveyDiv = styled.div`
-    background-color: yellow;
+    padding-top: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-weight: bold;
+    background-color: #e1e1e1;
     height: 10rem;
     text-align: center;
-    margin: 1rem;
     border-radius: 0.5rem;
+
+    &:hover
+    {
+        background-color: #2d2c2c;
+        color:white
+    }
+    
+    
+    
 `
 
 const classes = {
     root: {
-      flexGrow: 1
+        flexGrow: 1
     },
     paper: {
-      padding: 20,
-      textAlign: "center",
-      fontFamily: "Roboto"
+        padding: 20,
+        textAlign: "center",
+        fontFamily: "Roboto"
     }
-  };
+};
 
+function AnimatedExample() {
+    return <ProgressBar animated now={45} />;
+}
 
 function Dashboard() {
-
 
     const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 }) // 데스크탑 에서 보여질 화면
     const isTabletOrMobileDevice = useMediaQuery({ maxDeviceWidth: 1224 }) // 모바일, 테블릿에서 보여질 화면
 
-    const state = useSelector(state => state)
-    console.log(state)
+    const state = useSelector(state => state.users.users[0].survey)
+
+
+    console.log()
+
 
     return (
 
@@ -56,32 +79,57 @@ function Dashboard() {
                     <Grid container spacing={0}>
                         <Grid item xs={2}>
                             <LeftDiv>
-                                <div>데스크탑 버전입니다.</div>
+                                <div>반갑습니다.</div>
+                                <hr />
+                                <ProgressBar animated now={(state.filter(survey => survey.finish === true).length / state.length) * 100} />
+                                <br />
+                                <div>전체 설문 : {state.length} </div>
+                                <div>진행중 설문 : {state.filter(survey => survey.finish === false).length}</div>
+                                <div>완료된 설문 : {state.filter(survey => survey.finish === true).length}</div>
+
                             </LeftDiv>
+                            {/* 여기까지가 왼쪽 구역입니다. */}
                         </Grid>
                         <Grid item xs={10}>
                             <RightDiv>
-                            <div style={classes.root}>
-                                <Grid container spacing={3}>
-                                <Grid item xs={6} sm={4}>
-                                 <Paper style={classes.paper}>테스트</Paper>
+                                <h2>진행중 설문</h2>
+                                <hr />
+                                <div>
+                                    <Grid container spacing={6}>
+                                        {state.filter(survey => survey.finish === false).map((survey, index) => {
+                                            return (
+                                                <Grid item xs={6} sm={4}>
+                                                    <SurveyDiv>
+                                                        <div>{survey.title}</div>
+                                                        <div>문항수 : {survey.question}</div>
+                                                        <hr />
+                                                        <Button variant="contained" color="primary">수정하기</Button>
+
+                                                    </SurveyDiv>
+                                                </Grid>
+                                            )
+                                        })}
                                     </Grid>
-                                   <Grid item xs={6} sm={4}>
-                                 <Paper style={classes.paper}>테스트</Paper>
+                                </div>
+                                <br />
+                                <h2>완료된 설문</h2>
+                                <hr />
+                                <div>
+                                    <Grid container spacing={4}>
+                                        {state.filter(survey => survey.finish === true).map((survey, index) => {
+                                            return (
+                                                <Grid item xs={6} sm={4}>
+                                                    <SurveyDiv>
+                                                        <div>{survey.title}</div>
+                                                        <div>문항수 : {survey.question}</div>
+                                                        <hr />
+                                                        <Button style={{ marginRight: '0.5rem' }} variant="contained" color="primary" >분석보기</Button>
+                                                        <Button variant="contained" color="error" >삭제하기</Button>
+                                                    </SurveyDiv>
+                                                </Grid>
+                                            )
+                                        })}
                                     </Grid>
-                                   <Grid item xs={6} sm={4}>
-                                 <Paper style={classes.paper}>테스트</Paper>
-                                    </Grid>
-                                   <Grid item xs={6} sm={4}>
-                                 <Paper style={classes.paper}>테스트</Paper>
-                                    </Grid>
-                                   <Grid item xs={6} sm={4}>
-                                 <Paper style={classes.paper}>테스트</Paper>
-                                    </Grid>
-                                   <Grid item xs={6} sm={4}>
-                                 <Paper style={classes.paper}>테스트</Paper>
-                                    </Grid>
-                                </Grid>
                                 </div>
                             </RightDiv>
                         </Grid>
@@ -89,44 +137,47 @@ function Dashboard() {
                 </Box>
             }
             {isTabletOrMobileDevice &&
-                <Box sx={{ flexGrow: 1 }}>
-                    <span>진행중인 설문</span>
-                    <Grid container spacing={0}>
-                        <Grid item xs={6}>
-                            <SurveyDiv>가천전자 설문</SurveyDiv>
+                <RightDiv>
+                    <Box sx={{ flexGrow: 1 }}>
+                        <h2>진행중 설문</h2>
+                        <hr />
+                        <div></div>
+                        <Grid container spacing={6}>
+                            {state.filter(survey => survey.finish === false).map((survey, index) => {
+                                return (
+                                    <Grid item xs={6} sm={4}>
+                                        <SurveyDiv>
+                                            <div>{survey.title}</div>
+                                            <div>문항수 : {survey.question}</div>
+                                            <hr />
+                                            <Button variant="contained" color="primary">수정하기</Button>
+
+                                        </SurveyDiv>
+                                    </Grid>
+                                )
+                            })}
+
                         </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>OOOO 설문</SurveyDiv>
+                        <br />
+                        <h2>완료된 설문</h2>
+                        <hr />
+                        <Grid container spacing={6}>
+                            {state.filter(survey => survey.finish === true).map((survey, index) => {
+                                return (
+                                    <Grid item xs={6} sm={4}>
+                                        <SurveyDiv>
+                                            <div>{survey.title}</div>
+                                            <div>문항수 : {survey.question}</div>
+                                            <hr />
+                                            <Button style={{ marginRight: '0.5rem' }} variant="contained" color="primary" >분석보기</Button>
+                                            <Button variant="contained" color="error" >삭제하기</Button>
+                                        </SurveyDiv>
+                                    </Grid>
+                                )
+                            })}
                         </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>XXXX 설문</SurveyDiv>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>BBBBB 설문</SurveyDiv>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>AAAA 설문</SurveyDiv>
-                        </Grid>
-                    </Grid>
-                    <span>완료된 설문</span>
-                    <Grid container spacing={0}>
-                        <Grid item xs={6}>
-                            <SurveyDiv>가천전자 설문</SurveyDiv>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>QQQQ 설문</SurveyDiv>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>WWWW 설문</SurveyDiv>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>EEEE 설문</SurveyDiv>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SurveyDiv>RRRR 설문</SurveyDiv>
-                        </Grid>
-                    </Grid>
-                </Box>
+                    </Box>
+                </RightDiv>
             }
 
 
