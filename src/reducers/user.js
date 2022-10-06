@@ -7,68 +7,6 @@ const initialstate = {
       password: 'abcd1234',
       email: 'bwj59@naevr.com',
       phone: '01050118246',
-      survey: [
-        {
-          surveyId: 1,
-          title: '제품 만족도 조사',
-          question: 15,
-          finish: true
-        },
-        {
-          surveyId: 2,
-          title: '음식 만족도 조사',
-          question: 8,
-          finish: true
-        },
-        {
-          surveyId: 3,
-          title: '시설 만족도 조사',
-          question: 8,
-          finish: true
-        },
-        {
-          surveyId: 4,
-          title: 'XX제품 만족도 조사',
-          question: 15,
-          finish: false
-        },
-        {
-          surveyId: 5,
-          title: 'XX음식 만족도 조사',
-          question: 45,
-          finish: true
-        },
-        {
-          surveyId: 6,
-          title: 'XX시설 만족도 조사',
-          question: 999,
-          finish: true
-        },
-        {
-          surveyId: 7,
-          title: 'DD제품 만족도 조사',
-          question: 15,
-          finish: false
-        },
-        {
-          surveyId: 8,
-          title: 'DD음식 만족도 조사',
-          question: 52,
-          finish: false
-        },
-        {
-          surveyId: 9,
-          title: 'DD시설 만족도 조사',
-          question: 12,
-          finish: true
-        },
-        {
-          surveyId: 9,
-          title: 'DD시설 만족도 조사',
-          question: 12,
-          finish: false
-        }
-      ]
     },
     {
       name: '김길동',
@@ -96,7 +34,6 @@ export default function userReducer(state = initialstate, action) {
       console.log('로그인 들어옴')
       localStorage.setItem('id', action.data.id)
       localStorage.setItem('password', action.data.password)
-
       return state
     case 'LOGOUT':
       localStorage.clear()

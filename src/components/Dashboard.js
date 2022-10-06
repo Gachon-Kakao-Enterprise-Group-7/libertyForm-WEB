@@ -5,8 +5,10 @@ import Button from '@mui/material/Button';
 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
+import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
 
-import styled from 'styled-components';
+
+import styled from 'styled-components'; //styled-components사용
 import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
 
 import { useSelector } from 'react-redux';
@@ -65,10 +67,8 @@ function Dashboard() {
     const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 }) // 데스크탑 에서 보여질 화면
     const isTabletOrMobileDevice = useMediaQuery({ maxDeviceWidth: 1224 }) // 모바일, 테블릿에서 보여질 화면
 
-    const state = useSelector(state => state.users.users[0].survey)
+    const state = useSelector(state => state.survey)
 
-
-    console.log()
 
 
     return (
@@ -80,6 +80,9 @@ function Dashboard() {
                         <Grid item xs={2}>
                             <LeftDiv>
                                 <div>반갑습니다.</div>
+                                <Link to="/mksurvey">
+                                    <Button variant="contained" color="success">새로운 설문 생성</Button>
+                                </Link>
                                 <hr />
                                 <ProgressBar animated now={(state.filter(survey => survey.finish === true).length / state.length) * 100} />
                                 <br />
