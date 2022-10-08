@@ -21,7 +21,7 @@ const Backgrounddiv = styled.div` // styled components를 사용하여 div를 �
 const Spacingdiv = styled.div`
     width: 80%;
     height: 20vw;
-    margin: 1px 2px 3px 4px;
+    margin: auto;
 `
 
 const Bodydiv = styled.div`
