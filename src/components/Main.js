@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import background from "../img/background.jpg"
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
-
-//MUI
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button'; //MUI
 
 import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
+import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
 
 const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
     background-image: url(${background});
@@ -57,9 +56,11 @@ function Main() {
                 <H2slogan>누구든지 편하고, 자유롭게 이용하고, 당신의 의견을 표현하세요</H2slogan>
             </Bodydiv>
             <Bodydiv>
-                <Button className='mt-3' variant="contained" size="large" style={{backgroundColor: 'gray' }} onClick={() => { dispatch({ type: 'TEST' }) }}>
-                    시작하기
-                </Button>
+                <Link to="/dashboard">
+                    <Button className='mt-3' variant="contained" size="large" style={{ backgroundColor: 'gray' }} onClick={() => { dispatch({ type: 'TEST' }) }}>
+                        시작하기
+                    </Button>
+                </Link>
             </Bodydiv>
         </Backgrounddiv >
     );
