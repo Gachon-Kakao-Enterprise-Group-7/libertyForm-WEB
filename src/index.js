@@ -9,7 +9,6 @@ import store from './store';
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 
-import { GlobalStyle } from "./components/gayoung_test/reset.css";
 const persistor = persistStore(store);
 
 
@@ -19,7 +18,6 @@ root.render(
     
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-      <GlobalStyle />
         <App />
       </PersistGate>  
     </Provider>

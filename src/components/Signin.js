@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
-=======
 
 import background from "../img/background1.jpg"
->>>>>>> 89261d620cb8509cee14e1aaa9cc5655d339ddc8
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -111,48 +108,6 @@ function Signin() {
             </CardFieldset>    
                     { inputs.password !== inputs.confirmpassword && inputs.confirmpassword.length >0 && <span style={{ color:'red' }}>Mismatched passwords<br/></span> }
                     {/* 확인비밀번호와 비밀번호가 일치하지 않으면 오류 메세지 출력 */}
-<<<<<<< Updated upstream
-                    <TextField //email부분
-                        fullWidth label="EMAIL" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
-                        type="email" 
-                        onChange={onChange} 
-                        name="email" 
-                        value={email} 
-                    />
-                    { inputs.email.indexOf('@') < 0 && inputs.email.length > 0 && <span style={{ color:'red' }}>Doesn't fit the email format<br /></span>}
-                    {/* 이메일 형식 안맞으면 오류메세지 코드 작성 부분 */}
-                        <TextField //name부분
-                        fullWidth 
-                        label="NAME" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
-                        onChange={onChange} 
-                        name="name" 
-                        value={name} 
-                    />
-                    <TextField //phone부분
-                        fullWidth label="PHONE" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
-                        onChange={onChange} 
-                        name="phone" 
-                        value={phone} 
-                    />
-                    <Button //등록버튼
-                        className='mt-3' 
-                        variant="contained" 
-                        size="large" 
-                        style={{ backgroundColor: 'gray' }}
-                        onClick={onSummit} >등록하기
-                    </Button>
-                    <br />
-                    <div className='mt-3'>Have already an account? Login here</div>
-=======
                     
                 
             <CardFieldset>
@@ -176,7 +131,6 @@ function Signin() {
 
                     <KaKaoBtn/>
                     
->>>>>>> Stashed changes
                     <hr />
                     <CardFieldset>
                         <CardLink href="/login">I already have an account</CardLink>

@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
-=======
-
-import background from "../img/background1.jpg"
->>>>>>> 89261d620cb8509cee14e1aaa9cc5655d339ddc8
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 //rest api
 
 import { useDispatch, useSelector } from 'react-redux';
 
-<<<<<<< Updated upstream
-//import IconButton from './gayoung_test/IconButton';
-//import { images } from './gayoung_test/images';
-
-=======
 import {
     KaKaoBtn,
     Backgrounddiv,
@@ -30,7 +20,6 @@ import {
   } from "./Card"
 
   
->>>>>>> Stashed changes
 
 
 
@@ -61,8 +50,6 @@ function Login() {
             id: '',
             password: ''
         })
-<<<<<<< Updated upstream
-=======
         alert("로그인완료!")
 
 
@@ -99,7 +86,6 @@ function Login() {
     //     console.error(err)
     //     };
     // }
->>>>>>> Stashed changes
     }
 
     return (
@@ -129,31 +115,6 @@ function Login() {
                         onChange={onChange} 
                         name="password" 
                         value={password}
-<<<<<<< Updated upstream
-                    />
-                    <Button //등록버튼
-                        className='mt-3' 
-                        variant="contained" 
-                        size="large" 
-                        style={{ backgroundColor: 'gray' }} 
-                        href="/"
-                        onClick={onLogin} >로그인
-                    </Button>
-                    <hr />
-                    <Button //카카오 소셜 로그인
-                        className='mt-3' 
-                        variant="contained" 
-                        style={{ backgroundColor: 'yellow', width:'80%', color:'black' }} 
-                         >카카오 로그인
-
-                    {/* <IconButton type={images.kakao_logoin} /> */}
-                    </Button>
-                    <div>현재 로그인되어 있는 ID : {localStorage.getItem('id')}</div>
-                    <div>현재 로그인되어 있는 PASSWORD : {localStorage.getItem('password')}</div>
-                    <button >LOGOUT</button>
-                </Box>
-            </Signindiv>
-=======
                         required />
                         <CardIcon className="fa fa-eye" eye small />
                     </CardFieldset>
@@ -186,7 +147,6 @@ function Login() {
                    
                     </CardBody>
             </CardWrapper>
->>>>>>> Stashed changes
         </Backgrounddiv>
     );
 }

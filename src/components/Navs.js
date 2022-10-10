@@ -7,8 +7,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useDispatch  } from 'react-redux';
 
-import Logo from './gayoung_test/Logo';
-
 function Navs() {
 
     const dispatch = useDispatch()
