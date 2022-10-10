@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import notfound from '../img/404.PNG'
 
 
+
 const Photodiv = styled.div`
     background-image: url(${notfound});
     margin:auto;

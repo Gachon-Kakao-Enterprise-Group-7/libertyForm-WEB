@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
+=======
 
 import background from "../img/background1.jpg"
+>>>>>>> 89261d620cb8509cee14e1aaa9cc5655d339ddc8
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
-
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
-    background-image: url(${background});
-    margin:0px;
-    width:100vw;
-    height:100vh;
-    background-position: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.85;
-`
-
-const Signindiv = styled.div`
-    text-align: center;
-    align-items: center;
-    margin: auto;
-    background-color: white;
-    width: 30em;
-    height: 50em;
-    border-radius: 2vw;
-`
+import {
+    KaKaoBtn,
+    Backgrounddiv,
+    CardWrapper,
+    CardHeader,
+    CardHeading,
+    CardBody,
+    CardIcon,
+    CardFieldset,
+    CardInput,
+    CardOptionsNote,
+    CardButton,
+    CardLink
+  } from "./Card"
 
 
 function Signin() {
@@ -45,12 +38,10 @@ function Signin() {
         id: '',
         password: '',
         confirmpassword: '',
-        email: '',
         name:'',
-        phone:''
     })
 
-    const { id, password, confirmpassword, email,name, phone  } = inputs // 구조분해할당
+    const { id, password, confirmpassword,name } = inputs // 구조분해할당
 
     const onChange = (e) => {
         const { name, value } = e.target
@@ -70,61 +61,57 @@ function Signin() {
             id: '',
             password: '',
             confirmpassword: '',
-            email: '',
             name:'',
-            phone:''
         })
         alert("유저 등록완료!")
     }
 
     return (
         <Backgrounddiv>
-            <Signindiv>
-                <h1>CREATE AN ACCOUNT</h1>
-                <Box
-                    sx={{
-                        width: 500,
-                        maxWidth: '70%',
-                        margin: 'auto',
-                        background: 'white' //작업할때 배경 범위 보고싶으면 색변경 하면됨
-                    }}
-                >
-                    <TextField //id부분
-                        fullWidth 
-                        label="ID" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        name="id" 
-                        value={id} 
-                    />
-                    <TextField //password 부분
-                        fullWidth 
-                        label="PASSWORD" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
-                        type="password" 
-                        onChange={onChange} 
-                        name="password" 
-                        value={password}
-                    />
-                    { inputs.password.length < 8 && inputs.password.length>0 &&<span style={{ color:'red' }}>Password must be at least 8 digits<br /></span> }
-                    {/* 비밀번호 자리수가 8자리 이후면 오류 메세지 출력 */}
-                    <TextField //confirmpassword부분
-                        fullWidth 
-                        label="CONFIRM PASSWORD" 
-                        id="fullWidth" 
-                        required margin="normal" 
-                        type="password" 
-                        onChange={onChange} 
-                        name="confirmpassword" 
-                        value={confirmpassword} 
-                    />
+        <CardWrapper>
+            <CardHeader>
+                <CardHeading>Sign in</CardHeading>
+            </CardHeader>
+            <CardBody>
+
+            <CardFieldset>
+                <CardInput 
+                    placeholder="E-mail" 
+                    type="text" 
+                    onChange={onChange}
+                    name="id" 
+                    value={id}
+                    required />
+
+                    { inputs.id.indexOf('@') < 0 && inputs.id.length > 0 && <span style={{ color:'red' }}>Doesn't fit the email format<br /></span>}
+                    {/* 이메일 형식 안맞으면 오류메세지 코드 작성 부분 */}
+                </CardFieldset>
+            <CardFieldset>
+                <CardInput 
+                    placeholder="Password" 
+                    type="password" 
+                    onChange={onChange} 
+                    name="password" 
+                    value={password}
+                    required />
+                <CardIcon className="fa fa-eye" eye small />
+            </CardFieldset>
+                { inputs.password.length < 8 && inputs.password.length>0 &&<span style={{ color:'red' }}>Password must be at least 8 digits<br /></span> }
+                {/* 비밀번호 자리수가 8자리 이후면 오류 메세지 출력 */}
+
+            <CardFieldset>
+                <CardInput 
+                    placeholder="Confirm Password" 
+                    type="password" 
+                    onChange={onChange} 
+                    name="confirmpassword" 
+                    value={confirmpassword}
+                    required />
+                <CardIcon className="fa fa-eye" eye small />
+            </CardFieldset>    
                     { inputs.password !== inputs.confirmpassword && inputs.confirmpassword.length >0 && <span style={{ color:'red' }}>Mismatched passwords<br/></span> }
                     {/* 확인비밀번호와 비밀번호가 일치하지 않으면 오류 메세지 출력 */}
+<<<<<<< Updated upstream
                     <TextField //email부분
                         fullWidth label="EMAIL" 
                         id="fullWidth" 
@@ -165,15 +152,37 @@ function Signin() {
                     </Button>
                     <br />
                     <div className='mt-3'>Have already an account? Login here</div>
+=======
+                    
+                
+            <CardFieldset>
+                <CardInput 
+                    placeholder="Name" 
+                    type="text" 
+                    onChange={onChange} 
+                    name="name" 
+                    value={name}
+                    required />
+            </CardFieldset> 
+                        
+            <CardFieldset>
+                <CardButton type="button " onClick={onSummit}>Sign Up</CardButton>
+            </CardFieldset>
+
+            <CardFieldset>
+                <CardOptionsNote>Or sign up with</CardOptionsNote>
+            </CardFieldset>
+                    <br></br>
+
+                    <KaKaoBtn/>
+                    
+>>>>>>> Stashed changes
                     <hr />
-                    <Button //카카오 소셜 로그인
-                        className='mt-3' 
-                        variant="contained" 
-                        style={{ backgroundColor: 'yellow', width:'80%', color:'black' }} 
-                         >카카오 회원가입
-                    </Button>
-                </Box>
-            </Signindiv>
+                    <CardFieldset>
+                        <CardLink href="/login">I already have an account</CardLink>
+                    </CardFieldset>
+                    </CardBody>
+            </CardWrapper>
         </Backgrounddiv>
     );
 }
