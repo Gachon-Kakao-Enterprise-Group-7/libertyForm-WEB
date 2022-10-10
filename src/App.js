@@ -3,16 +3,11 @@ import Main from './components/Main';
 import Navs from './components/Navs';
 import Notfound from './components/Notfound';
 import Login from './components/Login';
-//import Signin from './components/Signin';
-import Signin from './components/gayoung_test/Signin';
+import Signin from './components/Signin';
 
-<<<<<<< Updated upstream
-import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 사용
-=======
 //redux를 사용해 상태관리
 import { createStore } from 'redux'
 import { Provider, useSelctor, UseDispatch, useDispatch } from 'react-redux'
-import Signin from './components/Signin';
 import Dashboard from './components/Dashboard';
 import Mksurvey from './components/Mksurvey';
 
@@ -66,7 +61,6 @@ function reducer(state = initialstate, action) {
 
 //createStore를 통해서 상태관리 변수 생성
 const store = createStore(reducer);
->>>>>>> Stashed changes
 
 
 
