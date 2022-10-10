@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
+=======
+
+import background from "../img/background1.jpg"
+>>>>>>> 89261d620cb8509cee14e1aaa9cc5655d339ddc8
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 //rest api
 
