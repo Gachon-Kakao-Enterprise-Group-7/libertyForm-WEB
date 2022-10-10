@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import background from "../img/background.jpg"
+import background from "../img/background1.jpg"
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 
 import TextField from '@mui/material/TextField';
