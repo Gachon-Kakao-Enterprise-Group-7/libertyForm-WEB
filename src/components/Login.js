@@ -1,37 +1,33 @@
 import React, { useEffect, useState } from 'react';
-
-import background from "../img/background.jpg"
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
+//rest api
 
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 
+<<<<<<< Updated upstream
 //import IconButton from './gayoung_test/IconButton';
 //import { images } from './gayoung_test/images';
 
+=======
+import {
+    KaKaoBtn,
+    Backgrounddiv,
+    CardWrapper,
+    CardHeader,
+    CardHeading,
+    CardBody,
+    CardIcon,
+    CardFieldset,
+    CardInput,
+    CardOptionsNote,
+    CardButton,
+    CardLink
+  } from "./Card"
 
-const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
-    background-image: url(${background});
-    margin:0px;
-    width:100vw;
-    height:100vh;
-    background-position: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.85;
-`
+  
+>>>>>>> Stashed changes
 
-const Signindiv = styled.div`
-    text-align: center;
-    align-items: center;
-    margin: auto;
-    background-color: white;
-    width: 30em;
-    height: 50em;
-    border-radius: 2vw;
-`
+
 
 
 function Login() {
@@ -58,42 +54,77 @@ function Login() {
         dispatch({ type: 'LOGIN', data: inputs })
         setInputs({
             id: '',
-            password: '',
+            password: ''
         })
+<<<<<<< Updated upstream
+=======
+        alert("로그인완료!")
+
+
+    //     function SocialLogin(props, visible) { //카카오 로그인
+    //         const [ id, setId ] = useState('');
+    //         const [ name, setName ] = useState('');
+    //         const [ provider, setProvider ] = useState('');
+          
+    //       const clickKakaoBtn = (res) => {
+    //         fetch('http:///account/sign-in/kakao', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'content-type': 'application/json',
+    //               },
+    //             body: JSON.stringify({
+    //                 access_token : res.response.access_token
+    //             })
+    //         })
+    //         .then(res => res.json())
+    //         .then(res => {
+    //             if (res.access_token) {
+    //             localStorage.setItem('kakao-token', res.access_token)
+    //             alert('로그인을 환영합니다')
+    //             props.history.push('/')
+    //         } else {
+    //             alert('아이디와 비밀번호를 확인해주세요.')
+    //         }
+    //         })
+    //       }
+          
+        
+        
+    //     const responseFail = (err) => {
+    //     console.error(err)
+    //     };
+    // }
+>>>>>>> Stashed changes
     }
 
     return (
         <Backgrounddiv>
-            <Signindiv>
-                <h1>LOGIN</h1>
-                <Box
-                    sx={{
-                        width: 500,
-                        maxWidth: '70%',
-                        margin: 'auto',
-                        background: 'white' //작업할때 배경 범위 보고싶으면 색변경 하면됨
-                    }}
-                >
-                    <TextField //id부분
-                        fullWidth 
-                        label="ID" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
+            <CardWrapper>
+                <CardHeader>
+                    <CardHeading>Login</CardHeading>
+                </CardHeader>
+
+                <CardBody>
+
+
+                    <CardFieldset>
+                        <CardInput 
+                        placeholder="E-mail" 
+                        type="text" 
                         onChange={onChange}
                         name="id" 
-                        value={id} 
-                    />
-                    <TextField //password 부분
-                        fullWidth 
-                        label="PASSWORD" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
+                        value={id}
+                        required />
+                    </CardFieldset>
+                    
+                    <CardFieldset>
+                        <CardInput 
+                        placeholder="Password" 
                         type="password" 
                         onChange={onChange} 
                         name="password" 
                         value={password}
+<<<<<<< Updated upstream
                     />
                     <Button //등록버튼
                         className='mt-3' 
@@ -117,8 +148,42 @@ function Login() {
                     <button >LOGOUT</button>
                 </Box>
             </Signindiv>
+=======
+                        required />
+                        <CardIcon className="fa fa-eye" eye small />
+                    </CardFieldset>
+                
+
+                    <CardFieldset>
+                        <CardButton type="button " onClick={onLogin}>Login</CardButton>
+                    </CardFieldset>
+
+                    <CardFieldset>
+                        <CardOptionsNote>Or sign up with</CardOptionsNote>
+                    </CardFieldset>
+                    <br></br>
+
+                    <KaKaoBtn 
+                        // jsKey={'카카오개발자 key'}
+                        // onSuccess={clickKakaoBtn}
+                        // onFailure={responseFail}
+                        getProfile="true">
+                    </KaKaoBtn>
+                                   
+                  
+                    
+                    <hr />
+                    <CardFieldset>
+                        <CardLink href="/Signin">Don't have an account?</CardLink>
+                    </CardFieldset>
+
+
+                   
+                    </CardBody>
+            </CardWrapper>
+>>>>>>> Stashed changes
         </Backgrounddiv>
     );
 }
-
+  
 export default Login;
