@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
-import background from "../img/background.jpg"
+import background1 from "../img/background1.jpg"
+import background2 from "../img/background2.jpg"
+import background3 from "../img/background3.jpg"
+import background4 from "../img/background4.jpg"
+import background5 from "../img/background5.jpg"
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 import Button from '@mui/material/Button'; //MUI
 
@@ -7,8 +11,14 @@ import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
 
+const backgroundArr = [background1, background2, background3, background4, background5];
+
+const randomIndex = Math.floor(Math.random() * backgroundArr.length);
+
+const backgroundImg = backgroundArr[randomIndex];
+
 const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
-    background-image: url(${background});
+    background-image: url(${backgroundImg});
     margin:0px;
     width:100vw;
     height:100vh;

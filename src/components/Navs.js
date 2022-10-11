@@ -12,8 +12,9 @@ function Navs() {
     const dispatch = useDispatch()
 
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
             <Container>
+                {/* <Logo to = "/"></Logo> */}
                 <Navbar.Brand href="/">Libertyform</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
