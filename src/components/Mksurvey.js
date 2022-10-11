@@ -58,16 +58,16 @@ function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 useState
-    const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', mcitem: [] }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
+    const [survey, setSurvey] = useState([{ id: 0, q: '', type: '' }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     console.log(survey)
     const id = useRef(1) // servey 문제마다 id값을 주기 위함
     const state = useSelector((state) => state.survey)
     const dispatch = useDispatch()
 
     const onChange = (e) => {
+        console.log('onChange작동')
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
         const q = e.target.value //사용자가 input태그에 입력한 값
-        console.log(targetId, q)
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
 
@@ -82,7 +82,7 @@ function Mksurvey() { // Make Survey
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
         setMultiChoiceItem('')
     }
-
+    
     return (
         <>
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
@@ -108,7 +108,7 @@ function Mksurvey() { // Make Survey
                                 name="row-radio-buttons-group"
                             >
                                 <FormControlLabel value="multi_choice" control={<Radio />} label=" 객관식" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'multi_choice' } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'multi_choice', mcitem:[] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
                                 <FormControlLabel value="subjective" control={<Radio />} label="주관식" onClick={(e) => {
                                     setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'subjective' } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
@@ -131,6 +131,8 @@ function Mksurvey() { // Make Survey
                                 <input value={multiChoiceItem} data-id={index} style={{ width: '80%' }} placeholder='선택 항목을 추가해 주세요' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
                                 <button onClick={addMcItem} data-id={index}>추가</button>
                                 {survey[index].mcitem.map((mcitem, mcitemIndex) => <McItemLi key={index} >{mcitem}</McItemLi>)} {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
+                                {console.log(multiChoiceItem)}
+                                
                             </>
                         }
                         {survey[index].type === 'subjective' && <>질문을 입력하세요<input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input></>}
