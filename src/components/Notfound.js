@@ -1,20 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
-import notfound from '../img/404.PNG'
-
-
-const Photodiv = styled.div`
-    background-image: url(${notfound});
-    margin:auto;
-    height:60vh;
-    background-size: cover;
-    background-repeat: no-repeat;
-
-`
+import NotfoundStyle from '../styles/NotfoundStyle';
 
 function Notfound() {
     return (
-        <Photodiv />
+        <>
+        <NotfoundStyle />
+        <body>
+            <div id="notfound">
+                <div class="notfound">
+                    <div class="notfound-404">
+                        <h1>Oops!</h1>
+                        <h2>404 - The Page can't be found</h2>
+                    </div>                    
+                    <a href="/">Go TO Homepage</a>
+                </div>
+            </div>
+        </body>
+        </>
     );
 }
 
