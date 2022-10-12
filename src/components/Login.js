@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 //rest api
+import axios from 'axios'; //swagger api 요청
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,73 +20,72 @@ import {
     CardLink
   } from "./Card"
 
+
+
+
   
 
 
-
-
+   
 function Login() {
-  
     const dispatch = useDispatch()
 
     const [inputs, setInputs] = useState({
-        id: '',
+        email: '',
         password: '',
     })
 
-    const { id, password  } = inputs // 구조분해할당
-
     const onChange = (e) => {
-        const { name, value } = e.target
         setInputs({
             ...inputs,
-            [name]: value
+            [e.target.name]:e.target.value
         })
     }
+ 
 
-
+    const { email, password } = inputs // 구조분해할당
+    
     const onLogin = () => {
-        dispatch({ type: 'LOGIN', data: inputs })
+
         setInputs({
-            id: '',
-            password: ''
+            email: '',
+            password: '',
         })
-        alert("로그인완료!")
 
+    
+        axios.post("/login", inputs)
+        
+        .then(res => {
+            console.log(res)
+            console.log('res.data.email :: ', res.data.result.email)
+            console.log('res.data.password :: ', res.data.result.pasword)
 
-    //     function SocialLogin(props, visible) { //카카오 로그인
-    //         const [ id, setId ] = useState('');
-    //         const [ name, setName ] = useState('');
-    //         const [ provider, setProvider ] = useState('');
-          
-    //       const clickKakaoBtn = (res) => {
-    //         fetch('http:///account/sign-in/kakao', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'content-type': 'application/json',
-    //               },
-    //             body: JSON.stringify({
-    //                 access_token : res.response.access_token
-    //             })
-    //         })
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             if (res.access_token) {
-    //             localStorage.setItem('kakao-token', res.access_token)
-    //             alert('로그인을 환영합니다')
-    //             props.history.push('/')
-    //         } else {
-    //             alert('아이디와 비밀번호를 확인해주세요.')
-    //         }
-    //         })
-    //       }
-          
-        
-        
-    //     const responseFail = (err) => {
-    //     console.error(err)
-    //     };
-    // }
+            // {
+            //     "email": "forceTlight@gmail.com",
+            //     "password": "1q2w3e4r!"
+            //   }
+
+            if(res.data.result.email === undefined){
+                // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
+                console.log('======================',res.data.code)
+                alert('입력하신 id 가 일치하지 않습니다.')
+            } else if(res.data.result.email === null){
+                // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
+                console.log('======================','입력하신 비밀번호 가 일치하지 않습니다.')
+                alert('입력하신 비밀번호 가 일치하지 않습니다.')
+            } 
+            else if(res.data.result.email === email) {
+                // id, pw 모두 일치 userId = userId1, msg = undefined
+                console.log('======================','로그인 성공',res.data.code)
+                alert('로그인 성공')
+                localStorage.setItem('email', res.data.result.email);
+                localStorage.setItem('name', res.data.result.name);
+                localStorage.setItem('token', res.data.result.jwt);
+            }
+            // 작업 완료 되면 페이지 이동(새로고침)
+            document.location.href = '/'
+        })
+        .catch((Error)=>{console.log(Error)})
     }
 
     return (
@@ -102,9 +102,9 @@ function Login() {
                         <CardInput 
                         placeholder="E-mail" 
                         type="text" 
-                        onChange={onChange}
-                        name="id" 
-                        value={id}
+                        onChange={onChange} 
+                        name="email" 
+                        value={email}
                         required />
                     </CardFieldset>
                     
@@ -121,7 +121,7 @@ function Login() {
                 
 
                     <CardFieldset>
-                        <CardButton type="button " onClick={onLogin}>Login</CardButton>
+                        <CardButton type="button " onClick={()=>{onLogin()}}>Login</CardButton>
                     </CardFieldset>
 
                     <CardFieldset>

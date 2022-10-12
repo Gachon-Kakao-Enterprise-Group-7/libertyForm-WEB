@@ -11,6 +11,13 @@ function Navs() {
 
     const dispatch = useDispatch()
 
+    const onLogout = () => {
+    	// sessionStorage 에 email 로 저장되어있는 아이템을 삭제한다.
+        localStorage.removeItem('email')
+        // App 으로 이동(새로고침)
+        document.location.href = '/'
+    }
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
             <Container>
@@ -31,13 +38,13 @@ function Navs() {
                     </Nav>
                     <Nav>
                         {/*localStorage의 값을 확인해서 존재하면 실행시킴  */}
-                        {localStorage.getItem('id') ? <> 
-                            <NavDropdown title={`반갑습니다! ${localStorage.getItem('id')}님`} id="collasible-nav-dropdown">
+                        {localStorage.getItem('email') ? <> 
+                            <NavDropdown title={`반갑습니다! ${localStorage.getItem('name')}님`} id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
                                 <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
                                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/" onClick={()=>{dispatch({type:'LOGOUT'})}}>로그아웃</NavDropdown.Item>
+                                <NavDropdown.Item href="/" onClick={onLogout}>로그아웃</NavDropdown.Item>
                             </NavDropdown>
                         </> :
                         <>{/*localStorage의 값을 확인해서 로그인이 되어있으면 회원가입이랑 로그인은 안보이게함  */}
