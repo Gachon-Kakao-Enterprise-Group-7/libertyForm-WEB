@@ -5,7 +5,6 @@ import background3 from "../img/background3.jpg"
 import background4 from "../img/background4.jpg"
 import background5 from "../img/background5.jpg"
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
-import Button from '@mui/material/Button'; //MUI
 
 import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
@@ -49,7 +48,68 @@ const H2slogan = styled.h2`
     padding-top: 1vw;
     font-size: 2vw;
 `
+const Mainbutton = styled.button`
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    width: 220px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #6667ab;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
 
+    &:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left:-2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0.2;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    &:active {
+        color: #6667ab;
+    }
+
+    &:active:after {
+        background: transparent;
+    }
+
+    &:hover:before {
+        opacity: 0.6;
+    }
+
+    &:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #6667ab;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+        opacity: 0.8;
+    }
+
+    @keyframes glowing {
+        0% { background-position: 0 0; }
+        50% { background-position: 400% 0; }
+        100% { background-position: 0 0; }
+    }
+`
 
 function Main() {
 
@@ -67,9 +127,9 @@ function Main() {
             </Bodydiv>
             <Bodydiv>
                 <Link to="/dashboard">
-                    <Button className='mt-3' variant="contained" size="large" style={{ backgroundColor: 'gray' }} onClick={() => { dispatch({ type: 'TEST' }) }}>
+                    <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
                         시작하기
-                    </Button>
+                    </Mainbutton>
                 </Link>
             </Bodydiv>
         </Backgrounddiv >
