@@ -48,13 +48,13 @@ function reducer(state = initialstate, action) {
     case 'SIGNINUSER': // USER를 등록
       console.log('유저등록 완료!')
       const { id, password, name } = action.data
-      return { ...state, users: [...state.users, { id: id, password: password, name:name}] }
+      return { ...state, users: [...state.users, { id: id, password: password, name: name }] }
     case 'CHECKID':
       const checkid = action.data
       //아이디 체크를 진행하는 조건식을 넣어주기
       alert(`${checkid}는 이미 사용중입니다. 다른 아이디를 사용해주세요.`)
       return state
-      default:
+    default:
       return { ...state }
   }
 }
@@ -73,7 +73,7 @@ function App() {
         <Route path="/" element={<><Main /></>}></Route>
         <Route path="/signin" element={<><Signin /></>}></Route>
         <Route path="/login" element={<><Login /></>}></Route>
-        {localStorage.getItem('id') //로그인된 여부에 따라 경로를 다르게 설정함
+        {localStorage.getItem('email') //로그인된 여부에 따라 경로를 다르게 설정함
           ? <Route path='/dashboard' element={<><Dashboard /></>}></Route>
           : <Route path='/dashboard' element={<><Login /></>}></Route>
         }
