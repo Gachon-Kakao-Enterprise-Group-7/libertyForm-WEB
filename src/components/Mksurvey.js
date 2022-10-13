@@ -47,7 +47,7 @@ const McItemLi = styled.li`
         color:red;
     }
     cursor: pointer;
-
+    
 
 `
 
@@ -82,7 +82,7 @@ function Mksurvey() { // Make Survey
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
         setMultiChoiceItem('')
     }
-    
+
     return (
         <>
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
@@ -108,7 +108,7 @@ function Mksurvey() { // Make Survey
                                 name="row-radio-buttons-group"
                             >
                                 <FormControlLabel value="multi_choice" control={<Radio />} label=" 객관식" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'multi_choice', mcitem:[] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'multi_choice', mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
                                 <FormControlLabel value="subjective" control={<Radio />} label="주관식" onClick={(e) => {
                                     setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'subjective' } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
@@ -130,9 +130,9 @@ function Mksurvey() { // Make Survey
                                 질문을 입력하세요<input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <input value={multiChoiceItem} data-id={index} style={{ width: '80%' }} placeholder='선택 항목을 추가해 주세요' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
                                 <button onClick={addMcItem} data-id={index}>추가</button>
-                                {survey[index].mcitem.map((mcitem, mcitemIndex) => <McItemLi key={index} >{mcitem}</McItemLi>)} {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
+                                <ol>{survey[index].mcitem.map((mcitem, mcitemIndex) => <McItemLi key={index} >{mcitem}</McItemLi>)}</ol> {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
                                 {console.log(multiChoiceItem)}
-                                
+
                             </>
                         }
                         {survey[index].type === 'subjective' && <>질문을 입력하세요<input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input></>}
