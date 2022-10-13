@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import background from "../img/loba.jpg"
 import kakaobtn from "../img/kakao_login_large_wide.png"
 
+import {KAKAO_AUTH_URL} from './OAuth';
+
 
 export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
     margin:0px;
@@ -32,11 +34,11 @@ export const Backgrounddiv = styled.div` // styled components를 사용하여 di
     
 `;
 
-export const KaKaoBtn = styled.div`
+export const KaKaoBtn = styled.button`
   background-image: url(${kakaobtn});
   background-repeat: no-repeat;
   background-size: cover; 
-  margin : auto;
+  margin : auto;  
   color : transparent;
   width: 100%;
   border: 0;

@@ -18,6 +18,8 @@ import {
     CardLink
 } from "./Card"
 
+  import {KAKAO_AUTH_URL} from './OAuth';
+
 
 function Signin() {
 
@@ -143,8 +145,10 @@ function Signin() {
                     </CardFieldset>
                     <br></br>
 
-                    <KaKaoBtn />
-
+                    <a href={KAKAO_AUTH_URL}>
+                        <KaKaoBtn/>
+                    </a>
+                    
                     <hr />
                     <CardFieldset>
                         <CardLink href="/login">I already have an account</CardLink>
