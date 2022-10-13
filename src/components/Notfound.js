@@ -1,5 +1,6 @@
 import React from 'react';
 import NotfoundStyle from '../styles/NotfoundStyle';
+import { Link } from 'react-router-dom'
 
 function Notfound() {
     return (
@@ -12,7 +13,7 @@ function Notfound() {
                         <h1>Oops!</h1>
                         <h2>404 - The Page can't be found</h2>
                     </div>                    
-                    <a href="/">Go TO Homepage</a>
+                    <Link to="/">Go TO Homepage</Link> {/* a태그의 href대신에 리액트에서는 성능을 위해 react-router-dom의 Link를 사용한다. */}
                 </div>
             </div>
         </body>

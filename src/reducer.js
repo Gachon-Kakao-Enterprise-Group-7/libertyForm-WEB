@@ -7,7 +7,7 @@ import storage from "redux-persist/lib/storage"; //react-persist를 사용해 lo
 import testReducer from './reducers/test'
 import userReducer from './reducers/user'
 import surveyReducer from './reducers/survey';
-//만들어져있는 리듀서 2개를 import 해온다.
+//만들어져있는 리듀서 3개를 import 해온다.
 
 const persistConfig = {
   key: "root",

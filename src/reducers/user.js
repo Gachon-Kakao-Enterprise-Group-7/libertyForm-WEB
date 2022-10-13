@@ -22,7 +22,7 @@ const initialstate = {
 export default function userReducer(state = initialstate, action) {
   switch (action.type) {
     case 'SIGNINUSER': // USER를 등록
-      console.log('유저등록 완료!')
+      console.log('유저등록 완료! (redux에 등록)')
       const { id, password, email, name, phone } = action.data
       return { ...state, users: [...state.users, { id: id, password: password, email: email, name: name, phone: phone }] }
     case 'CHECKID':
@@ -31,9 +31,7 @@ export default function userReducer(state = initialstate, action) {
       alert(`${checkid}는 이미 사용중입니다. 다른 아이디를 사용해주세요.`)
       return state
     case 'LOGIN':
-      console.log('로그인 들어옴')
-      localStorage.setItem('id', action.data.id)
-      localStorage.setItem('password', action.data.password)
+      console.log('dispatch로그인')
       return state
     case 'LOGOUT':
       localStorage.clear()
