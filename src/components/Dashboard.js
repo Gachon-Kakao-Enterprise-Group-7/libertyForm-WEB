@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 
 const LeftDiv = styled.div`
     background-color: #e1e1e1;
-    height: 100vh;
+    height: 100%;
     text-align: center;
     padding-top: 1vw;
     padding-left: 1rem;
@@ -46,7 +46,6 @@ const SurveyDiv = styled.div`
     
     
 `
-
 const classes = {
     root: {
         flexGrow: 1
@@ -106,7 +105,7 @@ function Dashboard() {
                                                         <div>{survey.title}</div>
                                                         <div>문항수 : {survey.question}</div>
                                                         <hr />
-                                                        <Button variant="contained" color="primary">수정하기</Button>
+                                                        <Button variant="contained" color="primary" onClick={() => { console.log(survey) }}>수정하기</Button>
 
                                                     </SurveyDiv>
                                                 </Grid>
