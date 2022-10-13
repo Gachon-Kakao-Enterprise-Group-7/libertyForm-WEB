@@ -19,6 +19,8 @@ import {
     CardLink
   } from "./Card"
 
+  import {KAKAO_AUTH_URL} from './OAuth';
+
 
 function Signin() {
     const dispatch = useDispatch()  // useDispatch를 이용해 reducer로 action을 보낸다.
@@ -129,7 +131,9 @@ function Signin() {
             </CardFieldset>
                     <br></br>
 
-                    <KaKaoBtn/>
+                    <a href={KAKAO_AUTH_URL}>
+                        <KaKaoBtn/>
+                    </a>
                     
                     <hr />
                     <CardFieldset>

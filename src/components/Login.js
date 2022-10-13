@@ -19,7 +19,7 @@ import {
     CardLink
   } from "./Card"
 
-  
+import {KAKAO_AUTH_URL} from './OAuth';  
 
 
 
@@ -129,14 +129,10 @@ function Login() {
                     </CardFieldset>
                     <br></br>
 
-                    <KaKaoBtn 
-                        // jsKey={'카카오개발자 key'}
-                        // onSuccess={clickKakaoBtn}
-                        // onFailure={responseFail}
-                        getProfile="true">
-                    </KaKaoBtn>
-                                   
-                  
+                    <a href={KAKAO_AUTH_URL}>
+                        <KaKaoBtn>
+                        </KaKaoBtn>
+                    </a>
                     
                     <hr />
                     <CardFieldset>
