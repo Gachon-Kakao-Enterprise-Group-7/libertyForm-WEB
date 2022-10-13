@@ -57,6 +57,7 @@ function Login() {
                 switch (res.data.code) {
                     case 2007:
                         alert('아이디, 비밀번호가 일치하지 않습니다.')
+                        break;
                     case 1000:
                         console.log('======================', '로그인 성공', res.data.code)
                         alert('로그인 성공')
@@ -64,6 +65,10 @@ function Login() {
                         localStorage.setItem('name', res.data.result.name);
                         localStorage.setItem('token', res.data.result.jwt);
                         document.location.href = '/' // 작업 완료 되면 페이지 이동(새로고침)
+                        break;
+                    default:
+                        console.log('정의되지 않은 오류입니다....')
+                        break;
                 }
 
 
