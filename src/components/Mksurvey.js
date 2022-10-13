@@ -43,12 +43,31 @@ const NumberingDiv = styled.div`
     font-weight: bold;
     box-shadow: 1px 5px 5px #bdbdbd;
 `
-const McItemLi = styled.li`
+const StyledLi = styled.li`
     :hover{
         color:red;
     }
     cursor: pointer;
-    
+    counter-increment: item;
+    margin-bottom: 5px;
+    ::before{
+        margin: 0.15rem;
+        content: counter(item);
+        background: #ababab;
+        border-radius: 100%;
+        color: white;
+        width: 1.2em;
+        text-align: center;
+        display: inline-block;
+    }
+
+`
+
+const StyledOl = styled.ol`
+    list-style: none;
+    counter-reset: item;
+    padding-left: 0px;
+    margin-top: 0.5rem;
 
 `
 
@@ -140,7 +159,7 @@ function Mksurvey() { // Make Survey
                                 질문을 입력하세요<input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <input value={multiChoiceItem} data-id={index} style={{ width: '80%' }} placeholder='선택 항목을 추가해 주세요' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
                                 <button onClick={addMcItem} data-id={index}>추가</button>
-                                <ol>{survey[index].mcitem.map((mcitem, mcitemIndex) => <McItemLi key={index} >{mcitem}</McItemLi>)}</ol> {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
+                                <StyledOl>{survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi key={index} >{mcitem}</StyledLi>)}</StyledOl> {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
                                 {console.log(multiChoiceItem)}
                                 <FormControlLabel
                                     control={
