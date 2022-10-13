@@ -11,9 +11,7 @@ import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
 
 const backgroundArr = [background1, background2, background3, background4, background5];
-
 const randomIndex = Math.floor(Math.random() * backgroundArr.length);
-
 const backgroundImg = backgroundArr[randomIndex];
 
 const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
