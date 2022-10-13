@@ -30,6 +30,8 @@ function Login() {
 
     const dispatch = useDispatch()
 
+    const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; 
+
     const [inputs, setInputs] = useState({
         email: '',
         password: '',
@@ -47,7 +49,8 @@ function Login() {
 
     const onLogin = () => {
 
-        axios.post("/login", inputs)
+        inputs.email.indexOf('@') >= 0 && inputs.email.length > 0 && inputs.password.length > 0 && regPass.test(password) //여기 조건이 모두 만족할때, ?뒤에 문장 실행, 하나라도 거짓일 경우 :뒤에 문장 실행
+        ?axios.post("/login", inputs)
 
             .then(res => {
 
@@ -79,6 +82,7 @@ function Login() {
 
             })
             .catch((Error) => { console.log(Error) })
+            :alert('잘못된 정보가 있습니다. 변경해주세요!')
     }
 
     return (
