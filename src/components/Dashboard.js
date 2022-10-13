@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 
 const LeftDiv = styled.div`
     background-color: #e1e1e1;
-    height: 100vh;
+    height: 100%;
     text-align: center;
     padding-top: 1vw;
     padding-left: 1rem;

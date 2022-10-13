@@ -47,7 +47,7 @@ const McItemLi = styled.li`
         color:red;
     }
     cursor: pointer;
-
+    
 
 `
 
@@ -130,7 +130,7 @@ function Mksurvey() { // Make Survey
                                 질문을 입력하세요<input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <input value={multiChoiceItem} data-id={index} style={{ width: '80%' }} placeholder='선택 항목을 추가해 주세요' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
                                 <button onClick={addMcItem} data-id={index}>추가</button>
-                                {survey[index].mcitem.map((mcitem, mcitemIndex) => <McItemLi key={index} >{mcitem}</McItemLi>)} {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
+                                <ol>{survey[index].mcitem.map((mcitem, mcitemIndex) => <McItemLi key={index} >{mcitem}</McItemLi>)}</ol> {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
                                 {console.log(multiChoiceItem)}
 
                             </>
