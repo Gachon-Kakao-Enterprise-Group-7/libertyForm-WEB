@@ -109,6 +109,17 @@ function Mksurvey() { // Make Survey
         console.log(targetId)
         setSurvey(survey.map((item)=> item.id === targetId? {...item, required:!item.required}:item ))
     }
+
+    const delMcItem = (e)=>{
+        const index = parseInt(e.target.dataset.id)
+        const mcitemIndex = e.target.value
+        const temp = survey[index].mcitem
+        temp.splice(mcitemIndex, 1)
+
+        setSurvey(survey.map((item)=> item.id === index? {...item, mcitem:temp}:item))
+
+        
+    }
     return (
         <>
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
@@ -159,7 +170,11 @@ function Mksurvey() { // Make Survey
                                 질문을 입력하세요<input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <input value={multiChoiceItem} data-id={index} style={{ width: '80%' }} placeholder='선택 항목을 추가해 주세요' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
                                 <button onClick={addMcItem} data-id={index}>추가</button>
-                                <StyledOl>{survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi key={index} >{mcitem}</StyledLi>)}</StyledOl> {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
+                                <StyledOl>
+
+                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
+                                </StyledOl> 
+                                {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
                                 {console.log(multiChoiceItem)}
                                 <FormControlLabel
                                     control={
