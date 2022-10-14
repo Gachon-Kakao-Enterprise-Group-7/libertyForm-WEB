@@ -7,6 +7,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useDispatch } from 'react-redux';
 
+import test from './dashboard/Dashboard_g'
+
 function Navs() {
 
     const dispatch = useDispatch()
@@ -28,8 +30,8 @@ function Navs() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/null1">null</Nav.Link>
-                        <Nav.Link href="/null2">null</Nav.Link>
+                        <Nav.Link href="/Dashboard_g">test</Nav.Link>
+                        <Nav.Link href="/SideBar">Sidebar</Nav.Link>
                         <NavDropdown title="null" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
                             <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
