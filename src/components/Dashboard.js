@@ -42,8 +42,7 @@ const SurveyDiv = styled.div`
         background-color: #2d2c2c;
         color:white
     }
-    
-    
+    transition:all 200ms linear;
     
 `
 const classes = {
