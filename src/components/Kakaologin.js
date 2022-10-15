@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
 
 
@@ -18,19 +17,18 @@ function Kakaologin() {
             .then(res => res.json())
             .then(data => {
                 if (data.access_token) {
+                    console.log(data)
                     localStorage.setItem('token', data.access_token);
-                    console.log(localStorage.getItem('token'))
                 } else {
                     console.log('토큰 저장 실패...')
                 }
             })
 
-    }
-
-    const postKakaoToken = () => {
 
         const jsontoken = { 'accessToken': localStorage.getItem('token') }
-        console.log(jsontoken)
+        console.log('인증코드는', KAKAO_CODE)
+        console.log('토큰은', localStorage.getItem('token'))
+        console.log('json으로 변환한 토큰은', jsontoken)
 
         axios.post("/login/kakao", jsontoken)
             .then(res => {
@@ -40,9 +38,10 @@ function Kakaologin() {
     }
 
 
+
+
     useEffect(() => {
         getKakaoToken();
-        postKakaoToken();
     }, [])
 
     return (
