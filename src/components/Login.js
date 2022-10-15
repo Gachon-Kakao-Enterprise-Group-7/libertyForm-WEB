@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components'; // styled components 사용 -> CSS in Js
-//rest api
 import axios from 'axios'; //swagger api 요청
-
-import { useDispatch, useSelector } from 'react-redux';
-
+import { REST_API_KEY, REDIRECT_URI } from './OAuth';
 import {
     KaKaoBtn,
     Backgrounddiv,
@@ -18,13 +14,16 @@ import {
     CardOptionsNote,
     CardButton,
     CardLink
-  } from "./Card"
+} from "./Card"
 
-import { Link } from 'react-router-dom';
 
 function Login() {
 
-    const dispatch = useDispatch()
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+    const onKakaoLogin = () => {
+        window.location.href = KAKAO_AUTH_URL;
+    }
 
     const [inputs, setInputs] = useState({
         email: '',
@@ -44,15 +43,12 @@ function Login() {
     const onLogin = () => {
 
         axios.post("/login", inputs)
-
             .then(res => {
 
                 // { test id
                 //     "email": "forceTlight@gmail.com",
                 //     "password": "1q2w3e4r!"
                 //   }
-
-                console.log(res.data)
 
                 switch (res.data.code) {
                     case 2007:
@@ -70,9 +66,6 @@ function Login() {
                         console.log('정의되지 않은 오류입니다....')
                         break;
                 }
-
-
-
             })
             .catch((Error) => { console.log(Error) })
     }
@@ -118,11 +111,11 @@ function Login() {
                     </CardFieldset>
                     <br></br>
 
-                    <Link to="/kakaologin">
-                        <KaKaoBtn>
-                        </KaKaoBtn>
-                    </Link>
-                    
+
+                    <KaKaoBtn onClick={onKakaoLogin}>
+                    </KaKaoBtn>
+
+
                     <hr />
                     <CardFieldset>
                         <CardLink href="/Signin">Don't have an account?</CardLink>
