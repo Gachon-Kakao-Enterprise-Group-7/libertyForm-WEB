@@ -13,6 +13,7 @@ import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제�
 
 import { useSelector } from 'react-redux';
 
+
 const LeftDiv = styled.div`
     background-color: #e1e1e1;
     height: 100%;

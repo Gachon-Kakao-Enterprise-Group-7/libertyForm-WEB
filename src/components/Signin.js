@@ -59,10 +59,21 @@ function Signin() {
 
         .then(res => {
             console.log(res)
-            console.log("Join Success!")
 
-            alert('회원가입 성공')
-            document.location.href = '/login'
+            switch (res.data.code) {
+                case 2005:
+                    alert('중복된 이메일입니다')
+                    break;
+                case 1000:
+                    console.log('======================', '회원가입 성공', res.data.code)
+                    alert('회원가입 성공')
+                    document.location.href = '/login'
+                    break;
+                default:
+                    console.log('정의되지 않은 오류입니다....')
+                    break;
+            }
+
         })
         .catch((Error) => { console.log(Error) })
         :alert('잘못된 정보가 있습니다. 변경해주세요!')

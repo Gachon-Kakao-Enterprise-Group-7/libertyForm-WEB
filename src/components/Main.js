@@ -9,7 +9,6 @@ import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
-
 const backgroundArr = [background1, background2, background3, background4, background5];
 const randomIndex = Math.floor(Math.random() * backgroundArr.length);
 const backgroundImg = backgroundArr[randomIndex];
@@ -29,6 +28,7 @@ const Spacingdiv = styled.div`
     width: 80%;
     height: 20vw;
     margin: auto;
+
 `
 
 const Bodydiv = styled.div`
@@ -124,7 +124,7 @@ function Main() {
                 <H2slogan>누구든지 편하고, 자유롭게 이용하고, 당신의 의견을 표현하세요</H2slogan>
             </Bodydiv>
             <Bodydiv>
-                <Link to="/dashboard">
+                <Link to="/Dashboard">
                     <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
                         시작하기
                     </Mainbutton>
