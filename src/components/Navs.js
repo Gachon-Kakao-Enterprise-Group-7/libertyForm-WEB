@@ -57,7 +57,6 @@ function Navs() {
                             </>
                         }
 
-
                     </Nav>
                 </Navbar.Collapse>
             </Container>
