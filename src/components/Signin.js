@@ -18,9 +18,6 @@ import {
     CardLink
 } from "./Card"
 
-  import {KAKAO_AUTH_URL} from './OAuth';
-
-
 function Signin() {
 
     const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; //비밀번호 정규식
@@ -152,10 +149,6 @@ function Signin() {
                         <CardOptionsNote>Or sign up with</CardOptionsNote>
                     </CardFieldset>
                     <br></br>
-
-                    <a href={KAKAO_AUTH_URL}>
-                        <KaKaoBtn/>
-                    </a>
                     
                     <hr />
                     <CardFieldset>
