@@ -13,7 +13,7 @@ import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제�
 
 import { useSelector } from 'react-redux';
 
-import Sidebar from './sidebar/sidebar_top'
+import Sidebar from './sidebar/Sidebar'
 // import Header from './sidebar/Header'
 
 
@@ -58,9 +58,9 @@ const HeaderContent = styled.div`
 
 const Dashboard_g = () => {
 
-    return (
+  return (
 
-        <>
+    <>
       {/* <Header /> */}
       <MainWrapper>
         <Sidebar />
@@ -74,9 +74,9 @@ const Dashboard_g = () => {
         </Wrapper>
       </MainWrapper>
     </>
-        
-    
-    );
+
+
+  );
 }
 
 export default Dashboard_g;
