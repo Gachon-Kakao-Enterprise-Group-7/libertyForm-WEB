@@ -59,7 +59,7 @@ function Login() {
                         alert('로그인 성공')
                         localStorage.setItem('email', res.data.result.email);
                         localStorage.setItem('name', res.data.result.name);
-                        localStorage.setItem('token', res.data.result.jwt);
+                        localStorage.setItem('jwt', res.data.result.jwt);
                         document.location.href = '/' // 작업 완료 되면 페이지 이동(새로고침)
                         break;
                     default:
