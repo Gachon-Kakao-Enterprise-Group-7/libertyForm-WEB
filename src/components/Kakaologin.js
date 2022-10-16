@@ -1,9 +1,14 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
 
 
 function Kakaologin() {
+
+    const reload = () => {
+        window.location.reload()
+    }
+
 
     const PARAMS = new URL(document.location).searchParams;
     const KAKAO_CODE = PARAMS.get('code')
@@ -17,26 +22,27 @@ function Kakaologin() {
             .then(res => res.json())
             .then(data => {
                 if (data.access_token) {
-                    console.log(data)
                     localStorage.setItem('token', data.access_token);
+                    window.location.reload()
                 } else {
-                    console.log('토큰 저장 실패...')
+                    console.log('fetch에러')
                 }
             })
 
-
         const jsontoken = { 'accessToken': localStorage.getItem('token') }
-        console.log('인증코드는', KAKAO_CODE)
-        console.log('토큰은', localStorage.getItem('token'))
-        console.log('json으로 변환한 토큰은', jsontoken)
 
         axios.post("/login/kakao", jsontoken)
             .then(res => {
-                console.log(res.data)
+                console.log('axios성공')
+                localStorage.setItem('email', res.data.result.email);
+                localStorage.setItem('name', res.data.result.name);
+                localStorage.setItem('jwt', res.data.result.jwt);
+                document.location.href = '/'
             })
             .catch((Error) => { console.log(Error) })
-    }
 
+
+    }
 
 
 
@@ -44,8 +50,10 @@ function Kakaologin() {
         getKakaoToken();
     }, [])
 
+
     return (
         <div>
+            123
         </div>
     );
 }
