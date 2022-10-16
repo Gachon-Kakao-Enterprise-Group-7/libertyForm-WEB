@@ -1,11 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import Leftdiv from './Leftdiv'
 import HeaderItems from './Items'
 
 
 
+
 const Wrapper = styled.div`
-  height: 230px;
+  height: 350px;
   padding: 20px 20px 10px 20px;
   display: flex;
   justify-content: center;
@@ -16,7 +18,7 @@ const Wrapper = styled.div`
 
 `
 const Main = styled.div`
-  height: 190px;
+  height: 300px;
   width: 230px;
   border-bottom: 1px solid #f1f1f5;
 `
@@ -25,7 +27,8 @@ const  Sidebarheader = () => {
   return (
     <Wrapper>
       <Main>
-        <HeaderItems />
+        <Leftdiv />
+        {/* <HeaderItems/> */}
       </Main>
     </Wrapper>
   )

@@ -39,10 +39,6 @@ const Cross = styled.div`
 `
 ////
 
-const variables = {
-  color: '#92929d'
-}
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -52,7 +48,7 @@ const Block = styled.div`
   justify-content: space-between;
 `
 const Arrow = styled.div`
-  border: solid ${variables.color};
+  border: solid #92929d;
   border-width: 0 2px 2px 0;
   display: flex;
   padding: 3px;
@@ -67,7 +63,7 @@ const ArrowUp = styled(Arrow)`
 const TeamsTitle = styled.span`
   text-transform: uppercase;
   font-size: 14px;
-  color: ${variables.color};
+  color: #92929d;
   letter-spacing: 1px;
 `
 
@@ -102,7 +98,7 @@ const HeaderItems = () => {
       </Block>
       {opened && <TeamWrapper>
         <TeamAvatar
-          src={require('../../../img/team1.png')}
+          src={require('../../../../img/team1.png')}
           alt='Team avatar'
         />
         <TeamName>Iconspace Team</TeamName>

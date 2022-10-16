@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import Menu from './Menu'
-import  Sidebarheader from './Header'
+import Menu from '../sidebar/sidebar_bottom/Menu'
+import Sidebarheader from './sidebar_top/Header'
 
 const Wrapper = styled.section`
   display: flex;
@@ -14,7 +14,7 @@ const Wrapper = styled.section`
 const Sidebar = () => {
   return (
     <Wrapper>
-      < Sidebarheader />
+      <Sidebarheader />
       <Menu />
     </Wrapper>
   )

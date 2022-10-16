@@ -1,27 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+
+
 const active = 'nav-item-active';
+
+
 const NavItem = styled(NavLink).attrs({
     active
 }) `
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #171725;
+  color: black;
   font-size: 14px;
   letter-spacing: 0.1px;
   border-left: 3px solid #fff;
   svg {
-    fill: #92929d;
+    fill: #92929d; 
   }
-  &.${active} {
-    color: #0062ff;
+  /* &.${active} { //작동 안되는거 물어보기
+    color: #0062ff;  
     border-left: 3px solid #0062ff;
     svg {
       fill: #0062ff;
     }
-  }
+  } */
 `;
 const Wrapper = styled.div `
   display: flex;

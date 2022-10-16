@@ -13,7 +13,7 @@ import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제�
 
 import { useSelector } from 'react-redux';
 
-import Sidebar from './sidebar/Sidebar'
+import Sidebar from './sidebar/sidebar_top'
 // import Header from './sidebar/Header'
 
 
