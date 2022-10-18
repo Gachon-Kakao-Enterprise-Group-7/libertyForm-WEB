@@ -1,6 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
+import sang from '../img/sang.png'
+import styled from 'styled-components';
+
+const SangDiv = styled.div`
+
+    background-image: url(${sang});
+    width: 50vw;
+    height: 50vh;
+`
 
 
 function Kakaologin() {
@@ -53,7 +62,8 @@ function Kakaologin() {
 
     return (
         <div>
-            123
+            로딩중....
+            <SangDiv>1</SangDiv>
         </div>
     );
 }
