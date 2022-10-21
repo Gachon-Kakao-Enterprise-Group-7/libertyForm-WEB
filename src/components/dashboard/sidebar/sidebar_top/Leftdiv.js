@@ -28,11 +28,7 @@ function Leftdiv() {
 
     return (
         <Wrapper>
-        <div>반갑습니다.</div>
-        <Link to="/mksurvey">
-            <Button variant="contained" color="success">새로운 설문 생성</Button>
-        </Link>
-        <hr />
+
         <ProgressBar animated now={(state.filter(survey => survey.finish === true).length / state.length) * 100} />
         <br />
         <div>전체 설문 : {state.length} </div>
