@@ -1,10 +1,23 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
+import sang from '../img/sang.png'
+import styled from 'styled-components';
+
+const SangDiv = styled.div`
+
+    background-image: url(${sang});
+    width: 50vw;
+    height: 50vh;
+`
 
 
 function Kakaologin() {
+
+    const reload = () => {
+        window.location.reload()
+    }
+
 
     const PARAMS = new URL(document.location).searchParams;
     const KAKAO_CODE = PARAMS.get('code')
@@ -19,34 +32,38 @@ function Kakaologin() {
             .then(data => {
                 if (data.access_token) {
                     localStorage.setItem('token', data.access_token);
-                    console.log(localStorage.getItem('token'))
+                    window.location.reload()
                 } else {
-                    console.log('토큰 저장 실패...')
+                    console.log('fetch에러')
                 }
             })
 
-    }
-
-    const postKakaoToken = () => {
-
         const jsontoken = { 'accessToken': localStorage.getItem('token') }
-        console.log(jsontoken)
 
         axios.post("/login/kakao", jsontoken)
             .then(res => {
-                console.log(res.data)
+                console.log('axios성공')
+                localStorage.setItem('email', res.data.result.email);
+                localStorage.setItem('name', res.data.result.name);
+                localStorage.setItem('jwt', res.data.result.jwt);
+                document.location.href = '/'
             })
             .catch((Error) => { console.log(Error) })
+
+
     }
+
 
 
     useEffect(() => {
         getKakaoToken();
-        postKakaoToken();
     }, [])
+
 
     return (
         <div>
+            로딩중....
+            <SangDiv>1</SangDiv>
         </div>
     );
 }

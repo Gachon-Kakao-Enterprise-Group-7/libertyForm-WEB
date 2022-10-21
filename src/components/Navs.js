@@ -16,8 +16,10 @@ function Navs() {
     const onLogout = () => {
         // sessionStorage 에 email 로 저장되어있는 아이템을 삭제한다.
         localStorage.removeItem('email')
-        localStorage.removeItem('token')
+        localStorage.removeItem('jwt')
         localStorage.removeItem('name')
+        localStorage.removeItem('token')
+
         // App 으로 이동(새로고침)
         document.location.href = '/'
     }

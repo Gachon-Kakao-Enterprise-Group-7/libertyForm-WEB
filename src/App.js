@@ -22,12 +22,8 @@ function App() {
         <Route path="/" element={<><Main /></>}></Route>
         <Route path="/signin" element={<><Signin /></>}></Route>
         <Route path="/login" element={<><Login /></>}></Route>
-        <Route path="/dashboard_g" element={<><Dashboard_g/></>}></Route>
-        <Route path='/kakaologin' component={() => {
-     window.location.href = {KAKAO_AUTH_URL};
-     return null;
+        <Route path="/dashboard_g" element={<><Dashboard_g /></>}></Route>
         <Route path="/kakaologin" element={<><Kakaologin /></>}></Route>
-
         {localStorage.getItem('email') //로그인된 여부에 따라 경로를 다르게 설정함
           ? <Route path='/dashboard' element={<><Dashboard /></>}></Route>
           : <Route path='/dashboard' element={<><Login /></>}></Route>

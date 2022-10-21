@@ -58,9 +58,9 @@ const HeaderContent = styled.div`
 
 const Dashboard_g = () => {
 
-    return (
+  return (
 
-        <>
+    <>
       {/* <Header /> */}
       <MainWrapper>
         <Sidebar />
@@ -74,9 +74,9 @@ const Dashboard_g = () => {
         </Wrapper>
       </MainWrapper>
     </>
-        
-    
-    );
+
+
+  );
 }
 
 export default Dashboard_g;
