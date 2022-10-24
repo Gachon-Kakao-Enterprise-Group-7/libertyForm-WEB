@@ -19,39 +19,37 @@ const LoadingDiv = styled.div`
     text-align: center;
 `
 
-
+//1 : 카카오에 로그인할껀데 사용자 동의(약관) 받았으니까 인가 토큰 주세요 하는 과정
+//2 : 인가 토큰을 가지고 백엔드에 보내주면 백엔드에 카카오에 처리 후 이메일, 이름, jwt를 반환
 
 function Kakaologin() {
-
-    const reload = () => {
-        window.location.reload()
-    }
-
 
     const PARAMS = new URL(document.location).searchParams;
     const KAKAO_CODE = PARAMS.get('code')
 
-    const getKakaoToken = () => {
-        fetch(`https://kauth.kakao.com/oauth/token`, {
-            method: 'POST',
-            headers: { 'Content-type': 'application/x-www-form-urlencoded;charset=utf-8' },
-            body: `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${KAKAO_CODE}`
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.access_token) {
-                    localStorage.setItem('token', data.access_token);
-                    window.location.reload()
-                } else {
-                    console.log('fetch에러')
-                }
+    const getKakaoToken = async () => {
+        //1
+        const kakaoTokenLink = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${KAKAO_CODE}`
+        await axios.post(kakaoTokenLink,
+            {
+                headers: { 'Content-type': 'application/x-www-form-urlencoded;charset=utf-8' }
+            })
+            .then(res => {
+                localStorage.setItem('token', res.data.access_token)
+                window.location.reload()
+            })
+            .catch((Error) => {
+                console.log(Error)
             })
 
+
+        //2
         const jsontoken = { 'accessToken': localStorage.getItem('token') }
 
-        axios.post("/login/kakao", jsontoken)
+        await axios.post("/login/kakao", jsontoken)
             .then(res => {
                 console.log('axios성공')
+                localStorage.removeItem('token')
                 localStorage.setItem('email', res.data.result.email);
                 localStorage.setItem('name', res.data.result.name);
                 localStorage.setItem('jwt', res.data.result.jwt);
@@ -61,7 +59,6 @@ function Kakaologin() {
 
 
     }
-
 
 
     useEffect(() => {
