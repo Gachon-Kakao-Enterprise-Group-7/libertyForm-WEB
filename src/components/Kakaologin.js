@@ -3,13 +3,22 @@ import React, { useEffect, useState } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
 import sang from '../img/sang.png'
 import styled from 'styled-components';
+import RotateLoader from "react-spinners/RotateLoader";
 
-const SangDiv = styled.div`
-
-    background-image: url(${sang});
+const MainDiv = styled.div`
     width: 50vw;
-    height: 50vh;
+    height: 100vh;
+    margin: auto;
+    text-align: center;
 `
+const LoadingDiv = styled.div`
+    width: 100%;
+    margin: auto;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    text-align: center;
+`
+
 
 
 function Kakaologin() {
@@ -61,10 +70,12 @@ function Kakaologin() {
 
 
     return (
-        <div>
-            로딩중....
-            <SangDiv>1</SangDiv>
-        </div>
+        <MainDiv>
+            <LoadingDiv>
+                <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50} />
+            </LoadingDiv>
+            <h3 style={{ fontSize: '2em', fontWeight: 'bold' }}>로그인 중입니다...</h3>
+        </MainDiv>
     );
 }
 
