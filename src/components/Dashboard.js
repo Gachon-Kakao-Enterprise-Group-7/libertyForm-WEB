@@ -11,7 +11,7 @@ import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이�
 import styled from 'styled-components'; //styled-components사용
 import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 
 
 const LeftDiv = styled.div`
@@ -37,6 +37,7 @@ const SurveyDiv = styled.div`
     height: 10rem;
     text-align: center;
     border-radius: 0.5rem;
+    min-width: 220px;
 
     &:hover
     {
@@ -68,7 +69,7 @@ function Dashboard() {
 
     const state = useSelector(state => state.survey)
 
-
+    const dispatch = useDispatch()
 
     return (
 
@@ -105,8 +106,8 @@ function Dashboard() {
                                                         <div>{survey.title}</div>
                                                         <div>문항수 : {survey.question}</div>
                                                         <hr />
-                                                        <Button variant="contained" color="primary" onClick={() => { console.log(survey) }}>수정하기</Button>
-
+                                                        <Button variant="contained" disabled style={{ marginRight: '0.5rem' }} color="primary" onClick={() => { console.log(survey) }}>수정하기</Button>
+                                                        <Button variant="contained" color="error" onClick={()=>{dispatch({type:'DELSURVEY', data:survey})}}>삭제하기</Button>
                                                     </SurveyDiv>
                                                 </Grid>
                                             )
