@@ -1,114 +1,130 @@
 import React, { useEffect, useState } from 'react';
-
-import background from "../img/background.jpg"
-import styled from 'styled-components'; // styled components 사용 -> CSS in Js
-
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { useDispatch, useSelector } from 'react-redux';
-
-
-const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
-    background-image: url(${background});
-    margin:0px;
-    width:100vw;
-    height:100vh;
-    background-position: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.85;
-`
-
-const Signindiv = styled.div`
-    text-align: center;
-    align-items: center;
-    margin: auto;
-    background-color: white;
-    width: 30em;
-    height: 50em;
-    border-radius: 2vw;
-`
+import axios from 'axios'; //swagger api 요청
+import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import {
+    KaKaoBtn,
+    Backgrounddiv,
+    CardWrapper,
+    CardHeader,
+    CardHeading,
+    CardBody,
+    CardIcon,
+    CardFieldset,
+    CardInput,
+    CardOptionsNote,
+    CardButton,
+    CardLink
+} from "./Card"
 
 
 function Login() {
-  
-    const dispatch = useDispatch()
+
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+    const onKakaoLogin = () => {
+        window.location.href = KAKAO_AUTH_URL;
+    }
 
     const [inputs, setInputs] = useState({
-        id: '',
+        email: '',
         password: '',
     })
 
-    const { id, password,  } = inputs // 구조분해할당
-
     const onChange = (e) => {
-        const { name, value } = e.target
         setInputs({
             ...inputs,
-            [name]: value
+            [e.target.name]: e.target.value
         })
     }
 
+    const { email, password } = inputs // 구조분해할당
+
 
     const onLogin = () => {
-        dispatch({ type: 'LOGIN', data: inputs })
-        setInputs({
-            id: '',
-            password: '',
-        })
-        alert("로그인완료!")
+
+        axios.post("/login", inputs)
+            .then(res => {
+
+                // { test id
+                //     "email": "forceTlight@gmail.com",
+                //     "password": "1q2w3e4r!"
+                //   }
+
+                switch (res.data.code) {
+                    case 2007:
+                        alert('아이디, 비밀번호가 일치하지 않습니다.')
+                        break;
+                    case 1000:
+                        console.log('======================', '로그인 성공', res.data.code)
+                        alert('로그인 성공')
+                        localStorage.setItem('email', res.data.result.email);
+                        localStorage.setItem('name', res.data.result.name);
+                        localStorage.setItem('jwt', res.data.result.jwt);
+                        document.location.href = '/' // 작업 완료 되면 페이지 이동(새로고침)
+                        break;
+                    default:
+                        console.log('정의되지 않은 오류입니다....')
+                        break;
+                }
+            })
+            .catch((Error) => { console.log(Error) })
     }
 
     return (
         <Backgrounddiv>
-            <Signindiv>
-                <h1>LOGIN</h1>
-                <Box
-                    sx={{
-                        width: 500,
-                        maxWidth: '70%',
-                        margin: 'auto',
-                        background: 'white' //작업할때 배경 범위 보고싶으면 색변경 하면됨
-                    }}
-                >
-                    <TextField //id부분
-                        fullWidth 
-                        label="ID" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
-                        onChange={onChange}
-                        name="id" 
-                        value={id} 
-                    />
-                    <TextField //password 부분
-                        fullWidth 
-                        label="PASSWORD" 
-                        id="fullWidth" 
-                        required 
-                        margin="normal" 
-                        type="password" 
-                        onChange={onChange} 
-                        name="password" 
-                        value={password}
-                    />
-                    <Button //등록버튼
-                        className='mt-3' 
-                        variant="contained" 
-                        size="large" 
-                        style={{ backgroundColor: 'gray' }} 
-                        onClick={onLogin} >로그인
-                    </Button>
+            <CardWrapper>
+                <CardHeader>
+                    <CardHeading>Login</CardHeading>
+                </CardHeader>
+
+                <CardBody>
+
+
+                    <CardFieldset>
+                        <CardInput
+                            placeholder="E-mail"
+                            type="text"
+                            onChange={onChange}
+                            name="email"
+                            value={email}
+                            required />
+                    </CardFieldset>
+
+                    <CardFieldset>
+                        <CardInput
+                            placeholder="Password"
+                            type="password"
+                            onChange={onChange}
+                            name="password"
+                            value={password}
+                            required />
+                        <CardIcon className="fa fa-eye" eye small />
+                    </CardFieldset>
+
+
+                    <CardFieldset>
+                        <CardButton type="button " onClick={() => { onLogin() }}>Login</CardButton>
+                    </CardFieldset>
+
+                    <CardFieldset>
+                        <CardOptionsNote>Or sign up with</CardOptionsNote>
+                    </CardFieldset>
+                    <br></br>
+
+
+                    <KaKaoBtn onClick={onKakaoLogin}>
+                    </KaKaoBtn>
+
+
                     <hr />
-                    <Button //카카오 소셜 로그인
-                        className='mt-3' 
-                        variant="contained" 
-                        style={{ backgroundColor: 'yellow', width:'80%', color:'black' }} 
-                         >카카오 로그인
-                    </Button>
-                </Box>
-            </Signindiv>
+                    <CardFieldset>
+                        <CardLink href="/Signin">Don't have an account?</CardLink>
+                    </CardFieldset>
+
+
+
+                </CardBody>
+            </CardWrapper>
         </Backgrounddiv>
     );
 }

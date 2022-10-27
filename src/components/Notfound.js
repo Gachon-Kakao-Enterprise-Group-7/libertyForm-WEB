@@ -1,20 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
-import notfound from '../img/404.PNG'
-
-
-const Photodiv = styled.div`
-    background-image: url(${notfound});
-    margin:auto;
-    height:60vh;
-    background-size: cover;
-    background-repeat: no-repeat;
-
-`
+import NotfoundStyle from '../styles/NotfoundStyle';
+import { Link } from 'react-router-dom'
 
 function Notfound() {
     return (
-        <Photodiv />
+        <>
+        <NotfoundStyle />
+        <body>
+            <div id="notfound">
+                <div class="notfound">
+                    <div class="notfound-404">
+                        <h1>Oops!</h1>
+                        <h2>404 - The Page can't be found</h2>
+                    </div>                    
+                    <Link to="/">Go TO Homepage</Link> {/* a태그의 href대신에 리액트에서는 성능을 위해 react-router-dom의 Link를 사용한다. */}
+                </div>
+            </div>
+        </body>
+        </>
     );
 }
 
