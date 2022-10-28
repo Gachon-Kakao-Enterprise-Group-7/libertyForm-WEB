@@ -20,6 +20,7 @@ const LeftDiv = styled.div`
     padding-top: 1vw;
     padding-left: 1rem;
     padding-right: 1rem;
+    margin: 20px;
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
 `
 const RightDiv = styled.div`
