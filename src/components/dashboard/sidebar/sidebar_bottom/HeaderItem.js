@@ -19,13 +19,13 @@ const NavItem = styled(NavLink).attrs({
   svg {
     fill: #92929d; 
   }
-  /* &.${active} { //작동 안되는거 물어보기
+  &.${active} { //작동 안되는거 물어보기
     color: #0062ff;  
     border-left: 3px solid #0062ff;
     svg {
       fill: #0062ff;
     }
-  } */
+  }
 `;
 const Wrapper = styled.div `
   display: flex;
