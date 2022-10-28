@@ -15,7 +15,9 @@ import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이�
 
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
-const BlockDiv = styled.div`
+import { motion } from "framer-motion"
+
+const BlockDiv = styled(motion.div)`
     background-color: #e5e6f794;
     margin: auto;
     margin-top: 3vw;
@@ -241,7 +243,7 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 항목 부분 */}
             {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
-                <BlockDiv key={index}>
+                <BlockDiv key={index} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <ItemDiv>
                         <NumberingDiv>
                             <span>{index + 1}</span>
