@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import ContentTasks from './Tasks'
 import Sidebar from '.././sidebar/Sidebar'
+import Navs from '.././Navs'
 
 const HeaderContent = styled.div`
   display: flex;
@@ -36,14 +37,23 @@ const Wrapper = styled.section`
   @media (max-width: 450px) {
     padding: 10px;
   }
+
+`
+
+const MainWrapper = styled.div`
+  display: flex;
+  max-width: 1600px;
+  margin: 0 auto;
 `
 
 const Content = () => {
   return (
+    <>
+    <Navs/>
+    <MainWrapper>
+    <Sidebar />
     <Wrapper>
-      <Sidebar />
       <HeaderContent>
-      <Sidebar />
       <div>
         <Username>Hi James,</Username>
         <WelcomeText>here’s your currently projects</WelcomeText>
@@ -51,6 +61,8 @@ const Content = () => {
     </HeaderContent>
       <ContentTasks />
     </Wrapper>
+    </MainWrapper>
+    </>
   )
 }
 
