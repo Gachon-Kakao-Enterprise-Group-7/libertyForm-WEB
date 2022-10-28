@@ -12,11 +12,11 @@ import Switch from '@mui/material/Switch';
 import Input from '@mui/material/Input';
 
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
-import { borderRight } from '@mui/system';
+
 
 
 const BlockDiv = styled.div`
-    background-color: #e5e5e5;
+    background-color: #e5e6f794;
     margin: auto;
     margin-top: 3vw;
     padding: 1rem;
