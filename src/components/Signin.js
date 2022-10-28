@@ -55,36 +55,36 @@ function Signin() {
     const onSummit = () => {
 
         inputs.email.indexOf('@') >= 0 && inputs.email.length > 0 && inputs.password.length > 0 && regPass.test(password) && inputs.password == inputs.checkPassword //여기 조건이 모두 만족할때, ?뒤에 문장 실행, 하나라도 거짓일 경우 :뒤에 문장 실행
-        ?axios.post("/members", inputs)
+            ? axios.post("/members", inputs)
 
-        .then(res => {
-            console.log(res)
+                .then(res => {
+                    console.log(res)
 
-            switch (res.data.code) {
-                case 2005:
-                    alert('중복된 이메일입니다')
-                    break;
-                case 1000:
-                    console.log('======================', '회원가입 성공', res.data.code)
-                    alert('회원가입 성공')
-                    document.location.href = '/login'
-                    break;
-                default:
-                    console.log('정의되지 않은 오류입니다....')
-                    break;
-            }
+                    switch (res.data.code) {
+                        case 2005:
+                            alert('중복된 이메일입니다')
+                            break;
+                        case 1000:
+                            console.log('======================', '회원가입 성공', res.data.code)
+                            alert('회원가입 성공')
+                            document.location.href = '/login'
+                            break;
+                        default:
+                            console.log('정의되지 않은 오류입니다....')
+                            break;
+                    }
 
-        })
-        .catch((Error) => { console.log(Error) })
-        :alert('잘못된 정보가 있습니다. 변경해주세요!')
+                })
+                .catch((Error) => { console.log(Error) })
+            : alert('잘못된 정보가 있습니다. 변경해주세요!')
 
 
-        
+
     }
 
     return (
         <Backgrounddiv>
-            <CardWrapper>
+            <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <CardHeader>
                     <CardHeading>Sign in</CardHeading>
                 </CardHeader>
@@ -149,7 +149,7 @@ function Signin() {
                         <CardOptionsNote>Or sign up with</CardOptionsNote>
                     </CardFieldset>
                     <br></br>
-                    
+
                     <hr />
                     <CardFieldset>
                         <CardLink href="/login">I already have an account</CardLink>

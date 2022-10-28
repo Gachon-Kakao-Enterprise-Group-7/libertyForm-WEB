@@ -72,7 +72,7 @@ function Login() {
 
     return (
         <Backgrounddiv>
-            <CardWrapper>
+            <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <CardHeader>
                     <CardHeading>Login</CardHeading>
                 </CardHeader>

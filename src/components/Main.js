@@ -28,7 +28,7 @@ const Backgrounddiv = styled.div` // styled components를 사용하여 div를 �
 
 const Spacingdiv = styled.div`
     width: 80%;
-    height: 20vw;
+    height: 15vw;
     margin: auto;
 
 `
@@ -43,11 +43,11 @@ const Bodydiv = styled(motion.div)`
 `
 const H1slogan = styled.h1`
     font-family: var(--font-NotoSans);
-    font-size: 6vw;
+    font-size: 5vw;
 `
 const H2slogan = styled.h2`
     padding-top: 1vw;
-    font-size: 2vw;
+    font-size: 1.8vw;
 `
 const Mainbutton = styled.button`
     font-family: 'Montserrat', sans-serif;
@@ -62,6 +62,7 @@ const Mainbutton = styled.button`
     position: relative;
     z-index: 0;
     border-radius: 10px;
+    margin-top: 70px;
 
     &:before {
         content: '';
@@ -128,7 +129,7 @@ function Main() {
             </Bodydiv>
             <Bodydiv >
                 <Link to="/Dashboard">
-                    <Mainbutton  onClick={() => { dispatch({ type: 'TEST' }) }}>
+                    <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
                         시작하기
                     </Mainbutton>
                 </Link>

@@ -13,9 +13,11 @@ import Input from '@mui/material/Input';
 
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
 
+import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
+import { motion } from "framer-motion"
 
-const BlockDiv = styled.div`
+const BlockDiv = styled(motion.div)`
     background-color: #e5e6f794;
     margin: auto;
     margin-top: 3vw;
@@ -104,16 +106,48 @@ const McitemAddBtn = styled.button`
 
 function Mksurvey() { // Make Survey
 
-
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 useState
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
 
-    console.log(survey)
+    const [postData, setPostData] = useState({
+        survey: {
+            name: "", // 설문 이름
+            description: "", // 설문 추가 설명
+            expirationDate: '', //설문 마감 날짜
+        },
+        questions: [
+            // { //이 부분은 계속 누적하는 부분이라 기본값이 있으면 안된다.
+            //     surveyId: '',//설문 고유 ID -> 이거 백에서 필요없다고 한거같은데...
+            //     questionType: '', // 질문 타입
+            //     name: '', // 질문 이름
+            //     description: '',//추가 설명
+            //     number: '',//질문 번호
+            //     backgroundImgUrl: '',
+            //     questionImgUrl: '',
+            //     answerRequired: '',
+            // 
+        ]
+
+    })
+
+
+
+
+
+
+    // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
+    // console.log(survey) // 사용자의 입력을 받은 survey 양식
+
     const id = useRef(1) // servey 문제마다 id값을 주기 위함
     const scrollRef = useRef() // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
     const state = useSelector((state) => state.survey)
+    console.log(state)
     const dispatch = useDispatch()
+
+
+
+
 
     const onChange = (e) => {
         console.log('onChange작동')
@@ -122,10 +156,6 @@ function Mksurvey() { // Make Survey
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
 
-    const onSummit = () => {
-        dispatch({ type: 'SURVEYSUMMIT', survey: survey, title: title })
-        console.log('설문생성완료')
-    }
 
     const addMcItem = (e) => {
         const targetId = parseInt(e.target.dataset.id)
@@ -165,6 +195,35 @@ function Mksurvey() { // Make Survey
 
     }
 
+    const onSummit = () => {
+        setPostData((
+            {
+                ...postData,
+                survey: {
+                    ...postData.survey,
+                    name: title
+                },
+                questions: [
+                    ...postData.questions,
+                    ...survey.map((item, index) => (
+                        {
+                            questionType: survey[index].type,
+                            name: survey[index].q,
+                            number: String(survey[index].id + 1),
+                            answerRequired: survey[index].required
+                        }
+                    ))
+                ]
+            }
+        ))
+
+    }
+
+    useDidMountEffect(() => {
+        dispatch({ type: 'ADDSURVEY', data: postData })
+    }, [postData]);
+
+
     useEffect(() => {
         window.scrollTo(0, scrollRef.current.scrollHeight)
     }, [survey.length]) //survey에 새로운 질문이 추가되었을때(==survey.length변화) 스크롤을 가장 아래로 내린다.
@@ -184,7 +243,7 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 항목 부분 */}
             {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
-                <BlockDiv key={index}>
+                <BlockDiv key={index} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <ItemDiv>
                         <NumberingDiv>
                             <span>{index + 1}</span>
@@ -200,20 +259,20 @@ function Mksurvey() { // Make Survey
                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                 name="row-radio-buttons-group"
                             >
-                                <FormControlLabel value="multi_choice" control={<Radio />} label="객관식" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'multi_choice', mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel value="3" control={<Radio />} label="객관식" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '3', mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="short_subjective" control={<Radio />} label="단답형" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'short_subjective' } : item)) // 단답형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel value="2" control={<Radio />} label="단답형" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '2' } : item)) // 단답형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="long_subjective" control={<Radio />} label="장문형" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'long_subjective' } : item)) // 장문형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel value="1" control={<Radio />} label="장문형" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '1' } : item)) // 장문형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="scroll" control={<Radio />} label="감정바" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'scroll' } : item)) // 감정바 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel value="5" control={<Radio />} label="감정바" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '5' } : item)) // 감정바 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="linear" control={<Radio />} label="선형표현" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: 'linear' } : item)) // 선형표현 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel value="6" control={<Radio />} label="선형표현" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '6' } : item)) // 선형표현 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
                                 <FormControlLabel value="other" control={<Radio />} label="추가기능" disabled />
                             </RadioGroup>
@@ -221,7 +280,7 @@ function Mksurvey() { // Make Survey
                     </ItemDiv>
                     <ItemDiv>
                         {/* 객관식, 주관식, 감정바, 선형표현를 선택함에 따라 다른 정보를 수집 */}
-                        {survey[index].type === 'multi_choice' &&
+                        {survey[index].type === '3' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -243,7 +302,7 @@ function Mksurvey() { // Make Survey
 
                             </>
                         }
-                        {survey[index].type === 'short_subjective' &&
+                        {survey[index].type === '2' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input placeholder='' data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -254,7 +313,7 @@ function Mksurvey() { // Make Survey
                                     label="필수답변"
                                 />
                             </>}
-                        {survey[index].type === 'long_subjective' &&
+                        {survey[index].type === '1' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -265,7 +324,7 @@ function Mksurvey() { // Make Survey
                                     label="필수답변"
                                 />
                             </>}
-                        {survey[index].type === 'scroll' &&
+                        {survey[index].type === '5' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -276,7 +335,7 @@ function Mksurvey() { // Make Survey
                                     label="필수답변"
                                 />
                             </>}
-                        {survey[index].type === 'linear' &&
+                        {survey[index].type === '6' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%', borderRight: '0px' }} onChange={onChange}></input><hr />
@@ -303,9 +362,7 @@ function Mksurvey() { // Make Survey
                     }}>
                     질문 추가
                 </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Link to="/dashboard">
-                    <Button onClick={onSummit} variant="contained" color="success">설문 생성하기</Button>
-                </Link>
+                <Button onClick={onSummit} variant="contained" color="success">설문 생성하기</Button>
             </FuncDiv>
         </div >
     );
