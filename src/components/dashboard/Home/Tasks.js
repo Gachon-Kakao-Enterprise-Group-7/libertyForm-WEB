@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-// import Task from 'components/Common/Task';
+import TaskList from './TaskList';
 // import { getTasks } from 'store/tasks/selectors';
 
 const Wrapper = styled.div `
@@ -30,7 +30,7 @@ const TasksWrapper = styled.div `
   display: flex;
   flex-wrap: wrap;
 `;
- const Tasks = props => {
+const Tasks = props => {
     // const { tasks } = props;
     // const tasksList = tasks.map((item) => (React.createElement(Task, { data: item, key: item.id })));
     return (
@@ -39,8 +39,9 @@ const TasksWrapper = styled.div `
             <TeamsTitle>Tasks</TeamsTitle>
           </Header>
           <Teams>
-            <TasksWrapper>sfsfffs</TasksWrapper>
-            <TasksWrapper>dddd</TasksWrapper>
+            <TasksWrapper>
+              <TaskList></TaskList>
+            </TasksWrapper>
           </Teams>
         </Wrapper>
       )
