@@ -10,7 +10,7 @@ import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이�
 import styled from 'styled-components'; //styled-components사용
 import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
 
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 const LeftDiv = styled.div`
@@ -78,7 +78,7 @@ function Dashboard() {
     const isTabletOrMobileDevice = useMediaQuery({ maxDeviceWidth: 1224 }) // 모바일, 테블릿에서 보여질 화면
 
     const state = useSelector(state => state.survey)
-
+    console.log(state)
     const dispatch = useDispatch()
 
 
@@ -109,15 +109,15 @@ function Dashboard() {
                                     <TitleDiv>진행중 설문<hr></hr></TitleDiv>
                                     <div >
                                         <Grid container spacing={6}>
-                                            {state.filter(survey => survey.finish === false).map((survey, index) => {
+                                            {state.map((survey, index) => {
                                                 return (
                                                     <Grid item xs={12} sm={4}>
                                                         <SurveyDiv>
-                                                            <div>{survey.title}</div>
-                                                            <div>문항수 : {survey.question}</div>
+                                                            <div>{survey.survey.name}</div>
+                                                            <div>문항수 : {survey.questions.length}</div>
                                                             <hr />
                                                             <Button variant="contained" disabled style={{ marginRight: '0.5rem' }} color="primary" onClick={() => { console.log(survey) }}>수정하기</Button>
-                                                            <Button variant="contained" color="error" onClick={()=>{dispatch({type:'DELSURVEY', data:survey})}}>삭제하기</Button>
+                                                            <Button variant="contained" color="error" onClick={() => { dispatch({ type: 'DELSURVEY', data: survey }) }}>삭제하기</Button>
                                                         </SurveyDiv>
                                                     </Grid>
                                                 )
@@ -125,7 +125,7 @@ function Dashboard() {
                                         </Grid>
                                     </div>
                                 </ProgressDiv>
-                                <ProgressDiv style={{ marginTop:'30px'}}>
+                                <ProgressDiv style={{ marginTop: '30px' }}>
                                     <TitleDiv>완료된 설문<hr></hr></TitleDiv>
                                     <div>
                                         <Grid container spacing={4}>
@@ -137,7 +137,7 @@ function Dashboard() {
                                                             <div>문항수 : {survey.question}</div>
                                                             <hr />
                                                             <Button style={{ marginRight: '0.5rem' }} variant="contained" color="primary" >분석보기</Button>
-                                                            <Button variant="contained" color="error" onClick={()=>{dispatch({type:'DELSURVEY', data:survey})}}>삭제하기</Button>
+                                                            <Button variant="contained" color="error" onClick={() => { dispatch({ type: 'DELSURVEY', data: survey }) }}>삭제하기</Button>
                                                         </SurveyDiv>
                                                     </Grid>
                                                 )
