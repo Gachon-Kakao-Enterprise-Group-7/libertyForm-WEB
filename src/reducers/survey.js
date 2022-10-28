@@ -33,7 +33,7 @@ const initialstate = [
         surveyId: 6,
         title: 'XX시설 만족도 조사',
         question: 999,
-        finish: true
+        finish: false
     },
     {
         surveyId: 7,
@@ -51,7 +51,7 @@ const initialstate = [
         surveyId: 9,
         title: 'DD시설 만족도 조사',
         question: 12,
-        finish: true
+        finish: false
     },
     {
         surveyId: 10,
@@ -71,6 +71,16 @@ export default function surveyReducer(state = initialstate, action) {
             const title = action.title
             const survey = action.survey
             return [...state, { surveyId: 11, title: title, question: survey.length, finish: false, survey }]
+        case 'DELSURVEY':
+            const checkDelete = window.confirm('정말로 삭제하시겠습니까?')
+            if(checkDelete){
+                const surveyid = action.data.surveyId // 내가 삭제하기 버튼을 누른 설문의 id 
+                console.log(surveyid)
+                return state.filter((survey)=> survey.surveyId !== surveyid)
+            }
+            else{
+                return state
+            }
         default:
             return state
     }

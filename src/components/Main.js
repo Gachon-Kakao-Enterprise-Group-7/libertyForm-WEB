@@ -6,6 +6,8 @@ import background4 from "../img/background4.jpg"
 import background5 from "../img/background5.jpg"
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 
+import { motion } from "framer-motion"
+
 import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
@@ -31,12 +33,13 @@ const Spacingdiv = styled.div`
 
 `
 
-const Bodydiv = styled.div`
+const Bodydiv = styled(motion.div)`
     color: white;
     width: 80%;
     text-align: center;
     align-items: center;
     margin: auto;
+    
 `
 const H1slogan = styled.h1`
     font-family: var(--font-NotoSans);
@@ -117,15 +120,15 @@ function Main() {
     return (
         <Backgrounddiv>
             <Spacingdiv></Spacingdiv>
-            <Bodydiv>
+            <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
                 <H1slogan>자유롭고 편리한 소통의 시작</H1slogan>
             </Bodydiv>
-            <Bodydiv>
+            <Bodydiv whileHover={{ scale: 1.1 }}>
                 <H2slogan>누구든지 편하고, 자유롭게 이용하고, 당신의 의견을 표현하세요</H2slogan>
             </Bodydiv>
-            <Bodydiv>
+            <Bodydiv >
                 <Link to="/Dashboard">
-                    <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
+                    <Mainbutton  onClick={() => { dispatch({ type: 'TEST' }) }}>
                         시작하기
                     </Mainbutton>
                 </Link>

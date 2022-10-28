@@ -25,7 +25,7 @@ function Navs() {
     }
 
     return (
-        <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
+        <Navbar collapseOnSelect expand="lg" style={{backgroundColor:'#252525'}} variant="dark" >
             <Container>
                 {/* <Logo to = "/"></Logo> */}
                 <Navbar.Brand href="/">Libertyform</Navbar.Brand>
