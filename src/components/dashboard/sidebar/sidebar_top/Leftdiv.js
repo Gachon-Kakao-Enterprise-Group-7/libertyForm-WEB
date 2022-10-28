@@ -20,6 +20,7 @@ const Wrapper = styled.div`
     padding-top: 1vw;
     padding-left: 1rem;
     padding-right: 1rem;
+    justify-content: space-between;
 `
 
 function Leftdiv() {

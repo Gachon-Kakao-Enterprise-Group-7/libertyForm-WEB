@@ -22,12 +22,12 @@ const itemsData = [
   {
     name: 'Dashboard',
     icon: IconDashboard(),
-    link: '/mksurvey'
+    link: '/content'
   },
   {
     name: '새로운 설문 생성',
     icon: IconMessages(),
-    link: '/mksurvey'
+    link: '/dcontent'
   },
   {
     name: '설문결과 분석',

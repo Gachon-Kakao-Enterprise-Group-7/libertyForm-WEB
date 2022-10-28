@@ -7,7 +7,7 @@ import HeaderItems from './Items'
 
 
 const Wrapper = styled.div`
-  height: 350px;
+  height: 250px;
   padding: 20px 20px 10px 20px;
   display: flex;
   justify-content: center;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
 `
 const Main = styled.div`
-  height: 300px;
+  height: 200px;
   width: 230px;
   border-bottom: 1px solid #f1f1f5;
 `
