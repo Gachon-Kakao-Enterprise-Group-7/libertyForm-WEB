@@ -27,10 +27,12 @@ const Bodydiv = styled(motion.div)`
 const H1slogan = styled.h1`
     font-family: var(--font-NotoSans);
     font-size: 5vw;
+    cursor: context-menu;
 `
 const H2slogan = styled.h2`
     padding-top: 1vw;
     font-size: 1.8vw;
+    cursor: context-menu;
 `
 const Mainbutton = styled.button`
     font-family: 'Montserrat', sans-serif;
@@ -105,20 +107,20 @@ function Main() {
 
     useEffect(() => {
         if (!vantaEffect) {
-          setVantaEffect(
-            CLOUD({
-              el: vantaRef.current,
-              THREE: THREE,
-              mouseControls: true,
-              touchControls: true,
-              gyroControls: false,
-              minHeight: 200.0,
-              minWidth: 200.0,
-            })
-          );
+            setVantaEffect(
+                CLOUD({
+                    el: vantaRef.current,
+                    THREE: THREE,
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.0,
+                    minWidth: 200.0,
+                })
+            );
         }
         return () => {
-          if (vantaEffect) vantaEffect.destroy();
+            if (vantaEffect) vantaEffect.destroy();
         };
     }, [vantaEffect]);
 
