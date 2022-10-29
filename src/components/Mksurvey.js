@@ -20,20 +20,21 @@ import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 
 const BlockDiv = styled(motion.div)`
-    background-color: #e5e6f794;
+    background-color: #fafafa;
     margin: auto;
     margin-top: 3vw;
     padding: 1rem;
     width: 50vw;
     border-radius: 1rem;
-    box-shadow: 10px 5px 5px #bdbdbd;
+    //box-shadow: 10px 5px 5px #bdbdbd;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	height:auto;
 
     transition:all 200ms linear;
 
     :hover{
-        box-shadow: 10px 5px 5px #656565;
+        background-color: #f2f2f2;
+        //box-shadow: 10px 5px 5px #d6d6d6;
     }
 `
 const ItemDiv = styled.div`

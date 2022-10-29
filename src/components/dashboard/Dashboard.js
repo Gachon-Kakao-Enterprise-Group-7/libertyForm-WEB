@@ -3,7 +3,8 @@ import styled from 'styled-components'; //styled-components사용
 
 import Sidebar from './sidebar/Sidebar'
 import Navs from './Navs'
-
+import ContentTasks from './Home/Tasks.js'
+import Mksurvey from '../Mksurvey';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -42,23 +43,27 @@ const HeaderContent = styled.div`
   align-items: center;
   height: 38px;
 `
-
+const WelcomeText = styled.span`
+  font-size: 18px;
+  letter-spacing: 0.1px;
+  color: #92929d;
+  margin-left: 10px;
+  font-family: 'Roboto', sans-serif;
+`
 
 const Dashboard = () => {
 
   return (
-
     <>
       <Navs />
       <MainWrapper>
         <Sidebar />
         <Wrapper>
           <HeaderContent>
-            <div>
-              {/* <Username>안녕,</Username> */}
-              <Text>설문지 대시보드입니다.</Text>
-            </div>
+            <Username>Hi Woojin,</Username>
+            <WelcomeText>here’s your currently projects</WelcomeText>
           </HeaderContent>
+          <ContentTasks />
         </Wrapper>
       </MainWrapper>
     </>

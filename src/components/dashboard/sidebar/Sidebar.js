@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Doughnut} from 'react-chartjs-2'; //styled-components사용
+import { Doughnut } from 'react-chartjs-2'; //styled-components사용
 import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
 import { useSelector } from 'react-redux';
 import ReactDOM from "react-dom";
@@ -71,7 +71,7 @@ const itemsData = [
   {
     name: 'Dashboard',
     icon: IconDashboard(),
-    link: '/dcontent'
+    link: '/dashboard'
   },
   {
     name: '새로운 설문 생성',
@@ -81,22 +81,22 @@ const itemsData = [
   {
     name: '설문결과 분석',
     icon: IconTasks(),
-    link: ''
+    link: '/default'
   },
   {
     name: '발송자 관리',
     icon: IconSchedule(),
-    link: ''
+    link: '/default'
   },
   {
     name: 'Activity',
     icon: IconActivity(),
-    link: ''
+    link: '/default'
   },
   {
     name: 'Settings',
     icon: IconSettings(),
-    link: ''
+    link: '/default'
   }
 ]
 
@@ -112,7 +112,7 @@ const Sidebar = () => {
       <TopWrapper>
         <Main>
           <DWrapper>
-            <Demo/>
+            <Demo />
           </DWrapper>
         </Main>
       </TopWrapper>

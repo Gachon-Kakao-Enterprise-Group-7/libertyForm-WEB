@@ -5,6 +5,8 @@ import ContentTasks from './Tasks'
 import Sidebar from '.././sidebar/Sidebar'
 import Navs from '.././Navs'
 
+import Mksurvey from '../../Mksurvey'
+
 const HeaderContent = styled.div`
   display: flex;
   align-items: center;
@@ -49,17 +51,17 @@ const MainWrapper = styled.div`
 const Content = () => {
   return (
     <>
-    <Navs/>
-    <MainWrapper>
-    <Sidebar />
-    <Wrapper>
-      <HeaderContent>
-        <Username>Hi James,</Username>
-        <WelcomeText>here’s your currently projects</WelcomeText>
-      </HeaderContent>
-      <ContentTasks />
-    </Wrapper>
-    </MainWrapper>
+      <>
+        <Navs />
+        <MainWrapper>
+          <Sidebar />
+          <Wrapper>
+            <HeaderContent>
+            </HeaderContent>
+            <Mksurvey />
+          </Wrapper>
+        </MainWrapper>
+      </>
     </>
   )
 }
