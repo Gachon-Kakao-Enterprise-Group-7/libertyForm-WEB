@@ -1,17 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-
-import ProgressBar from 'react-bootstrap/ProgressBar';
-
-import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
-
-
 import styled from 'styled-components'; //styled-components사용
-import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
-
-import { useSelector } from 'react-redux';
 
 import Sidebar from './sidebar/Sidebar'
 import Navs from './Navs'
@@ -56,12 +44,12 @@ const HeaderContent = styled.div`
 `
 
 
-const Dashboard_g = () => {
+const Dashboard = () => {
 
   return (
 
     <>
-    <Navs/>
+      <Navs />
       <MainWrapper>
         <Sidebar />
         <Wrapper>
@@ -79,4 +67,4 @@ const Dashboard_g = () => {
   );
 }
 
-export default Dashboard_g;
+export default Dashboard;

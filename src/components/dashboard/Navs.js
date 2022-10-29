@@ -36,10 +36,10 @@ const Navs = () => {
     <Wrapper>
       <LogoWrapper>
         <Link to='/'>
-           <Title>LibertyFrom</Title>
+          <Title>LibertyFrom</Title>
         </Link>
       </LogoWrapper>
-      {/* <ActionsWrapper>
+      {/* <ActionsWrapper>g_
         <Actions />
       </ActionsWrapper> */}
     </Wrapper>

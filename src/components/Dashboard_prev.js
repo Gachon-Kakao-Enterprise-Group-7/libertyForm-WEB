@@ -72,7 +72,7 @@ function AnimatedExample() {
     return <ProgressBar animated now={45} />;
 }
 
-function Dashboard() {
+function Dashboard_prev() {
 
     const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 }) // 데스크탑 에서 보여질 화면
     const isTabletOrMobileDevice = useMediaQuery({ maxDeviceWidth: 1224 }) // 모바일, 테블릿에서 보여질 화면
@@ -199,4 +199,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default Dashboard_prev;
