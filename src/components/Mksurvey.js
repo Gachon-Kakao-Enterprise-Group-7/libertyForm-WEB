@@ -11,11 +11,13 @@ import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
 import Input from '@mui/material/Input';
 
-import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
-
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion" // 애니메이션 효과
+
+import DatePicker from "react-datepicker";//리액트 캘린더 라이브러리
+import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
+import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 
 const BlockDiv = styled(motion.div)`
     background-color: #e5e6f794;
@@ -76,7 +78,6 @@ const StyledLi = styled.li`
     }
     transition:all 100ms linear;
 `
-
 const StyledOl = styled.ol`
     list-style: none;
     counter-reset: item;
@@ -84,7 +85,6 @@ const StyledOl = styled.ol`
     margin-top: 0.5rem;
 
 `
-
 const McitemAddBtn = styled.button`
     width:10%;
     :hover{
@@ -101,13 +101,23 @@ const McitemAddBtn = styled.button`
     border-color: #cfcfcf;
     transition:all 200ms linear;
 `
-
+const StyledDatePicker = styled(DatePicker)`
+    margin-top: 1.5rem;
+    width: 300px;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 12px;
+`
 
 
 function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
-    const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 useState
+    const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
+    const [expireDate, setExpireDate] = useState(new Date()) // 만료 날짜를 설정하는 State
+    const [convertedDate, setConvertedDate] = useState('2099-12-30')
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
 
     const [postData, setPostData] = useState({
@@ -132,10 +142,6 @@ function Mksurvey() { // Make Survey
     })
 
 
-
-
-
-
     // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
     // console.log(survey) // 사용자의 입력을 받은 survey 양식
 
@@ -144,9 +150,6 @@ function Mksurvey() { // Make Survey
     const state = useSelector((state) => state.survey)
     console.log(state)
     const dispatch = useDispatch()
-
-
-
 
 
     const onChange = (e) => {
@@ -170,12 +173,14 @@ function Mksurvey() { // Make Survey
 
     }
 
+
     const onToggle = (e) => {
         console.log('ontoggle작동')
         const targetId = parseInt(e.target.name)
         console.log(targetId)
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, required: !item.required } : item))
     }
+
 
     const delMcItem = (e) => {
         const index = parseInt(e.target.dataset.id)
@@ -186,6 +191,7 @@ function Mksurvey() { // Make Survey
         setSurvey(survey.map((item) => item.id === index ? { ...item, mcitem: temp } : item))
     }
 
+
     const onLoadFile = (e) => {
         const formData = new FormData()
         formData.append('image', e.target.files[0])
@@ -195,13 +201,15 @@ function Mksurvey() { // Make Survey
 
     }
 
+
     const onSummit = () => {
         setPostData((
             {
                 ...postData,
                 survey: {
                     ...postData.survey,
-                    name: title
+                    name: title,
+                    expirationDate: convertedDate,
                 },
                 questions: [
                     ...postData.questions,
@@ -217,6 +225,15 @@ function Mksurvey() { // Make Survey
             }
         ))
 
+    }
+
+    const changeDate = (date) => { // 날짜 형식을 백엔드에 보내줘야 할 양식으로 변환하는 함수
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+        setExpireDate(date) // 사용자 화면에 보여지기 위한 Date State
+        setConvertedDate(date.getFullYear() + '-' + month + '-' + day + ':00:00:00') // 백엔드에 보내기 위한 Date
     }
 
     useDidMountEffect(() => {
@@ -236,6 +253,8 @@ function Mksurvey() { // Make Survey
                 <ItemDiv>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 이름을 입력해 주세요</div>
                     <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
+                    <StyledDatePicker selected={expireDate} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
                     <input disabled type="file" onChange={onLoadFile}></input>
                 </ItemDiv>
