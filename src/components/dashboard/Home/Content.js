@@ -54,11 +54,9 @@ const Content = () => {
     <Sidebar />
     <Wrapper>
       <HeaderContent>
-      <div>
         <Username>Hi James,</Username>
         <WelcomeText>here’s your currently projects</WelcomeText>
-      </div>
-    </HeaderContent>
+      </HeaderContent>
       <ContentTasks />
     </Wrapper>
     </MainWrapper>
