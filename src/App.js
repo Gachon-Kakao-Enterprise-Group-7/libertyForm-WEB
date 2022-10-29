@@ -4,10 +4,10 @@ import Navs from './components/Navs';
 import Notfound from './components/Notfound';
 import Login from './components/Login';
 import Signin from './components/Signin';
-import Dashboard from './components/Dashboard';
+import Dashboard_prev from './components/Dashboard_prev';
 import Mksurvey from './components/Mksurvey';
 import Kakaologin from './components/Kakaologin';
-import Dashboard_g from './components/dashboard/Dashboard_g';
+import Dashboard from './components/dashboard/Dashboard';
 import Dcontent from './components/dashboard/Home/Content';
 
 
@@ -28,7 +28,7 @@ function App() {
           <Route path="/signin" element={<><Signin /></>}></Route>
           <Route path="/login" element={<><Login /></>}></Route>
           <Route path='/dcontent' element={<><Dcontent /></>}></Route>
-          <Route path="/dashboard_g" element={<><Dashboard_g /></>}></Route>
+          <Route path="/dashboard_prev" element={<><Dashboard_prev /></>}></Route>
           <Route path="/kakaologin" element={<><Kakaologin /></>}></Route>
           {localStorage.getItem('email') //로그인된 여부에 따라 경로를 다르게 설정함
             ? <Route path='/dashboard' element={<><Dashboard /></>}></Route>

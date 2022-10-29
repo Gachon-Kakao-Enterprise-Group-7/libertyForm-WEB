@@ -78,8 +78,6 @@ function Login() {
                 </CardHeader>
 
                 <CardBody>
-
-
                     <CardFieldset>
                         <CardInput
                             placeholder="E-mail"
