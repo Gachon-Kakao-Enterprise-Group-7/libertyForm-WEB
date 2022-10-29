@@ -8,7 +8,7 @@ import { Flex, Box } from '@semcore/flex-box';
 import Checkbox from '@semcore/checkbox';
 
 const data = [
-  { domain: '진행설문', value: 6 },
+  { domain: '진행설문', value: 8 },
   { domain: '완료설문', value: 4 },
 ];
 
@@ -25,7 +25,7 @@ function formatThousands(n) {
 }
 
 class Demo extends PureComponent {
-  
+
   constructor(props) {
     super(props);
     this.commonValue = data.reduce((acc, entry) => acc + entry.value, 0);
@@ -64,13 +64,13 @@ class Demo extends PureComponent {
 
     return (
       <div>
-        <Flex alignItems="center" justifyContent="space-between">
-          <Text tag="h3" size={400} medium m={0}>
-            설문지 현황
+        <Flex alignItems="center" justifyContent="center">
+          <Text style={{ fontWeight: 'bold' }} tag="h3" size={400} medium m={0}>
+            설문 현황
           </Text>
         </Flex>
-        <Flex mt={3} alignItems="flex-start" flexWrap>
-          <PieChart height={196} width={196} style={{ margin: '0 20px 24px 0' }}>
+        <Flex mt={3} alignItems="center" justifyContent="center" flexWrap>
+          <PieChart height={196} width={196} style={{ margin: 'auto' }}>
             <Pie
               activeIndex={activeIndex}
               activeShape={{ outerRadius: 98, style: { cursor: 'pointer' } }}
@@ -172,7 +172,7 @@ class Demo extends PureComponent {
             })}
           </Text>
         </Flex>
-        </div>
+      </div>
     );
   }
 }
