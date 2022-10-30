@@ -28,6 +28,7 @@ function App() {
           <Route path="/signin" element={<><Signin /></>}></Route>
           <Route path="/login" element={<><Login /></>}></Route>
           <Route path="/dashboard_prev" element={<><Dashboard_prev /></>}></Route>
+          {/* dashboard_prev 임시로 사용 가능! */}
           <Route path="/kakaologin" element={<><Kakaologin /></>}></Route>
           {localStorage.getItem('email') //로그인된 여부에 따라 경로를 다르게 설정함
             ? <Route path='/dashboard' element={<><Dashboard /></>}></Route>
@@ -35,6 +36,7 @@ function App() {
           }
           <Route path='/mksurvey' element={<><Dcontent /></>}></Route>
           <Route path='/mksurvey_prev' element={<><Mksurvey /></>}></Route>
+          {/* mksurvey_prev 임시로 사용 가능! */}
           <Route path="*" element={<Notfound />}></Route>
         </Routes>
       </AnimatePresence>
