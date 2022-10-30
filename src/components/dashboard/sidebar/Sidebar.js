@@ -81,7 +81,7 @@ const itemsData = [
   {
     name: '설문결과 분석',
     icon: IconTasks(),
-    link: '/default'
+    link: '/ansurvey'
   },
   {
     name: '발송자 관리',
