@@ -60,8 +60,8 @@ const TaskList = props => {
           {/* <Info data={data} /> */}
           <Users>설문 문항 수 : {survey.questions.length + survey.choiceQuestions.length}</Users>
           {(new Date(survey.survey.expirationDate) > now) // 지금 시간보다 설문 만료시간이 더 멀어야 진행중이다.
-            ? <ProgressDiv color='#afc4e7'>진행중</ProgressDiv>
-            : <ProgressDiv color='#fc7399'>만료됨</ProgressDiv>
+            ? <ProgressDiv color='#afc4e7'>진행중,{survey.survey.expirationDate}</ProgressDiv>
+            : <ProgressDiv color='#fc7399'>만료됨,{survey.survey.expirationDate}</ProgressDiv>
           }
 
         </Wrapper>
