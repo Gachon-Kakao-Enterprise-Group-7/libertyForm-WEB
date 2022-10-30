@@ -7,6 +7,10 @@ import { Text } from '@semcore/typography';
 import { Flex, Box } from '@semcore/flex-box';
 import Checkbox from '@semcore/checkbox';
 
+import { useSelector } from 'react-redux';
+
+
+
 const data = [
   { domain: '진행설문', value: 8 },
   { domain: '완료설문', value: 4 },
@@ -25,6 +29,8 @@ function formatThousands(n) {
 }
 
 class Demo extends PureComponent {
+
+
 
   constructor(props) {
     super(props);
