@@ -18,6 +18,7 @@ import { motion } from "framer-motion" // 애니메이션 효과
 import DatePicker from "react-datepicker";//리액트 캘린더 라이브러리
 import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
+import axios from 'axios';
 
 const BlockDiv = styled(motion.div)`
     background-color: #fafafa;
@@ -173,14 +174,14 @@ function Mksurvey() { // Make Survey
                     ...postData.choiceQuestions,
                     ...survey.filter((item) => (item.type === '3')).map((item, index) => ( //여기 괄호 안이 한질문임!
                         {
-                            choices: [
+                            choices:
                                 item.mcitem.map((mcitem, index) => (
                                     {
                                         name: mcitem,
                                         number: index + 1
                                     }
                                 ))
-                            ],
+                            ,
                             question: {
                                 questionTypeId: item.type,
                                 name: item.q,
@@ -281,6 +282,8 @@ function Mksurvey() { // Make Survey
 
     useDidMountEffect(() => {
         dispatch({ type: 'ADDSURVEY', data: postData })
+        console.log('useEffect 실행')
+
     }, [postData]);
 
 
@@ -292,7 +295,15 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
-
+    const sendToServer = async () => {
+        await axios.post("/survey/create", postData)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((Error) => {
+                console.log(Error)
+            })
+    }
 
 
 
@@ -343,7 +354,6 @@ function Mksurvey() { // Make Survey
                                 <FormControlLabel value="6" control={<Radio />} label="선형표현" onClick={(e) => {
                                     setSurvey(survey.map((item) => item.id === index ? { ...item, type: '6' } : item)) // 선형표현 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="other" control={<Radio />} label="추가기능" disabled />
                             </RadioGroup>
                         </FormControl>
                     </ItemDiv>
@@ -432,6 +442,12 @@ function Mksurvey() { // Make Survey
                     질문 추가
                 </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
                 <Button onClick={onSummit} variant="contained" color="success">설문 생성하기</Button>
+                <button onClick={sendToServer}>서버에 전송하기</button>
+                <button onClick={() => {
+                    const jsondata = JSON.stringify(postData)
+                    console.log(jsondata)
+                }}>JSON타입으로 파싱하기</button>
+
             </FuncDiv>
         </div >
     );
