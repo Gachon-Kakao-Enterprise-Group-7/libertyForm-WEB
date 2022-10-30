@@ -17,7 +17,7 @@ const Spacingdiv = styled.div`
 `
 
 const Bodydiv = styled(motion.div)`
-    color: lightslategrey;
+    color: #0a1545;
     width: 80%;
     text-align: center;
     align-items: center;
@@ -134,7 +134,7 @@ function Main() {
                 <H2slogan>누구든지 편하고, 자유롭게 이용하고, 당신의 의견을 표현하세요</H2slogan>
             </Bodydiv>
             <Bodydiv >
-                <Link to="/Dashboard">
+                <Link to="/dashboard">
                     <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
                         시작하기
                     </Mainbutton>

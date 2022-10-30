@@ -18,22 +18,24 @@ import { motion } from "framer-motion" // 애니메이션 효과
 import DatePicker from "react-datepicker";//리액트 캘린더 라이브러리
 import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
+import axios from 'axios';
 
 const BlockDiv = styled(motion.div)`
-    background-color: #e5e6f794;
+    background-color: #fafafa;
     margin: auto;
     margin-top: 3vw;
     padding: 1rem;
     width: 50vw;
     border-radius: 1rem;
-    box-shadow: 10px 5px 5px #bdbdbd;
+    //box-shadow: 10px 5px 5px #bdbdbd;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	height:auto;
 
     transition:all 200ms linear;
 
     :hover{
-        box-shadow: 10px 5px 5px #656565;
+        background-color: #f2f2f2;
+        //box-shadow: 10px 5px 5px #d6d6d6;
     }
 `
 const ItemDiv = styled.div`
@@ -128,8 +130,7 @@ function Mksurvey() { // Make Survey
         },
         questions: [
             // { //이 부분은 계속 누적하는 부분이라 기본값이 있으면 안된다.
-            //     surveyId: '',//설문 고유 ID -> 이거 백에서 필요없다고 한거같은데...
-            //     questionType: '', // 질문 타입
+            //     questionTypeId: '', // 질문 타입
             //     name: '', // 질문 이름
             //     description: '',//추가 설명
             //     number: '',//질문 번호
@@ -137,23 +138,91 @@ function Mksurvey() { // Make Survey
             //     questionImgUrl: '',
             //     answerRequired: '',
             // 
+        ],
+        choiceQuestions: [
+            // {
+            //     choices: [
+            //         {
+            //             name: '', //객관식 선택부분 이름
+            //             number: '' //객관식 선택 번호
+            //         }
+            //     ],
+            //     qeustion: {
+            //         questionTypeId: '',
+            //         answerRequired: '', // 필수답변 여부
+            //         backgroundImgUrl: '',
+            //         questionImgUrl: '',
+            //         name: '', // 질문 이름
+            //         description: '',
+            //         number: ''//질문 번호
+            //     }
+            // }
         ]
 
     })
 
+    const onSummit = () => {
+        setPostData((
+            {
+                ...postData,
+                survey: {
+                    ...postData.survey,
+                    name: title,
+                    expirationDate: convertedDate,
+                },
+                choiceQuestions: [
+                    ...postData.choiceQuestions,
+                    ...survey.filter((item) => (item.type === '3')).map((item, index) => ( //여기 괄호 안이 한질문임!
+                        {
+                            choices:
+                                item.mcitem.map((mcitem, index) => (
+                                    {
+                                        name: mcitem,
+                                        number: index + 1
+                                    }
+                                ))
+                            ,
+                            question: {
+                                questionTypeId: item.type,
+                                name: item.q,
+                                number: String(item.id + 1),
+                                answerRequired: item.required
+                            }
+                        }
+                    ))
+                ],
+                questions: [
+                    ...postData.questions,
+                    ...survey.filter((item) => (item.type !== '3')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
+                        {
+                            questionTypeId: item.type,
+                            name: item.q,
+                            number: String(item.id + 1),
+                            answerRequired: item.required
+                        }
+
+                    ))
+                ]
+            }
+        ))
+
+    }
+
+
+
+
 
     // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
-    // console.log(survey) // 사용자의 입력을 받은 survey 양식
+    console.log(survey) // 사용자의 입력을 받은 survey 양식
 
     const id = useRef(1) // servey 문제마다 id값을 주기 위함
     const scrollRef = useRef() // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
     const state = useSelector((state) => state.survey)
-    console.log(state)
+
     const dispatch = useDispatch()
 
 
     const onChange = (e) => {
-        console.log('onChange작동')
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
         const q = e.target.value //사용자가 input태그에 입력한 값
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
@@ -175,9 +244,7 @@ function Mksurvey() { // Make Survey
 
 
     const onToggle = (e) => {
-        console.log('ontoggle작동')
         const targetId = parseInt(e.target.name)
-        console.log(targetId)
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, required: !item.required } : item))
     }
 
@@ -202,30 +269,7 @@ function Mksurvey() { // Make Survey
     }
 
 
-    const onSummit = () => {
-        setPostData((
-            {
-                ...postData,
-                survey: {
-                    ...postData.survey,
-                    name: title,
-                    expirationDate: convertedDate,
-                },
-                questions: [
-                    ...postData.questions,
-                    ...survey.map((item, index) => (
-                        {
-                            questionType: survey[index].type,
-                            name: survey[index].q,
-                            number: String(survey[index].id + 1),
-                            answerRequired: survey[index].required
-                        }
-                    ))
-                ]
-            }
-        ))
 
-    }
 
     const changeDate = (date) => { // 날짜 형식을 백엔드에 보내줘야 할 양식으로 변환하는 함수
         let month = date.getMonth() + 1;
@@ -233,17 +277,34 @@ function Mksurvey() { // Make Survey
         month = month >= 10 ? month : '0' + month;
         day = day >= 10 ? day : '0' + day;
         setExpireDate(date) // 사용자 화면에 보여지기 위한 Date State
-        setConvertedDate(date.getFullYear() + '-' + month + '-' + day + ':00:00:00') // 백엔드에 보내기 위한 Date
+        setConvertedDate(date.getFullYear() + '-' + month + '-' + day) // 백엔드에 보내기 위한 Date
     }
 
     useDidMountEffect(() => {
         dispatch({ type: 'ADDSURVEY', data: postData })
+        console.log('useEffect 실행')
+
     }, [postData]);
 
 
     useEffect(() => {
         window.scrollTo(0, scrollRef.current.scrollHeight)
     }, [survey.length]) //survey에 새로운 질문이 추가되었을때(==survey.length변화) 스크롤을 가장 아래로 내린다.
+
+    useEffect(() => {
+        console.log(state)
+    }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
+
+    const sendToServer = async () => {
+        await axios.post("/survey/create", postData)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((Error) => {
+                console.log(Error)
+            })
+    }
+
 
 
     return (
@@ -254,7 +315,7 @@ function Mksurvey() { // Make Survey
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 이름을 입력해 주세요</div>
                     <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
-                    <StyledDatePicker selected={expireDate} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
+                    <StyledDatePicker selected={expireDate} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
                     <input disabled type="file" onChange={onLoadFile}></input>
                 </ItemDiv>
@@ -293,7 +354,6 @@ function Mksurvey() { // Make Survey
                                 <FormControlLabel value="6" control={<Radio />} label="선형표현" onClick={(e) => {
                                     setSurvey(survey.map((item) => item.id === index ? { ...item, type: '6' } : item)) // 선형표현 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="other" control={<Radio />} label="추가기능" disabled />
                             </RadioGroup>
                         </FormControl>
                     </ItemDiv>
@@ -382,6 +442,12 @@ function Mksurvey() { // Make Survey
                     질문 추가
                 </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
                 <Button onClick={onSummit} variant="contained" color="success">설문 생성하기</Button>
+                <button onClick={sendToServer}>서버에 전송하기</button>
+                <button onClick={() => {
+                    const jsondata = JSON.stringify(postData)
+                    console.log(jsondata)
+                }}>JSON타입으로 파싱하기</button>
+
             </FuncDiv>
         </div >
     );

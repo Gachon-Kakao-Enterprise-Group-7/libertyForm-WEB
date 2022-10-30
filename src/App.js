@@ -27,14 +27,14 @@ function App() {
           <Route path="/" element={<><Main /></>}></Route>
           <Route path="/signin" element={<><Signin /></>}></Route>
           <Route path="/login" element={<><Login /></>}></Route>
-          <Route path='/dcontent' element={<><Dcontent /></>}></Route>
           <Route path="/dashboard_prev" element={<><Dashboard_prev /></>}></Route>
           <Route path="/kakaologin" element={<><Kakaologin /></>}></Route>
           {localStorage.getItem('email') //로그인된 여부에 따라 경로를 다르게 설정함
             ? <Route path='/dashboard' element={<><Dashboard /></>}></Route>
             : <Route path='/dashboard' element={<><Login /></>}></Route>
           }
-          <Route path='/mksurvey' element={<><Mksurvey /></>}></Route>
+          <Route path='/mksurvey' element={<><Dcontent /></>}></Route>
+          <Route path='/mksurvey_prev' element={<><Mksurvey /></>}></Route>
           <Route path="*" element={<Notfound />}></Route>
         </Routes>
       </AnimatePresence>

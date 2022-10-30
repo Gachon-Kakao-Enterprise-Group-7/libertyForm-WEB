@@ -6,6 +6,7 @@ import styled from 'styled-components'
 // import Titles from 'components/Common/Task/Titles'
 // import TaskModal from 'components/Common/TaskModal'
 
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Wrapper = styled.div`
@@ -25,6 +26,7 @@ const Wrapper = styled.div`
 const Titles = styled.div`
   color: #171725;
   margin-bottom: 7px;
+  font-weight: bold;
   /* text-decoration: 
     props.data.score.days === 0 && 'line-through'}; */
 `
@@ -35,16 +37,20 @@ const Users = styled.div`
 `
 const TaskList = props => {
 
+  const state = useSelector((state) => state.survey)
+  console.log(state)
+
   return (
     <>
-      <Wrapper>
-        <Titles>가천대학교 설문지</Titles>
-        {/* <Info data={data} /> */}
+      {state.map((survey, index) => (
+        <Wrapper key={index}>
+          <Titles>{survey.survey.name}</Titles>
 
-        <Users>delet버튼 넣을 예정</Users>
-      </Wrapper>
+          <Users>설문 문항 수 : {survey.questions.length + survey.choiceQuestions.length}</Users>
+        </Wrapper>
+      ))}
       <Wrapper>
-        <Titles>제목입니다2</Titles>
+        <Titles>테스트용으로 둔 default 입니다.</Titles>
         {/* <Info data={data} /> */}
 
         <Users>delet버튼 넣을 예정</Users>
