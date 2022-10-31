@@ -8,9 +8,7 @@ import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import { OverflowMenu, OverflowMenuItem } from '@carbon/react';
-import moment from 'moment';
-
+import IconActivity from './sidebar/icon/Activity'
 
 
 const ScoreLineTitle = styled.div`
@@ -36,7 +34,6 @@ const ScoreLine = styled.div`
 `
 
 const TWrapper = styled.div`
-  /* background: black; */
   margin: 20px;
   width: 300px;
   color : white;
@@ -46,15 +43,23 @@ const TWrapper = styled.div`
   }
 `
 
+const Icon = styled.div `
+    margin-right : 4px;
+    display: flex;
+    align-items: center;
+`
+
 const ShowLeftDate = styled.div`
   font-weight: 600;
   color: var(--soft-blue);
   font-size: 18px;
   padding: 5px;
   border-radius: 5px;
-  margin: 0;
-  width: fit-content;
+  /* margin: 0; */
   margin-bottom: 5px; 
+
+  display: flex;
+  align-items: left;
 `
 const styles = (muiBaseTheme) => ({
     card: {
@@ -93,19 +98,19 @@ function Scard(props) {
 
     const { classes } = props
 
-    // const now = new Date()
-    const now = new Date('2022.11.01') //생성일
+    const now = new Date()
+    // const now = new Date('2022.11.01') //생성일
     const expireDate = new Date(props.expirationDate)
-    const axnow = new Date('2022.11.05') //현재날짜
+    // const axnow = new Date('2022.11.05') //현재날짜
 
-    const DayCount = Math.round((expireDate - axnow) / (1000 * 60 * 60 * 24)); // 남은 날짜
-    const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 전체 날짜
+    const DayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
+    // const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 전체 날짜
 
-    const Pday = Math.round(DayCount/nowDayCount * 100)
+    // const Pday = Math.round(DayCount/nowDayCount * 100)
 
-    console.log(DayCount)
-    console.log(nowDayCount)
-    console.log(Pday)
+    // console.log(DayCount)
+    // console.log(nowDayCount)
+    // console.log(Pday)
     return (
         <div>
             <TWrapper>
@@ -135,15 +140,16 @@ function Scard(props) {
                         >
                         </Typography>
                         <Divider className={classes.divider} light />
-                        <ShowLeftDate><AlarmIcon fontSize="small" />
+                        <ShowLeftDate>
+                            <Icon>
+                                <AlarmIcon  fontSize="small" />
+                            </Icon>
                             {DayCount >= 1 && <> {DayCount} Days Left</>}
                             {DayCount === 0 && <>Today is deadline</>}
                             {DayCount < 0 && <>Expired</>}
                         </ShowLeftDate>
                         <ScoreLine>
-                        <div> {Pday >= 1 && <> width=${Pday}%</>}
-                            {Pday === 0 && <> width = 100%</>}
-                            {Pday < 0 && <>color:red, width =100%</>}</div></ScoreLine>
+                        <div> </div></ScoreLine>
                     </CardContent>
                 </Cards>
             </TWrapper>
