@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import Modal from "react-modal";
 
 // mui import
 import { Button } from '@mui/material';
@@ -25,7 +26,6 @@ const MainWrapper = styled(motion.div)`
 
 
 `
-
 const BlockDiv = styled.div`
     background-color: #fafafa;
     margin: auto;
@@ -119,7 +119,7 @@ const StyledDatePicker = styled(DatePicker)`
     font-size: 12px;
 `
 
-
+Modal.setAppElement("#root");
 function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
@@ -127,6 +127,7 @@ function Mksurvey() { // Make Survey
     const [expireDate, setExpireDate] = useState(new Date()) // 만료 날짜를 설정하는 State
     const [convertedDate, setConvertedDate] = useState('2099-12-30')
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
+    const [modalOpen, setModalOpen] = useState(false)
 
     const [postData, setPostData] = useState({
         survey: {
@@ -258,21 +259,7 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
-    const sendDate = ()=>{
-        axios.post("/survey/create", postData, {
-            headers:{ // 설문 만드는 유저를 구분 하는 JWT
-            Authorization : 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjozfSwiaWF0IjoxNjY3MTM1NzM4LCJleHAiOjE2Njg5MTM4MDN9.T_vYUXWTpHCPJbQ6HIGAsY8PK2myLQUUtLs0853vafg'
-          },
-        })
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((Error) => {
-            console.log(Error)
-        })
-    }
-    
-    const sendToServer = async () => {
+    const saveData = ()=>{
         setPostData((
             {
                 ...postData,
@@ -316,9 +303,25 @@ function Mksurvey() { // Make Survey
                 ]
             }
         ))  
-        sendDate()
+    }
+    
+    const sendToServer = async () => {
         
-        }
+        await axios.post("/survey/create", postData, {
+            headers:{ // 설문 만드는 유저를 구분 하는 JWT
+            Authorization : 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjozfSwiaWF0IjoxNjY3MTM1NzM4LCJleHAiOjE2Njg5MTM4MDN9.T_vYUXWTpHCPJbQ6HIGAsY8PK2myLQUUtLs0853vafg'
+          },
+        })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((Error) => {
+            console.log(Error)
+        })
+        
+        setModalOpen(false)
+        document.location.href = '/dashboard' // 작업 완료 되면 페이지 이동(새로고침)
+    }
     
 
     return (
@@ -455,14 +458,41 @@ function Mksurvey() { // Make Survey
                     }}>
                     질문 추가
                 </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Button onClick={onSummit} variant="contained" color="success">설문 생성하기</Button>
-                <button onClick={sendToServer}>서버에 전송하기</button>
-                <button onClick={() => {
+                <Button onClick={()=>{setModalOpen(true);saveData()}} variant="contained" color="success">설문 등록하기!최종!</Button>
+                <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
-                }}>JSON타입으로 파싱하기</button>
-
+                }}>JSON타입으로 뽑아내기 <br/>-> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button>
             </FuncDiv>
+            <Modal isOpen={modalOpen} style={{
+                    overlay: {
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                    },
+                    content: {
+                    position: 'absolute',
+                    top: '300px',
+                    left: '300px',
+                    right: '300px',
+                    bottom: '300px',
+                    border: '1px solid #ccc',
+                    background: '#fff',
+                    overflow: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    padding: '20px'
+                    }
+                }}>
+                
+                <div style={{textAlign:'right'}}><button onClick={()=>{setModalOpen(false)}}>X</button></div>
+                <p>설문을 정말로 등록하시겠습니까?</p>
+                <button onClick={sendToServer}>등록하기</button>
+            </Modal>
         </MainWrapper >
     );
 }

@@ -72,7 +72,6 @@ function Scard(props) {
     const expireDate = new Date(props.expirationDate)
 
     const DayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24));
-    console.log(DayCount)
     return (
         <div>
             <TWrapper>
