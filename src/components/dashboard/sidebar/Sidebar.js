@@ -13,6 +13,7 @@ import IconSchedule from './icon/Schedule'
 import IconActivity from './icon/Activity'
 import IconSettings from './icon/Settings'
 import IconDashboard from './icon/Dashboard'
+import { useState } from 'react';
 
 
 Chart.register(ArcElement)
@@ -105,14 +106,18 @@ const items = itemsData.map((item, idx) => (React.createElement(HeaderItem, Obje
 
 const Sidebar = () => {
 
-  const state = useSelector(state => state.survey)
+  const state = useSelector(state => state.survey.previewsurvey)
+  const now = new Date()
+
+  const ongoingSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length
+  const expiredSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length
 
   return (
     <Wrapper>
       <TopWrapper>
         <Main>
           <DWrapper>
-            <Demo />
+            <Demo ongoingSurvey={ongoingSurvey} expiredSurvey={expiredSurvey} />
           </DWrapper>
         </Main>
       </TopWrapper>

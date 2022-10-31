@@ -15,7 +15,7 @@ import { fontSize } from '@mui/system';
 const TWrapper = styled.div`
   /* background: black; */
   margin: 20px;
-  width: 300px;
+  width: 250px;
   color : white;
   &:hover {
     color : pink;
@@ -88,8 +88,8 @@ function Scard(props) {
                             variant={"h6"}
                             gutterBottom
                         >   {DayCount < 0
-                            ? <div style={{ textDecoration: 'line-through', }}>{props.title}</div>
-                            : <div>{props.title}</div>
+                            ? <div style={{ textDecoration: 'line-through', fontWeight: 'bold' }}>{props.title}</div>
+                            : <div style={{ fontWeight: 'bold' }}>{props.title}</div>
                             }
 
 

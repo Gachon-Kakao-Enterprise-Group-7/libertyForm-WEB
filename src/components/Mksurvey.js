@@ -168,16 +168,9 @@ function Mksurvey() { // Make Survey
 
     })
 
-    const onSummit = () => {
-        console.log('onsummit')
-    }
-
-
-
-
 
     // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
-    console.log(survey) // 사용자의 입력을 받은 survey 양식
+    //console.log(survey) // 사용자의 입력을 받은 survey 양식
 
     const id = useRef(1) // servey 문제마다 id값을 주기 위함
     const scrollRef = useRef() // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
@@ -259,7 +252,7 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
-    const saveData = ()=>{
+    const saveData = () => {
         setPostData((
             {
                 ...postData,
@@ -302,27 +295,29 @@ function Mksurvey() { // Make Survey
                     ))
                 ]
             }
-        ))  
+        ))
+
     }
-    
+
     const sendToServer = async () => {
-        
+
+        const jwt = localStorage.getItem('jwt')
+
         await axios.post("/survey/create", postData, {
-            headers:{ // 설문 만드는 유저를 구분 하는 JWT
-            Authorization : 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjozfSwiaWF0IjoxNjY3MTM1NzM4LCJleHAiOjE2Njg5MTM4MDN9.T_vYUXWTpHCPJbQ6HIGAsY8PK2myLQUUtLs0853vafg'
-          },
+            headers: { // 설문 만드는 유저를 구분 하는 JWT
+                Authorization: 'Bearer ' + jwt
+            },
         })
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((Error) => {
-            console.log(Error)
-        })
-        
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((Error) => {
+                console.log(Error)
+            })
+
         setModalOpen(false)
-        document.location.href = '/dashboard' // 작업 완료 되면 페이지 이동(새로고침)
     }
-    
+
 
     return (
         <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
@@ -387,8 +382,7 @@ function Mksurvey() { // Make Survey
 
                                     {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
                                 </StyledOl><hr />
-                                {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
-                                {console.log(multiChoiceItem)}
+
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -458,22 +452,22 @@ function Mksurvey() { // Make Survey
                     }}>
                     질문 추가
                 </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Button onClick={()=>{setModalOpen(true);saveData()}} variant="contained" color="success">설문 등록하기!최종!</Button>
+                <Button onClick={() => { setModalOpen(true); saveData() }} variant="contained" color="success">설문 등록하기</Button>
                 <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
-                }}>JSON타입으로 뽑아내기 <br/>-> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button>
+                }}>JSON타입으로 뽑아내기 <br /> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button>
             </FuncDiv>
             <Modal isOpen={modalOpen} style={{
-                    overlay: {
+                overlay: {
                     position: 'fixed',
                     top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
                     backgroundColor: 'rgba(255, 255, 255, 0.75)'
-                    },
-                    content: {
+                },
+                content: {
                     position: 'absolute',
                     top: '300px',
                     left: '300px',
@@ -486,10 +480,10 @@ function Mksurvey() { // Make Survey
                     borderRadius: '4px',
                     outline: 'none',
                     padding: '20px'
-                    }
-                }}>
-                
-                <div style={{textAlign:'right'}}><button onClick={()=>{setModalOpen(false)}}>X</button></div>
+                }
+            }}>
+
+                <div style={{ textAlign: 'right' }}><button onClick={() => { setModalOpen(false) }}>X</button></div>
                 <p>설문을 정말로 등록하시겠습니까?</p>
                 <button onClick={sendToServer}>등록하기</button>
             </Modal>
