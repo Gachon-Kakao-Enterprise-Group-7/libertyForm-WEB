@@ -5,9 +5,12 @@ import Sidebar from './sidebar/Sidebar'
 import Navs from './Navs'
 import TCards from "./Tcard"
 
+import { motion } from "framer-motion" // 애니메이션 효과
+
 import { useSelector } from 'react-redux';
 
-const MainWrapper = styled.div`
+
+const MainWrapper = styled(motion.div)`
   display: flex;
   max-width: 1600px;
   margin: 0 auto;
@@ -76,15 +79,13 @@ const Dashboard = () => {
 
   console.log(state)
 
-
-
-
+  const now = new Date()//현재시간을 가져 올 수 있다.
 
   return (
 
     <>
       <Navs />
-      <MainWrapper>
+      <MainWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <Sidebar />
         <Wrapper>
           <HeaderContent>
@@ -98,10 +99,10 @@ const Dashboard = () => {
               <TeamsTitle>진행중 설문</TeamsTitle>
             </Header>
             <TasksWrapper>
-              {state.map((survey, index) => (
+              {/*filter함수를 써서 먼저 expireDate랑 현재 시간이랑 비교해서 시간이 남은 설문만 보여주고 map함수로 뿌려준다.  */}
+              {state.filter((survey, index)=> (new Date(survey.survey.expirationDate) - now)>0).map((survey, index) => (
                 <TCards key={index} title={survey.survey.name} expirationDate={survey.survey.expirationDate} />
-              ))}
-
+              ))} 
             </TasksWrapper>
           </TaskWrapper>
           <TaskWrapper>
@@ -109,7 +110,9 @@ const Dashboard = () => {
               <TeamsTitle>완료된 설문</TeamsTitle>
             </Header>
             <TasksWrapper>
-              <TCards title={'테스트 설문'} />
+              {state.filter((survey, index)=> (new Date(survey.survey.expirationDate) - now)<=0).map((survey, index) => (
+                <TCards styled={{}} key={index} title={survey.survey.name} expirationDate={survey.survey.expirationDate} />
+              ))}
             </TasksWrapper>
           </TaskWrapper>
         </Wrapper>

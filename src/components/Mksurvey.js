@@ -20,7 +20,13 @@ import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 import axios from 'axios';
 
-const BlockDiv = styled(motion.div)`
+
+const MainWrapper = styled(motion.div)`
+
+
+`
+
+const BlockDiv = styled.div`
     background-color: #fafafa;
     margin: auto;
     margin-top: 3vw;
@@ -308,7 +314,7 @@ function Mksurvey() { // Make Survey
 
 
     return (
-        <div ref={scrollRef}>
+        <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
                 <ItemDiv>
@@ -323,7 +329,7 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 항목 부분 */}
             {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
-                <BlockDiv key={index} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <BlockDiv key={index}>
                     <ItemDiv>
                         <NumberingDiv>
                             <span>{index + 1}</span>
@@ -449,7 +455,7 @@ function Mksurvey() { // Make Survey
                 }}>JSON타입으로 파싱하기</button>
 
             </FuncDiv>
-        </div >
+        </MainWrapper >
     );
 }
 

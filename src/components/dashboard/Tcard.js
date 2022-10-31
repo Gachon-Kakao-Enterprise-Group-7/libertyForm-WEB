@@ -66,8 +66,6 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-    const [expireDateCheck, setExpireDateCheck] = useState(false)
-
     const { classes } = props
 
     const now = new Date()
