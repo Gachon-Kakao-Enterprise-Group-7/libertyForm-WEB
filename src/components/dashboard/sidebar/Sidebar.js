@@ -108,16 +108,18 @@ const Sidebar = () => {
 
   const state = useSelector(state => state.survey.previewsurvey)
   const now = new Date()
-
-  const ongoingSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length
-  const expiredSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length
-
+  let ongoingSurvey = 0
+  let expiredSurvey = 0
+if(state !== undefined){
+  ongoingSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length
+  expiredSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length
+}
   return (
     <Wrapper>
       <TopWrapper>
         <Main>
           <DWrapper>
-            <Demo ongoingSurvey={ongoingSurvey} expiredSurvey={expiredSurvey} />
+            <Demo ongoingSurvey={state !== undefined?ongoingSurvey:0} expiredSurvey={state !== undefined?expiredSurvey:0} />
           </DWrapper>
         </Main>
       </TopWrapper>
