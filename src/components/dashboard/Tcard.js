@@ -66,15 +66,12 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-    const [expireDateCheck, setExpireDateCheck] = useState(false)
-
     const { classes } = props
 
     const now = new Date()
     const expireDate = new Date(props.expirationDate)
 
     const DayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24));
-    console.log(DayCount)
     return (
         <div>
             <TWrapper>
