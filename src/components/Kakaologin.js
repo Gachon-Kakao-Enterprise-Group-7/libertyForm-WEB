@@ -44,7 +44,7 @@ function Kakaologin() {
 
 
         //2
-        const jsontoken = { 'accessToken': localStorage.getItem('token') }
+        const jsontoken = { accessToken: localStorage.getItem('token') }
 
         await axios.post("/login/kakao", jsontoken)
             .then(res => {

@@ -7,7 +7,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useDispatch } from 'react-redux';
 
-import test from './dashboard/Dashboard_g'
 
 function Navs() {
 
@@ -25,14 +24,14 @@ function Navs() {
     }
 
     return (
-        <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
+        <Navbar collapseOnSelect expand="lg" style={{ backgroundColor: '#252525' }} variant="dark" >
             <Container>
                 {/* <Logo to = "/"></Logo> */}
                 <Navbar.Brand href="/">Libertyform</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/Dashboard_g">test</Nav.Link>
+                        <Nav.Link href="/Dashboard_prev">test</Nav.Link>
                         <Nav.Link href="/SideBar">Sidebar</Nav.Link>
                         <NavDropdown title="null" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>

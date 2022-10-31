@@ -1,13 +1,14 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import background from "../img/loba.jpg"
+import background from "../img/loba.svg"
 import kakaobtn from "../img/kakao_login_large_wide.png"
 
-import {KAKAO_AUTH_URL} from './OAuth';
+import { KAKAO_AUTH_URL } from './OAuth';
 
+import { motion } from "framer-motion"
 
 export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
-    margin:0px;
+    /* margin:0px;
     width:100vw;
     height:100vh;
 
@@ -30,7 +31,26 @@ export const Backgrounddiv = styled.div` // styled components를 사용하여 di
         content: "";
         filter: blur(4px); 
         transform: scale(1.1); //가장자리 안보이게 하기
-  }
+  } */
+
+      margin:0px  ;     
+      width:100vw;
+      height:100vh;
+      background-image: url(${background});
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin:0;
+      display: grid;
+      place-items: center;
+      padding : 0 24px;
+
+      @keyframes rotate {
+      100% {
+      background-position: 15% 50%;
+      }
+    }
+     animation :
+     rotate 10s infinite alternate linear;
     
 `;
 
@@ -59,7 +79,7 @@ export const KaKaoBtn = styled.button`
 `;
 
 
-export const CardWrapper = styled.div`
+export const CardWrapper = styled(motion.div)`
   overflow: hidden;
   background-color: white;
   padding: 0 0 32px;

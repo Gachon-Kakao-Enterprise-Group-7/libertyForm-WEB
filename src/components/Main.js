@@ -1,50 +1,38 @@
-import React, { useEffect } from 'react';
-import background1 from "../img/background1.jpg"
-import background2 from "../img/background2.jpg"
-import background3 from "../img/background3.jpg"
-import background4 from "../img/background4.jpg"
-import background5 from "../img/background5.jpg"
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
+import * as THREE from "three";
+import CLOUD from "vanta/dist/vanta.clouds.min";
+
+import { motion } from "framer-motion"
 
 import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
-const backgroundArr = [background1, background2, background3, background4, background5];
-const randomIndex = Math.floor(Math.random() * backgroundArr.length);
-const backgroundImg = backgroundArr[randomIndex];
-
-const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
-    background-image: url(${backgroundImg});
-    margin:0px;
-    width:100vw;
-    height:100vh;
-    background-position: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.85;
-`
 
 const Spacingdiv = styled.div`
     width: 80%;
-    height: 20vw;
+    height: 15vw;
     margin: auto;
 
 `
 
-const Bodydiv = styled.div`
-    color: white;
+const Bodydiv = styled(motion.div)`
+    color: #0a1545;
     width: 80%;
     text-align: center;
     align-items: center;
     margin: auto;
+    
 `
 const H1slogan = styled.h1`
     font-family: var(--font-NotoSans);
-    font-size: 6vw;
+    font-size: 5vw;
+    cursor: context-menu;
 `
 const H2slogan = styled.h2`
     padding-top: 1vw;
-    font-size: 2vw;
+    font-size: 1.8vw;
+    cursor: context-menu;
 `
 const Mainbutton = styled.button`
     font-family: 'Montserrat', sans-serif;
@@ -59,6 +47,7 @@ const Mainbutton = styled.button`
     position: relative;
     z-index: 0;
     border-radius: 10px;
+    margin-top: 70px;
 
     &:before {
         content: '';
@@ -113,24 +102,45 @@ function Main() {
 
     const state = useSelector((state) => state) // useSelector를 이용해서 store를 읽어옴
     const dispatch = useDispatch();
+    const [vantaEffect, setVantaEffect] = useState(0);
+    const vantaRef = useRef(null);
+
+    useEffect(() => {
+        if (!vantaEffect) {
+            setVantaEffect(
+                CLOUD({
+                    el: vantaRef.current,
+                    THREE: THREE,
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.0,
+                    minWidth: 200.0,
+                })
+            );
+        }
+        return () => {
+            if (vantaEffect) vantaEffect.destroy();
+        };
+    }, [vantaEffect]);
 
     return (
-        <Backgrounddiv>
+        <div style={{ height: "100vh", width: "100%" }} ref={vantaRef}>
             <Spacingdiv></Spacingdiv>
-            <Bodydiv>
+            <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
                 <H1slogan>자유롭고 편리한 소통의 시작</H1slogan>
             </Bodydiv>
-            <Bodydiv>
+            <Bodydiv whileHover={{ scale: 1.1 }}>
                 <H2slogan>누구든지 편하고, 자유롭게 이용하고, 당신의 의견을 표현하세요</H2slogan>
             </Bodydiv>
-            <Bodydiv>
-                <Link to="/Dashboard">
+            <Bodydiv >
+                <Link to="/dashboard">
                     <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
                         시작하기
                     </Mainbutton>
                 </Link>
             </Bodydiv>
-        </Backgrounddiv >
+        </div >
     );
 }
 
