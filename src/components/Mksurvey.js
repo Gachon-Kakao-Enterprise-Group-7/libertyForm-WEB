@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import Modal from "react-modal";
 
 // mui import
 import { Button } from '@mui/material';
@@ -20,7 +21,12 @@ import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 import axios from 'axios';
 
-const BlockDiv = styled(motion.div)`
+
+const MainWrapper = styled(motion.div)`
+
+
+`
+const BlockDiv = styled.div`
     background-color: #fafafa;
     margin: auto;
     margin-top: 3vw;
@@ -113,7 +119,7 @@ const StyledDatePicker = styled(DatePicker)`
     font-size: 12px;
 `
 
-
+Modal.setAppElement("#root");
 function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
@@ -121,6 +127,7 @@ function Mksurvey() { // Make Survey
     const [expireDate, setExpireDate] = useState(new Date()) // 만료 날짜를 설정하는 State
     const [convertedDate, setConvertedDate] = useState('2099-12-30')
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
+    const [modalOpen, setModalOpen] = useState(false)
 
     const [postData, setPostData] = useState({
         survey: {
@@ -161,59 +168,9 @@ function Mksurvey() { // Make Survey
 
     })
 
-    const onSummit = () => {
-        setPostData((
-            {
-                ...postData,
-                survey: {
-                    ...postData.survey,
-                    name: title,
-                    expirationDate: convertedDate,
-                },
-                choiceQuestions: [
-                    ...postData.choiceQuestions,
-                    ...survey.filter((item) => (item.type === '3')).map((item, index) => ( //여기 괄호 안이 한질문임!
-                        {
-                            choices:
-                                item.mcitem.map((mcitem, index) => (
-                                    {
-                                        name: mcitem,
-                                        number: index + 1
-                                    }
-                                ))
-                            ,
-                            question: {
-                                questionTypeId: item.type,
-                                name: item.q,
-                                number: String(item.id + 1),
-                                answerRequired: item.required
-                            }
-                        }
-                    ))
-                ],
-                questions: [
-                    ...postData.questions,
-                    ...survey.filter((item) => (item.type !== '3')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
-                        {
-                            questionTypeId: item.type,
-                            name: item.q,
-                            number: String(item.id + 1),
-                            answerRequired: item.required
-                        }
-
-                    ))
-                ]
-            }
-        ))
-
-    }
-
-
-
-
 
     // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
-    console.log(survey) // 사용자의 입력을 받은 survey 양식
+    //console.log(survey) // 사용자의 입력을 받은 survey 양식
 
     const id = useRef(1) // servey 문제마다 id값을 주기 위함
     const scrollRef = useRef() // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
@@ -295,20 +252,75 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
+    const saveData = () => {
+        setPostData((
+            {
+                ...postData,
+                survey: {
+                    ...postData.survey,
+                    name: title,
+                    expirationDate: convertedDate,
+                },
+                choiceQuestions: [
+                    ...postData.choiceQuestions,
+                    ...survey.filter((item) => (item.type === '3')).map((item, index) => ( //여기 괄호 안이 한질문임!
+                        {
+                            choices:
+                                item.mcitem.map((mcitem, index) => (
+                                    {
+                                        name: mcitem,
+                                        number: index + 1
+                                    }
+                                ))
+                            ,
+                            question: {
+                                questionTypeId: item.type,
+                                name: item.q,
+                                number: String(item.id + 1),
+                                answerRequired: item.required
+                            }
+                        }
+                    ))
+                ],
+                questions: [
+                    ...postData.questions,
+                    ...survey.filter((item) => (item.type !== '3')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
+                        {
+                            questionTypeId: item.type,
+                            name: item.q,
+                            number: String(item.id + 1),
+                            answerRequired: item.required
+                        }
+
+                    ))
+                ]
+            }
+        ))
+
+    }
+
     const sendToServer = async () => {
-        await axios.post("/survey/create", postData)
+
+        const jwt = localStorage.getItem('jwt')
+
+        await axios.post("/survey/create", postData, {
+            headers: { // 설문 만드는 유저를 구분 하는 JWT
+                Authorization: 'Bearer ' + jwt
+            },
+        })
             .then((res) => {
                 console.log(res)
             })
             .catch((Error) => {
                 console.log(Error)
             })
+
+        setModalOpen(false)
     }
 
 
-
     return (
-        <div ref={scrollRef}>
+        <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
                 <ItemDiv>
@@ -323,7 +335,7 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 항목 부분 */}
             {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
-                <BlockDiv key={index} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <BlockDiv key={index}>
                     <ItemDiv>
                         <NumberingDiv>
                             <span>{index + 1}</span>
@@ -370,8 +382,7 @@ function Mksurvey() { // Make Survey
 
                                     {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
                                 </StyledOl><hr />
-                                {/* // 선택항목으로 추가한 요소들이 여기에 보여진다 */}
-                                {console.log(multiChoiceItem)}
+
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -441,15 +452,42 @@ function Mksurvey() { // Make Survey
                     }}>
                     질문 추가
                 </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Button onClick={onSummit} variant="contained" color="success">설문 생성하기</Button>
-                <button onClick={sendToServer}>서버에 전송하기</button>
-                <button onClick={() => {
+                <Button onClick={() => { setModalOpen(true); saveData() }} variant="contained" color="success">설문 등록하기</Button>
+                <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
-                }}>JSON타입으로 파싱하기</button>
-
+                }}>JSON타입으로 뽑아내기 <br /> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button>
             </FuncDiv>
-        </div >
+            <Modal isOpen={modalOpen} style={{
+                overlay: {
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                },
+                content: {
+                    position: 'absolute',
+                    top: '300px',
+                    left: '300px',
+                    right: '300px',
+                    bottom: '300px',
+                    border: '1px solid #ccc',
+                    background: '#fff',
+                    overflow: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    padding: '20px'
+                }
+            }}>
+
+                <div style={{ textAlign: 'right' }}><button onClick={() => { setModalOpen(false) }}>X</button></div>
+                <p>설문을 정말로 등록하시겠습니까?</p>
+                <button onClick={sendToServer}>등록하기</button>
+            </Modal>
+        </MainWrapper >
     );
 }
 

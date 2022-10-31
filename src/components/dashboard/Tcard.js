@@ -122,8 +122,8 @@ function Scard(props) {
                             variant={"h6"}
                             gutterBottom
                         >   {DayCount < 0
-                            ? <div style={{ textDecoration: 'line-through', }}>{props.title}</div>
-                            : <div>{props.title}</div>
+                            ? <div style={{ textDecoration: 'line-through', fontWeight: 'bold' }}>{props.title}</div>
+                            : <div style={{ fontWeight: 'bold' }}>{props.title}</div>
                             }
 
 
