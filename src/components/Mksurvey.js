@@ -316,6 +316,7 @@ function Mksurvey() { // Make Survey
             })
 
         setModalOpen(false)
+        document.location.href = '/dashboard'
     }
 
 
