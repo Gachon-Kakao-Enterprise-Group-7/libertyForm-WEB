@@ -10,11 +10,10 @@ import Checkbox from '@semcore/checkbox';
 import { useSelector } from 'react-redux';
 
 
-
-const data = [
-  { domain: '진행설문', value: 8 },
-  { domain: '완료설문', value: 4 },
-];
+// const data = [
+//   { domain: '진행설문', value: 6 },
+//   { domain: '완료설문', value: 4 },
+// ];
 
 
 function formatThousands(n) {
@@ -30,14 +29,19 @@ function formatThousands(n) {
 
 class Demo extends PureComponent {
 
-
-
   constructor(props) {
-    super(props);
-    this.commonValue = data.reduce((acc, entry) => acc + entry.value, 0);
+    super(props); //expiredSurvey -> 만료된 설문 갯수임. props로 받아와서 보여주는것임 
+
+    this.ongoingSurvey = props.ongoingSurvey
+    this.expiredSurvey = props.expiredSurvey
+    this.data = [
+      { domain: '진행설문', value: this.ongoingSurvey },
+      { domain: '완료설문', value: this.expiredSurvey },
+    ]
+    this.commonValue = this.data.reduce((acc, entry) => acc + entry.value, 0);
     this.state = {
       activeIndex: null,
-      domains: data.reduce((acc, entry) => [...acc, entry.domain], []),
+      domains: this.data.reduce((acc, entry) => [...acc, entry.domain], []),
     };
   }
   changeActiveIndex = (activeIndex) => {
@@ -61,7 +65,7 @@ class Demo extends PureComponent {
   render() {
     const { activeIndex, domains } = this.state;
     let indexInclude = 0;
-    const dataPie = data.reduce((acc, entry) => {
+    const dataPie = this.data.reduce((acc, entry) => {
       if (domains.includes(entry.domain)) {
         return [...acc, { ...entry, id: indexInclude++ }];
       }
@@ -145,7 +149,7 @@ class Demo extends PureComponent {
             }}
           >
             {domains.map((name, id) => {
-              let { domain, value, opacity = 0.3 } = data[id];
+              let { domain, value, opacity = 0.3 } = this.data[id];
               const chartId =
                 name !== null ? dataPie.filter((entry) => entry.domain === name)[0].id : null;
 
