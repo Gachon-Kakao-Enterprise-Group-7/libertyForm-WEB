@@ -168,50 +168,7 @@ function Mksurvey() { // Make Survey
     })
 
     const onSummit = () => {
-        setPostData((
-            {
-                ...postData,
-                survey: {
-                    ...postData.survey,
-                    name: title,
-                    expirationDate: convertedDate,
-                },
-                choiceQuestions: [
-                    ...postData.choiceQuestions,
-                    ...survey.filter((item) => (item.type === '3')).map((item, index) => ( //여기 괄호 안이 한질문임!
-                        {
-                            choices:
-                                item.mcitem.map((mcitem, index) => (
-                                    {
-                                        name: mcitem,
-                                        number: index + 1
-                                    }
-                                ))
-                            ,
-                            question: {
-                                questionTypeId: item.type,
-                                name: item.q,
-                                number: String(item.id + 1),
-                                answerRequired: item.required
-                            }
-                        }
-                    ))
-                ],
-                questions: [
-                    ...postData.questions,
-                    ...survey.filter((item) => (item.type !== '3')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
-                        {
-                            questionTypeId: item.type,
-                            name: item.q,
-                            number: String(item.id + 1),
-                            answerRequired: item.required
-                        }
-
-                    ))
-                ]
-            }
-        ))
-
+        console.log('onsummit')
     }
 
 
@@ -301,17 +258,68 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
-    const sendToServer = async () => {
-        await axios.post("/survey/create", postData)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((Error) => {
-                console.log(Error)
-            })
+    const sendDate = ()=>{
+        axios.post("/survey/create", postData, {
+            headers:{ // 설문 만드는 유저를 구분 하는 JWT
+            Authorization : 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjozfSwiaWF0IjoxNjY3MTM1NzM4LCJleHAiOjE2Njg5MTM4MDN9.T_vYUXWTpHCPJbQ6HIGAsY8PK2myLQUUtLs0853vafg'
+          },
+        })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((Error) => {
+            console.log(Error)
+        })
     }
+    
+    const sendToServer = async () => {
+        setPostData((
+            {
+                ...postData,
+                survey: {
+                    ...postData.survey,
+                    name: title,
+                    expirationDate: convertedDate,
+                },
+                choiceQuestions: [
+                    ...postData.choiceQuestions,
+                    ...survey.filter((item) => (item.type === '3')).map((item, index) => ( //여기 괄호 안이 한질문임!
+                        {
+                            choices:
+                                item.mcitem.map((mcitem, index) => (
+                                    {
+                                        name: mcitem,
+                                        number: index + 1
+                                    }
+                                ))
+                            ,
+                            question: {
+                                questionTypeId: item.type,
+                                name: item.q,
+                                number: String(item.id + 1),
+                                answerRequired: item.required
+                            }
+                        }
+                    ))
+                ],
+                questions: [
+                    ...postData.questions,
+                    ...survey.filter((item) => (item.type !== '3')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
+                        {
+                            questionTypeId: item.type,
+                            name: item.q,
+                            number: String(item.id + 1),
+                            answerRequired: item.required
+                        }
 
-
+                    ))
+                ]
+            }
+        ))  
+        sendDate()
+        
+        }
+    
 
     return (
         <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
