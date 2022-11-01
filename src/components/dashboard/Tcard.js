@@ -10,23 +10,14 @@ import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import IconActivity from './sidebar/icon/Activity'
 
-
-const ScoreLineTitle = styled.div`
-  font-size: 14px;
-  letter-spacing: 0.1px;
-  color: #696974;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-left: 10px;
-`
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
-  width: 100%;
+  width: ${(props)=>props.Dayratio}%;
   height: 3px;
   border-radius: 2.5px;
-  min-width: 150px;
+
   div {
     height: 3px;
     background-color: #3dd598;
@@ -34,19 +25,27 @@ const ScoreLine = styled.div`
 `
 
 const TWrapper = styled.div`
-  margin: 20px;
-  width: 300px;
+  margin: 10px;
+  width: 280px;
   color : white;
+  border-radius: 20px;
   &:hover {
-    color : pink;
+    width: 290px;
+    height: 300px;
+    box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
     cursor: pointer;
   }
 `
 
 const Icon = styled.div `
-    margin-right : 4px;
+    margin-right : 3px;
     display: flex;
     align-items: center;
+`
+const NavDropStyle = styled.div `
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const ShowLeftDate = styled.div`
@@ -55,11 +54,10 @@ const ShowLeftDate = styled.div`
   font-size: 18px;
   padding: 5px;
   border-radius: 5px;
-  /* margin: 0; */
   margin-bottom: 5px; 
 
   display: flex;
-  align-items: left;
+  align-items: center;
 `
 const styles = (muiBaseTheme) => ({
     card: {
@@ -74,9 +72,6 @@ const styles = (muiBaseTheme) => ({
     content: {
         textAlign: "left",
         padding: muiBaseTheme.spacing.unit * 3
-    },
-    divider: {
-        margin: "15px 0",
     },
     heading: {
         fontWeight: "bold"
@@ -99,18 +94,28 @@ function Scard(props) {
     const { classes } = props
 
     const now = new Date()
-    // const now = new Date('2022.11.01') //생성일
     const expireDate = new Date(props.expirationDate)
-    // const axnow = new Date('2022.11.05') //현재날짜
+    const startDate = new Date(props.createdAt)
+    const DayCount = Math.round((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
+    const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
-    const DayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
-    // const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 전체 날짜
+    const Dayratio = Math.round(100-((nowDayCount/DayCount) * 100))
 
-    // const Pday = Math.round(DayCount/nowDayCount * 100)
+    // if(Dayratio > 0){
+    //         const Dayratio = Math.round(DayCount/nowDayCount * 100) //비율
+    // }
+    // else{
+    //     const Dayratio = 0
+    // }
 
+    console.log(Dayratio)
     // console.log(DayCount)
     // console.log(nowDayCount)
-    // console.log(Pday)
+    // console.log(Dayratio)
+
+
+    const [show, setShow] = useState(false);
+
     return (
         <div>
             <TWrapper>
@@ -122,24 +127,25 @@ function Scard(props) {
                         }
                     />
                     <CardContent className={classes.content}>
+                    <NavDropStyle>
                         <Typography
-                            className={"MuiTypography--heading"}
+                            className={classes.text}
                             variant={"h6"}
-                            gutterBottom
-                        >   {DayCount < 0
-                            ? <div style={{ textDecoration: 'line-through', fontWeight: 'bold' }}>{props.title}</div>
-                            : <div style={{ fontWeight: 'bold' }}>{props.title}</div>
+                            gutterBottom>   
+                            {DayCount < 0
+                            ? <div class ='txt' style={{ textDecoration: 'line-through', fontWeight: 'bold' ,overflow: "hidden", textOverflow:"ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
+                            : <div class ='txt' style={{ fontWeight: 'bold'  ,overflow: "hidden", textOverflow:"ellipsis", whiteSpace: "nowrap"}}>{props.title}</div>
                             }
-
-
                         </Typography>
-                        <Typography
-                            className={"MuiTypography--subheading"}
-                            variant={"caption"}
-    
-                        >
-                        </Typography>
-                        <Divider className={classes.divider} light />
+                        <NavDropdown title="" id="collasible-nav-dropdown"  style={{ textDecoration:'none'}} >
+                            <NavDropdown.Item href="/null1">발행하기</NavDropdown.Item>
+                            <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
+                            <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={() => {setShow(true)}}>삭제하기</NavDropdown.Item>
+                        </NavDropdown>
+                    </NavDropStyle>
+                        <Divider light />
                         <ShowLeftDate>
                             <Icon>
                                 <AlarmIcon  fontSize="small" />
@@ -148,8 +154,8 @@ function Scard(props) {
                             {DayCount === 0 && <>Today is deadline</>}
                             {DayCount < 0 && <>Expired</>}
                         </ShowLeftDate>
-                        <ScoreLine>
-                        <div> </div></ScoreLine>
+                        <ScoreLine Dayratio={Dayratio}>
+                        <div/></ScoreLine>
                     </CardContent>
                 </Cards>
             </TWrapper>

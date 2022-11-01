@@ -19,9 +19,8 @@ import { AnimatePresence } from "framer-motion"; //애니메이션 라이브러�
 function App() {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Navs />
-
       <AnimatePresence>
         <Routes>
           <Route path="/" element={<><Main /></>}></Route>
