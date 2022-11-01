@@ -11,6 +11,7 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 import IconActivity from './sidebar/icon/Activity'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Modal from "react-modal";
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
@@ -89,9 +90,7 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-    const [expireDateCheck, setExpireDateCheck] = useState(false)
-
-    const { classes } = props
+    const { classes, surveyId } = props
 
     const now = new Date()
     const expireDate = new Date(props.expirationDate)
@@ -101,20 +100,8 @@ function Scard(props) {
 
     const Dayratio = Math.round(100 - ((nowDayCount / DayCount) * 100))
 
-    // if(Dayratio > 0){
-    //         const Dayratio = Math.round(DayCount/nowDayCount * 100) //비율
-    // }
-    // else{
-    //     const Dayratio = 0
-    // }
 
-    //console.log(Dayratio)
-    // console.log(DayCount)
-    // console.log(nowDayCount)
-    // console.log(Dayratio)
-
-
-    const [show, setShow] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false)
 
     return (
         <div>
@@ -142,7 +129,7 @@ function Scard(props) {
                                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item onClick={() => { setShow(true) }}>삭제하기</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => { setModalOpen(true) }}>삭제하기</NavDropdown.Item>
                             </NavDropdown>
                         </NavDropStyle>
                         <Divider light />
@@ -159,6 +146,35 @@ function Scard(props) {
                     </CardContent>
                 </Cards>
             </TWrapper>
+            <Modal isOpen={modalOpen} style={{
+                overlay: {
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                },
+                content: {
+                    position: 'absolute',
+                    top: '300px',
+                    left: '300px',
+                    right: '300px',
+                    bottom: '300px',
+                    border: '1px solid #ccc',
+                    background: '#fff',
+                    overflow: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    padding: '20px'
+                }
+            }}>
+
+                <div style={{ textAlign: 'right' }}><button onClick={() => { setModalOpen(false) }}>X</button></div>
+                <p>설문을 정말로 삭제하시겠습니까?</p>
+                <button onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</button>
+            </Modal>
         </div>
     );
 }

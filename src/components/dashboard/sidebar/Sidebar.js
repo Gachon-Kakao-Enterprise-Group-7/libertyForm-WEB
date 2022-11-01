@@ -150,7 +150,6 @@ function Sidebar() {
   const now = new Date()
 
   useEffect(() => {
-    console.log('setcount작동합니다!')
     setOngoingSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length)
     setExpiredSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length)
   }, [ongoingSurveyCount])
