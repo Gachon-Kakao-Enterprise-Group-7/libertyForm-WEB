@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'; //styled-components사용
 
 import Sidebar from './sidebar/Sidebar'
@@ -8,6 +8,7 @@ import TCards from "./Tcard"
 import { motion } from "framer-motion" // 애니메이션 효과
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+
 
 const MainWrapper = styled(motion.div)`
   display: flex;
@@ -94,7 +95,7 @@ const Dashboard = () => {
   console.log(state)
   const now = new Date()//현재시간을 가져 올 수 있다.
 
-
+  const [modalOpen, setModalOpen] = useState(true)
 
   return (
 
@@ -117,7 +118,7 @@ const Dashboard = () => {
               {/* filter함수를 써서 먼저 expireDate랑 현재 시간이랑 비교해서 시간이 남은 설문만 보여주고 map함수로 뿌려준다.  */}
               {state && (
                 state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).map((survey, index) => (
-                  <TCards key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} />
+                  <TCards surveyId={survey.surveyId} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} />
                 ))
               )}
             </TasksWrapper>
@@ -129,13 +130,14 @@ const Dashboard = () => {
             <TasksWrapper>
               {state && (
                 state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).map((survey, index) => (
-                  <TCards key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt}/>
+                  <TCards surveyId={survey.surveyId} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} />
                 ))
               )}
             </TasksWrapper>
           </TaskWrapper>
         </Wrapper>
       </MainWrapper>
+
     </>
 
 

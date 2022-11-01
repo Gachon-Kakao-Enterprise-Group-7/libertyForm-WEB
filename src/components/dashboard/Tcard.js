@@ -11,10 +11,11 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 import IconActivity from './sidebar/icon/Activity'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Modal from "react-modal";
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
-  width: ${(props)=>props.Dayratio}%;
+  width: ${(props) => props.Dayratio}%;
   height: 3px;
   border-radius: 2.5px;
 
@@ -37,12 +38,12 @@ const TWrapper = styled.div`
   }
 `
 
-const Icon = styled.div `
+const Icon = styled.div`
     margin-right : 3px;
     display: flex;
     align-items: center;
 `
-const NavDropStyle = styled.div `
+const NavDropStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -89,9 +90,7 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-    const [expireDateCheck, setExpireDateCheck] = useState(false)
-
-    const { classes } = props
+    const { classes, surveyId } = props
 
     const now = new Date()
     const expireDate = new Date(props.expirationDate)
@@ -99,22 +98,10 @@ function Scard(props) {
     const DayCount = Math.round((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
     const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
-    const Dayratio = Math.round(100-((nowDayCount/DayCount) * 100))
-
-    // if(Dayratio > 0){
-    //         const Dayratio = Math.round(DayCount/nowDayCount * 100) //비율
-    // }
-    // else{
-    //     const Dayratio = 0
-    // }
-
-    console.log(Dayratio)
-    // console.log(DayCount)
-    // console.log(nowDayCount)
-    // console.log(Dayratio)
+    const Dayratio = Math.round(100 - ((nowDayCount / DayCount) * 100))
 
 
-    const [show, setShow] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false)
 
     return (
         <div>
@@ -127,38 +114,67 @@ function Scard(props) {
                         }
                     />
                     <CardContent className={classes.content}>
-                    <NavDropStyle>
-                        <Typography
-                            className={classes.text}
-                            variant={"h6"}
-                            gutterBottom>   
-                            {DayCount < 0
-                            ? <div class ='txt' style={{ textDecoration: 'line-through', fontWeight: 'bold' ,overflow: "hidden", textOverflow:"ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
-                            : <div class ='txt' style={{ fontWeight: 'bold'  ,overflow: "hidden", textOverflow:"ellipsis", whiteSpace: "nowrap"}}>{props.title}</div>
-                            }
-                        </Typography>
-                        <NavDropdown title="" id="collasible-nav-dropdown"  style={{ textDecoration:'none'}} >
-                            <NavDropdown.Item href="/null1">발행하기</NavDropdown.Item>
-                            <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
-                            <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={() => {setShow(true)}}>삭제하기</NavDropdown.Item>
-                        </NavDropdown>
-                    </NavDropStyle>
+                        <NavDropStyle>
+                            <Typography
+                                className={classes.text}
+                                variant={"h6"}
+                                gutterBottom>
+                                {DayCount < 0
+                                    ? <div class='txt' style={{ textDecoration: 'line-through', fontWeight: 'bold', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
+                                    : <div class='txt' style={{ fontWeight: 'bold', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
+                                }
+                            </Typography>
+                            <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none' }} >
+                                <NavDropdown.Item href="/null1">발행하기</NavDropdown.Item>
+                                <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
+                                <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={() => { setModalOpen(true) }}>삭제하기</NavDropdown.Item>
+                            </NavDropdown>
+                        </NavDropStyle>
                         <Divider light />
                         <ShowLeftDate>
                             <Icon>
-                                <AlarmIcon  fontSize="small" />
+                                <AlarmIcon fontSize="small" />
                             </Icon>
                             {DayCount >= 1 && <> {DayCount} Days Left</>}
                             {DayCount === 0 && <>Today is deadline</>}
                             {DayCount < 0 && <>Expired</>}
                         </ShowLeftDate>
                         <ScoreLine Dayratio={Dayratio}>
-                        <div/></ScoreLine>
+                            <div /></ScoreLine>
                     </CardContent>
                 </Cards>
             </TWrapper>
+            <Modal isOpen={modalOpen} style={{
+                overlay: {
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                },
+                content: {
+                    position: 'absolute',
+                    top: '300px',
+                    left: '300px',
+                    right: '300px',
+                    bottom: '300px',
+                    border: '1px solid #ccc',
+                    background: '#fff',
+                    overflow: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    padding: '20px'
+                }
+            }}>
+
+                <div style={{ textAlign: 'right' }}><button onClick={() => { setModalOpen(false) }}>X</button></div>
+                <p>설문을 정말로 삭제하시겠습니까?</p>
+                <button onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</button>
+            </Modal>
         </div>
     );
 }
