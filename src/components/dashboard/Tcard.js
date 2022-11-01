@@ -14,7 +14,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
-  width: ${(props)=>props.Dayratio}%;
+  width: ${(props) => props.Dayratio}%;
   height: 3px;
   border-radius: 2.5px;
 
@@ -37,12 +37,12 @@ const TWrapper = styled.div`
   }
 `
 
-const Icon = styled.div `
+const Icon = styled.div`
     margin-right : 3px;
     display: flex;
     align-items: center;
 `
-const NavDropStyle = styled.div `
+const NavDropStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,7 +99,7 @@ function Scard(props) {
     const DayCount = Math.round((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
     const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
-    const Dayratio = Math.round(100-((nowDayCount/DayCount) * 100))
+    const Dayratio = Math.round(100 - ((nowDayCount / DayCount) * 100))
 
     // if(Dayratio > 0){
     //         const Dayratio = Math.round(DayCount/nowDayCount * 100) //비율
@@ -108,7 +108,7 @@ function Scard(props) {
     //     const Dayratio = 0
     // }
 
-    console.log(Dayratio)
+    //console.log(Dayratio)
     // console.log(DayCount)
     // console.log(nowDayCount)
     // console.log(Dayratio)
@@ -127,35 +127,35 @@ function Scard(props) {
                         }
                     />
                     <CardContent className={classes.content}>
-                    <NavDropStyle>
-                        <Typography
-                            className={classes.text}
-                            variant={"h6"}
-                            gutterBottom>   
-                            {DayCount < 0
-                            ? <div class ='txt' style={{ textDecoration: 'line-through', fontWeight: 'bold' ,overflow: "hidden", textOverflow:"ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
-                            : <div class ='txt' style={{ fontWeight: 'bold'  ,overflow: "hidden", textOverflow:"ellipsis", whiteSpace: "nowrap"}}>{props.title}</div>
-                            }
-                        </Typography>
-                        <NavDropdown title="" id="collasible-nav-dropdown"  style={{ textDecoration:'none'}} >
-                            <NavDropdown.Item href="/null1">발행하기</NavDropdown.Item>
-                            <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
-                            <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={() => {setShow(true)}}>삭제하기</NavDropdown.Item>
-                        </NavDropdown>
-                    </NavDropStyle>
+                        <NavDropStyle>
+                            <Typography
+                                className={classes.text}
+                                variant={"h6"}
+                                gutterBottom>
+                                {DayCount < 0
+                                    ? <div class='txt' style={{ textDecoration: 'line-through', fontWeight: 'bold', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
+                                    : <div class='txt' style={{ fontWeight: 'bold', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
+                                }
+                            </Typography>
+                            <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none' }} >
+                                <NavDropdown.Item href="/null1">발행하기</NavDropdown.Item>
+                                <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
+                                <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={() => { setShow(true) }}>삭제하기</NavDropdown.Item>
+                            </NavDropdown>
+                        </NavDropStyle>
                         <Divider light />
                         <ShowLeftDate>
                             <Icon>
-                                <AlarmIcon  fontSize="small" />
+                                <AlarmIcon fontSize="small" />
                             </Icon>
                             {DayCount >= 1 && <> {DayCount} Days Left</>}
                             {DayCount === 0 && <>Today is deadline</>}
                             {DayCount < 0 && <>Expired</>}
                         </ShowLeftDate>
                         <ScoreLine Dayratio={Dayratio}>
-                        <div/></ScoreLine>
+                            <div /></ScoreLine>
                     </CardContent>
                 </Cards>
             </TWrapper>

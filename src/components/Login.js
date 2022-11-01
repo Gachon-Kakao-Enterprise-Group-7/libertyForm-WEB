@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; //swagger api 요청
+import { useDispatch } from 'react-redux';
 import { REST_API_KEY, REDIRECT_URI } from './OAuth';
 import {
     KaKaoBtn,
@@ -40,9 +41,36 @@ function Login() {
     const { email, password } = inputs // 구조분해할당
 
 
-    const onLogin = () => {
+    const dispatch = useDispatch();
 
-        axios.post("/login", inputs)
+    const saveSurveyData = () => {
+        const jwt = localStorage.getItem('jwt')
+        axios.get("/survey", {
+            headers: {
+                Authorization: 'Bearer ' + jwt
+            }
+        })
+            .then((res) => {
+                dispatch({ type: 'ADDPREVIEWSURVEY', data: res.data.result.surveys })
+
+            })
+            .catch((Error) => {
+                console.log(Error)
+            })
+    }
+
+
+    const goHomePage = () => {
+        setTimeout(() => {
+            document.location.href = '/' // 작업 완료 되면 페이지 이동(새로고침)
+        }, 1000)
+
+    }
+
+
+    const onLogin = async () => {
+
+        await axios.post("/login", inputs)
             .then(res => {
 
                 // { test id
@@ -56,11 +84,9 @@ function Login() {
                         break;
                     case 1000:
                         console.log('======================', '로그인 성공', res.data.code)
-                        alert('로그인 성공')
                         localStorage.setItem('email', res.data.result.email);
                         localStorage.setItem('name', res.data.result.name);
                         localStorage.setItem('jwt', res.data.result.jwt);
-                        document.location.href = '/' // 작업 완료 되면 페이지 이동(새로고침)
                         break;
                     default:
                         console.log('정의되지 않은 오류입니다....')
@@ -68,6 +94,11 @@ function Login() {
                 }
             })
             .catch((Error) => { console.log(Error) })
+
+        await saveSurveyData();
+        if (localStorage.getItem('email')) {
+            goHomePage();
+        }
     }
 
     return (

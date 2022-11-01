@@ -7,13 +7,6 @@ import { Text } from '@semcore/typography';
 import { Flex, Box } from '@semcore/flex-box';
 import Checkbox from '@semcore/checkbox';
 
-import { useSelector } from 'react-redux';
-
-
-// const data = [
-//   { domain: '진행설문', value: 6 },
-//   { domain: '완료설문', value: 4 },
-// ];
 
 
 function formatThousands(n) {
@@ -27,22 +20,36 @@ function formatThousands(n) {
   return s.substr(0, i + 3) + r + (d ? '.' + Math.round(d * Math.pow(10, 2)) : '');
 }
 
+
+
+
+
+
+let data = [
+  { domain: '진행설문', value: 5 },
+  { domain: '완료설문', value: 3 },
+]
+
+
+
+
+
 class Demo extends PureComponent {
 
   constructor(props) {
-    super(props); //expiredSurvey -> 만료된 설문 갯수임. props로 받아와서 보여주는것임 
-
-    this.ongoingSurvey = props.ongoingSurvey
-    this.expiredSurvey = props.expiredSurvey
+    super(props); //expiredSurvey -> 만료된 설문 갯수임. props로 받아와서 보여주는것임
+    console.log(props.ongoingSurveyCount)
+    console.log(props.expiredSurveyCount)
     this.data = [
-      { domain: '진행설문', value: this.ongoingSurvey },
-      { domain: '완료설문', value: this.expiredSurvey },
+      { domain: '진행설문', value: props.ongoingSurveyCount },
+      { domain: '완료설문', value: props.expiredSurveyCount },
     ]
     this.commonValue = this.data.reduce((acc, entry) => acc + entry.value, 0);
     this.state = {
       activeIndex: null,
       domains: this.data.reduce((acc, entry) => [...acc, entry.domain], []),
     };
+
   }
   changeActiveIndex = (activeIndex) => {
     this.setState({ activeIndex });
@@ -61,7 +68,6 @@ class Demo extends PureComponent {
     const { activeIndex } = this.state;
     this.changeActiveIndex(activeIndex === index ? null : index);
   };
-
   render() {
     const { activeIndex, domains } = this.state;
     let indexInclude = 0;
@@ -73,6 +79,7 @@ class Demo extends PureComponent {
     }, []);
 
     return (
+
       <div>
         <Flex alignItems="center" justifyContent="center">
           <Text style={{ fontWeight: 'bold' }} tag="h3" size={400} medium m={0}>

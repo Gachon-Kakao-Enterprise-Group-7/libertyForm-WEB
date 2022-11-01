@@ -96,6 +96,8 @@ const Dashboard = () => {
 
 
 
+
+
   return (
 
     <>
@@ -129,7 +131,7 @@ const Dashboard = () => {
             <TasksWrapper>
               {state && (
                 state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).map((survey, index) => (
-                  <TCards key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt}/>
+                  <TCards key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} />
                 ))
               )}
             </TasksWrapper>

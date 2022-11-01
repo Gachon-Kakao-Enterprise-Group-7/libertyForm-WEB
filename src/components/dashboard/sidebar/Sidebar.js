@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import ReactDOM from "react-dom";
 import { Chart, ArcElement } from "chart.js"
 import { NavLink } from 'react-router-dom';
+
 import IconTasks from './icon/Tasks'
 import IconMessages from './icon/Messages'
 import IconSchedule from './icon/Schedule'
@@ -13,9 +14,14 @@ import IconActivity from './icon/Activity'
 import IconSettings from './icon/Settings'
 import IconDashboard from './icon/Dashboard'
 
+
+
+
 // import IconDashboard from '../../.././img/dashboardicon.jpg'
 
 import Demo from "./Demo"
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 Chart.register(ArcElement)
 
@@ -50,7 +56,6 @@ const DWrapper = styled.div`
     
   }
 `
-
 const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -59,7 +64,6 @@ const Wrapper = styled.section`
   min-height: 640px;
   
 `
-
 const ItemWrapper = styled.nav`
   display: flex;
   flex-direction: column;
@@ -95,80 +99,84 @@ const NavItem = styled(NavLink)`
     }
   }
 `
-const Icon = styled.div `
+const Icon = styled.div`
 margin: 0 24px;
 `
-const NameLink = styled.span `
+const NameLink = styled.span`
 @media (max-width: 620px) {
   display: none;
 }
 `
 
-function Sidebar () {
+function Sidebar() {
 
-const itemsData = [
-  {
-    name: 'Dashboard',
-    icon: IconDashboard(),
-    link: '/dashboard'
-  },
-  {
-    name: '새로운 설문 생성',
-    icon: IconMessages(),
-    link: '/mksurvey'
-  },
-  {
-    name: '설문결과 분석',
-    icon: IconTasks(),
-    link: '/ansurvey'
-  },
-  {
-    name: '발송자 관리',
-    icon: IconSchedule(),
-    link: '/default'
-  },
-  {
-    name: 'Activity',
-    icon: IconActivity(),
-    link: '/default'
-  },
-  {
-    name: 'Settings',
-    icon: IconSettings(),
-    link: '/default'
-  }
-]
+  const [ongoingSurveyCount, setOngoingSurveyCount] = useState(0)
+  const [expiredSurveyCount, setExpiredSurveyCount] = useState(0)
+
+  const itemsData = [
+    {
+      name: 'Dashboard',
+      icon: IconDashboard(),
+      link: '/dashboard'
+    },
+    {
+      name: '새로운 설문 생성',
+      icon: IconMessages(),
+      link: '/mksurvey'
+    },
+    {
+      name: '설문결과 분석',
+      icon: IconTasks(),
+      link: '/ansurvey'
+    },
+    {
+      name: '발송자 관리',
+      icon: IconSchedule(),
+      link: '/default'
+    },
+    {
+      name: 'Activity',
+      icon: IconActivity(),
+      link: '/default'
+    },
+    {
+      name: 'Settings',
+      icon: IconSettings(),
+      link: '/default'
+    }
+  ]
 
   const state = useSelector(state => state.survey.previewsurvey)
   const now = new Date()
-  let ongoingSurvey = 0
-  let expiredSurvey = 0
-if(state !== undefined){
-  ongoingSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length
-  expiredSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length
-}
+
+  useEffect(() => {
+    console.log('setcount작동합니다!')
+    setOngoingSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length)
+    setExpiredSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length)
+  }, [ongoingSurveyCount])
+
 
   return (
     <Wrapper>
       <TopWrapper>
         <Main>
           <DWrapper>
-            <Demo ongoingSurvey={state !== undefined?ongoingSurvey:0} expiredSurvey={state !== undefined?expiredSurvey:0} />
+            <Demo ongoingSurveyCount={ongoingSurveyCount} expiredSurveyCount={expiredSurveyCount} />
           </DWrapper>
         </Main>
       </TopWrapper>
       <ItemWrapper>
-        {itemsData.map((item, index) =>{
-          return(
-            <NavItem className={({isActive}) => (isActive? "active" : "")} to={item.link}>
+        {itemsData.map((item, index) => {
+          return (
+            <NavItem className={({ isActive }) => (isActive ? "active" : "")} to={item.link}>
               <Icon>{item.icon}</Icon>
               <NameLink>{item.name}</NameLink>
             </NavItem>
           );
         })}
       </ItemWrapper>
-      </Wrapper>
+    </Wrapper>
 
   )
- }
+}
 export default Sidebar
