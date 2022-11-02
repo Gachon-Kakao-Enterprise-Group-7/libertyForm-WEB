@@ -9,6 +9,7 @@ import Mksurvey from './components/Mksurvey';
 import Kakaologin from './components/Kakaologin';
 import Dashboard from './components/dashboard/Dashboard';
 import Dcontent from './components/dashboard/Home/Content';
+import Dosurvey from './components/Dosurvey';
 
 
 
@@ -36,7 +37,10 @@ function App() {
           <Route path='/mksurvey' element={<><Dcontent /></>}></Route>
           <Route path='/mksurvey_prev' element={<><Mksurvey /></>}></Route>
           {/* mksurvey_prev 임시로 사용 가능! */}
+
+          <Route path="/dosurvey/:surveyId" element={<Dosurvey />}></Route>
           <Route path="*" element={<Notfound />}></Route>
+          {/* 예외처리로 Notfound페이지 이동시킨다. */}
         </Routes>
       </AnimatePresence>
     </BrowserRouter>
