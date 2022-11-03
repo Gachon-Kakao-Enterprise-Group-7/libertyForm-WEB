@@ -4,8 +4,6 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Slider from '@mui/material/Slider';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 
 const TempCard = styled.div`
     background-color: #e1e1e1;
@@ -23,6 +21,15 @@ const SurveyCard = styled.div`
     padding: 30px;
 `
 
+const LinerBtn = styled.button`
+  
+  color: ${props => props.checked ? 'white' : 'black'};
+  background:${props => props.checked ? 'black' : 'white'} ;
+  border:0px;
+  width: 40px;
+  border-radius: 5px;
+`
+
 
 function Dosurvey() {
 
@@ -33,6 +40,7 @@ function Dosurvey() {
   const [showSurveyNumber, setShowSurveyNumber] = useState(0); //현재 답변중인 문항 번호
 
   const [result, setResult] = useState('')//설문의 결과를 저장하는 state
+  const [inputs, setInputs]= useState(); // 당장 그 문항에 입력된 데이터를 가지고 있음!
 
   useEffect(() => {
     setLoading(true)
@@ -46,7 +54,7 @@ function Dosurvey() {
         console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
         setLoading(false)
         setSurveyDetail(res.data.result)
-        setResult([]) // questions의 갯수만큼 result 배열의 공간을 만들어준다.
+        setResult([]) // result 배열의 공간을 만들어준다.
       })
       .catch((Error) => {
         setError(Error)
@@ -54,10 +62,13 @@ function Dosurvey() {
   }, [])
 
 
+  useEffect(()=>{
+    console.log('inputs이 변화했습니다',inputs)
+  },[inputs])
 
 
   if (loading) return (
-    <div>로딩중...{console.log('로딩중입니다...')}</div>
+    <div>로딩중...</div>
   )
   // axios response가 오기 전에 랜더링이 일어나면 오류가 발생한다. 
   //따라서 loading state로 밑에 본문이 랜더링이 되는것을 막고 loading이 false가 되면 위에 문장이 실행안되고
@@ -92,55 +103,89 @@ function Dosurvey() {
       console.log(result, '제출')
     }
   }
+
   const nextQuestion = () => {
     if (surveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
-      console.log('필수문항임')
-      console.log('결과', result[showSurveyNumber - 1])
       if (showSurveyNumber < surveyDetail.questions.length && result[showSurveyNumber - 1] !== undefined) { //마지막 문항이 아니고 && 설문에 응답했으면
         setShowSurveyNumber(showSurveyNumber + 1) // 다음 문항으로 넘어가줘라
+        if(result[showSurveyNumber]==undefined){ // 다음 문항에 내용이 아직 없다면
+          setInputs('') // input창에 아무것도 안보여주고
+        }
+        else{
+        setInputs(result[showSurveyNumber]) // inputs 값에 이미 답변한 내용을 보여줘라!
+        }
       }
       else {
         alert('필수 문항입니다. 답변해주세요!')
       }
     }
     else {
-      console.log('필수문항이 아님')
-      if (showSurveyNumber < surveyDetail.questions.length) { //필수 문항이 아님
-        if (result[showSurveyNumber - 1] == undefined) {
-          result[showSurveyNumber - 1] = null
-          setShowSurveyNumber(showSurveyNumber + 1)
+      if (showSurveyNumber < surveyDetail.questions.length) { //필수 문항이 아님'
+        if (result[showSurveyNumber - 1] == undefined) { // 문항 답변에 아무것도 없을 경우에
+          result[showSurveyNumber - 1] = null // 널값을 집어넣고
+          setShowSurveyNumber(showSurveyNumber + 1)//다음 문항으로 넘어간다
+          if(result[showSurveyNumber]==undefined){ // 다음 문항에 내용이 아직 없다면
+            setInputs('') // input창에 아무것도 안보여주고
+          }
+          else{
+          setInputs(result[showSurveyNumber]) // inputs 값에 이미 답변한 내용을 보여줘라!
+          }
         }
-
-
+        else{
+          setShowSurveyNumber(showSurveyNumber+1) //답변이 있을경우 그냥 다음 문제로 넘어간다.
+          if(result[showSurveyNumber]==undefined){ // 다음 문항에 내용이 아직 없다면
+            setInputs('') // input창에 아무것도 안보여주고
+          }
+          else{
+          setInputs(result[showSurveyNumber]) // inputs 값에 이미 답변한 내용을 보여줘라!
+          }
+        }
       }
 
     }
   }
+
+
+
   const prevQuestion = () => {
     if (showSurveyNumber !== 1) {
+      setInputs(result[showSurveyNumber - 2])
       setShowSurveyNumber(showSurveyNumber - 1)
     }
   }
+
+
+  const onChangeType1 = (e)=>{
+    let temparr = result
+    temparr[showSurveyNumber - 1] = e.target.value
+    setResult(temparr)
+    setInputs(e.target.value)
+  }
+
 
   const onChangeType2 = (e) => {
     let temparr = result
     temparr[showSurveyNumber - 1] = e.target.value
     setResult(temparr)
+    setInputs(e.target.value)
   }
 
+
   const onChangeType5 = (e, value) => {
-    console.log(value)
-    // let temparr = result
-    // temparr[showSurveyNumber - 1] = value
-    // setResult(temparr)
+    let temparr = result
+    temparr[showSurveyNumber - 1] = value
+    setResult(temparr)
+    setInputs(value)
   }
 
   const onChangeType6 = (e) => {
     let tempArr = result
     tempArr[showSurveyNumber - 1] = e.target.name
-    console.log(result)
+    setInputs(e.target.name)
   }
 
+
+  
   return (
     <>
       디자인작업 진행 0%, 로직 진행도 20%, 위에 NAV안나오게 해야함
@@ -161,25 +206,25 @@ function Dosurvey() {
             <div>{`${showSurveyNumber}. ${surveyDetail.questions[showSurveyNumber - 1].name}`}</div>
 
             {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문)을 경우 아래의 식을 수행
-              <input style={{ width: '100%' }} name={showSurveyNumber} onChange={onChangeType2}></input>
+              <input style={{ width: '100%' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></input>
             }
             {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문)을 경우 아래의 식을 수행
-              <input style={{ width: '50%' }} name={showSurveyNumber} onChange={onChangeType2}></input>
+              <input style={{ width: '50%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></input>
             }
             {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바)을 경우 아래의 식을 수행
               <div style={{ width: '500px' }}>
-                <Slider onClick={onChangeType5} valueLabelDisplay="auto" />
-                <>슬라이더 value가 undefined로 뜸 콘솔확인 필요...</>
+                <Slider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
               </div>
             }
             {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율)을 경우 아래의 식을 수행
-              <ButtonGroup variant="contained" aria-label="outlined primary button group" color='success'>
-                <Button name='1' onClick={onChangeType6}>One</Button>
-                <Button name='2' onClick={onChangeType6}>Two</Button>
-                <Button name='3' onClick={onChangeType6}>Three</Button>
-                <Button name='4' onClick={onChangeType6}>Three</Button>
-                <Button name='5' onClick={onChangeType6}>Three</Button>
-              </ButtonGroup>
+              <>
+                <LinerBtn checked={inputs==='1'?true:false} name='1' onClick={onChangeType6} >1 </LinerBtn>
+                <LinerBtn checked={inputs==='2'?true:false} name='2' onClick={onChangeType6}>2 </LinerBtn>
+                <LinerBtn checked={inputs==='3'?true:false} name='3' onClick={onChangeType6}>3 </LinerBtn>
+                <LinerBtn checked={inputs==='4'?true:false} name='4' onClick={onChangeType6}>4 </LinerBtn>
+                <LinerBtn checked={inputs==='5'?true:false} name='5' onClick={onChangeType6}>5 </LinerBtn>
+              </>
+              
             }
             {console.log(result)}
 
