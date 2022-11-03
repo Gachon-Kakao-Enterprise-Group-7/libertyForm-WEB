@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
 import Slider from '@mui/material/Slider';
 
 const TempCard = styled.div`
@@ -14,15 +13,13 @@ const TempCard = styled.div`
 
 `
 const SurveyCard = styled.div`
-    background-color: yellow;
-    border: 5px dotted red;
+    background-color: #dffcff;
+    border: 5px solid blue;
     width: 1000px;
     margin: 50px;
     padding: 30px;
 `
-
 const LinerBtn = styled.button`
-  
   color: ${props => props.checked ? 'white' : 'black'};
   background:${props => props.checked ? 'black' : 'white'} ;
   border:0px;
@@ -32,15 +29,14 @@ const LinerBtn = styled.button`
 
 
 function Dosurvey() {
-
   const params = useParams();
   const [surveyDetail, setSurveyDetail] = useState(null) //axios를 통해 받아오는 설문 상세 정보 state
   const [loading, setLoading] = useState(false) // axios에서 정보를 받아오고 랜더링하기 위한 상태 state
   const [error, setError] = useState(null) // 에러발생시 에러를 저장할 수 있는 state
   const [showSurveyNumber, setShowSurveyNumber] = useState(0); //현재 답변중인 문항 번호
 
-  const [result, setResult] = useState('')//설문의 결과를 저장하는 state
-  const [inputs, setInputs]= useState(); // 당장 그 문항에 입력된 데이터를 가지고 있음!
+  const [result, setResult] = useState('')//설문의 결과를 배열로 저장하는 state
+  const [inputs, setInputs]= useState(); // 현재 설문 문항에 대한 데이터를 가지고 있는 state!
 
   useEffect(() => {
     setLoading(true)
@@ -97,7 +93,7 @@ function Dosurvey() {
       }
     }
     else {
-      if (result[showSurveyNumber - 1] == undefined) { // 필수답변은 아니지만 문항에 응답을 안했으면
+      if (result[showSurveyNumber - 1] === undefined) { // 필수답변은 아니지만 문항에 응답을 안했으면
         result[showSurveyNumber - 1] = null
       }
       console.log(result, '제출')
@@ -108,7 +104,7 @@ function Dosurvey() {
     if (surveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
       if (showSurveyNumber < surveyDetail.questions.length && result[showSurveyNumber - 1] !== undefined) { //마지막 문항이 아니고 && 설문에 응답했으면
         setShowSurveyNumber(showSurveyNumber + 1) // 다음 문항으로 넘어가줘라
-        if(result[showSurveyNumber]==undefined){ // 다음 문항에 내용이 아직 없다면
+        if(result[showSurveyNumber]===undefined){ // 다음 문항에 내용이 아직 없다면
           setInputs('') // input창에 아무것도 안보여주고
         }
         else{
@@ -121,10 +117,10 @@ function Dosurvey() {
     }
     else {
       if (showSurveyNumber < surveyDetail.questions.length) { //필수 문항이 아님'
-        if (result[showSurveyNumber - 1] == undefined) { // 문항 답변에 아무것도 없을 경우에
+        if (result[showSurveyNumber - 1] === undefined) { // 문항 답변에 아무것도 없을 경우에
           result[showSurveyNumber - 1] = null // 널값을 집어넣고
           setShowSurveyNumber(showSurveyNumber + 1)//다음 문항으로 넘어간다
-          if(result[showSurveyNumber]==undefined){ // 다음 문항에 내용이 아직 없다면
+          if(result[showSurveyNumber]===undefined){ // 다음 문항에 내용이 아직 없다면
             setInputs('') // input창에 아무것도 안보여주고
           }
           else{
@@ -133,7 +129,7 @@ function Dosurvey() {
         }
         else{
           setShowSurveyNumber(showSurveyNumber+1) //답변이 있을경우 그냥 다음 문제로 넘어간다.
-          if(result[showSurveyNumber]==undefined){ // 다음 문항에 내용이 아직 없다면
+          if(result[showSurveyNumber]===undefined){ // 다음 문항에 내용이 아직 없다면
             setInputs('') // input창에 아무것도 안보여주고
           }
           else{
@@ -145,8 +141,6 @@ function Dosurvey() {
     }
   }
 
-
-
   const prevQuestion = () => {
     if (showSurveyNumber !== 1) {
       setInputs(result[showSurveyNumber - 2])
@@ -154,31 +148,28 @@ function Dosurvey() {
     }
   }
 
-
-  const onChangeType1 = (e)=>{
+  const onChangeType1 = (e)=>{ // 장문 문항에 대한 핸들링
     let temparr = result
     temparr[showSurveyNumber - 1] = e.target.value
     setResult(temparr)
     setInputs(e.target.value)
   }
 
-
-  const onChangeType2 = (e) => {
+  const onChangeType2 = (e) => {// 단문 문항에 대한 핸들링
     let temparr = result
     temparr[showSurveyNumber - 1] = e.target.value
     setResult(temparr)
     setInputs(e.target.value)
   }
 
-
-  const onChangeType5 = (e, value) => {
+  const onChangeType5 = (e, value) => { // 감정바 문항에 대한 핸들링
     let temparr = result
     temparr[showSurveyNumber - 1] = value
     setResult(temparr)
     setInputs(value)
   }
 
-  const onChangeType6 = (e) => {
+  const onChangeType6 = (e) => { // 선형배율 문항에 대한 핸들링
     let tempArr = result
     tempArr[showSurveyNumber - 1] = e.target.name
     setInputs(e.target.name)
@@ -188,7 +179,7 @@ function Dosurvey() {
   
   return (
     <>
-      디자인작업 진행 0%, 로직 진행도 20%, 위에 NAV안나오게 해야함
+      디자인작업 진행 0%, 로직 진행도 40%, 위에 NAV안나오게 해야함
       <TempCard>
         <div>설문번호 : {params.surveyId}</div>
         <div>설문이름 : {surveyDetail.survey.name}</div>
@@ -226,7 +217,7 @@ function Dosurvey() {
               </>
               
             }
-            {console.log(result)}
+            {console.log(`result : ${result}`)}
 
 
             <div>{`question타입 : ${surveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
@@ -248,7 +239,6 @@ function Dosurvey() {
 
 
           </SurveyCard>}
-
       </div>
     </>
   );
