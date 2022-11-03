@@ -25,15 +25,19 @@ const ScoreLine = styled.div`
   }
 `
 
+const TypographyTitle = styled.div`
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`
+
 const TWrapper = styled.div`
   margin: 10px;
   width: 280px;
   color : white;
   border-radius: 20px;
   &:hover {
-    width: 290px;
-    height: 300px;
-    box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
+    box-shadow: rgba(0, 0, 0, 0.7) 0px 12px 35px 2px;
     cursor: pointer;
   }
 `
@@ -47,6 +51,7 @@ const NavDropStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width : 100%;
 `
 
 const ShowLeftDate = styled.div`
@@ -60,6 +65,65 @@ const ShowLeftDate = styled.div`
   display: flex;
   align-items: center;
 `
+
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: #92929d;
+  font-size: 14px;
+`
+const Button = styled.button`
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  svg {
+    fill: #92929d;
+    :hover {
+      fill: #0062ff;
+    }
+  }
+`
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #171725;
+  font-size: 24px;
+  margin: 30px 0;
+  margin-left: 10px;
+  border-bottom: 1px solid #e2e2ea;
+  height: 50px;
+`
+
+const Description = styled.span`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  color: gray;
+  font-size: 14px;
+`
+const Delete = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  width : 100%;
+  background-color: #fc5a5a;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 38px;
+  border-radius: 20px;
+  border: 1px solid #fc5a5a;
+  :hover {
+    color: #fc5a5a;
+    background-color: white;
+  }
+`
+
+
 const styles = (muiBaseTheme) => ({
     card: {
         transition: "0.3s",
@@ -84,6 +148,10 @@ const styles = (muiBaseTheme) => ({
         borderRadius: "5px",
         width: "100%",
         fontSize: '13px'
+    },
+    text:{
+      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", 
+      color: "black", width :"50%"
     }
 });
 
@@ -115,13 +183,13 @@ function Scard(props) {
                     />
                     <CardContent className={classes.content}>
                         <NavDropStyle>
-                            <Typography
+                            <Typography 
                                 className={classes.text}
                                 variant={"h6"}
                                 gutterBottom>
                                 {DayCount < 0
-                                    ? <div class='txt' style={{ textDecoration: 'line-through', fontWeight: 'bold', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
-                                    : <div class='txt' style={{ fontWeight: 'bold', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{props.title}</div>
+                                    ? <TypographyTitle Title style={{ textDecoration: 'line-through'}}>{props.title}</TypographyTitle>
+                                    : <div class='txt' style={{ fontWeight: 'bold',overflow: "TextOverflow.Ellipsis"}}>{props.title}</div>
                                 }
                             </Typography>
                             <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none' }} >
@@ -146,35 +214,47 @@ function Scard(props) {
                     </CardContent>
                 </Cards>
             </TWrapper>
-            <Modal isOpen={modalOpen} style={{
+
+<Modal isOpen={modalOpen} style={{
                 overlay: {
                     position: 'fixed',
                     top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                    
                 },
                 content: {
-                    position: 'absolute',
+                    position: 'fixed',
                     top: '300px',
                     left: '300px',
                     right: '300px',
                     bottom: '300px',
+                    width: '30%',
+                    height:'300px',
                     border: '1px solid #ccc',
                     background: '#fff',
                     overflow: 'auto',
                     WebkitOverflowScrolling: 'touch',
                     borderRadius: '4px',
                     outline: 'none',
-                    padding: '20px'
+                    padding: '20px',
+                    overflow: 'hidden',
+                    borderRadius: '20px',
+                    padding: '20px 25px'
                 }
             }}>
-
-                <div style={{ textAlign: 'right' }}><button onClick={() => { setModalOpen(false) }}>X</button></div>
-                <p>설문을 정말로 삭제하시겠습니까?</p>
-                <button onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</button>
+                    <Header>
+                        <Button onClick={() => { setModalOpen(false) }}>X</Button>
+                    </Header>
+                    <Title>
+                        <span>게시물 삭제</span>
+                    </Title>
+                    <Description>정말 삭제하시겠습니까?</Description>
+                    <Delete onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</Delete>
             </Modal>
+                
         </div>
     );
 }

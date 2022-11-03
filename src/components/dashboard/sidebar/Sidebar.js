@@ -6,6 +6,12 @@ import { useSelector } from 'react-redux';
 import ReactDOM from "react-dom";
 import { Chart, ArcElement } from "chart.js"
 import { NavLink } from 'react-router-dom';
+import { Donut, Plot, Tooltip, colors } from "@semcore/d3-chart";
+import { Flex } from "@semcore/flex-box";
+import { Text } from "@semcore/typography";
+import Checkbox from "@semcore/checkbox";
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 import IconTasks from './icon/Tasks'
 import IconMessages from './icon/Messages'
@@ -15,15 +21,6 @@ import IconSettings from './icon/Settings'
 import IconDashboard from './icon/Dashboard'
 
 
-
-
-// import IconDashboard from '../../.././img/dashboardicon.jpg'
-
-import Demo from "./Demo"
-import { useState } from 'react';
-import { useEffect } from 'react';
-
-Chart.register(ArcElement)
 
 
 const TopWrapper = styled.div`
@@ -145,7 +142,10 @@ function Sidebar() {
       link: '/default'
     }
   ]
-
+  const donutdata = {
+    a: 5,
+    b: 2
+  };
   const state = useSelector(state => state.survey.previewsurvey)
   const now = new Date()
 
@@ -156,11 +156,61 @@ function Sidebar() {
 
 
   return (
+    <div>
     <Wrapper>
       <TopWrapper>
         <Main>
           <DWrapper>
-            <Demo ongoingSurveyCount={ongoingSurveyCount} expiredSurveyCount={expiredSurveyCount} />
+          <Text style={{ fontWeight: 'bold' , marginRight: '15px' }} tag="h3" size={400} medium m={0} >
+            설문 현황
+          </Text>
+       
+    <Plot width={250} height={250} data={donutdata} style={{ marginRight: '10px' }}>
+      <Donut startAngle={90}
+              endAngle={-270}
+              innerRadius={70}
+              outerRadius={100} >
+        <Donut.Pie
+          dataKey="a"
+          color={colors["blue-02"]}
+          name="진행설문"
+        />
+        <Donut.Pie
+          dataKey="b"
+          color={colors["green-02"]}
+          name="종료설문"
+        />
+        <Donut.Label x={0} y={0}>
+                      <Text tag="tspan" size={500} bold>
+                        5
+                      </Text>
+                      <br/>
+                      <Text tag="tspan" x={0} y={25}size={300}>
+                       전체설문
+                      </Text>
+      </Donut.Label>
+      </Donut>
+      <Tooltip>
+        {({ dataKey, name, color }) => {
+          return {
+            children: (
+              <>
+                <Tooltip.Title>{name}</Tooltip.Title>
+                <Flex justifyContent="space-between">
+                  <Text bold>{donutdata[dataKey]}</Text>
+                </Flex>
+              </>
+            )
+          };
+        }}
+      </Tooltip>
+    </Plot>
+    <Checkbox>
+          <Checkbox.Value checked="true" />
+          <Checkbox.Text pr={3}>
+            <Text>ddd</Text>
+          </Checkbox.Text>
+        </Checkbox>
           </DWrapper>
         </Main>
       </TopWrapper>
@@ -175,6 +225,7 @@ function Sidebar() {
         })}
       </ItemWrapper>
     </Wrapper>
+    </div>
 
   )
 }

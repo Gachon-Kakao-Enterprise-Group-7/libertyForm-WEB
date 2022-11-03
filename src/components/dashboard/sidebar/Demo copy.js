@@ -9,19 +9,6 @@ import Checkbox from '@semcore/checkbox';
 
 
 
-function formatThousands(n) {
-  let s = '' + Math.floor(n),
-    d = n % 1,
-    i = s.length,
-    r = '';
-  while ((i -= 3) > 0) {
-    r = ',' + s.substr(i, 3) + r;
-  }
-  return s.substr(0, i + 3) + r + (d ? '.' + Math.round(d * Math.pow(10, 2)) : '');
-}
-
-
-
 
 
 
@@ -35,57 +22,13 @@ let data = [
 
 
 class Demo extends PureComponent {
-
-  constructor(props) {
-    super(props); //expiredSurvey -> 만료된 설문 갯수임. props로 받아와서 보여주는것임
-    console.log(props.ongoingSurveyCount)
-    console.log(props.expiredSurveyCount)
-    this.data = [
-      { domain: '진행설문', value: props.ongoingSurveyCount },
-      { domain: '완료설문', value: props.expiredSurveyCount },
-    ]
-    this.commonValue = this.data.reduce((acc, entry) => acc + entry.value, 0);
-    this.state = {
-      activeIndex: null,
-      domains: this.data.reduce((acc, entry) => [...acc, entry.domain], []),
-    };
-
-  }
-  changeActiveIndex = (activeIndex) => {
-    this.setState({ activeIndex });
-  };
-  handleCheckedDomain = (domain, id) => () => {
-    const { domains } = this.state;
-    if (domains[id] === domain) {
-      domains[id] = null;
-    } else {
-      domains[id] = domain;
-    }
-    this.setState({ domains: [...domains] });
-    this.changeActiveIndex(null);
-  };
-  onPieClick = (data, index) => {
-    const { activeIndex } = this.state;
-    this.changeActiveIndex(activeIndex === index ? null : index);
-  };
+  
+  
+  
   render() {
-    const { activeIndex, domains } = this.state;
-    let indexInclude = 0;
-    const dataPie = this.data.reduce((acc, entry) => {
-      if (domains.includes(entry.domain)) {
-        return [...acc, { ...entry, id: indexInclude++ }];
-      }
-      return acc;
-    }, []);
-
     return (
 
       <div>
-        <Flex alignItems="center" justifyContent="center">
-          <Text style={{ fontWeight: 'bold' }} tag="h3" size={400} medium m={0}>
-            설문 현황
-          </Text>
-        </Flex>
         <Flex mt={3} alignItems="center" justifyContent="center" flexWrap>
           <PieChart height={196} width={196} style={{ margin: 'auto' }}>
             <Pie
@@ -98,7 +41,6 @@ class Demo extends PureComponent {
               endAngle={-270}
               innerRadius={60}
               outerRadius={90}
-              onClick={this.onPieClick}
             >
               {dataPie.map((entry, id) => (
                 <Cell
@@ -113,7 +55,6 @@ class Demo extends PureComponent {
                   <>
                     <text x={cx} y={cy} textAnchor="middle" verticalAnchor="middle">
                       <Text tag="tspan" size={500} bold>
-                        {formatThousands(this.commonValue)}
                       </Text>
                       <Text
                         tag="tspan"
