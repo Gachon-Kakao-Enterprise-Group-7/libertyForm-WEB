@@ -4,24 +4,35 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Slider from '@mui/material/Slider';
 
-const TempCard = styled.div`
-    background-color: #e1e1e1;
+const BackgroundDiv = styled.div`
+  background: #301e4e;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const StartCard = styled.div`
+    background-color: #ff6e6c;
+    color:white;
     border: 3px solid black;
-    width: 500px;
-    margin: 50px;
+    width: 600px;
     padding: 20px;
+    border-radius: 15px;
 
 `
 const SurveyCard = styled.div`
-    background-color: #dffcff;
-    border: 5px solid blue;
-    width: 1000px;
-    margin: 50px;
+    background-color: #ff6e6c;
+    color:white;
+    width: 600px;
     padding: 30px;
+    border-radius: 15px;
+    
 `
 const LinerBtn = styled.button`
   color: ${props => props.checked ? 'white' : 'black'};
-  background:${props => props.checked ? 'black' : 'white'} ;
+  background:${props => props.checked ? 'black' : '#e1e1e1'} ;
   border:0px;
   width: 40px;
   border-radius: 5px;
@@ -178,9 +189,12 @@ function Dosurvey() {
 
   
   return (
-    <>
-      디자인작업 진행 0%, 로직 진행도 40%, 위에 NAV안나오게 해야함
-      <TempCard>
+    <BackgroundDiv>
+      
+      { showSurveyNumber === 0 
+        &&
+        <StartCard>
+        <div>디자인작업 진행 0%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div>
         <div>설문번호 : {params.surveyId}</div>
         <div>설문이름 : {surveyDetail.survey.name}</div>
         <div>설문문항수 : {surveyDetail.questions.length + surveyDetail.choiceQuestions.length}</div>
@@ -189,7 +203,9 @@ function Dosurvey() {
         <button onClick={startSurvey}>설문시작</button>
         <div>{showSurveyNumber}</div>
         {console.log(surveyDetail)}
-      </TempCard>
+      </StartCard>
+      }
+      
       <div>
         {showSurveyNumber >= 1
           &&
@@ -240,7 +256,7 @@ function Dosurvey() {
 
           </SurveyCard>}
       </div>
-    </>
+    </BackgroundDiv>
   );
 }
 
