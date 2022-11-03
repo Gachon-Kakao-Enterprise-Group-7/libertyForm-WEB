@@ -9,8 +9,8 @@ const BackgroundDiv = styled.div`
   width: 100%;
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; //세로축
+  justify-content: center;  //가로축
 `
 
 const StartCard = styled.div`
@@ -30,12 +30,22 @@ const SurveyCard = styled.div`
     border-radius: 15px;
     
 `
+const QuestionTitle = styled.div`
+  font-size: 1.5rem;
+`
+
+
 const LinerBtn = styled.button`
   color: ${props => props.checked ? 'white' : 'black'};
   background:${props => props.checked ? 'black' : '#e1e1e1'} ;
   border:0px;
   width: 40px;
   border-radius: 5px;
+
+  &:hover {
+    background: #000000;
+    color:white
+  }
 `
 
 
@@ -190,8 +200,7 @@ function Dosurvey() {
   
   return (
     <BackgroundDiv>
-      
-      { showSurveyNumber === 0 
+      { showSurveyNumber === 0 //설문 시작화면 보여주기
         &&
         <StartCard>
         <div>디자인작업 진행 0%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div>
@@ -207,10 +216,10 @@ function Dosurvey() {
       }
       
       <div>
-        {showSurveyNumber >= 1
+        {showSurveyNumber >= 1 //1번 문제부터 보여주기
           &&
           <SurveyCard>
-            <div>{`${showSurveyNumber}. ${surveyDetail.questions[showSurveyNumber - 1].name}`}</div>
+            <QuestionTitle>{`${showSurveyNumber}. ${surveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
 
             {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문)을 경우 아래의 식을 수행
               <input style={{ width: '100%' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></input>
@@ -235,23 +244,24 @@ function Dosurvey() {
             }
             {console.log(`result : ${result}`)}
 
-
-            <div>{`question타입 : ${surveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
-            <div>{`필수답변여부 : ${surveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
-
-
-
-            <hr />
             {showSurveyNumber === surveyDetail.questions.length // 설문의 마지막 문항일때 조건
-              ? <>
+              ?
+              <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <button onClick={prevQuestion}>이전문항</button>
                 <button onClick={onSubmit}>제출하기</button>
-              </>
-              : <>
+              </div>
+
+              :
+              <div style={{display:'flex', justifyContent:'flex-end'}}>
                 <button onClick={prevQuestion}>이전문항</button>
                 <button onClick={nextQuestion}>다음문항</button>
-              </>
+              </div>
             }
+
+            <hr/>
+            <div>개발자 참고 공간 ↓</div>
+            <div>{`question타입 : ${surveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
+            <div>{`필수답변여부 : ${surveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
 
 
           </SurveyCard>}
