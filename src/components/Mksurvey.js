@@ -309,14 +309,20 @@ function Mksurvey() { // Make Survey
             },
         })
             .then((res) => {
-                console.log(res)
+                console.log(res.data.code)
+                switch(res.data.code){
+                    case 1000:
+                        document.location.href = '/dashboard'
+                        break;
+                    default:
+                        break;
+                }
             })
             .catch((Error) => {
                 console.log(Error)
             })
 
         setModalOpen(false)
-        document.location.href = '/dashboard'
     }
 
 
