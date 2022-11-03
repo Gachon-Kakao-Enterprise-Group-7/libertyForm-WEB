@@ -51,7 +51,7 @@ const NavDropStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width : 100%;
+  color :"black";
 `
 
 const ShowLeftDate = styled.div`
@@ -151,7 +151,6 @@ const styles = (muiBaseTheme) => ({
     },
     text:{
       overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", 
-      color: "black", width :"50%"
     }
 });
 
@@ -164,10 +163,9 @@ function Scard(props) {
     const expireDate = new Date(props.expirationDate)
     const startDate = new Date(props.createdAt)
     const DayCount = Math.round((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
-    const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
+    const RemainDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
-    const Dayratio = Math.round(100 - ((nowDayCount / DayCount) * 100))
-
+    const Dayratio = Math.round(100 - ((RemainDayCount / DayCount) * 100))
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -188,8 +186,8 @@ function Scard(props) {
                                 variant={"h6"}
                                 gutterBottom>
                                 {DayCount < 0
-                                    ? <TypographyTitle Title style={{ textDecoration: 'line-through'}}>{props.title}</TypographyTitle>
-                                    : <div class='txt' style={{ fontWeight: 'bold',overflow: "TextOverflow.Ellipsis"}}>{props.title}</div>
+                                    ? <TypographyTitle style={{fontWeight: 'bold', textDecoration: 'line-through'}}>{props.title}</TypographyTitle>
+                                    : <TypographyTitle style={{ fontWeight: 'bold'}}>{props.title}</TypographyTitle>
                                 }
                             </Typography>
                             <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none' }} >
@@ -205,9 +203,9 @@ function Scard(props) {
                             <Icon>
                                 <AlarmIcon fontSize="small" />
                             </Icon>
-                            {DayCount >= 1 && <> {DayCount} Days Left</>}
-                            {DayCount === 0 && <>Today is deadline</>}
-                            {DayCount < 0 && <>Expired</>}
+                            {RemainDayCount >= 1 && <> {RemainDayCount} Days Left</>}
+                            {RemainDayCount === 0 && <>Today is deadline</>}
+                            {RemainDayCount < 0 && <>Expired</>}
                         </ShowLeftDate>
                         <ScoreLine Dayratio={Dayratio}>
                             <div /></ScoreLine>
