@@ -1,17 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Doughnut } from 'react-chartjs-2'; //styled-components사용
-import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
 import { useSelector } from 'react-redux';
-import ReactDOM from "react-dom";
-import { Chart, ArcElement } from "chart.js"
 import { NavLink } from 'react-router-dom';
 import { Donut, Plot, Tooltip, colors } from "@semcore/d3-chart";
 import { Flex } from "@semcore/flex-box";
 import { Text } from "@semcore/typography";
 import Checkbox from "@semcore/checkbox";
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 import IconTasks from './icon/Tasks'
 import IconMessages from './icon/Messages'
@@ -143,88 +137,96 @@ function Sidebar() {
     }
   ]
   const donutdata = {
-    a: 5,
-    b: 2
+    a: ongoingSurveyCount,
+    b: expiredSurveyCount
   };
+
   const state = useSelector(state => state.survey.previewsurvey)
+
   const now = new Date()
 
   useEffect(() => {
     setOngoingSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length)
     setExpiredSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length)
-  }, [ongoingSurveyCount])
+  })
 
 
   return (
     <div>
-    <Wrapper>
-      <TopWrapper>
-        <Main>
-          <DWrapper>
-          <Text style={{ fontWeight: 'bold' , marginRight: '15px' }} tag="h3" size={400} medium m={0} >
-            설문 현황
-          </Text>
-       
-    <Plot width={250} height={250} data={donutdata} style={{ marginRight: '10px' }}>
-      <Donut startAngle={90}
-              endAngle={-270}
-              innerRadius={70}
-              outerRadius={100} >
-        <Donut.Pie
-          dataKey="a"
-          color={colors["blue-02"]}
-          name="진행설문"
-        />
-        <Donut.Pie
-          dataKey="b"
-          color={colors["green-02"]}
-          name="종료설문"
-        />
-        <Donut.Label x={0} y={0}>
-                      <Text tag="tspan" size={500} bold>
-                        5
-                      </Text>
-                      <br/>
-                      <Text tag="tspan" x={0} y={25}size={300}>
-                       전체설문
-                      </Text>
-      </Donut.Label>
-      </Donut>
-      <Tooltip>
-        {({ dataKey, name, color }) => {
-          return {
-            children: (
-              <>
-                <Tooltip.Title>{name}</Tooltip.Title>
-                <Flex justifyContent="space-between">
-                  <Text bold>{donutdata[dataKey]}</Text>
-                </Flex>
-              </>
-            )
-          };
-        }}
-      </Tooltip>
-    </Plot>
-    <Checkbox>
-          <Checkbox.Value checked="true" />
-          <Checkbox.Text pr={3}>
-            <Text>ddd</Text>
-          </Checkbox.Text>
-        </Checkbox>
-          </DWrapper>
-        </Main>
-      </TopWrapper>
-      <ItemWrapper>
-        {itemsData.map((item, index) => {
-          return (
-            <NavItem className={({ isActive }) => (isActive ? "active" : "")} to={item.link}>
-              <Icon>{item.icon}</Icon>
-              <NameLink>{item.name}</NameLink>
-            </NavItem>
-          );
-        })}
-      </ItemWrapper>
-    </Wrapper>
+      <Wrapper>
+        <TopWrapper>
+          <Main>
+            <DWrapper>
+              <Text style={{ fontWeight: 'bold', marginRight: '15px' }} tag="h3" size={400} medium m={0} >
+                설문 현황
+              </Text>
+
+              <Plot width={250} height={250} data={donutdata} style={{ marginRight: '10px' }}>
+                <Donut startAngle={90}
+                  endAngle={-270}
+                  innerRadius={70}
+                  outerRadius={100} >
+                  <Donut.Pie
+                    dataKey="a"
+                    color={colors["blue-02"]}
+                    name="진행설문"
+                  />
+                  <Donut.Pie
+                    dataKey="b"
+                    color={colors["green-02"]}
+                    name="종료설문"
+                  />
+                  <Donut.Label x={0} y={0}>
+                    <Text tag="tspan" size={500} bold>
+                      {state.length}
+                    </Text>
+                    <br />
+                    <Text tag="tspan" x={0} y={25} size={300}>
+                      전체설문
+                    </Text>
+                  </Donut.Label>
+                </Donut>
+                <Tooltip>
+                  {({ dataKey, name, color }) => {
+                    return {
+                      children: (
+                        <>
+                          <Tooltip.Title>{name}</Tooltip.Title>
+                          <Flex justifyContent="space-between">
+                            <Text bold>{donutdata[dataKey]}</Text>
+                          </Flex>
+                        </>
+                      )
+                    };
+                  }}
+                </Tooltip>
+              </Plot>
+              <Checkbox theme={colors["blue-02"]}>
+                <Checkbox.Value checked="true" />
+                <Checkbox.Text pr={3}>
+                  <Text>진행중 설문    {ongoingSurveyCount}</Text>
+                </Checkbox.Text>
+              </Checkbox>
+              <Checkbox theme={colors["green-02"]}>
+                <Checkbox.Value checked="true" />
+                <Checkbox.Text pr={3}>
+                  <Text>만료된 설문    {expiredSurveyCount}</Text>
+                </Checkbox.Text>
+              </Checkbox>
+            </DWrapper>
+          </Main>
+        </TopWrapper>
+        <ItemWrapper>
+          {itemsData.map((item, index) => {
+            return (
+              <NavItem className={({ isActive }) => (isActive ? "active" : "")} to={item.link}>
+                <Icon>{item.icon}</Icon>
+                <NameLink>{item.name}</NameLink>
+              </NavItem>
+            );
+          })}
+        </ItemWrapper>
+      </Wrapper>
     </div>
 
   )

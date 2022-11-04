@@ -145,8 +145,8 @@ const styles = (muiBaseTheme) => ({
         width: "100%",
         fontSize: '13px'
     },
-    text:{
-      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", 
+    text: {
+        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
     }
 });
 
@@ -189,13 +189,13 @@ function Scard(props) {
                     />
                     <CardContent className={classes.content}>
                         <NavDropStyle>
-                            <Typography 
+                            <Typography
                                 className={classes.text}
                                 variant={"h6"}
                                 gutterBottom>
                                 {DayCount < 0
-                                    ? <TypographyTitle style={{fontWeight: 'bold', textDecoration: 'line-through'}}>{props.title}</TypographyTitle>
-                                    : <TypographyTitle style={{ fontWeight: 'bold'}}>{props.title}</TypographyTitle>
+                                    ? <TypographyTitle style={{ fontWeight: 'bold', textDecoration: 'line-through' }}>{props.title}</TypographyTitle>
+                                    : <TypographyTitle style={{ fontWeight: 'bold' }}>{props.title}</TypographyTitle>
                                 }
                             </Typography>
                             <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none' }} >
@@ -221,7 +221,7 @@ function Scard(props) {
                 </Card>
             </TWrapper>
 
-<Modal isOpen={modalOpen} style={{
+            <Modal isOpen={modalOpen} style={{
                 overlay: {
                     position: 'fixed',
                     top: 0,
@@ -229,7 +229,7 @@ function Scard(props) {
                     right: 0,
                     bottom: 0,
                     backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                    
+
                 },
                 content: {
                     position: 'fixed',
@@ -237,7 +237,7 @@ function Scard(props) {
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: '30%',
-                    height:'300px',
+                    height: '300px',
                     border: '1px solid #ccc',
                     background: '#fff',
                     overflow: 'auto',
@@ -247,6 +247,7 @@ function Scard(props) {
                     padding: '20px 25px'
                 }
             }}>
+
                     <Header>
                         <Button onClick={closeModal}>X</Button>
                     </Header>
@@ -255,8 +256,9 @@ function Scard(props) {
                     </ModalTitle>
                     <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
                     <ModalDelete onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</ModalDelete>
+
             </Modal>
-                
+
         </div>
     );
 }
