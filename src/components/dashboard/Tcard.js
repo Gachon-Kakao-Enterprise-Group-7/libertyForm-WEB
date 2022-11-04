@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { withStyles } from "@material-ui/core/styles";
-import Cards from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardMedia, CardContent, Divider,Typography } from "@material-ui/core";
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import IconActivity from './sidebar/icon/Activity'
@@ -84,7 +80,7 @@ const Button = styled.button`
     }
   }
 `
-const Title = styled.div`
+const ModalTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -96,7 +92,7 @@ const Title = styled.div`
   height: 50px;
 `
 
-const Description = styled.span`
+const ModalDescription = styled.span`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
@@ -104,12 +100,12 @@ const Description = styled.span`
   color: gray;
   font-size: 14px;
 `
-const Delete = styled.button`
+const ModalDelete = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
-  width : 100%;
+  margin-top: 40px;
+  width:100%;
   background-color: #fc5a5a;
   outline: none;
   cursor: pointer;
@@ -162,17 +158,29 @@ function Scard(props) {
     const now = new Date()
     const expireDate = new Date(props.expirationDate)
     const startDate = new Date(props.createdAt)
-    const DayCount = Math.round((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
+
+    const DayCount = Math.round((expireDate - startDate) / (1000 * 60* 60 * 24)); // 전체 날짜
     const RemainDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
     const Dayratio = Math.round(100 - ((RemainDayCount / DayCount) * 100))
+    console.log(Dayratio)
 
     const [modalOpen, setModalOpen] = useState(false)
+
+    const openModal = () => {
+      setModalOpen(true);
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = () => {
+      setModalOpen(false);
+      document.body.style.overflow = "unset";
+    };
 
     return (
         <div>
             <TWrapper>
-                <Cards className={classes.card}>
+                <Card className={classes.card}>
                     <CardMedia
                         className={classes.media}
                         image={
@@ -195,7 +203,7 @@ function Scard(props) {
                                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item onClick={() => { setModalOpen(true) }}>삭제하기</NavDropdown.Item>
+                                <NavDropdown.Item onClick={openModal}>삭제하기</NavDropdown.Item>
                             </NavDropdown>
                         </NavDropStyle>
                         <Divider light />
@@ -210,7 +218,7 @@ function Scard(props) {
                         <ScoreLine Dayratio={Dayratio}>
                             <div /></ScoreLine>
                     </CardContent>
-                </Cards>
+                </Card>
             </TWrapper>
 
 <Modal isOpen={modalOpen} style={{
@@ -225,32 +233,28 @@ function Scard(props) {
                 },
                 content: {
                     position: 'fixed',
-                    top: '300px',
-                    left: '300px',
-                    right: '300px',
-                    bottom: '300px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
                     width: '30%',
                     height:'300px',
                     border: '1px solid #ccc',
                     background: '#fff',
                     overflow: 'auto',
                     WebkitOverflowScrolling: 'touch',
-                    borderRadius: '4px',
                     outline: 'none',
-                    padding: '20px',
-                    overflow: 'hidden',
                     borderRadius: '20px',
                     padding: '20px 25px'
                 }
             }}>
                     <Header>
-                        <Button onClick={() => { setModalOpen(false) }}>X</Button>
+                        <Button onClick={closeModal}>X</Button>
                     </Header>
-                    <Title>
+                    <ModalTitle>
                         <span>게시물 삭제</span>
-                    </Title>
-                    <Description>정말 삭제하시겠습니까?</Description>
-                    <Delete onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</Delete>
+                    </ModalTitle>
+                    <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
+                    <ModalDelete onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</ModalDelete>
             </Modal>
                 
         </div>
