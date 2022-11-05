@@ -122,17 +122,17 @@ function Dosurvey() {
 
   const [result, setResult] = useState('')//설문의 결과를 배열로 저장하는 state
   const [inputs, setInputs] = useState(); // 현재 설문 문항에 대한 데이터를 가지고 있는 state!
-
   useEffect(() => {
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
-    axios.get(`/survey/${params.surveyId}`, {
+    axios.get(`/survey/${params.surveyCode}`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
       .then((res) => {
         console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
+        console.log(res)
         setLoading(false)
         setSurveyDetail(res.data.result)
         setResult([]) // result 배열의 공간을 만들어준다.
