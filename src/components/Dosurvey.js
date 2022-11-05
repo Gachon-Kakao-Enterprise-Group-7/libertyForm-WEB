@@ -149,7 +149,7 @@ function Dosurvey() {
 
 
   if (loading) return (
-    <div>로딩중...</div>
+    <div class="tenor-gif-embed" data-postid="24452916" data-share-method="host" data-aspect-ratio="1.06312" data-width="100%"><a href="https://tenor.com/view/%EC%B6%98%EC%8B%9D%EC%9D%B4-%EC%B6%98%EC%8B%9D-chunsik-gif-24452916">춘식이 Chunsik GIF</a>from <a href="https://tenor.com/search/%EC%B6%98%EC%8B%9D%EC%9D%B4-gifs">춘식이 GIFs</a></div>
   )
   // axios response가 오기 전에 랜더링이 일어나면 오류가 발생한다. 
   //따라서 loading state로 밑에 본문이 랜더링이 되는것을 막고 loading이 false가 되면 위에 문장이 실행안되고

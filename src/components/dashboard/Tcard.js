@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
+import axios from 'axios'; 
 import IconActivity from './sidebar/icon/Activity'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -172,6 +173,7 @@ function Scard(props) {
   console.log(Dayratio)
 
   const [modalOpen, setModalOpen] = useState(false)
+  const [error, setError] = useState(null)
 
   const openModal = () => {
     setModalOpen(true);
@@ -182,6 +184,19 @@ function Scard(props) {
     setModalOpen(false);
     document.body.style.overflow = "unset";
   };
+
+  const deleteSurvey = () => {
+    axios.patch(`/survey/delete/${surveyId}`)
+    .then((res) => {
+      console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
+      console.log(res)
+      return window.location.reload();
+    })
+    .catch((Error) => {
+      setError(Error)
+    })
+    }
+
 
   return (
     <div>
@@ -209,7 +224,7 @@ function Scard(props) {
                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item onClick={openModal}>삭제하기</NavDropdown.Item>
+                <NavDropdown.Item  onClick={openModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
             </NavDropStyle>
             <Divider light />
@@ -262,7 +277,7 @@ function Scard(props) {
           <span>게시물 삭제</span>
         </ModalTitle>
         <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
-        <ModalDelete onClick={() => { console.log(`${surveyId}번 설문 백엔드에서 삭제해주세요!`) }}>삭제하기</ModalDelete>
+        <ModalDelete onClick={deleteSurvey}>삭제하기</ModalDelete>
 
       </Modal>
 
