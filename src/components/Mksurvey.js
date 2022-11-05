@@ -301,16 +301,23 @@ function Mksurvey() { // Make Survey
 
     const sendToServer = async () => {
 
-        const jwt = localStorage.getItem('jwt')
+        const formData = new FormData() // FormData 객체 사용
 
-        await axios.post("/survey/create", postData, {
-            headers: { // 설문 만드는 유저를 구분 하는 JWT
-                Authorization: 'Bearer ' + jwt
+        // formData.append("file", files[0]) //files[0] === upload file 나중에 파일 업로드할때 사용하기! 
+        const jwt = localStorage.getItem('jwt')
+        const blob = new Blob([JSON.stringify(postData)], { type: "application/json" })// type을 지정해주고 저장
+        formData.append("surveyReqDto", blob)//formData는 특수 개체라 특정한 조작으로만 조작 가능!
+        await axios({
+            method: "POST",
+            url: `/survey/create`,
+            headers: {
+                Authorization: 'Bearer ' + jwt,
             },
+            data: formData,
         })
             .then((res) => {
                 console.log(res.data.code)
-                switch(res.data.code){
+                switch (res.data.code) {
                     case 1000:
                         document.location.href = '/dashboard'
                         break;
@@ -321,7 +328,6 @@ function Mksurvey() { // Make Survey
             .catch((Error) => {
                 console.log(Error)
             })
-
         setModalOpen(false)
     }
 
