@@ -10,7 +10,7 @@ import Kakaologin from './components/Kakaologin';
 import Dashboard from './components/dashboard/Dashboard';
 import Dcontent from './components/dashboard/Home/Content';
 import Dosurvey from './components/Dosurvey';
-
+import { GlobalStyle } from './components/GlobalStyle'
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 기능 사용
@@ -43,6 +43,7 @@ function App() {
           {/* 예외처리로 Notfound페이지 이동시킨다. */}
         </Routes>
       </AnimatePresence>
+      <GlobalStyle />
     </BrowserRouter>
 
   );
