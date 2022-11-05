@@ -95,8 +95,6 @@ const Dashboard = () => {
   console.log(state)
   const now = new Date()//현재시간을 가져 올 수 있다.
 
-  const [modalOpen, setModalOpen] = useState(true)
-
   return (
 
     <>
@@ -117,7 +115,7 @@ const Dashboard = () => {
             <TasksWrapper>
               {/* filter함수를 써서 먼저 expireDate랑 현재 시간이랑 비교해서 시간이 남은 설문만 보여주고 map함수로 뿌려준다.  */}
               {state && (
-                state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).map((survey, index) => (
+                state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).map((survey, index) => (
                   <TCards surveyId={survey.surveyId} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} />
                 ))
               )}
@@ -129,7 +127,7 @@ const Dashboard = () => {
             </Header>
             <TasksWrapper>
               {state && (
-                state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).map((survey, index) => (
+                state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).map((survey, index) => (
                   <TCards surveyId={survey.surveyId} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} />
                 ))
               )}

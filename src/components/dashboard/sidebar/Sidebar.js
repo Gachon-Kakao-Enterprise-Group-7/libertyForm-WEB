@@ -101,8 +101,8 @@ const NameLink = styled.span`
 
 function Sidebar() {
 
-  const [ongoingSurveyCount, setOngoingSurveyCount] = useState(0)
-  const [expiredSurveyCount, setExpiredSurveyCount] = useState(0)
+  const [ongoingSurvey, setOngoingSurvey] = useState('')
+  const [expiredSurvey, setExpiredSurvey] = useState('')
 
   const itemsData = [
     {
@@ -137,8 +137,8 @@ function Sidebar() {
     }
   ]
   const donutdata = {
-    a: ongoingSurveyCount,
-    b: expiredSurveyCount
+    a: ongoingSurvey.length,
+    b: expiredSurvey.length
   };
 
   const state = useSelector(state => state.survey.previewsurvey)
@@ -146,9 +146,9 @@ function Sidebar() {
   const now = new Date()
 
   useEffect(() => {
-    setOngoingSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length)
-    setExpiredSurveyCount(state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length)
-  })
+    setOngoingSurvey(state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0))
+    setExpiredSurvey(state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0))
+  }, [])
 
 
   return (
@@ -204,13 +204,13 @@ function Sidebar() {
               <Checkbox theme={colors["blue-02"]}>
                 <Checkbox.Value checked="true" />
                 <Checkbox.Text pr={3}>
-                  <Text>진행중 설문    {ongoingSurveyCount}</Text>
+                  <Text>진행중 설문    {ongoingSurvey.length}</Text>
                 </Checkbox.Text>
               </Checkbox>
               <Checkbox theme={colors["green-02"]}>
                 <Checkbox.Value checked="true" />
                 <Checkbox.Text pr={3}>
-                  <Text>만료된 설문    {expiredSurveyCount}</Text>
+                  <Text>만료된 설문    {expiredSurvey.length}</Text>
                 </Checkbox.Text>
               </Checkbox>
             </DWrapper>
