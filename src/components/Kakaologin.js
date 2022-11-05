@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import RotateLoader from "react-spinners/RotateLoader";
-
+// import RotateLoader from "react-spinners/RotateLoader";
+import loadingimage from ".././img/loading.gif"
 const MainDiv = styled.div`
     width: 50vw;
     height: 100vh;
@@ -99,7 +99,8 @@ function Kakaologin() {
     return (
         <MainDiv>
             <LoadingDiv>
-                <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50} />
+                {/* <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50}/> */}
+                <img src={loadingimage}></img>
             </LoadingDiv>
             <h3 style={{ fontSize: '2em', fontWeight: 'bold' }}>로그인 중입니다...</h3>
         </MainDiv>
