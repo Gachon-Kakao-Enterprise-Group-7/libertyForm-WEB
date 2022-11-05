@@ -13,11 +13,11 @@ code {
 }
 
 
-@font-face {
+/* @font-face {
   font-family: "NotoSans";
   src: url(./assets/fonts/NotoSans/NotoSansKR-Bold.otf);
 }
 
 :root {
   --font-NotoSans: "NotoSans";
-}
+} */
