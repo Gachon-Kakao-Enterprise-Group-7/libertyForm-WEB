@@ -108,6 +108,7 @@ const Dashboard = () => {
               <Text>설문지 대시보드입니다.</Text>
             </div>
           </HeaderContent>
+          <input type="text" aria-label="Search"placeholder="Search posts"/>
           <TaskWrapper>
             <Header>
               <TeamsTitle>진행중 설문</TeamsTitle>

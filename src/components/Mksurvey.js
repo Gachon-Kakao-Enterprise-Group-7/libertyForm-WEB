@@ -180,6 +180,7 @@ Modal.setAppElement("#root");
 function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
+    const [description, setDescription] = useState('') 
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
     const [expireDate, setExpireDate] = useState('') // 만료 날짜를 설정하는 State
     const [convertedDate, setConvertedDate] = useState('2099-12-30')
@@ -326,6 +327,7 @@ function Mksurvey() { // Make Survey
                 survey: {
                     ...postData.survey,
                     name: title,
+                    description: description,
                     expirationDate: convertedDate,
                 },
                 choiceQuestions: [
@@ -388,12 +390,16 @@ function Mksurvey() { // Make Survey
                     case 1000:
                         document.location.href = '/dashboard'
                         break;
+                    case 4001: //질문유형이 없을경우
+                        break;
                     default:
+                        // window.location.reload();
                         break;
                 }
             })
             .catch((Error) => {
                 console.log(Error)
+                
             })
         setModalOpen(false)
     }
@@ -405,10 +411,13 @@ function Mksurvey() { // Make Survey
             <BlockDiv>
                 <ItemDiv>
                     <div>
-                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 이름을 입력해 주세요</div>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 제목을 입력해 주세요</div>
                     <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
                     {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
+                    {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
                     </div>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold' ,marginTop: '20px'}}>설문의 상세정보를 입력해 주세요</div>
+                    <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setDescription(e.target.value) }}></Input>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
                     <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
@@ -573,7 +582,7 @@ function Mksurvey() { // Make Survey
                 </ModalHeader>
                 <ModalTitle>설문등록</ModalTitle>
                 <ModalDescription>설문을 정말로 등록하시겠습니까?</ModalDescription>
-                <ModalButton onClick={sendToServer}>등록하기</ModalButton>
+                <ModalButton onClick={() => { closeModal(); sendToServer() }}>등록하기</ModalButton>
 
             </Modal>
         </MainWrapper >
