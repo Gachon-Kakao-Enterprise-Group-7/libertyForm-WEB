@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import axios from 'axios'; 
+import axios from 'axios';
 import IconActivity from './sidebar/icon/Activity'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -187,15 +187,15 @@ function Scard(props) {
 
   const deleteSurvey = () => {
     axios.patch(`/survey/delete/${surveyId}`)
-    .then((res) => {
-      console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
-      console.log(res)
-      return window.location.reload();
-    })
-    .catch((Error) => {
-      setError(Error)
-    })
-    }
+      .then((res) => {
+        console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
+        console.log(res)
+        return window.location.reload();
+      })
+      .catch((Error) => {
+        setError(Error)
+      })
+  }
 
 
   return (
@@ -224,7 +224,7 @@ function Scard(props) {
                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item  onClick={openModal}>삭제하기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
             </NavDropStyle>
             <Divider light />
@@ -239,7 +239,6 @@ function Scard(props) {
             <ScoreLine Dayratio={Dayratio}>
               <div /></ScoreLine>
           </CardContent>
-          {RemainDayCount}
         </Card>
       </TWrapper>
 
