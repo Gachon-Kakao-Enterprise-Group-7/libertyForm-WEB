@@ -139,6 +139,7 @@ const Dashboard = () => {
               <Text>설문지 대시보드입니다.</Text>
             </div>
           </HeaderContent>
+
           {ongoingSurvey + expiredSurvey > 0
             &&
             <TaskWrapper>

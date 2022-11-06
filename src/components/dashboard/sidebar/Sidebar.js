@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import { Donut, Plot, Tooltip, colors } from "@semcore/d3-chart";
 import { Flex } from "@semcore/flex-box";
 import { Text } from "@semcore/typography";
@@ -14,9 +14,11 @@ import IconActivity from './icon/Activity'
 import IconSettings from './icon/Settings'
 import IconDashboard from './icon/Dashboard'
 
-
-
-
+const CheckboxWrapper = styled.div`
+  display: flex;
+  justify-content:left;
+  flex-direction: column;
+`
 const TopWrapper = styled.div`
   height: 350px; //설문 맨 윗 창 크기 수정
   padding: 20px 20px 20px 20px;
@@ -29,7 +31,7 @@ const TopWrapper = styled.div`
 
 `
 const Main = styled.div`
-  height: 345px; 
+  height: 360px; 
   width: 230px;
   border-bottom: 1px solid #f1f1f5;
 `
@@ -58,7 +60,7 @@ const Wrapper = styled.section`
 const ItemWrapper = styled.nav`
   display: flex;
   flex-direction: column;
-  margin-top:10px;
+  margin-top:40px;
   justify-content: space-between;
   
   @media (max-width: 620px) {
@@ -201,25 +203,27 @@ function Sidebar() {
                   }}
                 </Tooltip>
               </Plot>
+              <CheckboxWrapper>
               <Checkbox theme={colors["blue-02"]}>
-                <Checkbox.Value checked="true" />
+                <Checkbox.Value checked={true} />
                 <Checkbox.Text pr={3}>
                   <Text>진행중 설문    {ongoingSurvey.length}</Text>
                 </Checkbox.Text>
               </Checkbox>
               <Checkbox theme={colors["green-02"]}>
-                <Checkbox.Value checked="true" />
+                <Checkbox.Value checked={true} />
                 <Checkbox.Text pr={3}>
                   <Text>만료된 설문    {expiredSurvey.length}</Text>
                 </Checkbox.Text>
               </Checkbox>
+              </CheckboxWrapper>
             </DWrapper>
           </Main>
         </TopWrapper>
         <ItemWrapper>
           {itemsData.map((item, index) => {
             return (
-              <NavItem className={({ isActive }) => (isActive ? "active" : "")} to={item.link}>
+              <NavItem className={({ isActive }) => (isActive ? "active" : "")} to={item.link} onClick="window.location.reload()">
                 <Icon>{item.icon}</Icon>
                 <NameLink>{item.name}</NameLink>
               </NavItem>
