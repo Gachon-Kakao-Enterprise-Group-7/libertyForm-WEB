@@ -181,7 +181,7 @@ function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
-    const [expireDate, setExpireDate] = useState(new Date()) // 만료 날짜를 설정하는 State
+    const [expireDate, setExpireDate] = useState('') // 만료 날짜를 설정하는 State
     const [convertedDate, setConvertedDate] = useState('2099-12-30')
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
@@ -410,7 +410,7 @@ function Mksurvey() { // Make Survey
                     {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
                     </div>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
-                    <StyledDatePicker selected={expireDate} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
+                    <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
                     <input disabled type="file" onChange={onLoadFile}></input>
                 </ItemDiv>
