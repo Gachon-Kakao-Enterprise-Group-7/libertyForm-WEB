@@ -202,13 +202,13 @@ function Sidebar() {
                 </Tooltip>
               </Plot>
               <Checkbox theme={colors["blue-02"]}>
-                <Checkbox.Value checked="true" />
+                <Checkbox.Value checked={true} />
                 <Checkbox.Text pr={3}>
                   <Text>진행중 설문    {ongoingSurvey.length}</Text>
                 </Checkbox.Text>
               </Checkbox>
               <Checkbox theme={colors["green-02"]}>
-                <Checkbox.Value checked="true" />
+                <Checkbox.Value checked={true} />
                 <Checkbox.Text pr={3}>
                   <Text>만료된 설문    {expiredSurvey.length}</Text>
                 </Checkbox.Text>

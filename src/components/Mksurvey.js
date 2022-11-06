@@ -26,6 +26,63 @@ const MainWrapper = styled(motion.div)`
 
 
 `
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: #92929d;
+  font-size: 14px;
+`
+const ModalDelete = styled.button`
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  svg {
+    fill: #92929d;
+    :hover {
+      fill: #0062ff;
+    }
+  }
+`
+const ModalTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #171725;
+  font-size: 24px;
+  margin: 30px 0;
+  margin-left: 10px;
+  border-bottom: 1px solid #e2e2ea;
+  height: 50px;
+`
+
+const ModalDescription = styled.span`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  color: gray;
+  font-size: 14px;
+`
+const ModalButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  width:100%;
+  background-color: #0dcaf0;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 38px;
+  border-radius: 20px;
+  border: 1px solid #0dcaf0;
+  :hover {
+    color: #0dcaf0;
+    background-color: white;
+  }
+`
+
 const BlockDiv = styled.div`
     background-color: #fafafa;
     margin: auto;
@@ -128,6 +185,16 @@ function Mksurvey() { // Make Survey
     const [convertedDate, setConvertedDate] = useState('2099-12-30')
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
+
+    const openModal = () => {
+        setModalOpen(true);
+        document.body.style.overflow = "hidden";
+      };
+      
+      const closeModal = () => {
+        setModalOpen(false);
+        document.body.style.overflow = "unset";
+      };
 
     const [postData, setPostData] = useState({
         survey: {
@@ -337,8 +404,11 @@ function Mksurvey() { // Make Survey
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
                 <ItemDiv>
+                    <div>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 이름을 입력해 주세요</div>
                     <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
+                    {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
+                    </div>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
                     <StyledDatePicker selected={expireDate} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
@@ -465,7 +535,7 @@ function Mksurvey() { // Make Survey
                     }}>
                     질문 추가
                 </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Button onClick={() => { setModalOpen(true); saveData() }} variant="contained" color="success">설문 등록하기</Button>
+                <Button onClick={() => { openModal(); saveData() }} variant="contained" color="success">설문 등록하기</Button>
                 <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
@@ -473,32 +543,38 @@ function Mksurvey() { // Make Survey
             </FuncDiv>
             <Modal isOpen={modalOpen} style={{
                 overlay: {
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
                 },
                 content: {
-                    position: 'absolute',
-                    top: '300px',
-                    left: '300px',
-                    right: '300px',
-                    bottom: '300px',
-                    border: '1px solid #ccc',
-                    background: '#fff',
-                    overflow: 'auto',
-                    WebkitOverflowScrolling: 'touch',
-                    borderRadius: '4px',
-                    outline: 'none',
-                    padding: '20px'
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '30%',
+                height: '300px',
+                border: '1px solid #ccc',
+                background: '#fff',
+                overflow: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                outline: 'none',
+                borderRadius: '20px',
+                padding: '20px 25px'
                 }
             }}>
 
-                <div style={{ textAlign: 'right' }}><button onClick={() => { setModalOpen(false) }}>X</button></div>
-                <p>설문을 정말로 등록하시겠습니까?</p>
-                <button onClick={sendToServer}>등록하기</button>
+                <ModalHeader>
+                <ModalDelete onClick={closeModal}>X</ModalDelete>
+                </ModalHeader>
+                <ModalTitle>설문등록</ModalTitle>
+                <ModalDescription>설문을 정말로 등록하시겠습니까?</ModalDescription>
+                <ModalButton onClick={sendToServer}>등록하기</ModalButton>
+
             </Modal>
         </MainWrapper >
     );

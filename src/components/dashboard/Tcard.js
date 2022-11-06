@@ -63,13 +63,13 @@ const ShowLeftDate = styled.div`
   align-items: center;
 `
 
-const Header = styled.div`
+const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   color: #92929d;
   font-size: 14px;
 `
-const Button = styled.button`
+const ModalDelete = styled.button`
   background-color: white;
   border: none;
   outline: none;
@@ -101,7 +101,7 @@ const ModalDescription = styled.span`
   color: gray;
   font-size: 14px;
 `
-const ModalDelete = styled.button`
+const ModalButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -170,7 +170,6 @@ function Scard(props) {
   else if (Dayratio < 0) {
     Dayratio = 0
   }
-  console.log(Dayratio)
 
   const [modalOpen, setModalOpen] = useState(false)
   const [error, setError] = useState(null)
@@ -179,16 +178,19 @@ function Scard(props) {
     setModalOpen(true);
     document.body.style.overflow = "hidden";
   };
-
   const closeModal = () => {
     setModalOpen(false);
     document.body.style.overflow = "unset";
   };
+  const jwt = localStorage.getItem('jwt');
 
   const deleteSurvey = () => {
-    axios.patch(`/survey/delete/${surveyId}`)
+    axios.patch(`/survey/delete/${surveyId}`, {},{
+      headers: {
+        Authorization: 'Bearer ' + jwt
+      }
+    })
     .then((res) => {
-      console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
       console.log(res)
       return window.location.reload();
     })
@@ -239,7 +241,6 @@ function Scard(props) {
             <ScoreLine Dayratio={Dayratio}>
               <div /></ScoreLine>
           </CardContent>
-          {RemainDayCount}
         </Card>
       </TWrapper>
 
@@ -270,14 +271,14 @@ function Scard(props) {
         }
       }}>
 
-        <Header>
-          <Button onClick={closeModal}>X</Button>
-        </Header>
+        <ModalHeader>
+          <ModalDelete onClick={closeModal}>X</ModalDelete>
+        </ModalHeader>
         <ModalTitle>
           <span>게시물 삭제</span>
         </ModalTitle>
         <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
-        <ModalDelete onClick={deleteSurvey}>삭제하기</ModalDelete>
+        <ModalButton onClick={deleteSurvey}>삭제하기</ModalButton>
 
       </Modal>
 
