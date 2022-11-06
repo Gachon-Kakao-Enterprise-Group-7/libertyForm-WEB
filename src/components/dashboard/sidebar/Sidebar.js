@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux';
-import { NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Donut, Plot, Tooltip, colors } from "@semcore/d3-chart";
 import { Flex } from "@semcore/flex-box";
 import { Text } from "@semcore/typography";
@@ -76,20 +76,22 @@ const NavItem = styled(NavLink)`
   letter-spacing: 0.1px;
   border-left: 3px solid #fff;
   margin-bottom: 40px;
+  
   svg {
     fill: #92929d; 
   }
   &.active{
-    color: #0062ff;  
-    border-left: 3px solid #0062ff;
+    color: rgb(235,120,48);  
+    border-left: 3px solid rgb(235,120,48);
     svg {
-      fill: #0062ff;
+      fill: rgb(235,120,48);
     }
   }
     &:hover{
       svg {
-      fill: #0062ff;
+      fill: rgb(235,120,48);
     }
+    color:rgb(235,120,48)
   }
 `
 const Icon = styled.div`
@@ -170,12 +172,12 @@ function Sidebar() {
                   outerRadius={100} >
                   <Donut.Pie
                     dataKey="a"
-                    color={colors["blue-02"]}
+                    color='#f5c525'
                     name="진행설문"
                   />
                   <Donut.Pie
                     dataKey="b"
-                    color={colors["green-02"]}
+                    color='#eb7830'
                     name="종료설문"
                   />
                   <Donut.Label x={0} y={0}>
@@ -204,18 +206,18 @@ function Sidebar() {
                 </Tooltip>
               </Plot>
               <CheckboxWrapper>
-              <Checkbox theme={colors["blue-02"]}>
-                <Checkbox.Value checked={true} />
-                <Checkbox.Text pr={3}>
-                  <Text>진행중 설문    {ongoingSurvey.length}</Text>
-                </Checkbox.Text>
-              </Checkbox>
-              <Checkbox theme={colors["green-02"]}>
-                <Checkbox.Value checked={true} />
-                <Checkbox.Text pr={3}>
-                  <Text>만료된 설문    {expiredSurvey.length}</Text>
-                </Checkbox.Text>
-              </Checkbox>
+                <Checkbox theme='#f5c525'>
+                  <Checkbox.Value checked={true} />
+                  <Checkbox.Text pr={3}>
+                    <Text>진행중 설문    {ongoingSurvey.length}</Text>
+                  </Checkbox.Text>
+                </Checkbox>
+                <Checkbox theme='#eb7830'>
+                  <Checkbox.Value checked={true} />
+                  <Checkbox.Text pr={3}>
+                    <Text>만료된 설문    {expiredSurvey.length}</Text>
+                  </Checkbox.Text>
+                </Checkbox>
               </CheckboxWrapper>
             </DWrapper>
           </Main>
