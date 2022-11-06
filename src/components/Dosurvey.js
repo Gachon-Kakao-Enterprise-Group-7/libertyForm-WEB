@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Slider from '@mui/material/Slider';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Radio from '@mui/material/Radio';
 
 import { ReactComponent as EmotionGood } from "../img/emotiongood.svg";
 import { ReactComponent as EmotionBad } from "../img/emotionbad.svg";
@@ -35,8 +39,6 @@ const SurveyCard = styled.div`
 const QuestionTitle = styled.div`
   font-size: 2rem;
 `
-
-
 const LinerBtn = styled.button`
   color: ${props => props.checked ? 'white' : 'black'};
   background:${props => props.checked ? 'black' : '#e1e1e1'} ;
@@ -52,7 +54,6 @@ const LinerBtn = styled.button`
     color:white
   }
 `
-
 const EmotionSlider = styled(Slider)({
   color: '#52af77 !important', //important를 이용해서 css우선순위를 1순위로 끌어올렸다.
   height: 8,
@@ -91,7 +92,6 @@ const EmotionSlider = styled(Slider)({
     },
   },
 });
-
 const StartSurveyBtn = styled.button`
   margin: 20px auto;
   display: block;
@@ -127,7 +127,6 @@ function Dosurvey() {
   const [newSurveyDetail, setNewSurveyDetail] = useState(null)
   const [choiceQuestions, setChoiceQuestions] = useState(null)
 
-  const foreachtest = [1, 2, 3, 4]
 
   useEffect(() => {
     setLoading(true)
@@ -161,7 +160,7 @@ function Dosurvey() {
   )
   // axios response가 오기 전에 랜더링이 일어나면 오류가 발생한다. 
   //따라서 loading state로 밑에 본문이 랜더링이 되는것을 막고 loading이 false가 되면 위에 문장이 실행안되고
-  // 아래에 본문return이 실행 될 것이다.
+  // 아래에 본문return이 실행 될 것이다.s
   if (error) return (
     <div>에러 발생..{error}</div>
   )
@@ -172,11 +171,11 @@ function Dosurvey() {
   //surveyDetail 이 null이라면 아무것도 반환하지 않는다.
 
 
-  const mkNewSurveyDetail = () => {
-    setNewSurveyDetail({
-      ...newSurveyDetail,
+  const mkNewSurveyDetail = async () => {
+    setSurveyDetail({
+      ...surveyDetail,
       questions: [
-        ...newSurveyDetail.questions,
+        ...surveyDetail.questions,
         // ...choiceQuestions.map((item) => ({ questionTypeId: item.question.questionTypeId, name: item.question.name, desciption:item.question.dis  }))]
         ...choiceQuestions.map((item) => ({ ...item.question, mcitem: item.choices.map((mcitem) => (mcitem.name)) }))]
     })
@@ -266,6 +265,15 @@ function Dosurvey() {
     setInputs(e.target.value)
   }
 
+  const onChangeType3 = (e) => {
+    console.log(e.target.value)
+    let temparr = result
+    temparr[showSurveyNumber - 1] = e.target.value
+    setResult(temparr)
+    setInputs(e.target.value)
+
+  }
+
   const onChangeType5 = (e, value) => { // 감정바 문항에 대한 핸들링
     let temparr = result
     temparr[showSurveyNumber - 1] = value
@@ -279,21 +287,20 @@ function Dosurvey() {
     setInputs(e.target.name)
   }
 
-
+  console.log()
 
   return (
     <BackgroundDiv>
       {showSurveyNumber === 0 //설문 시작화면 보여주기
         &&
         <StartCard>
-
           <QuestionTitle><span style={{ fontWeight: 'bold' }}>{surveyDetail.survey.name}</span>에 관한 설문입니다.</QuestionTitle>
           <QuestionTitle>설문 문항은 총 <span style={{ fontWeight: 'bold' }}>{surveyDetail.questions.length + surveyDetail.choiceQuestions.length}문항</span> 입니다. </QuestionTitle>
           <StartSurveyBtn onClick={startSurvey}>설문시작</StartSurveyBtn>
           <hr />
           <div>개발자 참고 공간 ↓</div>
           <div>설문번호 : {params.surveyId}</div>
-          <button onClick={mkNewSurveyDetail}>test</button>
+          <button onClick={mkNewSurveyDetail}>객관식문제 choiceQuestions에서 questions로 파싱하기</button>
 
           <div>디자인작업 진행 10%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div>
           {console.log(surveyDetail)}
@@ -308,18 +315,34 @@ function Dosurvey() {
           <SurveyCard>
             <QuestionTitle>{`${showSurveyNumber}. ${surveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
             <br />
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문)을 경우 아래의 식을 수행
+            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
               <AnswerInput style={{ width: '100%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
             }
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문)을 경우 아래의 식을 수행
+            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
               <AnswerInput style={{ width: '70%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
             }
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바)을 경우 아래의 식을 수행
+
+
+            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 3 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
+              <FormControl>
+                <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                  {surveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
+                    <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            }
+
+
+            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
               <div style={{ width: '500px' }}>
                 <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
               </div>
             }
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율)을 경우 아래의 식을 수행
+
+
+
+            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <LinerBtn checked={inputs === '1' ? true : false} name='1' onClick={onChangeType6} >1<br /><span style={{ fontSize: '11px' }}>매우 그렇지 않다</span></LinerBtn>
                 <LinerBtn checked={inputs === '2' ? true : false} name='2' onClick={onChangeType6}>2<br /><span style={{ fontSize: '11px' }}>그렇지 않다</span> </LinerBtn>
@@ -330,13 +353,13 @@ function Dosurvey() {
 
             }
             <br />
-            {console.log(`result : ${result}`)}
+            {console.log(result)}
             <br />
             {showSurveyNumber === surveyDetail.questions.length // 설문의 마지막 문항일때 조건
               ?
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <button onClick={prevQuestion}>이전문항</button>
-                <button onClick={onSubmit}>제출하기</button>
+                <button onClick={onSubmit}>제출하기{surveyDetail.questions.length}</button>
               </div>
 
               :
@@ -353,7 +376,7 @@ function Dosurvey() {
 
           </SurveyCard>}
       </div>
-    </BackgroundDiv>
+    </BackgroundDiv >
   );
 }
 

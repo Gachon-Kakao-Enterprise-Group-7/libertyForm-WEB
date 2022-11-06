@@ -18,7 +18,7 @@ const ScoreLine = styled.div`
 
   div {
     height: 3px;
-    background-color: #3dd598;
+    background-color: #f5c525;
   }
 `
 
@@ -186,19 +186,19 @@ function Scard(props) {
 
   const deleteSurvey = () => {
 
-    axios.patch(`/survey/delete/${surveyId}`, {},{
+    axios.patch(`/survey/delete/${surveyId}`, {}, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
-    .then((res) => {
-      console.log(res)
-      return window.location.reload();
-    })
-    .catch((Error) => {
-      setError(Error)
-    })
-    }
+      .then((res) => {
+        console.log(res)
+        return window.location.reload();
+      })
+      .catch((Error) => {
+        setError(Error)
+      })
+  }
 
 
 
@@ -223,7 +223,7 @@ function Scard(props) {
                   : <TypographyTitle style={{ fontWeight: 'bold' }}>{props.title}</TypographyTitle>
                 }
               </Typography>
-              <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none' }} >
+              <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none', color: 'red' }} >
                 <NavDropdown.Item href="/null1">발행하기</NavDropdown.Item>
                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
