@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import axios from 'axios'; 
+import axios from 'axios';
 import IconActivity from './sidebar/icon/Activity'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -185,6 +185,7 @@ function Scard(props) {
   const jwt = localStorage.getItem('jwt');
 
   const deleteSurvey = () => {
+
     axios.patch(`/survey/delete/${surveyId}`, {},{
       headers: {
         Authorization: 'Bearer ' + jwt
@@ -198,6 +199,7 @@ function Scard(props) {
       setError(Error)
     })
     }
+
 
 
   return (
@@ -226,7 +228,7 @@ function Scard(props) {
                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item  onClick={openModal}>삭제하기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
             </NavDropStyle>
             <Divider light />

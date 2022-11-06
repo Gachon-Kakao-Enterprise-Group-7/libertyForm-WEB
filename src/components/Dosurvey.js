@@ -122,6 +122,13 @@ function Dosurvey() {
 
   const [result, setResult] = useState('')//설문의 결과를 배열로 저장하는 state
   const [inputs, setInputs] = useState(); // 현재 설문 문항에 대한 데이터를 가지고 있는 state!
+
+
+  const [newSurveyDetail, setNewSurveyDetail] = useState(null)
+  const [choiceQuestions, setChoiceQuestions] = useState(null)
+
+  const foreachtest = [1, 2, 3, 4]
+
   useEffect(() => {
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
@@ -132,10 +139,11 @@ function Dosurvey() {
     })
       .then((res) => {
         console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
-        console.log(res)
         setLoading(false)
         setSurveyDetail(res.data.result)
+        setNewSurveyDetail(res.data.result)
         setResult([]) // result 배열의 공간을 만들어준다.
+        setChoiceQuestions(res.data.result.choiceQuestions)
       })
       .catch((Error) => {
         setError(Error)
@@ -162,6 +170,17 @@ function Dosurvey() {
     null
   )
   //surveyDetail 이 null이라면 아무것도 반환하지 않는다.
+
+
+  const mkNewSurveyDetail = () => {
+    setNewSurveyDetail({
+      ...newSurveyDetail,
+      questions: [
+        ...newSurveyDetail.questions,
+        // ...choiceQuestions.map((item) => ({ questionTypeId: item.question.questionTypeId, name: item.question.name, desciption:item.question.dis  }))]
+        ...choiceQuestions.map((item) => ({ ...item.question, mcitem: item.choices.map((mcitem) => (mcitem.name)) }))]
+    })
+  }
 
 
   const startSurvey = () => {
@@ -274,9 +293,12 @@ function Dosurvey() {
           <hr />
           <div>개발자 참고 공간 ↓</div>
           <div>설문번호 : {params.surveyId}</div>
+          <button onClick={mkNewSurveyDetail}>test</button>
 
           <div>디자인작업 진행 10%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div>
           {console.log(surveyDetail)}
+          {console.log(newSurveyDetail)}
+          {console.log(choiceQuestions)}
         </StartCard>
       }
 
@@ -328,7 +350,6 @@ function Dosurvey() {
             <div>개발자 참고 공간 ↓</div>
             <div>{`question타입 : ${surveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
             <div>{`필수답변여부 : ${surveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
-
 
           </SurveyCard>}
       </div>
