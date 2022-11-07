@@ -6,7 +6,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
+
+const StyledNavbar = styled(Navbar)`
+    background-color: rgb(37 37 37 / 5%);
+`
 
 function Navs() {
 
@@ -24,7 +29,7 @@ function Navs() {
     }
 
     return (
-        <Navbar collapseOnSelect expand="lg" style={{ backgroundColor: '#252525' }} variant="dark" >
+        <StyledNavbar collapseOnSelect expand="lg" variant="dark" >
             <Container>
                 {/* <Logo to = "/"></Logo> */}
                 <Navbar.Brand href="/">Libertyform</Navbar.Brand>
@@ -61,7 +66,7 @@ function Navs() {
                     </Nav>
                 </Navbar.Collapse>
             </Container>
-        </Navbar>
+        </StyledNavbar>
     );
 }
 
