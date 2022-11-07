@@ -102,6 +102,7 @@ function Login() {
     }
 
     return (
+        <div style={{ height: "100vh", width: "100%", position: 'absolute', top: '0px', zIndex: '-1' }}>
         <Backgrounddiv>
             <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <CardHeader>
@@ -155,6 +156,7 @@ function Login() {
                 </CardBody>
             </CardWrapper>
         </Backgrounddiv>
+        </div>
     );
 }
 

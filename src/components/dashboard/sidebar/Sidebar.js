@@ -175,12 +175,12 @@ function Sidebar() {
                   outerRadius={100} >
                   <Donut.Pie
                     dataKey="a"
-                    color='#f5c525'
+                    color='#ffcd00'
                     name="진행설문"
                   />
                   <Donut.Pie
                     dataKey="b"
-                    color='#eb7830'
+                    color='#ff7800'
                     name="종료설문"
                   />
                   <Donut.Label x={0} y={0}>
