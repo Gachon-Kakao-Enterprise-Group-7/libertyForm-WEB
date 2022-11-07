@@ -2,7 +2,8 @@
 // 페이지가 로딩되면서 서버로부터 설문정보를 받아와 surveyDetail에 저장을 한다.
 // surveyDetail은 객관식, 주관식이 분리되어있는 데이터 형태라 데이터 가공이 필요하다
 // surveyDetail에 데이터가 저장되면 변화를 useEffect가 감지하고 newSurveyDetail에 객관식과 주관식을 합쳐서 저장하게 된다.
-// 
+// newSurveyDetail의 변화 또한 useEffect가 감지하고 있다가 변화되면
+// 질문의 number로 정렬을 해서 sortedSurveyDetail에 저장하고 이 데이터를 설문자가 응답할때 사용한다.
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
