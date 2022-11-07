@@ -140,14 +140,16 @@ function Sidebar() {
       link: '/default'
     }
   ]
-  const donutdata = {
-    a: ongoingSurvey.length,
-    b: expiredSurvey.length
-  };
 
   const state = useSelector(state => state.survey.previewsurvey)
 
   const now = new Date()
+
+  const donutdata = {
+    a: state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length,
+    b: state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length
+  };
+
 
   useEffect(() => {
     setOngoingSurvey(state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0))
@@ -155,16 +157,16 @@ function Sidebar() {
   }, [])
 
 
-  useEffect(()=>{
-    
-  },[])
+  useEffect(() => {
+
+  }, [])
   return (
     <div>
       <Wrapper>
         <TopWrapper>
           <Main>
             <DWrapper>
-              <Text style={{ fontWeight: 'bold', marginRight: '15px', marginTop:'20px' }} tag="h3" size={400} medium m={0} >
+              <Text style={{ fontWeight: 'bold', marginRight: '15px', marginTop: '20px' }} tag="h3" size={400} medium m={0} >
                 설문 현황
               </Text>
 

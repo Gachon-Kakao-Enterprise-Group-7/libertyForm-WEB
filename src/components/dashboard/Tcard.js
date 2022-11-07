@@ -9,6 +9,7 @@ import IconActivity from './sidebar/icon/Activity'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
+import { margin } from '@mui/system';
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
@@ -21,13 +22,11 @@ const ScoreLine = styled.div`
     background-color: #f5c525;
   }
 `
-
 const TypographyTitle = styled.div`
   white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 `
-
 const TWrapper = styled.div`
   margin: 10px;
   width: 280px;
@@ -38,7 +37,6 @@ const TWrapper = styled.div`
     cursor: pointer;
   }
 `
-
 const Icon = styled.div`
     margin-right : 3px;
     display: flex;
@@ -50,7 +48,6 @@ const NavDropStyle = styled.div`
   align-items: center;
   color :"black";
 `
-
 const ShowLeftDate = styled.div`
   font-weight: 600;
   color: var(--soft-blue);
@@ -62,7 +59,6 @@ const ShowLeftDate = styled.div`
   display: flex;
   align-items: center;
 `
-
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -92,7 +88,6 @@ const ModalTitle = styled.div`
   border-bottom: 1px solid #e2e2ea;
   height: 50px;
 `
-
 const ModalDescription = styled.span`
   display: flex;
   flex-direction: column;
@@ -107,7 +102,7 @@ const ModalButton = styled.button`
   align-items: center;
   margin-top: 40px;
   width:100%;
-  background-color: #fc5a5a;
+  background-color: #ff7800;
   outline: none;
   cursor: pointer;
   color: white;
@@ -118,9 +113,7 @@ const ModalButton = styled.button`
     color: #fc5a5a;
     background-color: white;
   }
-`
-
-
+  `
 const styles = (muiBaseTheme) => ({
   card: {
     transition: "0.3s",
@@ -154,8 +147,7 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-  const { classes, surveyId, } = props
-
+  const { classes, surveyId, code } = props
   const now = new Date()
   const expireDate = new Date(`${props.expirationDate}:00:00:00`)
   const startDate = new Date(props.createdAt)
@@ -171,21 +163,38 @@ function Scard(props) {
     Dayratio = 0
   }
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [error, setError] = useState(null)
+  const [linkModalOpen, setLinkModalOpen] = useState(false)
 
-  const openModal = () => {
-    setModalOpen(true);
+  const surveylink = `localhost:3000/dosurvey/${code}`
+
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true);
     document.body.style.overflow = "hidden";
   };
-  const closeModal = () => {
-    setModalOpen(false);
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
     document.body.style.overflow = "unset";
   };
+
+  const openLinkModal = () => {
+    setLinkModalOpen(true)
+  }
+
+  const closeLinkModal = () => {
+    setLinkModalOpen(false)
+  }
+
+  const copySurveyLink = async () => {
+    await navigator.clipboard.writeText(surveylink)
+    alert('링크가 복사되었습니다!')
+  }
+
   const jwt = localStorage.getItem('jwt');
 
   const deleteSurvey = () => {
-
     axios.patch(`/survey/delete/${surveyId}`, {}, {
       headers: {
         Authorization: 'Bearer ' + jwt
@@ -199,7 +208,6 @@ function Scard(props) {
         setError(Error)
       })
   }
-
 
 
   return (
@@ -224,11 +232,11 @@ function Scard(props) {
                 }
               </Typography>
               <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none', color: 'red' }} >
-                <NavDropdown.Item href="/null1">발행하기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item onClick={openModal}>삭제하기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
             </NavDropStyle>
             <Divider light />
@@ -246,7 +254,7 @@ function Scard(props) {
         </Card>
       </TWrapper>
 
-      <Modal isOpen={modalOpen} style={{
+      <Modal isOpen={deleteModalOpen} style={{ // 설문 삭제에 관한 모달
         overlay: {
           position: 'fixed',
           top: 0,
@@ -274,13 +282,51 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closeModal}>X</ModalDelete>
+          <ModalDelete onClick={closeDeleteModal}>X</ModalDelete>
         </ModalHeader>
         <ModalTitle>
           <span>설문 삭제</span>
         </ModalTitle>
         <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
         <ModalButton onClick={deleteSurvey}>삭제하기</ModalButton>
+
+      </Modal>
+
+      <Modal isOpen={linkModalOpen} style={{ //설문 링크 생성에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '50%',
+          height: '400px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={closeLinkModal}>X</ModalDelete>
+        </ModalHeader>
+        <ModalTitle>
+          <span>설문 링크</span>
+        </ModalTitle>
+        <input style={{ border: '1px solid grey', margin: '10px', width: '80%' }} value={surveylink}></input>
+        <ModalButton onClick={copySurveyLink}>복사하기</ModalButton>
 
       </Modal>
 
