@@ -28,7 +28,7 @@ const ActionsWrapper = styled.div`
 
 const Title = styled.div`
     size: 20;
-    color: '#44444F';
+    color: 'rgb(235,120,48)';
 `
 
 const Navs = () => {
@@ -36,7 +36,7 @@ const Navs = () => {
     <Wrapper>
       <LogoWrapper>
         <Link to='/'>
-          <Title>LibertyFrom</Title>
+          <Title>LibertyFroms</Title>
         </Link>
       </LogoWrapper>
       {/* <ActionsWrapper>g_

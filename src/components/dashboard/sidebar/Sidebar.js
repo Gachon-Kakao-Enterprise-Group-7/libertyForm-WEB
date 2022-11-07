@@ -161,7 +161,7 @@ function Sidebar() {
         <TopWrapper>
           <Main>
             <DWrapper>
-              <Text style={{ fontWeight: 'bold', marginRight: '15px' }} tag="h3" size={400} medium m={0} >
+              <Text style={{ fontWeight: 'bold', marginRight: '15px', marginTop:'20px' }} tag="h3" size={400} medium m={0} >
                 설문 현황
               </Text>
 
