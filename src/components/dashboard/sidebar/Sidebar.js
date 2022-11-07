@@ -155,6 +155,9 @@ function Sidebar() {
   }, [])
 
 
+  useEffect(()=>{
+    
+  },[])
   return (
     <div>
       <Wrapper>
@@ -209,13 +212,13 @@ function Sidebar() {
                 <Checkbox theme='#f5c525'>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>진행중 설문    {ongoingSurvey.length}</Text>
+                    <Text>진행중 설문    {state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
                 <Checkbox theme='#eb7830'>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>만료된 설문    {expiredSurvey.length}</Text>
+                    <Text>만료된 설문    {state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
               </CheckboxWrapper>
