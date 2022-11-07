@@ -152,10 +152,10 @@ function Scard(props) {
   const expireDate = new Date(`${props.expirationDate}:00:00:00`)
   const startDate = new Date(props.createdAt)
 
-  const DayCount = Math.round((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
-  const RemainDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
+  const DayCount = Math.ceil((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
+  const RemainDayCount = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
-  let Dayratio = Math.round(100 - ((RemainDayCount / DayCount) * 100))
+  let Dayratio = Math.ceil(100 - ((RemainDayCount / DayCount) * 100))
   if (Dayratio > 100) {
     Dayratio = 100
   }
