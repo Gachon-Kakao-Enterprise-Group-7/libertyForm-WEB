@@ -98,6 +98,8 @@ transition: all 300ms;
 
 `
 
+
+
 const Dashboard = () => {
 
   const jwt = localStorage.getItem('jwt')
@@ -180,7 +182,6 @@ const Dashboard = () => {
               <MksurveyBtn>설문 생성하기</MksurveyBtn>
             </Nosurvey>
           }
-
         </Wrapper>
       </MainWrapper>
 
