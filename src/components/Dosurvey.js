@@ -126,6 +126,13 @@ function Dosurvey() {
   const [surveyDetail, setSurveyDetail] = useState(null) //axios를 통해 받아오는 설문 상세 정보 state [1차 데이터]
   const [newSurveyDetail, setNewSurveyDetail] = useState(null) // 객관+주관 합친 데이터 [2차 데이터]
   const [sortedSurveyDetail, setSortedSurveyDetail] = useState(null) // 문제 순서(number)에 따라 정렬된 데이터 [3차 데이터, 실제 설문에 쓰일 데이터]
+  const [postData, setPostData] = useState({ // 피설문자의 설문 응답 결과를 서버에 보내기 위해 변환한 형태의 데이터
+    multipleChoiceResponse: [], // 객관식 다중선택
+    numericResponse: [], // 감정바
+    singleChoiceResponse: [], // 객관식 단일선택
+    textResponse: [], // 단문, 장문식
+    surveyId: '',
+  })
 
   const [loading, setLoading] = useState(false) // axios에서 정보를 받아오고 랜더링하기 위한 상태 state
   const [error, setError] = useState(null) // 에러발생시 에러를 저장할 수 있는 state
@@ -134,8 +141,6 @@ function Dosurvey() {
   const [result, setResult] = useState('')//설문의 결과를 배열로 저장하는 state
   const [inputs, setInputs] = useState(); // 현재 설문 문항에 대한 데이터를 가지고 있는 state!
 
-  
-  
   const [choiceQuestions, setChoiceQuestions] = useState(null) // 객관식 정보만 담고 있는 state
 
 
@@ -149,12 +154,12 @@ function Dosurvey() {
     })
       .then((res) => {
         console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
-        
+
         setSurveyDetail(res.data.result)
         setNewSurveyDetail(res.data.result)
         setResult([]) // result 배열의 공간을 만들어준다.
         setChoiceQuestions(res.data.result.choiceQuestions)
-        
+
       })
       .catch((Error) => {
         setError(Error)
@@ -170,24 +175,28 @@ function Dosurvey() {
         // ...choiceQuestions.map((item) => ({ questionTypeId: item.question.questionTypeId, name: item.question.name, desciption:item.question.dis  }))]
         ...choiceQuestions.map((item) => ({ ...item.question, mcitem: item.choices.map((mcitem) => (mcitem.name)) }))]
     })
-}, [surveyDetail]);
+  }, [surveyDetail]);
 
 
-useDidMountEffect(() => { // newSurveyDetail -> sortedSurveydetail (변경내용 : 합쳐준 설문정보를 number에 따라 정렬한다.)
-  setSortedSurveyDetail({
-    ...newSurveyDetail,
-    questions:newSurveyDetail.questions.sort(function(a,b){
-      return a.number - b.number
-    }) // 객체의 number를 비교해서 오름차순으로 정렬한다.
-  })
-  setLoading(false) // 여기까지 작업이 끝나면 이제 로딩을 끝내준다.
-}, [newSurveyDetail]);
+  useDidMountEffect(() => { // newSurveyDetail -> sortedSurveydetail (변경내용 : 합쳐준 설문정보를 number에 따라 정렬한다.)
+    setSortedSurveyDetail({
+      ...newSurveyDetail,
+      questions: newSurveyDetail.questions.sort(function (a, b) {
+        return a.number - b.number
+      }) // 객체의 number를 비교해서 오름차순으로 정렬한다.
+    })
+    setLoading(false) // 여기까지 작업이 끝나면 이제 로딩을 끝내준다.
+  }, [newSurveyDetail]);
 
 
 
   useEffect(() => {
     console.log('inputs이 변화했습니다', inputs)
   }, [inputs])
+
+  useEffect(() => { //postData가 바뀔때마다 알려줄것!
+    console.log(postData, 'postData')
+  }, [postData])
 
 
   if (loading) return (
@@ -214,21 +223,49 @@ useDidMountEffect(() => { // newSurveyDetail -> sortedSurveydetail (변경내용
         // ...choiceQuestions.map((item) => ({ questionTypeId: item.question.questionTypeId, name: item.question.name, desciption:item.question.dis  }))]
         ...choiceQuestions.map((item) => ({ ...item.question, mcitem: item.choices.map((mcitem) => (mcitem.name)) }))]
     })
-    
+
   }
 
-
- 
 
   const startSurvey = () => {
-    
     setShowSurveyNumber(1)
   }
+
+  const sendToServer = () => {
+    setPostData((prev) => ({ ...prev, surveyId: sortedSurveyDetail.survey.surveyId })) //surveyID postData에 저장!
+    sortedSurveyDetail.questions.forEach((survey, index) => {
+      switch (survey.questionTypeId) { // switch문의 조건에 맞게 응답들을 postData에 저장!
+        case 1: // 장문형
+          setPostData((prev) => ({ ...prev, textResponse: [...prev.textResponse, { questionNumber: (index + 1), type: 'LONG_TEXT', value: result[index] }] }))
+          break;
+        case 2: // 단문형
+          setPostData((prev) => ({ ...prev, textResponse: [...prev.textResponse, { questionNumber: (index + 1), type: 'SHORT_TEXT', value: result[index] }] }))
+          break;
+        case 3: // 객관식(단일)
+          setPostData((prev) => ({ ...prev, singleChoiceResponse: [...prev.singleChoiceResponse, { questionNumber: (index + 1), choiceNumber: result[index] }] }))
+          break;
+        case 4:
+          console.log('4입니다!')
+          break;
+        case 5: // 감정바
+          setPostData((prev) => ({ ...prev, numericResponse: [...prev.numericResponse, { questionNumber: (index + 1), type: 'EMOTION_BAR', value: result[index] }] }))
+          break;
+        case 6:
+          console.log('6입니다!')
+          break;
+        default:
+          break;
+      }
+    });
+
+  }
+
 
   const onSubmit = () => {
     if (sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
       if ((result[showSurveyNumber - 1] != null)) { // 문항에 응답했으면
         console.log(result, '제출!')
+        sendToServer()
       }
       else {
         alert('필수 문항입니다. 답변해주세요!')
@@ -239,6 +276,7 @@ useDidMountEffect(() => { // newSurveyDetail -> sortedSurveydetail (변경내용
         result[showSurveyNumber - 1] = null
       }
       console.log(result, '제출')
+      sendToServer()
     }
   }
 
@@ -325,8 +363,6 @@ useDidMountEffect(() => { // newSurveyDetail -> sortedSurveydetail (변경내용
     tempArr[showSurveyNumber - 1] = e.target.name
     setInputs(e.target.name)
   }
-
-  console.log()
 
   return (
     <BackgroundDiv>
