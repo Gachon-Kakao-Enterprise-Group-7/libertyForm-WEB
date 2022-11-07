@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 import * as THREE from "three";
-import CLOUD from "vanta/dist/vanta.clouds.min";
+import FOG from "vanta/dist/vanta.fog.min";
 
 import { motion } from "framer-motion"
 
@@ -17,7 +17,7 @@ const Spacingdiv = styled.div`
 `
 
 const Bodydiv = styled(motion.div)`
-    color: #0a1545;
+    color: #401504;
     width: 80%;
     text-align: center;
     align-items: center;
@@ -25,9 +25,10 @@ const Bodydiv = styled(motion.div)`
     
 `
 const H1slogan = styled.h1`
-    font-family: var(--font-NotoSans);
+    font-family: var(--font-NotoSans) !important;
     font-size: 5vw;
     cursor: context-menu;
+    font-weight: bold;
 `
 const H2slogan = styled.h2`
     padding-top: 1vw;
@@ -42,7 +43,7 @@ const Mainbutton = styled.button`
     border: none;
     outline: none;
     color: #fff;
-    background: #6667ab;
+    background: #ff7800;
     cursor: pointer;
     position: relative;
     z-index: 0;
@@ -67,7 +68,7 @@ const Mainbutton = styled.button`
     }
 
     &:active {
-        color: #6667ab;
+        color: #eb7830;
     }
 
     &:active:after {
@@ -84,7 +85,7 @@ const Mainbutton = styled.button`
         position: absolute;
         width: 100%;
         height: 100%;
-        background: #6667ab;
+        background: #ff7800;
         left: 0;
         top: 0;
         border-radius: 10px;
@@ -108,14 +109,14 @@ function Main() {
     useEffect(() => {
         if (!vantaEffect) {
             setVantaEffect(
-                CLOUD({
+                FOG({
                     el: vantaRef.current,
                     THREE: THREE,
                     mouseControls: true,
                     touchControls: true,
                     gyroControls: false,
-                    minHeight: 200.0,
-                    minWidth: 200.0,
+                    minHeight: 200.00,
+                    minWidth: 200.00
                 })
             );
         }
