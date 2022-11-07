@@ -85,9 +85,9 @@ export const CardWrapper = styled(motion.div)`
   padding: 0 0 32px;
   margin: 48px auto 0;
   width: 500px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 80), 0 0px 40px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   color : black;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
 
 `;
 
@@ -97,7 +97,7 @@ export const CardHeader = styled.header`
 `;
 
 export const CardHeading = styled.h1`
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: bold;
   text-align: center;
 `;
@@ -118,6 +118,7 @@ export const CardFieldset = styled.fieldset`
   & + & {
     margin-top: 30px;
   }
+
 
   &:nth-last-of-type(2) {
     margin-top: 16px;
@@ -140,7 +141,7 @@ export const CardInput = styled.input`
   transition: border-bottom-color 0.25s ease-in;
 
   &:focus {
-    border-bottom-color: #e5195f;
+    border-bottom-color: #ff7800;
     outline: 0;
   }
 `;
@@ -207,10 +208,10 @@ export const CardButton = styled.button`
   width: 100%;
   padding: 12px 0;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   color: #fff;
-  background-color: #5d64c6;
+  background-color: #ff7800;
   border: 0;
   border-radius: 16px;
   height: 60px;
@@ -249,6 +250,6 @@ export const CardLink = styled.a`
   list-style-type: none; */
 
   &:hover {
-    color: #5d64c6;
+    color: #ff7800;
   }
 `;

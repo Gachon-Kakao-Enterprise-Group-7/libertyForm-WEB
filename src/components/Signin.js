@@ -83,6 +83,7 @@ function Signin() {
     }
 
     return (
+        <div style={{ height: "100vh", width: "100%", position: 'absolute', top: '0px', zIndex: '-1' }}>
         <Backgrounddiv>
             <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <CardHeader>
@@ -141,15 +142,9 @@ function Signin() {
                             required />
                     </CardFieldset>
 
-                    <CardFieldset>
-                        <CardButton type="button " onClick={onSummit}>Sign Up</CardButton>
+                    <CardFieldset style={{ marginTop: '30px'  ,marginBottom: '30px'}}>
+                        <CardButton type="button" onClick={onSummit}>Sign Up</CardButton>
                     </CardFieldset>
-
-                    <CardFieldset>
-                        <CardOptionsNote>Or sign up with</CardOptionsNote>
-                    </CardFieldset>
-                    <br></br>
-
                     <hr />
                     <CardFieldset>
                         <CardLink href="/login">I already have an account</CardLink>
@@ -157,6 +152,7 @@ function Signin() {
                 </CardBody>
             </CardWrapper>
         </Backgrounddiv>
+        </div>
     );
 }
 

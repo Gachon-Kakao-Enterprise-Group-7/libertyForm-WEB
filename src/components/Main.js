@@ -129,11 +129,9 @@ function Main() {
         <div style={{ height: "100vh", width: "100%", position: 'absolute', top: '0px', zIndex: '-1' }} ref={vantaRef}>
             <Spacingdiv></Spacingdiv>
             <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
-                <H1slogan>자유롭고 편리한 소통의 시작</H1slogan>
+                <H1slogan>LIBERTYFORM</H1slogan>
             </Bodydiv>
-            <Bodydiv whileHover={{ scale: 1.1 }}>
-                <H2slogan>누구든지 편하고, 자유롭게 이용하고, 당신의 의견을 표현하세요</H2slogan>
-            </Bodydiv>
+
             <Bodydiv >
                 <Link to="/dashboard">
                     <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
