@@ -1,6 +1,14 @@
+// !작동방식
+// 페이지가 로딩되면서 서버로부터 설문정보를 받아와 surveyDetail에 저장을 한다.
+// surveyDetail은 객관식, 주관식이 분리되어있는 데이터 형태라 데이터 가공이 필요하다
+// surveyDetail에 데이터가 저장되면 변화를 useEffect가 감지하고 newSurveyDetail에 객관식과 주관식을 합쳐서 저장하게 된다.
+// newSurveyDetail의 변화 또한 useEffect가 감지하고 있다가 변화되면
+// 질문의 number로 정렬을 해서 sortedSurveyDetail에 저장하고 이 데이터를 설문자가 응답할때 사용한다.
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 import styled from 'styled-components';
 import Slider from '@mui/material/Slider';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -12,14 +20,13 @@ import { ReactComponent as EmotionGood } from "../img/emotiongood.svg";
 import { ReactComponent as EmotionBad } from "../img/emotionbad.svg";
 
 const BackgroundDiv = styled.div`
-  background: #301e4e;
+  background: #00000026;
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center; //세로축
   justify-content: center;  //가로축
 `
-
 const StartCard = styled.div`
     background-color: rgba(255, 255, 255, 0.8);
     color:black;
@@ -51,7 +58,7 @@ const LinerBtn = styled.button`
 
   &:hover {
     background: #000000;
-    color:white
+    color:white;
   }
 `
 const EmotionSlider = styled(Slider)({
@@ -98,13 +105,14 @@ const StartSurveyBtn = styled.button`
   border: 0px;
   width: 200px;
   height: 50px;
-  background: black;
-  color:white;
+  background: rgba(255, 255, 255, 0.5);
+  color:black;
   font-size: 1.1rem;
   border-radius: 20px;
+  border : 1px solid black;
   &:hover {
-    background: rgba(255, 255, 255, 0.5);
-    color:black
+    background: black;
+    color:white;
   }
   transition:all 200ms linear;
 `
@@ -115,7 +123,10 @@ const AnswerInput = styled.input`
 
 function Dosurvey() {
   const params = useParams();
-  const [surveyDetail, setSurveyDetail] = useState(null) //axios를 통해 받아오는 설문 상세 정보 state
+  const [surveyDetail, setSurveyDetail] = useState(null) //axios를 통해 받아오는 설문 상세 정보 state [1차 데이터]
+  const [newSurveyDetail, setNewSurveyDetail] = useState(null) // 객관+주관 합친 데이터 [2차 데이터]
+  const [sortedSurveyDetail, setSortedSurveyDetail] = useState(null) // 문제 순서(number)에 따라 정렬된 데이터 [3차 데이터, 실제 설문에 쓰일 데이터]
+
   const [loading, setLoading] = useState(false) // axios에서 정보를 받아오고 랜더링하기 위한 상태 state
   const [error, setError] = useState(null) // 에러발생시 에러를 저장할 수 있는 state
   const [showSurveyNumber, setShowSurveyNumber] = useState(0); //현재 답변중인 문항 번호
@@ -123,9 +134,9 @@ function Dosurvey() {
   const [result, setResult] = useState('')//설문의 결과를 배열로 저장하는 state
   const [inputs, setInputs] = useState(); // 현재 설문 문항에 대한 데이터를 가지고 있는 state!
 
-
-  const [newSurveyDetail, setNewSurveyDetail] = useState(null)
-  const [choiceQuestions, setChoiceQuestions] = useState(null)
+  
+  
+  const [choiceQuestions, setChoiceQuestions] = useState(null) // 객관식 정보만 담고 있는 state
 
 
   useEffect(() => {
@@ -138,16 +149,40 @@ function Dosurvey() {
     })
       .then((res) => {
         console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
-        setLoading(false)
+        
         setSurveyDetail(res.data.result)
         setNewSurveyDetail(res.data.result)
         setResult([]) // result 배열의 공간을 만들어준다.
         setChoiceQuestions(res.data.result.choiceQuestions)
+        
       })
       .catch((Error) => {
         setError(Error)
       })
   }, [])
+
+
+  useDidMountEffect(() => { // surveyDetail -> newSurveyDetail (변경내용 : 객관식, 주관식을 합쳐준다.)
+    setNewSurveyDetail({
+      ...surveyDetail,
+      questions: [
+        ...surveyDetail.questions,
+        // ...choiceQuestions.map((item) => ({ questionTypeId: item.question.questionTypeId, name: item.question.name, desciption:item.question.dis  }))]
+        ...choiceQuestions.map((item) => ({ ...item.question, mcitem: item.choices.map((mcitem) => (mcitem.name)) }))]
+    })
+}, [surveyDetail]);
+
+
+useDidMountEffect(() => { // newSurveyDetail -> sortedSurveydetail (변경내용 : 합쳐준 설문정보를 number에 따라 정렬한다.)
+  setSortedSurveyDetail({
+    ...newSurveyDetail,
+    questions:newSurveyDetail.questions.sort(function(a,b){
+      return a.number - b.number
+    }) // 객체의 number를 비교해서 오름차순으로 정렬한다.
+  })
+  setLoading(false) // 여기까지 작업이 끝나면 이제 로딩을 끝내준다.
+}, [newSurveyDetail]);
+
 
 
   useEffect(() => {
@@ -179,15 +214,19 @@ function Dosurvey() {
         // ...choiceQuestions.map((item) => ({ questionTypeId: item.question.questionTypeId, name: item.question.name, desciption:item.question.dis  }))]
         ...choiceQuestions.map((item) => ({ ...item.question, mcitem: item.choices.map((mcitem) => (mcitem.name)) }))]
     })
+    
   }
 
 
+ 
+
   const startSurvey = () => {
+    
     setShowSurveyNumber(1)
   }
 
   const onSubmit = () => {
-    if (surveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
+    if (sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
       if ((result[showSurveyNumber - 1] != null)) { // 문항에 응답했으면
         console.log(result, '제출!')
       }
@@ -204,8 +243,8 @@ function Dosurvey() {
   }
 
   const nextQuestion = () => {
-    if (surveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
-      if (showSurveyNumber < surveyDetail.questions.length && result[showSurveyNumber - 1] !== undefined) { //마지막 문항이 아니고 && 설문에 응답했으면
+    if (sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
+      if (showSurveyNumber < sortedSurveyDetail.questions.length && result[showSurveyNumber - 1] !== undefined) { //마지막 문항이 아니고 && 설문에 응답했으면
         setShowSurveyNumber(showSurveyNumber + 1) // 다음 문항으로 넘어가줘라
         if (result[showSurveyNumber] === undefined) { // 다음 문항에 내용이 아직 없다면
           setInputs('') // input창에 아무것도 안보여주고
@@ -219,7 +258,7 @@ function Dosurvey() {
       }
     }
     else {
-      if (showSurveyNumber < surveyDetail.questions.length) { //필수 문항이 아님'
+      if (showSurveyNumber < sortedSurveyDetail.questions.length) { //필수 문항이 아님'
         if (result[showSurveyNumber - 1] === undefined) { // 문항 답변에 아무것도 없을 경우에
           result[showSurveyNumber - 1] = null // 널값을 집어넣고
           setShowSurveyNumber(showSurveyNumber + 1)//다음 문항으로 넘어간다
@@ -294,8 +333,8 @@ function Dosurvey() {
       {showSurveyNumber === 0 //설문 시작화면 보여주기
         &&
         <StartCard>
-          <QuestionTitle><span style={{ fontWeight: 'bold' }}>{surveyDetail.survey.name}</span>에 관한 설문입니다.</QuestionTitle>
-          <QuestionTitle>설문 문항은 총 <span style={{ fontWeight: 'bold' }}>{surveyDetail.questions.length + surveyDetail.choiceQuestions.length}문항</span> 입니다. </QuestionTitle>
+          <QuestionTitle><span style={{ fontWeight: 'bold' }}>{sortedSurveyDetail.survey.name}</span>에 관한 설문입니다.</QuestionTitle>
+          <QuestionTitle>설문 문항은 총 <span style={{ fontWeight: 'bold' }}>{sortedSurveyDetail.questions.length}문항</span> 입니다. </QuestionTitle>
           <StartSurveyBtn onClick={startSurvey}>설문시작</StartSurveyBtn>
           <hr />
           <div>개발자 참고 공간 ↓</div>
@@ -305,7 +344,9 @@ function Dosurvey() {
           <div>디자인작업 진행 10%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div>
           {console.log(surveyDetail)}
           {console.log(newSurveyDetail)}
+          {console.log(sortedSurveyDetail)}
           {console.log(choiceQuestions)}
+
         </StartCard>
       }
 
@@ -313,20 +354,20 @@ function Dosurvey() {
         {showSurveyNumber >= 1 //1번 문제부터 보여주기
           &&
           <SurveyCard>
-            <QuestionTitle>{`${showSurveyNumber}. ${surveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
+            <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
             <br />
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
+            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
               <AnswerInput style={{ width: '100%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
             }
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
+            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
               <AnswerInput style={{ width: '70%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
             }
 
 
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 3 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
+            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 3 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
               <FormControl>
                 <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                  {surveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
+                  {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
                     <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
                   ))}
                 </RadioGroup>
@@ -334,7 +375,7 @@ function Dosurvey() {
             }
 
 
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
+            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
               <div style={{ width: '500px' }}>
                 <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
               </div>
@@ -342,7 +383,7 @@ function Dosurvey() {
 
 
 
-            {surveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
+            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <LinerBtn checked={inputs === '1' ? true : false} name='1' onClick={onChangeType6} >1<br /><span style={{ fontSize: '11px' }}>매우 그렇지 않다</span></LinerBtn>
                 <LinerBtn checked={inputs === '2' ? true : false} name='2' onClick={onChangeType6}>2<br /><span style={{ fontSize: '11px' }}>그렇지 않다</span> </LinerBtn>
@@ -355,11 +396,11 @@ function Dosurvey() {
             <br />
             {console.log(result)}
             <br />
-            {showSurveyNumber === surveyDetail.questions.length // 설문의 마지막 문항일때 조건
+            {showSurveyNumber === sortedSurveyDetail.questions.length // 설문의 마지막 문항일때 조건
               ?
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <button onClick={prevQuestion}>이전문항</button>
-                <button onClick={onSubmit}>제출하기{surveyDetail.questions.length}</button>
+                <button onClick={onSubmit}>제출하기{sortedSurveyDetail.questions.length}</button>
               </div>
 
               :
@@ -371,8 +412,8 @@ function Dosurvey() {
 
             <hr />
             <div>개발자 참고 공간 ↓</div>
-            <div>{`question타입 : ${surveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
-            <div>{`필수답변여부 : ${surveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
+            <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
+            <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
 
           </SurveyCard>}
       </div>

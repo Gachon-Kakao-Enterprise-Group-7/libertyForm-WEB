@@ -129,7 +129,6 @@ const Dashboard = () => {
   return (
 
     <>
-      <Navs />
       <MainWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <Sidebar />
         <Wrapper>

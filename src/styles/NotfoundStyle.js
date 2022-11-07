@@ -78,15 +78,15 @@ const NotfoundStyle = createGlobalStyle`
     color: #fff;
     text-transform: uppercase;
     padding: 13px 23px;
-    background: #6667ab;
+    background: rgb(235,120,48);
     font-size: 18px;
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
   }
   
   .notfound a:hover {
-    color: #6667ab;
-    background: #c0c0c0;
+    color: #fff;
+    background: rgb(155 79 32);
   }
   
   @media only screen and (max-width: 767px) {

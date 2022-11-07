@@ -155,13 +155,16 @@ function Sidebar() {
   }, [])
 
 
+  useEffect(()=>{
+    
+  },[])
   return (
     <div>
       <Wrapper>
         <TopWrapper>
           <Main>
             <DWrapper>
-              <Text style={{ fontWeight: 'bold', marginRight: '15px' }} tag="h3" size={400} medium m={0} >
+              <Text style={{ fontWeight: 'bold', marginRight: '15px', marginTop:'20px' }} tag="h3" size={400} medium m={0} >
                 설문 현황
               </Text>
 
@@ -209,13 +212,13 @@ function Sidebar() {
                 <Checkbox theme='#f5c525'>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>진행중 설문    {ongoingSurvey.length}</Text>
+                    <Text>진행중 설문    {state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
                 <Checkbox theme='#eb7830'>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>만료된 설문    {expiredSurvey.length}</Text>
+                    <Text>만료된 설문    {state.filter((survey, index) => (Math.round((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
               </CheckboxWrapper>

@@ -277,7 +277,7 @@ function Scard(props) {
           <ModalDelete onClick={closeModal}>X</ModalDelete>
         </ModalHeader>
         <ModalTitle>
-          <span>게시물 삭제</span>
+          <span>설문 삭제</span>
         </ModalTitle>
         <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
         <ModalButton onClick={deleteSurvey}>삭제하기</ModalButton>
