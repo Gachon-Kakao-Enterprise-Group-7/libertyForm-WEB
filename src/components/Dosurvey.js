@@ -479,7 +479,7 @@ function Dosurvey() {
         {showSurveyNumber >= 1 //1번 문제부터 보여주기
           &&
           <>
-            <ProgressBarDiv><ProgressBar completed={(result.length / sortedSurveyDetail.questions.length) * 100} bgColor="#ff7800" labelColor="#f6f6f6" /></ProgressBarDiv>
+            <ProgressBarDiv><ProgressBar completed={Math.round((result.length / sortedSurveyDetail.questions.length) * 100)} bgColor="#ff7800" labelColor="#f6f6f6" /></ProgressBarDiv>
             <SurveyCard>
               <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
               <br />
