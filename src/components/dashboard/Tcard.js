@@ -11,6 +11,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
 import { margin } from '@mui/system';
 
+ 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
   width: ${(props) => props.Dayratio}%;
@@ -70,12 +71,12 @@ const ModalDelete = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  svg {
+  /* svg {
     fill: #92929d;
     :hover {
-      fill: #0062ff;
+      fill: #ff7800;
     }
-  }
+  } */
 `
 const ModalTitle = styled.div`
   display: flex;
@@ -156,6 +157,10 @@ function Scard(props) {
   const RemainDayCount = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
   let Dayratio = Math.ceil(100 - ((RemainDayCount / DayCount) * 100))
+  console.log(Dayratio)
+  if (Dayratio == 0){
+    Dayratio = 3
+  }
   if (Dayratio > 100) {
     Dayratio = 100
   }
@@ -209,6 +214,7 @@ function Scard(props) {
       })
   }
 
+  const [NavbarOpen, setNavbarOpen] = useState(false)
 
   return (
     <div>
