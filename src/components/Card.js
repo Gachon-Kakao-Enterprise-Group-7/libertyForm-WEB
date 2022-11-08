@@ -3,35 +3,9 @@ import styled, { css } from "styled-components";
 import background from "../img/loba.svg"
 import kakaobtn from "../img/kakao_login_large_wide.png"
 
-import { KAKAO_AUTH_URL } from './OAuth';
-
 import { motion } from "framer-motion"
 
 export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
-    /* margin:0px;
-    width:100vw;
-    height:100vh;
-
-    display : flex;
-    align-items: center;
-    justify-content: center;
-    position :relative;
-
-    ::before {
-      
-        background-image: url(${background});
-        margin:0px;
-        width:100vw;
-        height:100vh;
-        background-position: 50%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        z-index: -1;
-        position :absolute;
-        content: "";
-        filter: blur(4px); 
-        transform: scale(1.1); //가장자리 안보이게 하기
-  } */
 
       margin:0px  ;     
       width:100vw;
@@ -43,15 +17,7 @@ export const Backgrounddiv = styled.div` // styled components를 사용하여 di
       display: grid;
       place-items: center;
       padding : 0 24px;
-
-      @keyframes rotate {
-      100% {
-      background-position: 15% 50%;
-      }
-    }
-     animation :
-     rotate 10s infinite alternate linear;
-    
+   
 `;
 
 export const KaKaoBtn = styled.button`
@@ -146,37 +112,6 @@ export const CardInput = styled.input`
   }
 `;
 
-export const CardIcon = styled.span`
-  color: #666;
-  cursor: pointer;
-  opacity: .25;
-  transition: opacity .25s ease-in;
-
-  &:hover {
-    opacity: .95;
-  }
-
-  ${props =>
-    props.big &&
-    css`
-      font-size: 26px;
-    `}
-
-  ${props =>
-    props.eye &&
-    css`
-      position: absolute;
-      top: 8px;
-      right: 0;
-    `}
-
-  ${props =>
-    props.small &&
-    css`
-      font-size: 14px;
-    `}
-`;
-
 export const CardOptionsNote = styled.small`
   padding-top: 15px;
   display: block;
@@ -235,20 +170,7 @@ export const CardLink = styled.a`
   text-align: center;
   cursor: pointer;
   transition: color 0.25s ease-in;
-
-
-  /* 
-  color: black;
-  padding: 0;
-  margin: 16px 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  list-style-type: none; */
-
+  
   &:hover {
     color: #ff7800;
   }

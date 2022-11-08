@@ -10,7 +10,6 @@ import {
     CardHeader,
     CardHeading,
     CardBody,
-    CardIcon,
     CardFieldset,
     CardInput,
     CardOptionsNote,
@@ -111,7 +110,6 @@ function Signin() {
                             name="password"
                             value={password}
                             required />
-                        <CardIcon className="fa fa-eye" eye small />
                         {!regPass.test(password) && inputs.password.length > 0 && <span style={{ color: 'red' }}>비밀번호는 영문과 특수문자 숫자를 포함하며 8자 이상이어야 합니다<br /></span>}
                         {regPass.test(password) && <span style={{ color: 'black' }}>안전한 비밀번호에요!<br /></span>}
 
@@ -126,7 +124,6 @@ function Signin() {
                             name="checkPassword"
                             value={checkPassword}
                             required />
-                        <CardIcon className="fa fa-eye" eye small />
                     </CardFieldset>
                     {inputs.password !== inputs.checkPassword && inputs.checkPassword.length > 0 && <span style={{ color: 'red' }}>Mismatched passwords<br /></span>}
                     {/* 확인비밀번호와 비밀번호가 일치하지 않으면 오류 메세지 출력 */}

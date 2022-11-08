@@ -9,34 +9,40 @@ import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
 import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
 
+
 const Spacingdiv = styled.div`
     width: 80%;
-    height: 15vw;
+    height: 18vw;
     margin: auto;
 
 `
 
 const Bodydiv = styled(motion.div)`
-    color: #401504;
     width: 80%;
     text-align: center;
     align-items: center;
     margin: auto;
-    
-`
-const H1slogan = styled.h1`
-    font-family: var(--font-NotoSans) !important;
-    font-size: 5vw;
+
+    & h1 {
+    font-family: "Montserrat" , sans-serif;
+    font-size: 6vw;
     cursor: context-menu;
-    font-weight: bold;
-`
-const H2slogan = styled.h2`
+    font-weight: 3000;
+    color: transparent;
+    -webkit-text-stroke: 3px white;
+    h1:hover{
+        color:white;
+    }
+  }
+
+  & h2 {
     padding-top: 1vw;
     font-size: 1.8vw;
     cursor: context-menu;
-`
+  }`
+    
+
 const Mainbutton = styled.button`
-    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     width: 220px;
     height: 50px;
@@ -48,7 +54,7 @@ const Mainbutton = styled.button`
     position: relative;
     z-index: 0;
     border-radius: 10px;
-    margin-top: 70px;
+    margin-top: 80px;
 
     &:before {
         content: '';
@@ -68,7 +74,7 @@ const Mainbutton = styled.button`
     }
 
     &:active {
-        color: #eb7830;
+        color: #ff7800;
     }
 
     &:active:after {
@@ -90,6 +96,7 @@ const Mainbutton = styled.button`
         top: 0;
         border-radius: 10px;
         opacity: 0.8;
+        border: 1px solid #ffffff;
     }
 
     @keyframes glowing {
@@ -126,15 +133,17 @@ function Main() {
     }, [vantaEffect]);
 
     return (
-        <div style={{ height: "100vh", width: "100%", position: 'absolute', top: '0px', zIndex: '-1' }} ref={vantaRef}>
+        <div style={{ height: "100vh", width: "100%", position: 'absolute', top: '0px', zIndex:'-1' }} ref={vantaRef}>
             <Spacingdiv></Spacingdiv>
+
             <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
-                <H1slogan>LIBERTYFORM</H1slogan>
+                <h1>LIBERTY FROM</h1>
             </Bodydiv>
+
 
             <Bodydiv >
                 <Link to="/dashboard">
-                    <Mainbutton onClick={() => { dispatch({ type: 'TEST' }) }}>
+                    <Mainbutton onClick={() => { console.log('시작하기 클릭') }}>
                         시작하기
                     </Mainbutton>
                 </Link>
@@ -145,7 +154,3 @@ function Main() {
 
 export default Main;
 
-
-
-// https://react-bootstrap.github.io/components/navbar/ -> Navbar 참고
-// https://hojung-testbench.tistory.com/entry/React-%EA%B5%AC%EA%B8%80-%ED%8F%B0%ED%8A%B8-%EB%A6%AC%EC%95%A1%ED%8A%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0 -> 구글폰트 적용법

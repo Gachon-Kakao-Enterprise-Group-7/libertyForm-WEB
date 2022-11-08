@@ -37,12 +37,12 @@ const ModalDelete = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  svg {
+  /* svg {
     fill: #92929d;
     :hover {
-      fill: #0062ff;
+      fill: #ff7800;
     }
-  }
+  } */
 `
 const ModalTitle = styled.div`
   display: flex;
@@ -70,15 +70,15 @@ const ModalButton = styled.button`
   align-items: center;
   margin-top: 40px;
   width:100%;
-  background-color: #0dcaf0;
+  background-color: #ff7800;
   outline: none;
   cursor: pointer;
   color: white;
   height: 38px;
   border-radius: 20px;
-  border: 1px solid #0dcaf0;
+  border: 1px solid #ff7800;
   :hover {
-    color: #0dcaf0;
+    color: #ff7800;
     background-color: white;
   }
 `

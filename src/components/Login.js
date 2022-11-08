@@ -106,7 +106,7 @@ function Login() {
         <Backgrounddiv>
             <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <CardHeader>
-                    <CardHeading>Login</CardHeading>
+                    <CardHeading>로그인</CardHeading>
                 </CardHeader>
 
                 <CardBody>
@@ -128,12 +128,11 @@ function Login() {
                             name="password"
                             value={password}
                             required />
-                        <CardIcon className="fa fa-eye" eye small />
                     </CardFieldset>
 
 
                     <CardFieldset>
-                        <CardButton type="button " onClick={() => { onLogin() }}>Login</CardButton>
+                        <CardButton type="button" onClick={() => { onLogin() }}>Login</CardButton>
                     </CardFieldset>
 
                     <CardFieldset>
