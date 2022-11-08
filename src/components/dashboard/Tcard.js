@@ -48,7 +48,11 @@ const NavDropStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   color :"black";
+  .dropdown-button {
+    color: #ffcd00;
+  }
 `
+
 const ShowLeftDate = styled.div`
   font-weight: 600;
   color: var(--soft-blue);
@@ -237,7 +241,7 @@ function Scard(props) {
                   : <TypographyTitle style={{ fontWeight: 'bold' }}>{props.title}</TypographyTitle>
                 }
               </Typography>
-              <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none', color: 'red' }} >
+              <NavDropdown title="" id="collasible-nav-dropdown" bsPrefix="dropdown-button">
                 <NavDropdown.Item onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
