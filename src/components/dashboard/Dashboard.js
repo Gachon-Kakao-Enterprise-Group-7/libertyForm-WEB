@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'; //styled-components사용
 
 import Sidebar from './sidebar/Sidebar'
-import Navs from './Navs'
 import TCards from "./Tcard"
 
 import { motion } from "framer-motion" // 애니메이션 효과
@@ -134,7 +133,7 @@ const Dashboard = () => {
         <Wrapper>
           <HeaderContent>
             <div>
-              <Username>안녕,</Username>
+              <Username>환영합니다,</Username>
               <Text>설문지 대시보드입니다.</Text>
             </div>
           </HeaderContent>

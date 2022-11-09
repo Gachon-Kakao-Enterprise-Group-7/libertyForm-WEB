@@ -5,10 +5,11 @@ import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import axios from 'axios';
-import IconActivity from './sidebar/icon/Activity'
+import {ReactComponent as LinkIcon} from '../../img/link.svg'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
+import {ReactComponent as CloseModal} from "../../img/close.svg"
 import { margin } from '@mui/system';
 
  
@@ -23,6 +24,12 @@ const ScoreLine = styled.div`
     background-color: #f5c525;
   }
 `
+
+const LinkIconSvg = styled(LinkIcon)`
+    width:30px;
+    height: 25px;
+  
+`
 const TypographyTitle = styled.div`
   white-space: nowrap;
     overflow: hidden;
@@ -34,7 +41,7 @@ const TWrapper = styled.div`
   color : white;
   border-radius: 20px;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.7) 0px 12px 35px 2px;
+    scale: 1.1; 
     cursor: pointer;
   }
 `
@@ -71,50 +78,97 @@ const ModalDelete = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  /* svg {
+`
+
+const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
-    :hover {
+    width:30px;
+    height:30px;
+    &:hover {
       fill: #ff7800;
     }
-  } */
 `
+
 const ModalTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #171725;
   font-size: 24px;
-  margin: 30px 0;
+  margin: 20px 0;
   margin-left: 10px;
+  margin-right: 0px;
   border-bottom: 1px solid #e2e2ea;
   height: 50px;
+
+  & h4 {
+    padding-bottom: 10px;
+    font-weight: bold;
+  }
 `
-const ModalDescription = styled.span`
+
+const ModalDescription = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   margin-left: 10px;
-  color: gray;
-  font-size: 14px;
+  color: #171725;
+  font-size: 16px;
 `
 const ModalButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
-  width:100%;
+  margin-top: 30px;
+  margin-left: 10px;
+  width: 98%;
   background-color: #ff7800;
   outline: none;
   cursor: pointer;
   color: white;
   height: 38px;
   border-radius: 20px;
-  border: 1px solid #fc5a5a;
+  border: 1px solid #ff7800;
   :hover {
-    color: #fc5a5a;
+    color: #ff7800;
     background-color: white;
   }
-  `
+`
+
+const ModalCopyButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width:20%;
+  background-color: #ffcd00;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 38px;
+  border-radius: 10px;
+  border: 2px solid #ffcd00;
+  :hover {
+    color: #ffcd00;
+    background-color: white;
+  }
+`
+
+const CopyWrapper = styled.div`
+  display: flex;
+  float: left; 
+  align-items:center;
+  justify-content:space-between;
+  margin: 12px 0 -5px 10px;
+  height:45px;
+  border: 1px solid #D3D3D3;
+  border-radius: 4px;
+  width: 98%;
+  padding: 0 5px;
+`
+
 const styles = (muiBaseTheme) => ({
   card: {
     transition: "0.3s",
@@ -279,8 +333,7 @@ function Scard(props) {
           height: '300px',
           border: '1px solid #ccc',
           background: '#fff',
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
+          overflow: 'hidden',
           outline: 'none',
           borderRadius: '20px',
           padding: '20px 25px'
@@ -288,11 +341,9 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closeDeleteModal}>X</ModalDelete>
+          <ModalDelete onClick={closeDeleteModal}><CloseModalSvg/></ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <span>설문 삭제</span>
-        </ModalTitle>
+        <ModalTitle><h4>설문 삭제</h4></ModalTitle>
         <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
         <ModalButton onClick={deleteSurvey}>삭제하기</ModalButton>
 
@@ -313,7 +364,7 @@ function Scard(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '50%',
+          width: '30%',
           height: '400px',
           border: '1px solid #ccc',
           background: '#fff',
@@ -326,13 +377,18 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closeLinkModal}>X</ModalDelete>
+          <ModalDelete onClick={closeLinkModal}><CloseModalSvg/></ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <span>설문 링크</span>
-        </ModalTitle>
-        <input style={{ border: '1px solid grey', margin: '10px', width: '80%' }} value={surveylink}></input>
-        <ModalButton onClick={copySurveyLink}>복사하기</ModalButton>
+        <ModalTitle><h4>설문 링크</h4></ModalTitle>
+        <ModalDescription>발송자 지정 공유</ModalDescription>
+        <ModalButton onClick={copySurveyLink} style={{marginTop:"10px", marginBottom:"20px",borderRadius: "10px"}}>지정하기</ModalButton>
+        <ModalDescription>링크 복사하기</ModalDescription>
+        <CopyWrapper>
+          <LinkIconSvg></LinkIconSvg>
+        <input style={{ border: "none",outline:"none",height:'100%', margin: '10px', width: '100%' }} value={surveylink}></input>
+        <ModalCopyButton onClick={copySurveyLink}>지정하기</ModalCopyButton>
+        </CopyWrapper>
+        
 
       </Modal>
 
