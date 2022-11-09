@@ -10,11 +10,14 @@ import Kakaologin from './components/Kakaologin';
 import Dashboard from './components/dashboard/Dashboard';
 import Dcontent from './components/dashboard/Home/Content';
 import Dosurvey from './components/Dosurvey';
+import Surveyend from './components/Surveyend';
 import { GlobalStyle } from './components/GlobalStyle'
-
+import Adminpage from './components/Adminpage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 기능 사용
 import { AnimatePresence } from "framer-motion"; //애니메이션 라이브러리
+
+
 
 
 function App() {
@@ -39,6 +42,9 @@ function App() {
           {/* mksurvey_prev 임시로 사용 가능! */}
 
           <Route path="/dosurvey/:surveyCode" element={<Dosurvey />}></Route>
+          <Route path="/surveyend" element={<Surveyend />}></Route>
+          <Route path="/adminpage" element={<Adminpage />}></Route>
+          
           <Route path="*" element={<Notfound />}></Route>
           {/* 예외처리로 Notfound페이지 이동시킨다. */}
         </Routes>

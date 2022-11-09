@@ -160,8 +160,7 @@ function Scard(props) {
   const RemainDayCount = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
   let Dayratio = Math.ceil(100 - ((RemainDayCount / DayCount) * 100))
-  console.log(Dayratio)
-  if (Dayratio == 0) {
+  if (Dayratio === 0) {
     Dayratio = 3
   }
   if (Dayratio > 100) {
@@ -378,9 +377,6 @@ function Scard(props) {
         <ModalHeader>
           <ModalDelete onClick={closePreviewModal}>X</ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <span>미리 보기</span>
-        </ModalTitle>
         <Preview code={code} />
       </Modal>
     </div>
