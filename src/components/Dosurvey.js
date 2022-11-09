@@ -22,7 +22,9 @@ import { ReactComponent as EmotionGood } from "../img/emotiongood.svg";
 import { ReactComponent as EmotionBad } from "../img/emotionbad.svg";
 
 const BackgroundDiv = styled.div`
-  background: #00000026;
+  position: absolute;
+  top:0px; // nav바 가려버림
+  background: #e1e1e1;
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -326,7 +328,7 @@ function Dosurvey() {
         switch (res.data.code) {
           case 1000:
             alert('요청에 성공하였습니다.')
-            document.location.href = '/'
+            document.location.href = '/surveyend'
             break;
           case 2013:
             alert('존재하지 않는 설문지입니다.')
