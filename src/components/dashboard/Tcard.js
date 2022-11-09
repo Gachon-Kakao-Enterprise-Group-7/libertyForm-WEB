@@ -10,6 +10,7 @@ import axios from 'axios';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
 
+import defaultImg from '../../img/default-thumbnail.jpg'
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
@@ -151,7 +152,7 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-  const { classes, surveyId, code } = props
+  const { classes, surveyId, code, thumbnailImgUrl } = props
   const now = new Date()
   const expireDate = new Date(`${props.expirationDate}:00:00:00`)
   const startDate = new Date(props.createdAt)
@@ -234,9 +235,7 @@ function Scard(props) {
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image={
-              "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-            }
+            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
           />
           <CardContent className={classes.content}>
             <NavDropStyle>

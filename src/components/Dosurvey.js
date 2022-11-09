@@ -25,6 +25,9 @@ const BackgroundDiv = styled.div`
   position: absolute;
   top:0px; // nav바 가려버림
   background: #e1e1e1;
+  background-image: url(${props => props.thumbnailImgUrl});
+  /* background-repeat: no-repeat; */
+  background-size: 1920px 1080px;
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -32,7 +35,7 @@ const BackgroundDiv = styled.div`
   justify-content: center;  //가로축
 `
 const StartCard = styled.div`
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     color:black;
     width: 700px;
     padding: 30px;
@@ -456,7 +459,7 @@ function Dosurvey() {
   }
 
   return (
-    <BackgroundDiv>
+    <BackgroundDiv thumbnailImgUrl={sortedSurveyDetail.survey.thumbnailImgUrl}>
       {showSurveyNumber === 0 //설문 시작화면 보여주기
         &&
         <StartCard>
