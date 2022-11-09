@@ -377,9 +377,6 @@ function Scard(props) {
         <ModalHeader>
           <ModalDelete onClick={closePreviewModal}>X</ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <span>미리 보기</span>
-        </ModalTitle>
         <Preview code={code} />
       </Modal>
     </div>

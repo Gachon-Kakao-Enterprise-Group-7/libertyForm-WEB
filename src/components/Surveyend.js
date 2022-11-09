@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { Link } from "react-router-dom";
 
 const BackgroundDiv = styled.div`
   position: absolute;
@@ -41,6 +41,11 @@ const LibertyBtn = styled.button`
     border-radius: 20px;
 
 `
+const Linked = styled(Link)`
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+`
 
 function Surveyend() {
 
@@ -48,7 +53,9 @@ function Surveyend() {
     <BackgroundDiv>
       <StartCard>
         <TitleMessage>설문에 참여해 주셔서 감사합니다</TitleMessage>
-        <LibertyBtn>LibertyForm으로 이동하기</LibertyBtn>
+        <Linked to='/'>
+          <LibertyBtn>LibertyForm으로 이동하기</LibertyBtn>
+        </Linked>
       </StartCard>
     </BackgroundDiv>
   );
