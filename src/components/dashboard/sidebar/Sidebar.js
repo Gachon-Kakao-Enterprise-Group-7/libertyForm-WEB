@@ -230,7 +230,7 @@ function Sidebar() {
         <ItemWrapper>
           {itemsData.map((item, index) => {
             return (
-              <NavItem className={({ isActive }) => (isActive ? "active" : "")} to={item.link} onClick="window.location.reload()">
+              <NavItem key={index}className={({ isActive }) => (isActive ? "active" : "")} to={item.link} onClick="window.location.reload()">
                 <Icon>{item.icon}</Icon>
                 <NameLink>{item.name}</NameLink>
               </NavItem>

@@ -126,7 +126,6 @@ const Dashboard = () => {
 
   const ongoingSurvey = state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length
   const expiredSurvey = state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length
-  console.log(ongoingSurvey, expiredSurvey)
 
   return (
 

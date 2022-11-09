@@ -18,6 +18,9 @@ const StartCard = styled.div`
     width: 700px;
     padding: 30px;
     border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+
 
 `
 
@@ -31,6 +34,12 @@ const TitleMessage = styled.div`
 const LibertyBtn = styled.button`
     border: 0px;
     margin: auto;
+    background-color: black;
+    color:white;
+    width: 250px;
+    height: 40px;
+    border-radius: 20px;
+
 `
 
 function Surveyend() {
@@ -39,7 +48,7 @@ function Surveyend() {
     <BackgroundDiv>
       <StartCard>
         <TitleMessage>설문에 참여해 주셔서 감사합니다</TitleMessage>
-        <LibertyBtn>LibertyForm</LibertyBtn>
+        <LibertyBtn>LibertyForm으로 이동하기</LibertyBtn>
       </StartCard>
     </BackgroundDiv>
   );
