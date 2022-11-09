@@ -150,7 +150,7 @@ const Dashboard = () => {
                 {/* filter함수를 써서 먼저 expireDate랑 현재 시간이랑 비교해서 시간이 남은 설문만 보여주고 map함수로 뿌려준다.  */}
                 {state && (
                   state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).map((survey, index) => (
-                    <TCards surveyId={survey.surveyId} code={survey.code} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} />
+                    <TCards surveyId={survey.surveyId} code={survey.code} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} thumbnailImgUrl={survey.thumbnailImgUrl} />
                   ))
                 )}
               </TasksWrapper>
