@@ -113,13 +113,9 @@ const FuncDiv = styled.div`
     text-align: right;
 `
 const NumberingDiv = styled.div`
-    background-color: #ffffff;
-    width: 25px;
     text-align: center;
-    border-radius: 50%;
-    font-size: 1rem;
-    font-weight: bold;
-    box-shadow: 1px 5px 5px #bdbdbd;
+    font-family: 'RobotoMono', sans-serif;
+    font-size: 1.5rem;
     display: inline-block;
 `
 const StyledLi = styled.li`
@@ -430,7 +426,9 @@ function Mksurvey() { // Make Survey
                 <BlockDiv key={index}>
                     <ItemDiv>
                         <NumberingDiv>
-                            <span>{index + 1}</span>
+                            <span>
+                                { index < 99 ? ('00' + (index + 1)).slice(-2) : index + 1 }
+                            </span>
                         </NumberingDiv>
                     </ItemDiv>
 
