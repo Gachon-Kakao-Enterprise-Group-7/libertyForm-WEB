@@ -10,6 +10,7 @@ import axios from 'axios';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
 
+import defaultImg from '../../img/default-thumbnail.jpg'
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
@@ -151,7 +152,7 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-  const { classes, surveyId, code } = props
+  const { classes, surveyId, code, thumbnailImgUrl } = props
   const now = new Date()
   const expireDate = new Date(`${props.expirationDate}:00:00:00`)
   const startDate = new Date(props.createdAt)
@@ -160,8 +161,7 @@ function Scard(props) {
   const RemainDayCount = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
   let Dayratio = Math.ceil(100 - ((RemainDayCount / DayCount) * 100))
-  console.log(Dayratio)
-  if (Dayratio == 0) {
+  if (Dayratio === 0) {
     Dayratio = 3
   }
   if (Dayratio > 100) {
@@ -235,9 +235,7 @@ function Scard(props) {
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image={
-              "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-            }
+            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
           />
           <CardContent className={classes.content}>
             <NavDropStyle>
@@ -378,9 +376,6 @@ function Scard(props) {
         <ModalHeader>
           <ModalDelete onClick={closePreviewModal}>X</ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <span>미리 보기</span>
-        </ModalTitle>
         <Preview code={code} />
       </Modal>
     </div>

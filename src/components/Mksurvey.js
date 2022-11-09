@@ -55,7 +55,6 @@ const ModalTitle = styled.div`
   border-bottom: 1px solid #e2e2ea;
   height: 50px;
 `
-
 const ModalDescription = styled.span`
   display: flex;
   flex-direction: column;
@@ -82,7 +81,6 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
-
 const BlockDiv = styled.div`
     background-color: #fafafa;
     margin: auto;
@@ -173,6 +171,7 @@ const StyledDatePicker = styled(DatePicker)`
 `
 
 Modal.setAppElement("#root");
+
 function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
@@ -182,6 +181,7 @@ function Mksurvey() { // Make Survey
     const [convertedDate, setConvertedDate] = useState('2099-12-30')
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
+    const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
 
     const openModal = () => {
         setModalOpen(true);
@@ -281,15 +281,9 @@ function Mksurvey() { // Make Survey
 
 
     const onLoadFile = (e) => {
-        const formData = new FormData()
-        formData.append('image', e.target.files[0])
-        // have to solve!
-        // 업로드된 파일을 formData에다가 저장하는거 까지는 했는데 파일 하나마다 서버로 axios해줘야하는거 같은데 우리는 각각의 문항별로
-        // 사진을 업로드를 가능하게 해야하는데 이걸 설문 완료할때 json에 담아서 한번에 보낼 수 있을까?
-
+        console.log(e.target.files)
+        setImgFile(e.target.files)
     }
-
-
 
 
     const changeDate = (date) => { // 날짜 형식을 백엔드에 보내줘야 할 양식으로 변환하는 함수
@@ -368,7 +362,8 @@ function Mksurvey() { // Make Survey
 
         const formData = new FormData() // FormData 객체 사용
 
-        // formData.append("file", files[0]) //files[0] === upload file 나중에 파일 업로드할때 사용하기! 
+        formData.append("thumbnailImg", imgFile[0]) //imgFile[0] === upload file (썸네일 이미지)
+
         const jwt = localStorage.getItem('jwt')
         const blob = new Blob([JSON.stringify(postData)], { type: "application/json" })// type을 지정해주고 저장
         formData.append("surveyReqDto", blob)//formData는 특수 개체라 특정한 조작으로만 조작 가능!
@@ -417,7 +412,7 @@ function Mksurvey() { // Make Survey
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
                     <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-                    <input disabled type="file" onChange={onLoadFile}></input>
+                    <input type="file" onChange={onLoadFile}></input>
                 </ItemDiv>
             </BlockDiv>
 

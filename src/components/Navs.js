@@ -53,6 +53,9 @@ function Navs() {
                                 <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
                                 <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
                                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
+                                {localStorage.getItem('email') === 'bwj59@naver.com' &&
+                                    <NavDropdown.Item href="/adminpage">관리자 페이지</NavDropdown.Item>
+                                }
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="/" onClick={onLogout}>로그아웃</NavDropdown.Item>
                             </NavDropdown>

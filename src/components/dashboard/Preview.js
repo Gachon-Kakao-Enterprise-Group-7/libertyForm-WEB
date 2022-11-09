@@ -9,7 +9,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { cloneElement } from 'react';
+import styled from 'styled-components';
+
+const PreviewTitle = styled.div`
+font-size: 1.5rem;
+font-weight: bold;
+padding-bottom: 10px;
+`
+const PreviewContent = styled.div`
+margin-bottom: 3px;
+`
+
+
 
 function Preview(props) {
 
@@ -64,6 +75,12 @@ function Preview(props) {
     return (
         <div>
             {console.log(newSurveyDetail)}
+            <PreviewTitle>설문 미리보기</PreviewTitle>
+            <PreviewContent>설문 이름 : {newSurveyDetail.survey.name}</PreviewContent>
+            <PreviewContent>설문 설명 : {newSurveyDetail.survey.description}</PreviewContent>
+            <PreviewContent>설문 생성일 : {newSurveyDetail.survey.createdAt}</PreviewContent>
+            <PreviewContent>설문 만료일 : {newSurveyDetail.survey.expirationDate}</PreviewContent>
+            <hr/>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 350, }} aria-label="simple table">
                     <TableHead>
