@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import Preview from './Preview';
+
 import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import axios from 'axios';
+
 import {ReactComponent as LinkIcon} from '../../img/link.svg'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -12,7 +14,9 @@ import Modal from "react-modal";
 import {ReactComponent as CloseModal} from "../../img/close.svg"
 import { margin } from '@mui/system';
 
- 
+
+import defaultImg from '../../img/default-thumbnail.jpg'
+
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
   width: ${(props) => props.Dayratio}%;
@@ -55,7 +59,11 @@ const NavDropStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   color :"black";
+  .dropdown-button {
+    color: #ffcd00;
+  }
 `
+
 const ShowLeftDate = styled.div`
   font-weight: 600;
   color: var(--soft-blue);
@@ -202,7 +210,7 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-  const { classes, surveyId, code } = props
+  const { classes, surveyId, code, thumbnailImgUrl } = props
   const now = new Date()
   const expireDate = new Date(`${props.expirationDate}:00:00:00`)
   const startDate = new Date(props.createdAt)
@@ -211,8 +219,7 @@ function Scard(props) {
   const RemainDayCount = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
   let Dayratio = Math.ceil(100 - ((RemainDayCount / DayCount) * 100))
-  console.log(Dayratio)
-  if (Dayratio == 0){
+  if (Dayratio === 0) {
     Dayratio = 3
   }
   if (Dayratio > 100) {
@@ -222,9 +229,10 @@ function Scard(props) {
     Dayratio = 0
   }
 
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [error, setError] = useState(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [linkModalOpen, setLinkModalOpen] = useState(false)
+  const [previewModalOpen, setPreviewModalOpen] = useState(false)
 
   const surveylink = `localhost:3000/dosurvey/${code}`
 
@@ -245,6 +253,15 @@ function Scard(props) {
   const closeLinkModal = () => {
     setLinkModalOpen(false)
   }
+
+  const openPreviewModal = () => {
+    setPreviewModalOpen(true)
+  }
+
+  const closePreviewModal = () => {
+    setPreviewModalOpen(false)
+  }
+
 
   const copySurveyLink = async () => {
     await navigator.clipboard.writeText(surveylink)
@@ -276,9 +293,7 @@ function Scard(props) {
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image={
-              "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-            }
+            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
           />
           <CardContent className={classes.content}>
             <NavDropStyle>
@@ -291,10 +306,9 @@ function Scard(props) {
                   : <TypographyTitle style={{ fontWeight: 'bold' }}>{props.title}</TypographyTitle>
                 }
               </Typography>
-              <NavDropdown title="" id="collasible-nav-dropdown" style={{ textDecoration: 'none', color: 'red' }} >
+              <NavDropdown title="" id="collasible-nav-dropdown" bsPrefix="dropdown-button">
                 <NavDropdown.Item onClick={openLinkModal}>링크생성</NavDropdown.Item>
-                <NavDropdown.Item href="/null2">수정하기</NavDropdown.Item>
-                <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
+                <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
@@ -392,6 +406,38 @@ function Scard(props) {
 
       </Modal>
 
+      <Modal isOpen={previewModalOpen} style={{ //설문 미리보기에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70%',
+          height: '80%',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={closePreviewModal}>X</ModalDelete>
+        </ModalHeader>
+        <Preview code={code} />
+      </Modal>
     </div>
   );
 }

@@ -15,12 +15,19 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
+import ProgressBar from "@ramonak/react-progress-bar";
+import Modal from "react-modal";
 
 import { ReactComponent as EmotionGood } from "../img/emotiongood.svg";
 import { ReactComponent as EmotionBad } from "../img/emotionbad.svg";
 
 const BackgroundDiv = styled.div`
-  background: #00000026;
+  position: absolute;
+  top:0px; // nav바 가려버림
+  background: #e1e1e1;
+  background-image: url(${props => props.thumbnailImgUrl});
+  /* background-repeat: no-repeat; */
+  background-size: 1920px 1080px;
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -28,7 +35,7 @@ const BackgroundDiv = styled.div`
   justify-content: center;  //가로축
 `
 const StartCard = styled.div`
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     color:black;
     width: 700px;
     padding: 30px;
@@ -120,6 +127,61 @@ const AnswerInput = styled.input`
   background: rgba(255, 255, 255, 0.2);
   height: 40px;
 `
+const ProgressBarDiv = styled.div`
+  padding: 20px;
+  width: 95%;
+  margin: auto;
+`
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: #92929d;
+  font-size: 14px;
+`
+const ModalDelete = styled.button`
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  svg {
+    fill: #92929d;
+    :hover {
+      fill: #0062ff;
+    }
+  }
+`
+const ModalTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #171725;
+  font-size: 24px;
+  margin: 30px 0;
+  margin-left: 10px;
+  border-bottom: 1px solid #e2e2ea;
+  height: 50px;
+`
+
+const ModalButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  width:100%;
+  background-color: #ff7800;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 38px;
+  border-radius: 20px;
+  border: 1px solid #fc5a5a;
+  :hover {
+    color: #fc5a5a;
+    background-color: white;
+  }
+  `
+
+
 
 function Dosurvey() {
   const params = useParams();
@@ -134,6 +196,7 @@ function Dosurvey() {
     surveyId: '',
   })
 
+
   const [loading, setLoading] = useState(false) // axios에서 정보를 받아오고 랜더링하기 위한 상태 state
   const [error, setError] = useState(null) // 에러발생시 에러를 저장할 수 있는 state
   const [showSurveyNumber, setShowSurveyNumber] = useState(0); //현재 답변중인 문항 번호
@@ -143,6 +206,7 @@ function Dosurvey() {
 
   const [choiceQuestions, setChoiceQuestions] = useState(null) // 객관식 정보만 담고 있는 state
 
+  const [openSubmitModal, setOpenSubmitModal] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -231,7 +295,7 @@ function Dosurvey() {
     setShowSurveyNumber(1)
   }
 
-  const sendToServer = () => {
+  const dataConvert = () => {
     setPostData((prev) => ({ ...prev, surveyId: sortedSurveyDetail.survey.surveyId })) //surveyID postData에 저장!
     sortedSurveyDetail.questions.forEach((survey, index) => {
       switch (survey.questionTypeId) { // switch문의 조건에 맞게 응답들을 postData에 저장!
@@ -250,13 +314,39 @@ function Dosurvey() {
         case 5: // 감정바
           setPostData((prev) => ({ ...prev, numericResponse: [...prev.numericResponse, { questionNumber: (index + 1), type: 'EMOTION_BAR', value: result[index] }] }))
           break;
-        case 6:
-          console.log('6입니다!')
+        case 6: // 선형배율
+          setPostData((prev) => ({ ...prev, numericResponse: [...prev.numericResponse, { questionNumber: (index + 1), type: 'LINEAR_ALGEBRAS', value: result[index] }] }))
           break;
         default:
           break;
       }
     });
+  }
+
+  const sendToServer = async () => {
+    const jsondata = JSON.stringify(postData)
+    await axios.post("/response/create", jsondata, { headers: { 'Content-Type': 'application/json' } })
+      .then(res => {
+        console.log(res)
+        switch (res.data.code) {
+          case 1000:
+            alert('요청에 성공하였습니다.')
+            document.location.href = '/surveyend'
+            break;
+          case 2013:
+            alert('존재하지 않는 설문지입니다.')
+            break;
+          case 2015:
+            alert('존재하지 않는 질문입니다.')
+            break;
+          case 2016:
+            alert('존재하지 않는 선택지입니다.')
+            break;
+          default:
+            break;
+        }
+      })
+      .catch((Error) => { console.log(Error) })
 
   }
 
@@ -265,7 +355,9 @@ function Dosurvey() {
     if (sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired) { // 필수문항이면
       if ((result[showSurveyNumber - 1] != null)) { // 문항에 응답했으면
         console.log(result, '제출!')
-        sendToServer()
+        dataConvert()
+        setOpenSubmitModal(true)
+
       }
       else {
         alert('필수 문항입니다. 답변해주세요!')
@@ -276,7 +368,9 @@ function Dosurvey() {
         result[showSurveyNumber - 1] = null
       }
       console.log(result, '제출')
-      sendToServer()
+      dataConvert()
+      setOpenSubmitModal(true)
+
     }
   }
 
@@ -365,7 +459,7 @@ function Dosurvey() {
   }
 
   return (
-    <BackgroundDiv>
+    <BackgroundDiv thumbnailImgUrl={sortedSurveyDetail.survey.thumbnailImgUrl}>
       {showSurveyNumber === 0 //설문 시작화면 보여주기
         &&
         <StartCard>
@@ -389,70 +483,109 @@ function Dosurvey() {
       <div>
         {showSurveyNumber >= 1 //1번 문제부터 보여주기
           &&
-          <SurveyCard>
-            <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
-            <br />
-            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
-              <AnswerInput style={{ width: '100%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
-            }
-            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
-              <AnswerInput style={{ width: '70%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
-            }
+          <>
+            <ProgressBarDiv><ProgressBar completed={Math.round((result.length / sortedSurveyDetail.questions.length) * 100)} bgColor="#ff7800" labelColor="#f6f6f6" /></ProgressBarDiv>
+            <SurveyCard>
+              <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
+              <br />
+              {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
+                <AnswerInput style={{ width: '100%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
+              }
+              {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
+                <AnswerInput style={{ width: '70%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
+              }
 
 
-            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 3 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
-              <FormControl>
-                <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                  {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
-                    <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-            }
+              {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 3 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
+                <FormControl>
+                  <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                    {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
+                      <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              }
 
 
-            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
-              <div style={{ width: '500px' }}>
-                <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
-              </div>
-            }
+              {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
+                <div style={{ width: '500px' }}>
+                  <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
+                </div>
+              }
 
 
 
-            {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <LinerBtn checked={inputs === '1' ? true : false} name='1' onClick={onChangeType6} >1<br /><span style={{ fontSize: '11px' }}>매우 그렇지 않다</span></LinerBtn>
-                <LinerBtn checked={inputs === '2' ? true : false} name='2' onClick={onChangeType6}>2<br /><span style={{ fontSize: '11px' }}>그렇지 않다</span> </LinerBtn>
-                <LinerBtn checked={inputs === '3' ? true : false} name='3' onClick={onChangeType6}>3<br /><span style={{ fontSize: '11px' }}>보통이다</span> </LinerBtn>
-                <LinerBtn checked={inputs === '4' ? true : false} name='4' onClick={onChangeType6}>4<br /><span style={{ fontSize: '11px' }}>약간 그렇다</span></LinerBtn>
-                <LinerBtn checked={inputs === '5' ? true : false} name='5' onClick={onChangeType6}>5<br /><span style={{ fontSize: '11px' }}>매우 그렇다</span> </LinerBtn>
-              </div>
+              {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <LinerBtn checked={inputs === '1' ? true : false} name='1' onClick={onChangeType6} >1<br /><span style={{ fontSize: '11px' }}>매우 그렇지 않다</span></LinerBtn>
+                  <LinerBtn checked={inputs === '2' ? true : false} name='2' onClick={onChangeType6}>2<br /><span style={{ fontSize: '11px' }}>그렇지 않다</span> </LinerBtn>
+                  <LinerBtn checked={inputs === '3' ? true : false} name='3' onClick={onChangeType6}>3<br /><span style={{ fontSize: '11px' }}>보통이다</span> </LinerBtn>
+                  <LinerBtn checked={inputs === '4' ? true : false} name='4' onClick={onChangeType6}>4<br /><span style={{ fontSize: '11px' }}>약간 그렇다</span></LinerBtn>
+                  <LinerBtn checked={inputs === '5' ? true : false} name='5' onClick={onChangeType6}>5<br /><span style={{ fontSize: '11px' }}>매우 그렇다</span> </LinerBtn>
+                </div>
 
-            }
-            <br />
-            {console.log(result)}
-            <br />
-            {showSurveyNumber === sortedSurveyDetail.questions.length // 설문의 마지막 문항일때 조건
-              ?
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button onClick={prevQuestion}>이전문항</button>
-                <button onClick={onSubmit}>제출하기{sortedSurveyDetail.questions.length}</button>
-              </div>
+              }
+              <br />
+              {console.log(result)}
+              <br />
+              {showSurveyNumber === sortedSurveyDetail.questions.length // 설문의 마지막 문항일때 조건
+                ?
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <button onClick={prevQuestion}>이전문항</button>
+                  <button onClick={onSubmit}>제출하기</button>
+                </div>
 
-              :
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button onClick={prevQuestion}>이전문항</button>
-                <button onClick={nextQuestion}>다음문항</button>
-              </div>
-            }
+                :
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <button onClick={prevQuestion}>이전문항</button>
+                  <button onClick={nextQuestion}>다음문항</button>
+                </div>
+              }
 
-            <hr />
-            <div>개발자 참고 공간 ↓</div>
-            <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
-            <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
+              <hr />
+              <div>개발자 참고 공간 ↓</div>
+              <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
+              <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
 
-          </SurveyCard>}
+            </SurveyCard>
+          </>}
       </div>
+      <Modal isOpen={openSubmitModal} style={{ //설문 링크 생성에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '50%',
+          height: '400px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={() => { setOpenSubmitModal(false) }}>X</ModalDelete>
+        </ModalHeader>
+        <ModalTitle>
+          <span>응답을 제출하시겠습니까?</span>
+        </ModalTitle>
+        <ModalButton onClick={sendToServer}>제출하기</ModalButton>
+
+      </Modal>
     </BackgroundDiv >
   );
 }

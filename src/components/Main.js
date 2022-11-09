@@ -58,7 +58,7 @@ const Mainbutton = styled.button`
 
     &:before {
         content: '';
-        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        background: linear-gradient(45deg, #ffebeb, #ffff8f, #ffea00, #fdda0d, #ffbf00, #fdda0d, #ffea00, #ffff8f, #ffebeb);
         position: absolute;
         top: -2px;
         left:-2px;
