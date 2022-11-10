@@ -202,7 +202,7 @@ Modal.setAppElement("#root");
 
 function Mksurvey() { // Make Survey
 
-    const [title, setTitle] = useState('') // 설문 이름에 대한 useState
+    const [title, setTitle] = useState(null) // 설문 이름에 대한 useState
     const [description, setDescription] = useState('')
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
     const [expireDate, setExpireDate] = useState('') // 만료 날짜를 설정하는 State
@@ -386,6 +386,16 @@ function Mksurvey() { // Make Survey
 
     }
 
+    const requestSubmit = () => {
+        if(title===null){
+            alert('설문 이름을 입력하세요')
+        }
+        else{
+            openModal()
+            saveData()
+        }
+    }
+
     const sendToServer = async () => {
 
         const formData = new FormData() // FormData 객체 사용
@@ -563,7 +573,7 @@ function Mksurvey() { // Make Survey
                     id.current += 1}}>
                     질문 추가</Surveybutton>
                 {/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={() => { openModal(); saveData() }}>설문 등록하기</Surveybutton>
+                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={requestSubmit}>설문 등록하기</Surveybutton>
                 <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
