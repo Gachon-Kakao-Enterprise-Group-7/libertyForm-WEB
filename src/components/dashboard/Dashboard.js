@@ -177,7 +177,7 @@ const Dashboard = () => {
               <div style={{ fontSize: '30px', fontWeight: 'bold', marginTop: '20px', marginBottom: '10px', color: 'rgb(103 102 102)' }}>반갑습니다. {localStorage.getItem('name')}님</div>
               <div style={{ fontSize: '20px', fontWeight: 'bold', color: 'rgb(103 102 102)' }}>리버티폼과 함께 당신이 표현하고싶은 모든것을 자유롭게 표현하세요</div>
               <TeamsTitle></TeamsTitle>
-              <MksurveyBtn>설문 생성하기</MksurveyBtn>
+              <MksurveyBtn onClick={() => { document.location.href = '/mksurvey' }}>설문 생성하기</MksurveyBtn>
             </Nosurvey>
           }
         </Wrapper>
