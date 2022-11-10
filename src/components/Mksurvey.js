@@ -206,7 +206,7 @@ function Mksurvey() { // Make Survey
     const [description, setDescription] = useState('')
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
     const [expireDate, setExpireDate] = useState('') // 만료 날짜를 설정하는 State
-    const [convertedDate, setConvertedDate] = useState('2099-12-30')
+    const [convertedDate, setConvertedDate] = useState(null) // 백엔드에 보내지는 만료날짜
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
     const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
@@ -386,6 +386,26 @@ function Mksurvey() { // Make Survey
 
     }
 
+    const requestSubmit = () => {
+        if(title.length<1){ // 설문 제목의 길이가 0일때
+            alert('설문 이름을 입력하세요')
+        }
+        else if(convertedDate==null){ // 저장된 만료날짜가 없을때
+            alert('마감날짜를 설정하세요')
+        }
+        else if(survey[0].q.length<1){ // 첫번째 질문의 길이가 0일때(객관식 제외하고 나머지)
+            alert('최소 1개의 질문은 생성하세요')
+            
+        }
+        else if(survey[0].type==='3' && survey[0].mcitem.length===0){ //객관식일때
+            alert('최소 1개의 선택지를 생성하세요');
+        }
+        else{
+            openModal()
+            saveData()
+        }
+    }
+
     const sendToServer = async () => {
 
         const formData = new FormData() // FormData 객체 사용
@@ -412,7 +432,7 @@ function Mksurvey() { // Make Survey
                     case 4001: //질문유형이 없을경우
                         break;
                     default:
-                        // window.location.reload();
+                        console.log(res.data.code)
                         break;
                 }
             })
@@ -426,6 +446,8 @@ function Mksurvey() { // Make Survey
 
     return (
         <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+            {console.log(survey)}
+            {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
                 <ItemDiv>
@@ -563,7 +585,7 @@ function Mksurvey() { // Make Survey
                     id.current += 1}}>
                     질문 추가</Surveybutton>
                 {/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={() => { openModal(); saveData() }}>설문 등록하기</Surveybutton>
+                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={requestSubmit}>설문 등록하기</Surveybutton>
                 <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)

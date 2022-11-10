@@ -127,7 +127,7 @@ function Sidebar() {
     {
       name: '발송자 관리',
       icon: IconSchedule(),
-      link: '/default'
+      link: '/surveysend'
     },
     {
       name: 'Activity',

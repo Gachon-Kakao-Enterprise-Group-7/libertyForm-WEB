@@ -47,6 +47,7 @@ const MainWrapper = styled.div`
   margin: 0 auto;
 `
 
+
 const Content = () => {
   return (
     <>

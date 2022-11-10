@@ -378,7 +378,7 @@ function Scard(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '30%',
+          width: '35%',
           height: '400px',
           border: '1px solid #ccc',
           background: '#fff',
@@ -400,7 +400,7 @@ function Scard(props) {
         <CopyWrapper>
           <LinkIconSvg></LinkIconSvg>
         <input style={{ border: "none",outline:"none",height:'100%', margin: '10px', width: '100%' }} value={surveylink}></input>
-        <ModalCopyButton onClick={copySurveyLink}>지정하기</ModalCopyButton>
+        <ModalCopyButton onClick={copySurveyLink}>복사</ModalCopyButton>
         </CopyWrapper>
         
 
