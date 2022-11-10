@@ -387,7 +387,7 @@ function Mksurvey() { // Make Survey
     }
 
     const requestSubmit = () => {
-        if(title===null){
+        if(title.length<1){
             alert('설문 이름을 입력하세요')
         }
         else{
