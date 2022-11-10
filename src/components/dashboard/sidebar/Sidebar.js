@@ -166,7 +166,7 @@ function Sidebar() {
         <TopWrapper>
           <Main>
             <DWrapper>
-              <Text style={{ fontWeight: 'bold', marginRight: '15px', marginTop: '20px' }} tag="h3" size={400} medium m={0} >
+              <Text style={{ fontWeight: 'bold', paddingRight: '10px', paddingTop: '15px' }} tag="h3" size={400}  >
                 설문 현황
               </Text>
 
@@ -217,7 +217,7 @@ function Sidebar() {
                     <Text>진행중 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
-                <Checkbox theme='#eb7830'>
+                <Checkbox theme='#eb7830' style={{marginBottom: '10px' }}>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
                     <Text>만료된 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length}</Text>

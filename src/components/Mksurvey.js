@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
+import {ReactComponent as CloseModal} from "../img/close.svg"
 
 // mui import
 import { Button } from '@mui/material';
@@ -26,6 +27,7 @@ const MainWrapper = styled(motion.div)`
 
 
 `
+
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -37,12 +39,15 @@ const ModalDelete = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  /* svg {
+`
+
+const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
-    :hover {
+    width:30px;
+    height:30px;
+    &:hover {
       fill: #ff7800;
     }
-  } */
 `
 const ModalTitle = styled.div`
   display: flex;
@@ -50,24 +55,30 @@ const ModalTitle = styled.div`
   align-items: center;
   color: #171725;
   font-size: 24px;
-  margin: 30px 0;
+  margin: 20px 0;
   margin-left: 10px;
   border-bottom: 1px solid #e2e2ea;
   height: 50px;
+
+  & h4 {
+    padding-bottom: 10px;
+    font-weight: bold;
+  }
 `
 const ModalDescription = styled.span`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   margin-left: 10px;
-  color: gray;
-  font-size: 14px;
+  color: #171725;
+  font-size: 16px;
 `
 const ModalButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 30px;
   width:100%;
   background-color: #ff7800;
   outline: none;
@@ -81,6 +92,23 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
+
+const Surveybutton = styled.button`
+    font-weight: bold;
+    width: 220px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #ff7800;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    margin-top: 80px;
+`
+
+
 const BlockDiv = styled.div`
     background-color: #fafafa;
     margin: auto;
@@ -530,16 +558,14 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 등록 및 설문 기능 핸들링 부분 */}
             <FuncDiv>
-                <Button
-                    style={{ marginRight: '0.5rem' }}
+                <Surveybutton style={{ marginRight: '0.5rem', backgroundColor:"#ffcd00" }}
                     variant="contained"
                     onClick={() => {
-                        setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
-                        id.current += 1
-                    }}>
-                    질문 추가
-                </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Button onClick={() => { openModal(); saveData() }} variant="contained" color="success">설문 등록하기</Button>
+                    setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
+                    id.current += 1}}>
+                    질문 추가</Surveybutton>
+                {/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
+                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={() => { openModal(); saveData() }}>설문 등록하기</Surveybutton>
                 <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
@@ -552,7 +578,7 @@ function Mksurvey() { // Make Survey
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'                    
 
                 },
                 content: {
@@ -564,7 +590,7 @@ function Mksurvey() { // Make Survey
                     height: '300px',
                     border: '1px solid #ccc',
                     background: '#fff',
-                    overflow: 'auto',
+                    overflow: "hidden",
                     WebkitOverflowScrolling: 'touch',
                     outline: 'none',
                     borderRadius: '20px',
@@ -573,9 +599,9 @@ function Mksurvey() { // Make Survey
             }}>
 
                 <ModalHeader>
-                    <ModalDelete onClick={closeModal}>X</ModalDelete>
+                    <ModalDelete onClick={closeModal}><CloseModalSvg/></ModalDelete>
                 </ModalHeader>
-                <ModalTitle>설문등록</ModalTitle>
+                <ModalTitle><h4>설문등록</h4></ModalTitle>
                 <ModalDescription>설문을 정말로 등록하시겠습니까?</ModalDescription>
                 <ModalButton onClick={() => { closeModal(); sendToServer() }}>등록하기</ModalButton>
 

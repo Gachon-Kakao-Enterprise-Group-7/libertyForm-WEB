@@ -9,7 +9,6 @@ import {
     CardHeader,
     CardHeading,
     CardBody,
-    CardIcon,
     CardFieldset,
     CardInput,
     CardOptionsNote,
