@@ -94,8 +94,8 @@ function Preview(props) {
                     {newSurveyDetail.questions.sort(function (a, b) { return a.number - b.number }).map((question, index) => ( // 문제 번호에 따라 오름차순으로 정렬 후 map함수 반복 시작
                         <TableBody key={index + 1}>
                             <TableCell align='center' >{question.number}</TableCell>
-                            {question.questionTypeId === 1 && <TableCell align='center' >단문형</TableCell>}
-                            {question.questionTypeId === 2 && <TableCell align='center' >장문형</TableCell>}
+                            {question.questionTypeId === 1 && <TableCell align='center' >장문형</TableCell>}
+                            {question.questionTypeId === 2 && <TableCell align='center' >단답형</TableCell>}
                             {question.questionTypeId === 3 && <TableCell align='center' >객관식(단일)</TableCell>}
                             {question.questionTypeId === 4 && <TableCell align='center' >객관식(복수)</TableCell>}
                             {question.questionTypeId === 5 && <TableCell align='center' >감정바</TableCell>}

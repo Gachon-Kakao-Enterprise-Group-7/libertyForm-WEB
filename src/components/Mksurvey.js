@@ -206,7 +206,7 @@ function Mksurvey() { // Make Survey
     const [description, setDescription] = useState('')
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
     const [expireDate, setExpireDate] = useState('') // 만료 날짜를 설정하는 State
-    const [convertedDate, setConvertedDate] = useState('2099-12-30')
+    const [convertedDate, setConvertedDate] = useState('2099-12-30') // 백엔드에 보내지는 만료날짜
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
     const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
@@ -412,7 +412,7 @@ function Mksurvey() { // Make Survey
                     case 4001: //질문유형이 없을경우
                         break;
                     default:
-                        // window.location.reload();
+                        console.log(res.data.code)
                         break;
                 }
             })
