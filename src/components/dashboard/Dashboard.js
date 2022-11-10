@@ -27,7 +27,7 @@ const Wrapper = styled.section`
     padding: 10px;
   }
 `
-const Username = styled.span`
+const Text1 = styled.span`
   font-size: 24px;
   text-align: center;
   letter-spacing: 0.1px;
@@ -36,7 +36,7 @@ const Username = styled.span`
     display: none;
   }
 `
-const Text = styled.span`
+const Text2 = styled.span`
   font-size: 18px;
   letter-spacing: 0.1px;
   color: #92929d;
@@ -134,8 +134,8 @@ const Dashboard = () => {
         <Wrapper>
           <HeaderContent>
             <div>
-              <Username>환영합니다,</Username>
-              <Text>설문지 대시보드입니다.</Text>
+              <Text1>환영합니다,</Text1>
+              <Text2>설문지 대시보드입니다.</Text2>
             </div>
           </HeaderContent>
 
