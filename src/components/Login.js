@@ -88,6 +88,7 @@ function Login() {
                         localStorage.setItem('jwt', res.data.result.jwt);
                         break;
                     default:
+                        console.log(res.data.code)
                         console.log('정의되지 않은 오류입니다....')
                         break;
                 }
