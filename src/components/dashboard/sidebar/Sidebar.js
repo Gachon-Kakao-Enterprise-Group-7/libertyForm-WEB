@@ -125,7 +125,7 @@ function Sidebar() {
       link: '/ansurvey'
     },
     {
-      name: '발송자 관리',
+      name: '설문 이메일 발송',
       icon: IconSchedule(),
       link: '/surveysend'
     },
@@ -135,9 +135,9 @@ function Sidebar() {
       link: '/default'
     },
     {
-      name: 'Settings',
+      name: '발송자 관리',
       icon: IconSettings(),
-      link: '/default'
+      link: '/sendermanagement'
     }
   ]
 
