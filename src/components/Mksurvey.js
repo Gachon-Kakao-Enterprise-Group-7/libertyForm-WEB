@@ -330,7 +330,7 @@ function Mksurvey() { // Make Survey
     }, [postData]);
 
 
-    useEffect(() => {
+    useDidMountEffect(() => {
         window.scrollTo(0, scrollRef.current.scrollHeight)
     }, [survey.length]) //survey에 새로운 질문이 추가되었을때(==survey.length변화) 스크롤을 가장 아래로 내린다.
 
