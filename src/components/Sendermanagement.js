@@ -166,37 +166,45 @@ function Sendermanagement() {
   }
 
   const sendToServer = async () =>{ // 즐겨찾는 주소 정보 서버에 등록하기
+    let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); //이메일 정규식
     const jwt = localStorage.getItem('jwt')
-    await axios.post("/contact/create", inputs, {
-      headers: {
-        Authorization: 'Bearer ' + jwt
-      }
-    })
-      .then(res => {
-        switch(res.data.code){
-          case 1000:
-            console.log('등록완료!')
-            alert('등록되었습니다')
-            window.location.href = '/sendermanagement'
-            setAddUserModal(false)
-            break;
-          case 2010:
-            console.log('존재하지 않는 유저입니다.')
-            break;
-          case 2017:
-            alert('본인은 등록 할 수 없습니다.')
-            break;
-          case 2018:
-            alert('이미 등록되어 있습니다.')
-            break;
-          default:
-            break;
+
+    if (regex.test(inputs.email)) {
+      await axios.post("/contact/create", inputs, {
+        headers: {
+          Authorization: 'Bearer ' + jwt
         }
-        console.log(res.data.code)
-        
-      }
-      )
-      .catch((Error) => { console.log(Error) })
+      })
+        .then(res => {
+          switch(res.data.code){
+            case 1000:
+              console.log('등록완료!')
+              alert('등록되었습니다')
+              window.location.href = '/sendermanagement'
+              setAddUserModal(false)
+              break;
+            case 2010:
+              console.log('존재하지 않는 유저입니다.')
+              break;
+            case 2017:
+              alert('본인은 등록 할 수 없습니다.')
+              break;
+            case 2018:
+              alert('이미 등록되어 있습니다.')
+              break;
+            default:
+              break;
+          }
+          console.log(res.data.code)
+          
+        }
+        )
+        .catch((Error) => { console.log(Error) })
+    }
+    else{
+      alert('이메일 형식이 잘못되었습니다.')
+    }
+    
   }
 
   useEffect(()=>{ // 서버에 등록되어 있는 연락처 정보 받아오기
@@ -312,7 +320,7 @@ function Sendermanagement() {
             <input name='relationship' onChange={changeInputs}/>
           </div>
         </ModalDescription>
-        <ModalButton onClick={sendToServer}>발송하기</ModalButton>
+        <ModalButton onClick={sendToServer}>추가</ModalButton>
 
       </Modal>
     </>

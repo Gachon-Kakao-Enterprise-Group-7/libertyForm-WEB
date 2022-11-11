@@ -242,7 +242,7 @@ function Surveysend() {
           <HeaderContent>
             <div>
               <Text1>환영합니다,</Text1>
-              <Text2>설문을 발송할 수 있습니다.</Text2>
+              <Text2>설문이 이메일로 발송됩니다.</Text2>
             </div>
           </HeaderContent>
           <br />
@@ -274,7 +274,6 @@ function Surveysend() {
           </SectionWrapper>
           <SectionWrapper>
             <Text1>그룹에서 선택</Text1>
-            <div style={{ background: 'green', color: 'white' }}>이부분을 어떻게 추가 할 것인지 상의 필요! <br />예를 들면 백우진이라는 사용자가 등록한 10명의 연락처에 대해서 한번에 보여주고 설문 선택처럼 선택하는 방법도 있고.... </div>
           </SectionWrapper>
           <SectionWrapper>
             <Text1>사용자 추가</Text1>
