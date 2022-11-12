@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Groupcontrol from './Groupcontrol';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from './dashboard/sidebar/Sidebar';
-import { useSelector } from 'react-redux' // react-redux사용
+import { useDispatch, useSelector } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
 import { ReactComponent as CloseModal } from "../img/close.svg"
 
@@ -167,6 +168,8 @@ const Email = styled.div`
 
 function Surveysend() {
 
+  const dispatch = useDispatch()
+
   const surveys = useSelector((state) => state.survey.previewsurvey)
 
   const [selectSurvey, setSelectSurvey] = useState(null) // 선택한 설문에 대한 정보를 가진 state
@@ -174,11 +177,6 @@ function Surveysend() {
   const [users, setUsers] = useState([]) // 설문을 발송하고자 하는 유저 정보를 가진 배열 state
   const [mailSendModal, setMailSendModal] = useState(false)
   const [postData, setPostData] = useState({})
-
-
-  console.log(userInput)
-  console.log(users)
-
 
 
   const addUser = () => {
@@ -234,6 +232,20 @@ function Surveysend() {
     }
   }
 
+  useEffect(()=>{ // 서버에 등록되어 있는 연락처 정보 받아오기
+    const jwt = localStorage.getItem('jwt')
+    axios.get("/contact", {
+      headers: {
+        Authorization: 'Bearer ' + jwt
+      }
+    })
+      .then(res => {
+        dispatch({type:'SAVECONTACT', data:res.data.result})
+      }
+      )
+      .catch((Error) => { console.log(Error) })
+  },[])
+
   return (
     <>
       <MainWrapper>
@@ -274,14 +286,19 @@ function Surveysend() {
           </SectionWrapper>
           <SectionWrapper>
             <Text1>그룹에서 선택</Text1>
+            <Groupcontrol setUsers={setUsers}></Groupcontrol> 
+            {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
           </SectionWrapper>
           <SectionWrapper>
-            <Text1>사용자 추가</Text1>
+            <Text1>사용자 직접 추가</Text1>
             <br />
             <UserSelectDiv>
               <UserAddInput value={userInput} onChange={(e) => { setUserInput(e.target.value) }} />
               <UserAddBtn onClick={addUser}>추가</UserAddBtn>
             </UserSelectDiv>
+          </SectionWrapper>
+          <SectionWrapper>
+            발송 리스트
             {users.map((user, index) => (
               <Email onClick={delUser} data-id={index} key={index} >{user.email}</Email>
             ))}

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import Groupcontrol from './Groupcontrol';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from './dashboard/sidebar/Sidebar';
-import { useSelector } from 'react-redux' // react-redux사용
+import { useDispatch, useSelector } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
 import { ReactComponent as UserAddSvg } from "../img/adduser.svg"
 import { ReactComponent as CloseModal } from "../img/close.svg"
@@ -143,6 +144,8 @@ const Label = styled.div`
 
 function Sendermanagement() {
 
+  const dispatch = useDispatch();
+
   const [contacts, setContacts] = useState(false)
   const [addUserModal, setAddUserModal] = useState(false)
   const [inputs, setInputs] = useState({
@@ -218,6 +221,7 @@ function Sendermanagement() {
       .then(res => {
         console.log(res.data)
         setContacts((prev)=>res.data.result)
+        dispatch({type:'TEST'})
         setLoading(false)
       }
       )
