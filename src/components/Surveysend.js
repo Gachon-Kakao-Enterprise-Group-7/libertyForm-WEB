@@ -41,7 +41,7 @@ const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 15px;
-  border: 1px solid red;
+  border: 1px solid black;
 `
 
 const HeaderContent = styled.div`
@@ -182,7 +182,7 @@ function Surveysend() {
   const addUser = () => {
     let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); //이메일 정규식
     if (regex.test(userInput)) {
-      setUsers((prev) => ([...prev, { email: userInput }]))
+      setUsers((prev) => ([...new Set([...prev, userInput])]))
       setUserInput('')
     }
     else {
@@ -197,10 +197,14 @@ function Surveysend() {
 
 
   const convertPostData = () => {
-    setPostData({
+
+    const cvusers = users.map((user)=>({email:user}))
+
+    setPostData((prev)=>({
       surveyId: selectSurvey,
-      receivers: users,
-    })
+      receivers: cvusers,
+    }))
+
   }
 
   const sendToServer = async () => {
@@ -285,8 +289,7 @@ function Surveysend() {
             </FormControl>
           </SectionWrapper>
           <SectionWrapper>
-            <Text1>그룹에서 선택</Text1>
-            <Groupcontrol setUsers={setUsers}></Groupcontrol> 
+            <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol> 
             {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
           </SectionWrapper>
           <SectionWrapper>
@@ -298,9 +301,9 @@ function Surveysend() {
             </UserSelectDiv>
           </SectionWrapper>
           <SectionWrapper>
-            발송 리스트
+            발송 리스트 {users.length}명
             {users.map((user, index) => (
-              <Email onClick={delUser} data-id={index} key={index} >{user.email}</Email>
+              <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
             ))}
           </SectionWrapper>
           <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '50px' }}>
