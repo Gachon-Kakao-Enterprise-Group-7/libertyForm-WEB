@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Groupcontrol from './Groupcontrol';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from './dashboard/sidebar/Sidebar';
-import { useSelector } from 'react-redux' // react-redux사용
+import { useDispatch, useSelector } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
 import { ReactComponent as CloseModal } from "../img/close.svg"
 
@@ -40,7 +41,7 @@ const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 15px;
-  border: 1px solid red;
+  border: 1px solid black;
 `
 
 const HeaderContent = styled.div`
@@ -167,6 +168,8 @@ const Email = styled.div`
 
 function Surveysend() {
 
+  const dispatch = useDispatch()
+
   const surveys = useSelector((state) => state.survey.previewsurvey)
 
   const [selectSurvey, setSelectSurvey] = useState(null) // 선택한 설문에 대한 정보를 가진 state
@@ -176,15 +179,10 @@ function Surveysend() {
   const [postData, setPostData] = useState({})
 
 
-  console.log(userInput)
-  console.log(users)
-
-
-
   const addUser = () => {
     let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); //이메일 정규식
     if (regex.test(userInput)) {
-      setUsers((prev) => ([...prev, { email: userInput }]))
+      setUsers((prev) => ([...new Set([...prev, userInput])]))
       setUserInput('')
     }
     else {
@@ -199,10 +197,14 @@ function Surveysend() {
 
 
   const convertPostData = () => {
-    setPostData({
+
+    const cvusers = users.map((user)=>({email:user}))
+
+    setPostData((prev)=>({
       surveyId: selectSurvey,
-      receivers: users,
-    })
+      receivers: cvusers,
+    }))
+
   }
 
   const sendToServer = async () => {
@@ -234,6 +236,20 @@ function Surveysend() {
     }
   }
 
+  useEffect(()=>{ // 서버에 등록되어 있는 연락처 정보 받아오기
+    const jwt = localStorage.getItem('jwt')
+    axios.get("/contact", {
+      headers: {
+        Authorization: 'Bearer ' + jwt
+      }
+    })
+      .then(res => {
+        dispatch({type:'SAVECONTACT', data:res.data.result})
+      }
+      )
+      .catch((Error) => { console.log(Error) })
+  },[])
+
   return (
     <>
       <MainWrapper>
@@ -242,7 +258,7 @@ function Surveysend() {
           <HeaderContent>
             <div>
               <Text1>환영합니다,</Text1>
-              <Text2>설문을 발송할 수 있습니다.</Text2>
+              <Text2>설문이 이메일로 발송됩니다.</Text2>
             </div>
           </HeaderContent>
           <br />
@@ -273,18 +289,21 @@ function Surveysend() {
             </FormControl>
           </SectionWrapper>
           <SectionWrapper>
-            <Text1>그룹에서 선택</Text1>
-            <div style={{ background: 'green', color: 'white' }}>이부분을 어떻게 추가 할 것인지 상의 필요! <br />예를 들면 백우진이라는 사용자가 등록한 10명의 연락처에 대해서 한번에 보여주고 설문 선택처럼 선택하는 방법도 있고.... </div>
+            <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol> 
+            {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
           </SectionWrapper>
           <SectionWrapper>
-            <Text1>사용자 추가</Text1>
+            <Text1>사용자 직접 추가</Text1>
             <br />
             <UserSelectDiv>
               <UserAddInput value={userInput} onChange={(e) => { setUserInput(e.target.value) }} />
               <UserAddBtn onClick={addUser}>추가</UserAddBtn>
             </UserSelectDiv>
+          </SectionWrapper>
+          <SectionWrapper>
+            발송 리스트 {users.length}명
             {users.map((user, index) => (
-              <Email onClick={delUser} data-id={index} key={index} >{user.email}</Email>
+              <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
             ))}
           </SectionWrapper>
           <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '50px' }}>

@@ -4,9 +4,10 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; //react-persist를 사용해 localStorage에 저장
 
 
-import testReducer from './reducers/test'
-import userReducer from './reducers/user'
+import testReducer from './reducers/test';
+import userReducer from './reducers/user';
 import surveyReducer from './reducers/survey';
+import contactReducer from './reducers/contact';
 //만들어져있는 리듀서 3개를 import 해온다.
 
 const persistConfig = {
@@ -20,8 +21,10 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   test: testReducer,
+  contact: contactReducer,
   users: userReducer,
   survey: surveyReducer,
+  
 })  // rootReducer를 만들어서 testReducer와 userReducer와 surveyReucer combine해준다음에 export 해준다.
 
 export default persistReducer(persistConfig, rootReducer);

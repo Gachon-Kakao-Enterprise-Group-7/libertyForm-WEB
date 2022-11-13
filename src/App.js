@@ -13,12 +13,14 @@ import Dosurvey from './components/Dosurvey';
 import Surveyend from './components/Surveyend';
 import Surveysend from './components/Surveysend';
 import Adminpage from './components/Adminpage';
+import Sendermanagement from './components/Sendermanagement';
 
 import { GlobalStyle } from './components/GlobalStyle'
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 기능 사용
 import { AnimatePresence } from "framer-motion"; //애니메이션 라이브러리
+
 
 
 
@@ -45,8 +47,9 @@ function App() {
           {/* mksurvey_prev 임시로 사용 가능! */}
 
           <Route path="/dosurvey/:surveyCode" element={<Dosurvey />}></Route>
-          <Route path="/surveysend" element={<Surveysend />}></Route>
           <Route path="/surveyend" element={<Surveyend />}></Route>
+          <Route path="/surveysend" element={<Surveysend />}></Route>
+          <Route path="/sendermanagement" element={<Sendermanagement />}></Route>
           <Route path="/adminpage" element={<Adminpage />}></Route>
           
           <Route path="*" element={<Notfound />}></Route>
