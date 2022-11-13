@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import ContentTasks from './Tasks'
 import Sidebar from '.././sidebar/Sidebar'
+import Navs from '.././Navs'
 
 import Mksurvey from '../../Mksurvey'
 
@@ -52,6 +53,7 @@ const Content = () => {
   return (
     <>
       <>
+        <Navs />
         <MainWrapper>
           <Sidebar />
           <Wrapper>

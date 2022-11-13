@@ -18,40 +18,99 @@ import Radio from '@mui/material/Radio';
 import ProgressBar from "@ramonak/react-progress-bar";
 import Modal from "react-modal";
 
-import { ReactComponent as EmotionGood } from "../img/emotiongood.svg";
-import { ReactComponent as EmotionBad } from "../img/emotionbad.svg";
+import {ReactComponent as CloseModal} from ".././img/close.svg"
+import { ReactComponent as EmotionVerybad } from "../img/emotion_verybad.svg";
+import { ReactComponent as EmotionBad } from "../img/emotion_bad.svg";
+import { ReactComponent as EmotionMedium } from "../img/emotion_medium.svg";
+import { ReactComponent as EmotionGood } from "../img/emotion_good.svg";
+import { ReactComponent as EmotionVerygood } from "../img/emotion_verygood.svg";
 
+
+const SurveyFooter = styled.div`
+  background:rgba(0,0,0,0.025);
+	border-top: 1px solid rgba(0,0,0,0.1);
+  width: 100%;
+  align-self: flex-end;
+  margin-top: auto;
+  border-radius: 20px;
+`
+
+
+const SurveyNextButton = styled.button`
+  background-color: white;
+  outline: none;
+  cursor: pointer;
+  color: #252525;
+  height: 50px;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 5rem;
+	padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  font-size:22px;
+  :hover{
+		cursor: pointer;
+		background: #ECEFF1;
+		border-color:rgba(0,0,0,0.25);
+	}
+`
 const BackgroundDiv = styled.div`
   position: absolute;
   top:0px; // nav바 가려버림
   background: #e1e1e1;
-  background-image: url(${props => props.thumbnailImgUrl});
-  /* background-repeat: no-repeat; */
-  background-size: 1920px 1080px;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center; //세로축
-  justify-content: center;  //가로축
+  z-index: 0;
+  width:100vw;
+  height:100vh;
+  min-height: 100vh; //가로축
+  display : flex;
+  align-items: center;
+  justify-content: center;
+    ::before {
+        background-image: url(${props => props.thumbnailImgUrl});
+        background-size: 1920px 1080px;
+        opacity:0.9;
+        width:100vw;
+        height:100vh;
+        z-index: -1;
+        background-position: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        position :absolute;
+        content: "";
+  }
 `
 const StartCard = styled.div`
     background-color: rgba(255, 255, 255, 0.9);
     color:black;
-    width: 700px;
+    width: 100vh;
     padding: 30px;
+    height : 50vh;
     border-radius: 40px;
+    text-align:center;
 
 `
 const SurveyCard = styled.div`
     background-color: rgba(255, 255, 255, 0.8);
     color:black;
-    width: 700px;
+    width: 90vh;
+    min-height : 50vh;
     padding: 30px;
     border-radius: 40px;
     
+    display: flex;
+    flex-direction : column;
+    flex:auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    
+    
 `
 const QuestionTitle = styled.div`
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: bold;
+  /* background:rgba(0,0,0,0.025); */
+	padding: 1.5rem;
+  margin-top : 20px;
+
+  
 `
 const LinerBtn = styled.button`
   color: ${props => props.checked ? 'white' : 'black'};
@@ -69,8 +128,10 @@ const LinerBtn = styled.button`
   }
 `
 const EmotionSlider = styled(Slider)({
+  
   color: '#52af77 !important', //important를 이용해서 css우선순위를 1순위로 끌어올렸다.
   height: 8,
+  position: 'relative',
   '& .MuiSlider-track': {
     border: 'none',
   },
@@ -91,7 +152,7 @@ const EmotionSlider = styled(Slider)({
     fontSize: 12,
     background: 'unset',
     padding: 0,
-    width: 32,
+    width: 32, 
     height: 32,
     borderRadius: '50% 50% 50% 0',
     backgroundColor: '#52af77',
@@ -106,6 +167,44 @@ const EmotionSlider = styled(Slider)({
     },
   },
 });
+
+const EmotionText = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom :  20px;
+  justify-content: space-between;
+  width : 100%;
+  >strong{
+    color: #2B3044;
+    display: block;
+    font-weight: 500;
+    font-size: 25px;
+  }
+  >div{
+    display : flex; 
+    justify-content: flex-start;
+  
+  >text{
+    white-space:nowrap;
+    color: #BBC1E1;
+    font-size: 20px;
+    font-weight: 500;
+    list-style: none;
+    position: relative;
+    text-align: right;
+  }
+  >text{
+
+    list-style: none;
+    position: relative;
+    text-align: left;
+    margin-right : 10px;
+    padding-top: 5px;
+  }
+
+}
+`
+
 const StartSurveyBtn = styled.button`
   margin: 20px auto;
   display: block;
@@ -116,21 +215,48 @@ const StartSurveyBtn = styled.button`
   color:black;
   font-size: 1.1rem;
   border-radius: 20px;
-  border : 1px solid black;
+  border : 2px solid black;
   &:hover {
     background: black;
     color:white;
   }
   transition:all 200ms linear;
 `
-const AnswerInput = styled.input`
+
+
+const AnswerInput = styled.input.attrs({ placeholder: "답안을 입력해주세요" })`
   background: rgba(255, 255, 255, 0.2);
-  height: 40px;
+  position: relative;
+  margin: auto 3%; //top left
+  padding: 0px 0px 10px;
+  border: none;
+  outline: none;
+  border-bottom : 3px solid black;
+  font-size: 26px;
+  white-space:pre-line;
+
+  ::placeholder {
+       color: #D3D3D3;
+       font-size:24px;
+   }
+
+   :focus{
+  border-bottom: 3px solid #ffcd23;
+  }
 `
 const ProgressBarDiv = styled.div`
   padding: 20px;
   width: 95%;
   margin: auto;
+`
+
+const CloseModalSvg = styled(CloseModal)`
+    fill: #92929d;
+    width:30px;
+    height:30px;
+    &:hover {
+      fill: #ff7800;
+    }
 `
 const ModalHeader = styled.div`
   display: flex;
@@ -143,12 +269,17 @@ const ModalDelete = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  svg {
-    fill: #92929d;
-    :hover {
-      fill: #0062ff;
-    }
-  }
+`
+
+
+const ModalDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-left: 10px;
+  color: #171725;
+  font-size: 16px;
 `
 const ModalTitle = styled.div`
   display: flex;
@@ -156,30 +287,69 @@ const ModalTitle = styled.div`
   align-items: center;
   color: #171725;
   font-size: 24px;
-  margin: 30px 0;
+  margin: 20px 0;
   margin-left: 10px;
+  margin-right: 0px;
   border-bottom: 1px solid #e2e2ea;
   height: 50px;
+
+  & h4 {
+    padding-bottom: 10px;
+    font-weight: bold;
+  }
 `
 
 const ModalButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
-  width:100%;
+  margin-top: 30px;
+  margin-left: 10px;
+  width: 98%;
   background-color: #ff7800;
   outline: none;
   cursor: pointer;
   color: white;
   height: 38px;
   border-radius: 20px;
-  border: 1px solid #fc5a5a;
+  border: 1px solid #ff7800;
   :hover {
-    color: #fc5a5a;
+    color: #ff7800;
     background-color: white;
   }
+`
+
+
+const OptionWrapper  = styled.div`
+  height: 100%;
+  width: 100%;
+  margin-top: 12px;
+  flex-grow: 1;
   `
+
+const OptionContainer  = styled.div`
+  border-radius: 10px;
+  padding: 9px 18px;
+  margin: 0 18px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0,0,0,0.85);
+  border: transparent 1px solid;
+
+  &.is-selected {
+    border-color: rgba(black,0.25);
+    background-color: white;
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  &:active {
+    transform: scaleX(0.95);
+    border-color: rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+`
 
 
 
@@ -489,10 +659,12 @@ function Dosurvey() {
               <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
               <br />
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
-                <AnswerInput style={{ width: '100%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
+                
+                <AnswerInput style={{ width: '90%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
+                
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
-                <AnswerInput style={{ width: '70%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
+                <AnswerInput style={{ width: '60%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
               }
 
 
@@ -503,16 +675,44 @@ function Dosurvey() {
                       <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
                     ))}
                   </RadioGroup>
+                  <OptionWrapper>
+                    <OptionContainer onClick={onChangeType3}>1. ddddd</OptionContainer>
+                  </OptionWrapper>
                 </FormControl>
               }
-
+              {/* https://codepen.io/mobihack-official/pen/EJpRXQ */}
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
-                <div style={{ width: '500px' }}>
-                  <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
+                
+                <div style={{ width: '60vh', margin:'auto' }}>
+                  <EmotionText>
+                  <strong>감정을 직접 표현해보세요</strong>
+                  
+                  <div>
+                    
+    
+                    <text>
+                        {inputs >=0 && inputs<20 && '매우 나쁨'} 
+                        {inputs >=20 && inputs<40 && '나쁨'}
+                        {inputs >=40 && inputs<60 && '보통'}
+                        {inputs >=60 && inputs<80 && '좋음'}
+                        {inputs >=80 && inputs<=100 && '매우좋음'}
+                    </text>
+
+                    <a>
+                        {inputs >=0 && inputs<20 && <EmotionVerybad width='40px' height='40px'/>} 
+                        {inputs >=20 && inputs<40 && <EmotionBad width='40px' height='40px'/>}
+                        {inputs >=40 && inputs<60 && <EmotionMedium width='40px' height='40px'/>}
+                        {inputs >=60 && inputs<80 && <EmotionGood width='40px' height='40px'/>}
+                        {inputs >=80 && inputs<=100 && <EmotionVerygood width='40px' height='40px'/>}
+                    </a>
+                    
+                  </div>
+                  </EmotionText>
+                  <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs}/>
                 </div>
               }
-
+  
 
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
@@ -527,27 +727,31 @@ function Dosurvey() {
               }
               <br />
               {console.log(result)}
+              {/* <hr />
+              <div>개발자 참고 공간 ↓</div>
+              <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
+              <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div> */}
+             
               <br />
               {showSurveyNumber === sortedSurveyDetail.questions.length // 설문의 마지막 문항일때 조건
                 ?
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <button onClick={prevQuestion}>이전문항</button>
-                  <button onClick={onSubmit}>제출하기</button>
+                <SurveyFooter>
+                <div style={{ display: 'flex',justifyContent: 'space-between', padding: '20px 25px'}}>
+                  <SurveyNextButton onClick={prevQuestion}>이전문항</SurveyNextButton>
+                  <SurveyNextButton  onClick={onSubmit}>제출하기</SurveyNextButton>
                 </div>
-
+                </SurveyFooter>
                 :
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <button onClick={prevQuestion}>이전문항</button>
-                  <button onClick={nextQuestion}>다음문항</button>
+                <SurveyFooter>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 25px'}}>
+                  <SurveyNextButton onClick={prevQuestion}>이전문항</SurveyNextButton>
+                  <SurveyNextButton onClick={nextQuestion}>다음문항</SurveyNextButton>
                 </div>
+                </SurveyFooter>
               }
-
-              <hr />
-              <div>개발자 참고 공간 ↓</div>
-              <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
-              <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div>
-
+              
             </SurveyCard>
+          
           </>}
       </div>
       <Modal isOpen={openSubmitModal} style={{ //설문 링크 생성에 대한 모달
@@ -565,12 +769,11 @@ function Dosurvey() {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '50%',
-          height: '400px',
+          width: '30%',
+          height: '300px',
           border: '1px solid #ccc',
           background: '#fff',
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
+          overflow: 'hidden',
           outline: 'none',
           borderRadius: '20px',
           padding: '20px 25px'
@@ -578,11 +781,10 @@ function Dosurvey() {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={() => { setOpenSubmitModal(false) }}>X</ModalDelete>
+          <ModalDelete onClick={() => { setOpenSubmitModal(false) }}><CloseModalSvg/></ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <span>응답을 제출하시겠습니까?</span>
-        </ModalTitle>
+        <ModalTitle><h4>응답 제출</h4></ModalTitle>
+        <ModalDescription>응답을 제출하시겠습니까?</ModalDescription>
         <ModalButton onClick={sendToServer}>제출하기</ModalButton>
 
       </Modal>
