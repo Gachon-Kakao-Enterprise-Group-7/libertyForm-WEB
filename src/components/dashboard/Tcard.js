@@ -1,52 +1,67 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useState } from "react";
+import Preview from './Preview';
+
 import { withStyles } from "@material-ui/core/styles";
-import Cards from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
 import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import IconActivity from './sidebar/icon/Activity'
+import axios from 'axios';
+
+import {ReactComponent as LinkIcon} from '../../img/link.svg'
+
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Modal from "react-modal";
+import {ReactComponent as CloseModal} from "../../img/close.svg"
+import { margin } from '@mui/system';
 
 
-const ScoreLineTitle = styled.div`
-  font-size: 14px;
-  letter-spacing: 0.1px;
-  color: #696974;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-left: 10px;
-`
+import defaultImg from '../../img/default-thumbnail.jpg'
 
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
-  width: 100%;
+  width: ${(props) => props.Dayratio}%;
   height: 3px;
   border-radius: 2.5px;
-  min-width: 150px;
+
   div {
     height: 3px;
-    background-color: #3dd598;
+    background-color: #f5c525;
   }
 `
 
+const LinkIconSvg = styled(LinkIcon)`
+    width:30px;
+    height: 25px;
+  
+`
+const TypographyTitle = styled.div`
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`
 const TWrapper = styled.div`
-  margin: 20px;
-  width: 300px;
+  margin: 10px;
+  width: 280px;
   color : white;
+  border-radius: 20px;
   &:hover {
-    color : pink;
+    scale: 1.1; 
     cursor: pointer;
   }
 `
-
-const Icon = styled.div `
-    margin-right : 4px;
+const Icon = styled.div`
+    margin-right : 3px;
     display: flex;
     align-items: center;
+`
+const NavDropStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color :"black";
+  .dropdown-button {
+    color: #ffcd00;
+  }
 `
 
 const ShowLeftDate = styled.div`
@@ -55,110 +70,380 @@ const ShowLeftDate = styled.div`
   font-size: 18px;
   padding: 5px;
   border-radius: 5px;
-  /* margin: 0; */
   margin-bottom: 5px; 
 
   display: flex;
-  align-items: left;
+  align-items: center;
 `
-const styles = (muiBaseTheme) => ({
-    card: {
-        transition: "0.3s",
-        borderRadius: "20px",
-        border: "1px dashed white",
-    },
-    media: { //사진
-        paddingTop: "56.25%",
-        width: "100%",
-    },
-    content: {
-        textAlign: "left",
-        padding: muiBaseTheme.spacing.unit * 3
-    },
-    divider: {
-        margin: "15px 0",
-    },
-    heading: {
-        fontWeight: "bold"
-    },
-    subheading: {
-        lineHeight: 1.8
-    },
-    button: {
-        borderRadius: "5px",
-        width: "100%",
-        fontSize: '13px'
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: #92929d;
+  font-size: 14px;
+`
+const ModalDelete = styled.button`
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+`
+
+const CloseModalSvg = styled(CloseModal)`
+    fill: #92929d;
+    width:30px;
+    height:30px;
+    &:hover {
+      fill: #ff7800;
     }
+`
+
+const ModalTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #171725;
+  font-size: 24px;
+  margin: 20px 0;
+  margin-left: 10px;
+  margin-right: 0px;
+  border-bottom: 1px solid #e2e2ea;
+  height: 50px;
+
+  & h4 {
+    padding-bottom: 10px;
+    font-weight: bold;
+  }
+`
+
+const ModalDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-left: 10px;
+  color: #171725;
+  font-size: 16px;
+`
+const ModalButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-left: 10px;
+  width: 98%;
+  background-color: #ff7800;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 38px;
+  border-radius: 20px;
+  border: 1px solid #ff7800;
+  :hover {
+    color: #ff7800;
+    background-color: white;
+  }
+`
+
+const ModalCopyButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width:20%;
+  background-color: #ffcd00;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 38px;
+  border-radius: 10px;
+  border: 2px solid #ffcd00;
+  :hover {
+    color: #ffcd00;
+    background-color: white;
+  }
+`
+
+const CopyWrapper = styled.div`
+  display: flex;
+  float: left; 
+  align-items:center;
+  justify-content:space-between;
+  margin: 12px 0 -5px 10px;
+  height:45px;
+  border: 1px solid #D3D3D3;
+  border-radius: 4px;
+  width: 98%;
+  padding: 0 5px;
+`
+
+const styles = (muiBaseTheme) => ({
+  card: {
+    transition: "0.3s",
+    borderRadius: "20px",
+    border: "1px dashed white",
+  },
+  media: { //사진
+    paddingTop: "56.25%",
+    width: "100%",
+  },
+  content: {
+    textAlign: "left",
+    padding: muiBaseTheme.spacing.unit * 3
+  },
+  heading: {
+    fontWeight: "bold"
+  },
+  subheading: {
+    lineHeight: 1.8
+  },
+  button: {
+    borderRadius: "5px",
+    width: "100%",
+    fontSize: '13px'
+  },
+  text: {
+    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+  }
 });
 
 
 function Scard(props) {
 
-    const [expireDateCheck, setExpireDateCheck] = useState(false)
+  const { classes, surveyId, code, thumbnailImgUrl } = props
+  const now = new Date()
+  const expireDate = new Date(`${props.expirationDate}:00:00:00`)
+  const startDate = new Date(props.createdAt)
 
-    const { classes } = props
+  const DayCount = Math.ceil((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
+  const RemainDayCount = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
 
-    const now = new Date()
-    // const now = new Date('2022.11.01') //생성일
-    const expireDate = new Date(props.expirationDate)
-    // const axnow = new Date('2022.11.05') //현재날짜
+  let Dayratio = Math.ceil(100 - ((RemainDayCount / DayCount) * 100))
+  if (Dayratio === 0) {
+    Dayratio = 3
+  }
+  if (Dayratio > 100) {
+    Dayratio = 100
+  }
+  else if (Dayratio < 0) {
+    Dayratio = 0
+  }
 
-    const DayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
-    // const nowDayCount = Math.round((expireDate - now) / (1000 * 60 * 60 * 24)); // 전체 날짜
+  const [error, setError] = useState(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [linkModalOpen, setLinkModalOpen] = useState(false)
+  const [previewModalOpen, setPreviewModalOpen] = useState(false)
 
-    // const Pday = Math.round(DayCount/nowDayCount * 100)
+  const surveylink = `localhost:3000/dosurvey/${code}`
 
-    // console.log(DayCount)
-    // console.log(nowDayCount)
-    // console.log(Pday)
-    return (
-        <div>
-            <TWrapper>
-                <Cards className={classes.card}>
-                    <CardMedia
-                        className={classes.media}
-                        image={
-                            "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                        }
-                    />
-                    <CardContent className={classes.content}>
-                        <Typography
-                            className={"MuiTypography--heading"}
-                            variant={"h6"}
-                            gutterBottom
-                        >   {DayCount < 0
-                            ? <div style={{ textDecoration: 'line-through', fontWeight: 'bold' }}>{props.title}</div>
-                            : <div style={{ fontWeight: 'bold' }}>{props.title}</div>
-                            }
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
+    document.body.style.overflow = "unset";
+  };
+
+  const openLinkModal = () => {
+    setLinkModalOpen(true)
+  }
+
+  const closeLinkModal = () => {
+    setLinkModalOpen(false)
+  }
+
+  const openPreviewModal = () => {
+    setPreviewModalOpen(true)
+  }
+
+  const closePreviewModal = () => {
+    setPreviewModalOpen(false)
+  }
 
 
-                        </Typography>
-                        <Typography
-                            className={"MuiTypography--subheading"}
-                            variant={"caption"}
-    
-                        >
-                        </Typography>
-                        <Divider className={classes.divider} light />
-                        <ShowLeftDate>
-                            <Icon>
-                                <AlarmIcon  fontSize="small" />
-                            </Icon>
-                            {DayCount >= 1 && <> {DayCount} Days Left</>}
-                            {DayCount === 0 && <>Today is deadline</>}
-                            {DayCount < 0 && <>Expired</>}
-                        </ShowLeftDate>
-                        <ScoreLine>
-                        <div> </div></ScoreLine>
-                    </CardContent>
-                </Cards>
-            </TWrapper>
-        </div>
-    );
+  const copySurveyLink = async () => {
+    await navigator.clipboard.writeText(surveylink)
+    alert('링크가 복사되었습니다!')
+  }
+
+  const jwt = localStorage.getItem('jwt');
+
+  const deleteSurvey = () => {
+    axios.patch(`/survey/delete/${surveyId}`, {}, {
+      headers: {
+        Authorization: 'Bearer ' + jwt
+      }
+    })
+      .then((res) => {
+        console.log(res)
+        return window.location.reload();
+      })
+      .catch((Error) => {
+        setError(Error)
+      })
+  }
+
+  const [NavbarOpen, setNavbarOpen] = useState(false)
+
+  return (
+    <div>
+      <TWrapper>
+        <Card className={classes.card}>
+          <CardMedia
+            className={classes.media}
+            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
+          />
+          <CardContent className={classes.content}>
+            <NavDropStyle>
+              <Typography
+                className={classes.text}
+                variant={"h6"}
+                gutterBottom>
+                {DayCount < 0
+                  ? <TypographyTitle style={{ fontWeight: 'bold', textDecoration: 'line-through' }}>{props.title}</TypographyTitle>
+                  : <TypographyTitle style={{ fontWeight: 'bold' }}>{props.title}</TypographyTitle>
+                }
+              </Typography>
+              <NavDropdown title="" id="collasible-nav-dropdown" bsPrefix="dropdown-button">
+                <NavDropdown.Item onClick={openLinkModal}>링크생성</NavDropdown.Item>
+                <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
+              </NavDropdown>
+            </NavDropStyle>
+            <Divider light />
+            <ShowLeftDate>
+              <Icon>
+                <AlarmIcon fontSize="small" />
+              </Icon>
+              {RemainDayCount >= 1 && <> {RemainDayCount} Days Left</>}
+              {RemainDayCount === 0 && <>Today is deadline</>}
+              {RemainDayCount < 0 && <>Expired</>}
+            </ShowLeftDate>
+            <ScoreLine Dayratio={Dayratio}>
+              <div /></ScoreLine>
+          </CardContent>
+        </Card>
+      </TWrapper>
+
+      <Modal isOpen={deleteModalOpen} style={{ // 설문 삭제에 관한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '30%',
+          height: '300px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'hidden',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={closeDeleteModal}><CloseModalSvg/></ModalDelete>
+        </ModalHeader>
+        <ModalTitle><h4>설문 삭제</h4></ModalTitle>
+        <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
+        <ModalButton onClick={deleteSurvey}>삭제하기</ModalButton>
+
+      </Modal>
+
+      <Modal isOpen={linkModalOpen} style={{ //설문 링크 생성에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '35%',
+          height: '400px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={closeLinkModal}><CloseModalSvg/></ModalDelete>
+        </ModalHeader>
+        <ModalTitle><h4>설문 링크</h4></ModalTitle>
+        <ModalDescription>발송자 지정 공유</ModalDescription>
+        <ModalButton onClick={copySurveyLink} style={{marginTop:"10px", marginBottom:"20px",borderRadius: "10px"}}>지정하기</ModalButton>
+        <ModalDescription>링크 복사하기</ModalDescription>
+        <CopyWrapper>
+          <LinkIconSvg></LinkIconSvg>
+        <input style={{ border: "none",outline:"none",height:'100%', margin: '10px', width: '100%' }} value={surveylink}></input>
+        <ModalCopyButton onClick={copySurveyLink}>복사</ModalCopyButton>
+        </CopyWrapper>
+        
+
+      </Modal>
+
+      <Modal isOpen={previewModalOpen} style={{ //설문 미리보기에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70%',
+          height: '80%',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={closePreviewModal}>X</ModalDelete>
+        </ModalHeader>
+        <Preview code={code} />
+      </Modal>
+    </div>
+  );
 }
 
 Scard.defaltProps = {
-    title: '제목 없음'
+  title: '제목 없음'
 }
 
 

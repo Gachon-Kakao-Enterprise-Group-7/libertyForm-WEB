@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
-import sang from '../img/sang.png'
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import RotateLoader from "react-spinners/RotateLoader";
-
+// import RotateLoader from "react-spinners/RotateLoader";
+import loadingimage from ".././img/loading.gif"
 const MainDiv = styled.div`
     width: 50vw;
     height: 100vh;
@@ -22,10 +22,40 @@ const LoadingDiv = styled.div`
 //1 : 카카오에 로그인할껀데 사용자 동의(약관) 받았으니까 인가 토큰 주세요 하는 과정
 //2 : 인가 토큰을 가지고 백엔드에 보내주면 백엔드에 카카오에 처리 후 이메일, 이름, jwt를 반환
 
+
+
+
 function Kakaologin() {
 
     const PARAMS = new URL(document.location).searchParams;
     const KAKAO_CODE = PARAMS.get('code')
+
+    const dispatch = useDispatch()
+    const saveSurveyData = () => {
+        const jwt = localStorage.getItem('jwt')
+        axios.get("/survey", {
+            headers: {
+                Authorization: 'Bearer ' + jwt
+            }
+        })
+            .then((res) => {
+                dispatch({ type: 'ADDPREVIEWSURVEY', data: res.data.result.surveys })
+
+            })
+            .catch((Error) => {
+                console.log(Error)
+            })
+    }
+
+
+    const goHomePage = () => {
+        setTimeout(() => {
+            document.location.href = '/' // 작업 완료 되면 페이지 이동(새로고침)
+        }, 1000)
+
+    }
+
+
 
     const getKakaoToken = async () => {
         //1
@@ -53,11 +83,11 @@ function Kakaologin() {
                 localStorage.setItem('email', res.data.result.email);
                 localStorage.setItem('name', res.data.result.name);
                 localStorage.setItem('jwt', res.data.result.jwt);
-                document.location.href = '/'
             })
             .catch((Error) => { console.log(Error) })
 
-
+        saveSurveyData()
+        goHomePage()
     }
 
 
@@ -69,7 +99,8 @@ function Kakaologin() {
     return (
         <MainDiv>
             <LoadingDiv>
-                <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50} />
+                {/* <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50}/> */}
+                <img src={loadingimage}></img>
             </LoadingDiv>
             <h3 style={{ fontSize: '2em', fontWeight: 'bold' }}>로그인 중입니다...</h3>
         </MainDiv>

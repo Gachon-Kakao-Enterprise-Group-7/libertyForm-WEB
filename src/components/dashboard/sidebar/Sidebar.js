@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Doughnut } from 'react-chartjs-2'; //styled-components사용
-import { useMediaQuery } from 'react-responsive' // react-responsive 에서 제공하는 useMediaQuery 사용해 반응형 구성
 import { useSelector } from 'react-redux';
-import ReactDOM from "react-dom";
-import { Chart, ArcElement } from "chart.js"
 import { NavLink } from 'react-router-dom';
+import { Donut, Plot, Tooltip, colors } from "@semcore/d3-chart";
+import { Flex } from "@semcore/flex-box";
+import { Text } from "@semcore/typography";
+import Checkbox from "@semcore/checkbox";
+
 import IconTasks from './icon/Tasks'
 import IconMessages from './icon/Messages'
 import IconSchedule from './icon/Schedule'
@@ -13,13 +14,11 @@ import IconActivity from './icon/Activity'
 import IconSettings from './icon/Settings'
 import IconDashboard from './icon/Dashboard'
 
-// import IconDashboard from '../../.././img/dashboardicon.jpg'
-
-import Demo from "./Demo"
-
-Chart.register(ArcElement)
-
-
+const CheckboxWrapper = styled.div`
+  display: flex;
+  justify-content:left;
+  flex-direction: column;
+`
 const TopWrapper = styled.div`
   height: 350px; //설문 맨 윗 창 크기 수정
   padding: 20px 20px 20px 20px;
@@ -32,7 +31,7 @@ const TopWrapper = styled.div`
 
 `
 const Main = styled.div`
-  height: 345px; 
+  height: 360px; 
   width: 230px;
   border-bottom: 1px solid #f1f1f5;
 `
@@ -50,7 +49,6 @@ const DWrapper = styled.div`
     
   }
 `
-
 const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -59,11 +57,10 @@ const Wrapper = styled.section`
   min-height: 640px;
   
 `
-
 const ItemWrapper = styled.nav`
   display: flex;
   flex-direction: column;
-  margin-top:10px;
+  margin-top:40px;
   justify-content: space-between;
   
   @media (max-width: 620px) {
@@ -79,96 +76,170 @@ const NavItem = styled(NavLink)`
   letter-spacing: 0.1px;
   border-left: 3px solid #fff;
   margin-bottom: 40px;
+  
   svg {
     fill: #92929d; 
   }
   &.active{
-    color: #0062ff;  
-    border-left: 3px solid #0062ff;
+    color: rgb(235,120,48);  
+    border-left: 3px solid rgb(235,120,48);
     svg {
-      fill: #0062ff;
+      fill: rgb(235,120,48);
     }
   }
     &:hover{
       svg {
-      fill: #0062ff;
+      fill: rgb(235,120,48);
     }
+    color:rgb(235,120,48)
   }
 `
-const Icon = styled.div `
+const Icon = styled.div`
 margin: 0 24px;
 `
-const NameLink = styled.span `
+const NameLink = styled.span`
 @media (max-width: 620px) {
   display: none;
 }
 `
 
-function Sidebar () {
+function Sidebar() {
 
-const itemsData = [
-  {
-    name: 'Dashboard',
-    icon: IconDashboard(),
-    link: '/dashboard'
-  },
-  {
-    name: '새로운 설문 생성',
-    icon: IconMessages(),
-    link: '/mksurvey'
-  },
-  {
-    name: '설문결과 분석',
-    icon: IconTasks(),
-    link: '/ansurvey'
-  },
-  {
-    name: '발송자 관리',
-    icon: IconSchedule(),
-    link: '/default'
-  },
-  {
-    name: 'Activity',
-    icon: IconActivity(),
-    link: '/default'
-  },
-  {
-    name: 'Settings',
-    icon: IconSettings(),
-    link: '/default'
-  }
-]
+  const [ongoingSurvey, setOngoingSurvey] = useState('')
+  const [expiredSurvey, setExpiredSurvey] = useState('')
+
+  const itemsData = [
+    {
+      name: 'Dashboard',
+      icon: IconDashboard(),
+      link: '/dashboard'
+    },
+    {
+      name: '새로운 설문 생성',
+      icon: IconMessages(),
+      link: '/mksurvey'
+    },
+    {
+      name: '설문결과 분석',
+      icon: IconTasks(),
+      link: '/ansurvey'
+    },
+    {
+      name: '설문 이메일 발송',
+      icon: IconSchedule(),
+      link: '/surveysend'
+    },
+    {
+      name: 'Activity',
+      icon: IconActivity(),
+      link: '/default'
+    },
+    {
+      name: '발송자 관리',
+      icon: IconSettings(),
+      link: '/sendermanagement'
+    }
+  ]
 
   const state = useSelector(state => state.survey.previewsurvey)
-  const now = new Date()
-  let ongoingSurvey = 0
-  let expiredSurvey = 0
-if(state !== undefined){
-  ongoingSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) > 0).length
-  expiredSurvey = state.filter((survey, index) => (new Date(survey.expirationDate) - now) <= 0).length
-}
 
+  const now = new Date()
+
+  const donutdata = {
+    a: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length,
+    b: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length
+  };
+
+
+  useEffect(() => {
+    setOngoingSurvey(state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0))
+    setExpiredSurvey(state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0))
+  }, [])
+
+
+  useEffect(() => {
+
+  }, [])
   return (
-    <Wrapper>
-      <TopWrapper>
-        <Main>
-          <DWrapper>
-            <Demo ongoingSurvey={state !== undefined?ongoingSurvey:0} expiredSurvey={state !== undefined?expiredSurvey:0} />
-          </DWrapper>
-        </Main>
-      </TopWrapper>
-      <ItemWrapper>
-        {itemsData.map((item, index) =>{
-          return(
-            <NavItem className={({isActive}) => (isActive? "active" : "")} to={item.link}>
-              <Icon>{item.icon}</Icon>
-              <NameLink>{item.name}</NameLink>
-            </NavItem>
-          );
-        })}
-      </ItemWrapper>
+    <div>
+      <Wrapper>
+        <TopWrapper>
+          <Main>
+            <DWrapper>
+              <Text style={{ fontWeight: 'bold', paddingRight: '10px', paddingTop: '15px' }} tag="h3" size={400}  >
+                설문 현황
+              </Text>
+
+              <Plot width={250} height={250} data={donutdata} style={{ marginRight: '10px' }}>
+                <Donut startAngle={90}
+                  endAngle={-270}
+                  innerRadius={70}
+                  outerRadius={100} >
+                  <Donut.Pie
+                    dataKey="a"
+                    color='#ffcd00'
+                    name="진행설문"
+                  />
+                  <Donut.Pie
+                    dataKey="b"
+                    color='#ff7800'
+                    name="종료설문"
+                  />
+                  <Donut.Label x={0} y={0}>
+                    <Text tag="tspan" size={500} bold>
+                      {state.length}
+                    </Text>
+                    <br />
+                    <Text tag="tspan" x={0} y={25} size={300}>
+                      전체설문
+                    </Text>
+                  </Donut.Label>
+                </Donut>
+                <Tooltip>
+                  {({ dataKey, name, color }) => {
+                    return {
+                      children: (
+                        <>
+                          <Tooltip.Title>{name}</Tooltip.Title>
+                          <Flex justifyContent="space-between">
+                            <Text bold>{donutdata[dataKey]}</Text>
+                          </Flex>
+                        </>
+                      )
+                    };
+                  }}
+                </Tooltip>
+              </Plot>
+              <CheckboxWrapper>
+                <Checkbox theme='#f5c525'>
+                  <Checkbox.Value checked={true} />
+                  <Checkbox.Text pr={3}>
+                    <Text>진행중 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length}</Text>
+                  </Checkbox.Text>
+                </Checkbox>
+                <Checkbox theme='#eb7830' style={{marginBottom: '10px' }}>
+                  <Checkbox.Value checked={true} />
+                  <Checkbox.Text pr={3}>
+                    <Text>만료된 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length}</Text>
+                  </Checkbox.Text>
+                </Checkbox>
+              </CheckboxWrapper>
+            </DWrapper>
+          </Main>
+        </TopWrapper>
+        <ItemWrapper>
+          {itemsData.map((item, index) => {
+            return (
+              <NavItem key={index}className={({ isActive }) => (isActive ? "active" : "")} to={item.link} onClick="window.location.reload()">
+                <Icon>{item.icon}</Icon>
+                <NameLink>{item.name}</NameLink>
+              </NavItem>
+            );
+          })}
+        </ItemWrapper>
       </Wrapper>
+    </div>
 
   )
- }
+}
 export default Sidebar

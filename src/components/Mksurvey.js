@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
+import {ReactComponent as CloseModal} from "../img/close.svg"
 
 // mui import
 import { Button } from '@mui/material';
@@ -12,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
 import Input from '@mui/material/Input';
 
+import {ReactComponent as DragSvg} from ".././img/drag.svg"
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
 import { motion } from "framer-motion" // 애니메이션 효과
@@ -22,10 +24,103 @@ import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 import axios from 'axios';
 
 
+const DragSvgWrapper = styled(DragSvg)`
+    /* fill: #92929d; */
+    float: right;
+    width:30px;
+    height:30px;
+    padding-bottom:5px;
+    &:hover {
+      fill: #ff7800;
+    }
+`
+
 const MainWrapper = styled(motion.div)`
 
 
 `
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: #92929d;
+  font-size: 14px;
+`
+const ModalDelete = styled.button`
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+`
+
+const CloseModalSvg = styled(CloseModal)`
+    fill: #92929d;
+    width:30px;
+    height:30px;
+    &:hover {
+      fill: #ff7800;
+    }
+`
+const ModalTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #171725;
+  font-size: 24px;
+  margin: 20px 0;
+  margin-left: 10px;
+  border-bottom: 1px solid #e2e2ea;
+  height: 50px;
+
+  & h4 {
+    padding-bottom: 10px;
+    font-weight: bold;
+  }
+`
+const ModalDescription = styled.span`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-left: 10px;
+  color: #171725;
+  font-size: 16px;
+`
+const ModalButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  width:100%;
+  background-color: #ff7800;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 38px;
+  border-radius: 20px;
+  border: 1px solid #ff7800;
+  :hover {
+    color: #ff7800;
+    background-color: white;
+  }
+`
+
+const Surveybutton = styled.button`
+    font-weight: bold;
+    width: 220px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #ff7800;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    margin-top: 80px;
+`
+
+
 const BlockDiv = styled.div`
     background-color: #fafafa;
     margin: auto;
@@ -56,13 +151,9 @@ const FuncDiv = styled.div`
     text-align: right;
 `
 const NumberingDiv = styled.div`
-    background-color: #ffffff;
-    width: 25px;
     text-align: center;
-    border-radius: 50%;
-    font-size: 1rem;
-    font-weight: bold;
-    box-shadow: 1px 5px 5px #bdbdbd;
+    font-family: 'RobotoMono', sans-serif;
+    font-size: 1.5rem;
     display: inline-block;
 `
 const StyledLi = styled.li`
@@ -120,14 +211,27 @@ const StyledDatePicker = styled(DatePicker)`
 `
 
 Modal.setAppElement("#root");
+
 function Mksurvey() { // Make Survey
 
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
+    const [description, setDescription] = useState('')
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
-    const [expireDate, setExpireDate] = useState(new Date()) // 만료 날짜를 설정하는 State
-    const [convertedDate, setConvertedDate] = useState('2099-12-30')
+    const [expireDate, setExpireDate] = useState('') // 만료 날짜를 설정하는 State
+    const [convertedDate, setConvertedDate] = useState(null) // 백엔드에 보내지는 만료날짜
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
+    const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
+
+    const openModal = () => {
+        setModalOpen(true);
+        document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        document.body.style.overflow = "unset";
+    };
 
     const [postData, setPostData] = useState({
         survey: {
@@ -217,15 +321,9 @@ function Mksurvey() { // Make Survey
 
 
     const onLoadFile = (e) => {
-        const formData = new FormData()
-        formData.append('image', e.target.files[0])
-        // have to solve!
-        // 업로드된 파일을 formData에다가 저장하는거 까지는 했는데 파일 하나마다 서버로 axios해줘야하는거 같은데 우리는 각각의 문항별로
-        // 사진을 업로드를 가능하게 해야하는데 이걸 설문 완료할때 json에 담아서 한번에 보낼 수 있을까?
-
+        console.log(e.target.files)
+        setImgFile(e.target.files)
     }
-
-
 
 
     const changeDate = (date) => { // 날짜 형식을 백엔드에 보내줘야 할 양식으로 변환하는 함수
@@ -244,7 +342,7 @@ function Mksurvey() { // Make Survey
     }, [postData]);
 
 
-    useEffect(() => {
+    useDidMountEffect(() => {
         window.scrollTo(0, scrollRef.current.scrollHeight)
     }, [survey.length]) //survey에 새로운 질문이 추가되었을때(==survey.length변화) 스크롤을 가장 아래로 내린다.
 
@@ -259,6 +357,7 @@ function Mksurvey() { // Make Survey
                 survey: {
                     ...postData.survey,
                     name: title,
+                    description: description,
                     expirationDate: convertedDate,
                 },
                 choiceQuestions: [
@@ -299,37 +398,83 @@ function Mksurvey() { // Make Survey
 
     }
 
+    const requestSubmit = () => {
+        if(title.length<1){ // 설문 제목의 길이가 0일때
+            alert('설문 이름을 입력하세요')
+        }
+        else if(convertedDate==null){ // 저장된 만료날짜가 없을때
+            alert('마감날짜를 설정하세요')
+        }
+        else if(survey[0].q.length<1){ // 첫번째 질문의 길이가 0일때(객관식 제외하고 나머지)
+            alert('최소 1개의 질문은 생성하세요')
+            
+        }
+        else if(survey[0].type==='3' && survey[0].mcitem.length===0){ //객관식일때
+            alert('최소 1개의 선택지를 생성하세요');
+        }
+        else{
+            openModal()
+            saveData()
+        }
+    }
+
     const sendToServer = async () => {
 
-        const jwt = localStorage.getItem('jwt')
+        const formData = new FormData() // FormData 객체 사용
 
-        await axios.post("/survey/create", postData, {
-            headers: { // 설문 만드는 유저를 구분 하는 JWT
-                Authorization: 'Bearer ' + jwt
+        formData.append("thumbnailImg", imgFile[0]) //imgFile[0] === upload file (썸네일 이미지)
+
+        const jwt = localStorage.getItem('jwt')
+        const blob = new Blob([JSON.stringify(postData)], { type: "application/json" })// type을 지정해주고 저장
+        formData.append("surveyReqDto", blob)//formData는 특수 개체라 특정한 조작으로만 조작 가능!
+        await axios({
+            method: "POST",
+            url: `/survey/create`,
+            headers: {
+                Authorization: 'Bearer ' + jwt,
             },
+            data: formData,
         })
             .then((res) => {
-                console.log(res)
+                console.log(res.data.code)
+                switch (res.data.code) {
+                    case 1000:
+                        document.location.href = '/dashboard'
+                        break;
+                    case 4001: //질문유형이 없을경우
+                        break;
+                    default:
+                        console.log(res.data.code)
+                        break;
+                }
             })
             .catch((Error) => {
                 console.log(Error)
-            })
 
+            })
         setModalOpen(false)
     }
 
 
     return (
         <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+            {console.log(survey)}
+            {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
                 <ItemDiv>
-                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 이름을 입력해 주세요</div>
-                    <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
+                    <div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 제목을 입력해 주세요</div>
+                        <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
+                        {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
+                        {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
+                    </div>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</div>
+                    <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setDescription(e.target.value) }}></Input>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
-                    <StyledDatePicker selected={expireDate} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
+                    <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-                    <input disabled type="file" onChange={onLoadFile}></input>
+                    <input type="file" onChange={onLoadFile}></input>
                 </ItemDiv>
             </BlockDiv>
 
@@ -338,8 +483,11 @@ function Mksurvey() { // Make Survey
                 <BlockDiv key={index}>
                     <ItemDiv>
                         <NumberingDiv>
-                            <span>{index + 1}</span>
+                            <span>
+                                { index < 99 ? ('00' + (index + 1)).slice(-2) : index + 1 }
+                            </span>
                         </NumberingDiv>
+                        <DragSvgWrapper/>
                     </ItemDiv>
 
 
@@ -443,16 +591,14 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 등록 및 설문 기능 핸들링 부분 */}
             <FuncDiv>
-                <Button
-                    style={{ marginRight: '0.5rem' }}
+                <Surveybutton style={{ marginRight: '0.5rem', backgroundColor:"#ffcd00" }}
                     variant="contained"
                     onClick={() => {
-                        setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
-                        id.current += 1
-                    }}>
-                    질문 추가
-                </Button>{/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Button onClick={() => { setModalOpen(true); saveData() }} variant="contained" color="success">설문 등록하기</Button>
+                    setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
+                    id.current += 1}}>
+                    질문 추가</Surveybutton>
+                {/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
+                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={requestSubmit}>설문 등록하기</Surveybutton>
                 <hr></hr><button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
@@ -465,27 +611,33 @@ function Mksurvey() { // Make Survey
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'                    
+
                 },
                 content: {
-                    position: 'absolute',
-                    top: '300px',
-                    left: '300px',
-                    right: '300px',
-                    bottom: '300px',
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '30%',
+                    height: '300px',
                     border: '1px solid #ccc',
                     background: '#fff',
-                    overflow: 'auto',
+                    overflow: "hidden",
                     WebkitOverflowScrolling: 'touch',
-                    borderRadius: '4px',
                     outline: 'none',
-                    padding: '20px'
+                    borderRadius: '20px',
+                    padding: '20px 25px'
                 }
             }}>
 
-                <div style={{ textAlign: 'right' }}><button onClick={() => { setModalOpen(false) }}>X</button></div>
-                <p>설문을 정말로 등록하시겠습니까?</p>
-                <button onClick={sendToServer}>등록하기</button>
+                <ModalHeader>
+                    <ModalDelete onClick={closeModal}><CloseModalSvg/></ModalDelete>
+                </ModalHeader>
+                <ModalTitle><h4>설문등록</h4></ModalTitle>
+                <ModalDescription>설문을 정말로 등록하시겠습니까?</ModalDescription>
+                <ModalButton onClick={() => { closeModal(); sendToServer() }}>등록하기</ModalButton>
+
             </Modal>
         </MainWrapper >
     );
