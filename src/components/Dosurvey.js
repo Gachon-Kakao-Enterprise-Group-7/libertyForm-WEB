@@ -18,7 +18,7 @@ import Radio from '@mui/material/Radio';
 import ProgressBar from "@ramonak/react-progress-bar";
 import Modal from "react-modal";
 
-import {ReactComponent as CloseModal} from ".././img/close.svg"
+import { ReactComponent as CloseModal } from ".././img/close.svg"
 import { ReactComponent as EmotionVerybad } from "../img/emotion_verybad.svg";
 import { ReactComponent as EmotionBad } from "../img/emotion_bad.svg";
 import { ReactComponent as EmotionMedium } from "../img/emotion_medium.svg";
@@ -128,7 +128,7 @@ const LinerBtn = styled.button`
   }
 `
 const EmotionSlider = styled(Slider)({
-  
+
   color: '#52af77 !important', //important를 이용해서 css우선순위를 1순위로 끌어올렸다.
   height: 8,
   position: 'relative',
@@ -152,7 +152,7 @@ const EmotionSlider = styled(Slider)({
     fontSize: 12,
     background: 'unset',
     padding: 0,
-    width: 32, 
+    width: 32,
     height: 32,
     borderRadius: '50% 50% 50% 0',
     backgroundColor: '#52af77',
@@ -320,14 +320,14 @@ const ModalButton = styled.button`
 `
 
 
-const OptionWrapper  = styled.div`
+const OptionWrapper = styled.div`
   height: 100%;
   width: 100%;
   margin-top: 12px;
   flex-grow: 1;
   `
 
-const OptionContainer  = styled.div`
+const OptionContainer = styled.div`
   border-radius: 10px;
   padding: 9px 18px;
   margin: 0 18px;
@@ -659,9 +659,9 @@ function Dosurvey() {
               <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
               <br />
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
-                
+
                 <AnswerInput style={{ width: '90%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
-                
+
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
                 <AnswerInput style={{ width: '60%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
@@ -672,47 +672,48 @@ function Dosurvey() {
                 <FormControl>
                   <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
                     {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
-                      <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
+                      <OptionWrapper onClick={onChangeType3}>
+                        <OptionContainer>
+                          <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
+                        </OptionContainer>
+                      </OptionWrapper>
                     ))}
                   </RadioGroup>
-                  <OptionWrapper>
-                    <OptionContainer onClick={onChangeType3}>1. ddddd</OptionContainer>
-                  </OptionWrapper>
                 </FormControl>
               }
               {/* https://codepen.io/mobihack-official/pen/EJpRXQ */}
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
-                
-                <div style={{ width: '60vh', margin:'auto' }}>
-                  <EmotionText>
-                  <strong>감정을 직접 표현해보세요</strong>
-                  
-                  <div>
-                    
-    
-                    <text>
-                        {inputs >=0 && inputs<20 && '매우 나쁨'} 
-                        {inputs >=20 && inputs<40 && '나쁨'}
-                        {inputs >=40 && inputs<60 && '보통'}
-                        {inputs >=60 && inputs<80 && '좋음'}
-                        {inputs >=80 && inputs<=100 && '매우좋음'}
-                    </text>
 
-                    <a>
-                        {inputs >=0 && inputs<20 && <EmotionVerybad width='40px' height='40px'/>} 
-                        {inputs >=20 && inputs<40 && <EmotionBad width='40px' height='40px'/>}
-                        {inputs >=40 && inputs<60 && <EmotionMedium width='40px' height='40px'/>}
-                        {inputs >=60 && inputs<80 && <EmotionGood width='40px' height='40px'/>}
-                        {inputs >=80 && inputs<=100 && <EmotionVerygood width='40px' height='40px'/>}
-                    </a>
-                    
-                  </div>
+                <div style={{ width: '60vh', margin: 'auto' }}>
+                  <EmotionText>
+                    <strong>감정을 직접 표현해보세요</strong>
+
+                    <div>
+
+
+                      <text>
+                        {inputs >= 0 && inputs < 20 && '매우 나쁨'}
+                        {inputs >= 20 && inputs < 40 && '나쁨'}
+                        {inputs >= 40 && inputs < 60 && '보통'}
+                        {inputs >= 60 && inputs < 80 && '좋음'}
+                        {inputs >= 80 && inputs <= 100 && '매우좋음'}
+                      </text>
+
+                      <a>
+                        {inputs >= 0 && inputs < 20 && <EmotionVerybad width='40px' height='40px' />}
+                        {inputs >= 20 && inputs < 40 && <EmotionBad width='40px' height='40px' />}
+                        {inputs >= 40 && inputs < 60 && <EmotionMedium width='40px' height='40px' />}
+                        {inputs >= 60 && inputs < 80 && <EmotionGood width='40px' height='40px' />}
+                        {inputs >= 80 && inputs <= 100 && <EmotionVerygood width='40px' height='40px' />}
+                      </a>
+
+                    </div>
                   </EmotionText>
-                  <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs}/>
+                  <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
                 </div>
               }
-  
+
 
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
@@ -731,27 +732,27 @@ function Dosurvey() {
               <div>개발자 참고 공간 ↓</div>
               <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
               <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div> */}
-             
+
               <br />
               {showSurveyNumber === sortedSurveyDetail.questions.length // 설문의 마지막 문항일때 조건
                 ?
                 <SurveyFooter>
-                <div style={{ display: 'flex',justifyContent: 'space-between', padding: '20px 25px'}}>
-                  <SurveyNextButton onClick={prevQuestion}>이전문항</SurveyNextButton>
-                  <SurveyNextButton  onClick={onSubmit}>제출하기</SurveyNextButton>
-                </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 25px' }}>
+                    <SurveyNextButton onClick={prevQuestion}>이전문항</SurveyNextButton>
+                    <SurveyNextButton onClick={onSubmit}>제출하기</SurveyNextButton>
+                  </div>
                 </SurveyFooter>
                 :
                 <SurveyFooter>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 25px'}}>
-                  <SurveyNextButton onClick={prevQuestion}>이전문항</SurveyNextButton>
-                  <SurveyNextButton onClick={nextQuestion}>다음문항</SurveyNextButton>
-                </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 25px' }}>
+                    <SurveyNextButton onClick={prevQuestion}>이전문항</SurveyNextButton>
+                    <SurveyNextButton onClick={nextQuestion}>다음문항</SurveyNextButton>
+                  </div>
                 </SurveyFooter>
               }
-              
+
             </SurveyCard>
-          
+
           </>}
       </div>
       <Modal isOpen={openSubmitModal} style={{ //설문 링크 생성에 대한 모달
@@ -781,7 +782,7 @@ function Dosurvey() {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={() => { setOpenSubmitModal(false) }}><CloseModalSvg/></ModalDelete>
+          <ModalDelete onClick={() => { setOpenSubmitModal(false) }}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
         <ModalTitle><h4>응답 제출</h4></ModalTitle>
         <ModalDescription>응답을 제출하시겠습니까?</ModalDescription>
