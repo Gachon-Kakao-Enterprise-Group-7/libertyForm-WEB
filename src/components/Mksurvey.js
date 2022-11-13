@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
 import Input from '@mui/material/Input';
 
+import {ReactComponent as DragSvg} from ".././img/drag.svg"
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
 import { motion } from "framer-motion" // 애니메이션 효과
@@ -22,6 +23,17 @@ import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 import axios from 'axios';
 
+
+const DragSvgWrapper = styled(DragSvg)`
+    /* fill: #92929d; */
+    float: right;
+    width:30px;
+    height:30px;
+    padding-bottom:5px;
+    &:hover {
+      fill: #ff7800;
+    }
+`
 
 const MainWrapper = styled(motion.div)`
 
@@ -453,6 +465,7 @@ function Mksurvey() { // Make Survey
                                 { index < 99 ? ('00' + (index + 1)).slice(-2) : index + 1 }
                             </span>
                         </NumberingDiv>
+                        <DragSvgWrapper/>
                     </ItemDiv>
 
 
