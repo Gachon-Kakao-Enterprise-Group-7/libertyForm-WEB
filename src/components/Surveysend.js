@@ -42,6 +42,7 @@ const SectionWrapper = styled.div`
   flex-direction: column;
   margin-top: 15px;
   border: 1px solid black;
+  max-width: 1000px;
 `
 
 const HeaderContent = styled.div`
