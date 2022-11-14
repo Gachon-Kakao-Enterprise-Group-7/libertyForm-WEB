@@ -17,6 +17,7 @@ import { margin } from '@mui/system';
 
 import defaultImg from '../../img/default-thumbnail.jpg'
 
+
 const ScoreLine = styled.div`
   background-color: #e2e2ea;
   width: ${(props) => props.Dayratio}%;
@@ -28,7 +29,17 @@ const ScoreLine = styled.div`
     background-color: #f5c525;
   }
 `
+const CustomCardMedia = styled.div`
+transition: transform 400ms ;
+overflow: hidden;
 
+&:hover{
+
+  transform: scale(1.1);
+  overflow: hidden;
+}
+
+`
 const LinkIconSvg = styled(LinkIcon)`
     width:30px;
     height: 25px;
@@ -36,18 +47,14 @@ const LinkIconSvg = styled(LinkIcon)`
 `
 const TypographyTitle = styled.div`
   white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 const TWrapper = styled.div`
   margin: 10px;
   width: 280px;
-  color : white;
+  color : transparent;
   border-radius: 20px;
-  &:hover {
-    scale: 1.1; 
-    cursor: pointer;
-  }
 `
 const Icon = styled.div`
     margin-right : 3px;
@@ -291,10 +298,12 @@ function Scard(props) {
     <div>
       <TWrapper>
         <Card className={classes.card}>
+        <CustomCardMedia>
           <CardMedia
             className={classes.media}
             image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
           />
+          </CustomCardMedia>
           <CardContent className={classes.content}>
             <NavDropStyle>
               <Typography
