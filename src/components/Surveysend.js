@@ -72,7 +72,8 @@ const UserSelectDiv = styled.div`
   border:0px;
 `
 const UserAddInput = styled.input`
-  width: 500px;
+  min-width:300px;
+  width: 30%;
   border: 1px solid #e1e1e1;
 `
 const UserAddBtn = styled.button`
@@ -199,9 +200,9 @@ function Surveysend() {
 
   const convertPostData = () => {
 
-    const cvusers = users.map((user)=>({email:user}))
+    const cvusers = users.map((user) => ({ email: user }))
 
-    setPostData((prev)=>({
+    setPostData((prev) => ({
       surveyId: selectSurvey,
       receivers: cvusers,
     }))
@@ -237,7 +238,7 @@ function Surveysend() {
     }
   }
 
-  useEffect(()=>{ // 서버에 등록되어 있는 연락처 정보 받아오기
+  useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     const jwt = localStorage.getItem('jwt')
     axios.get("/contact", {
       headers: {
@@ -245,11 +246,11 @@ function Surveysend() {
       }
     })
       .then(res => {
-        dispatch({type:'SAVECONTACT', data:res.data.result})
+        dispatch({ type: 'SAVECONTACT', data: res.data.result })
       }
       )
       .catch((Error) => { console.log(Error) })
-  },[])
+  }, [])
 
   return (
     <>
@@ -279,9 +280,9 @@ function Surveysend() {
                     </TableHead>
                     {surveys.map((survey, index) => (
                       <TableBody key={index}>
-                        <TableCell align='center' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
-                        <TableCell align='center' >{survey.name}</TableCell>
-                        <TableCell align='center' >{survey.expirationDate}</TableCell>
+                        <TableCell align='center' padding='none' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
+                        <TableCell align='center' padding='none'>{survey.name}</TableCell>
+                        <TableCell align='center' padding='none' >{survey.expirationDate}</TableCell>
                       </TableBody>
                     ))}
                   </Table>
@@ -290,7 +291,7 @@ function Surveysend() {
             </FormControl>
           </SectionWrapper>
           <SectionWrapper>
-            <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol> 
+            <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol>
             {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
           </SectionWrapper>
           <SectionWrapper>
@@ -302,7 +303,7 @@ function Surveysend() {
             </UserSelectDiv>
           </SectionWrapper>
           <SectionWrapper>
-            발송 리스트 {users.length}명
+            <Text1>발송 리스트 {users.length}명</Text1>
             {users.map((user, index) => (
               <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
             ))}
