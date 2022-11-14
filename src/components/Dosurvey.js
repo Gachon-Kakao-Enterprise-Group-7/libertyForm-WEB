@@ -329,7 +329,6 @@ const OptionWrapper = styled.div`
 
 const OptionContainer = styled.div`
   border-radius: 10px;
-  padding: 9px 18px;
   margin: 0 18px;
   margin-bottom: 12px;
   cursor: pointer;
@@ -350,7 +349,6 @@ const OptionContainer = styled.div`
     background-color: white;
   }
 `
-
 
 
 function Dosurvey() {
@@ -674,7 +672,7 @@ function Dosurvey() {
                     {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
                       <OptionWrapper onClick={onChangeType3}>
                         <OptionContainer>
-                          <FormControlLabel checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
+                          <FormControlLabel sx={{ width: 800, p: 1 }} checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
                         </OptionContainer>
                       </OptionWrapper>
                     ))}
