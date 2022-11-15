@@ -34,12 +34,10 @@ const DragSvgWrapper = styled(DragSvg)`
       fill: #ff7800;
     }
 `
-
 const MainWrapper = styled(motion.div)`
 /* background-color: #fff9df; */
 
 `
-
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -52,7 +50,6 @@ const ModalDelete = styled.button`
   outline: none;
   cursor: pointer;
 `
-
 const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
     width:30px;
@@ -104,7 +101,6 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
-
 const Surveybutton = styled.button`
     font-weight: bold;
     width: 220px;
@@ -119,8 +115,6 @@ const Surveybutton = styled.button`
     border-radius: 10px;
     margin-top: 80px;
 `
-
-
 const BlockDiv = styled.div`
     background-color: white;
     margin: auto;
@@ -156,7 +150,6 @@ overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 h
     margin-bottom:5px;
     padding-bottom: 4px; 
 `
-
 const FuncDiv = styled.div`
     width: 100%;
     margin: 3vw auto;
@@ -240,7 +233,6 @@ const ImageUpload = styled.div`
 	width : 50%;
     height : 100%;
 `
-
 const TextUpload = styled.div`
     box-sizing: border-box;
     width : 50%;
@@ -248,7 +240,6 @@ const TextUpload = styled.div`
     background-color : transparent;
     margin: auto;
 `
-
 const PreviewImg = styled.div`
     background: #e1e1e1;
     background-image: url(${(props) => props.imgFileSrc});
@@ -274,7 +265,6 @@ const Triangle = styled.div`
     bottom: 20px;
     z-index: 0;
 `
-
 const PreviewCard = styled.div`
     background-color: #ffffffe0;
     border-radius: 10px;
@@ -390,7 +380,11 @@ function Mksurvey() { // Make Survey
         const q = e.target.value //사용자가 input태그에 입력한 값
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
-
+    const onChangeDescription = (e) => { //설문 질문에 대한 description
+        const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
+        const description = e.target.value //사용자가 input태그에 입력한 값
+        setSurvey(survey.map((item) => item.id === targetId ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+    }
 
     const addMcItem = (e) => {
         const targetId = parseInt(e.target.dataset.id)
@@ -493,6 +487,7 @@ function Mksurvey() { // Make Survey
                         {
                             questionTypeId: item.type,
                             name: item.q,
+                            description: item.description,
                             number: String(item.id + 1),
                             answerRequired: item.required
                         }
@@ -675,6 +670,8 @@ function Mksurvey() { // Make Survey
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input placeholder='' data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
+                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -686,6 +683,8 @@ function Mksurvey() { // Make Survey
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
+                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
