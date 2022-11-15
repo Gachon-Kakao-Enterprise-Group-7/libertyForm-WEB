@@ -113,6 +113,15 @@ function Main() {
     const [vantaEffect, setVantaEffect] = useState(0);
     const vantaRef = useRef(null);
 
+    const isLogin = () =>{
+        if(localStorage.getItem('email')){
+            document.location.href ='/dashboard'
+        }
+        else{
+            document.location.href='/login'
+        }
+    }
+
     useEffect(() => {
         if (!vantaEffect) {
             setVantaEffect(
@@ -143,7 +152,7 @@ function Main() {
 
             <Bodydiv >
                 <Link to="/dashboard">
-                    <Mainbutton onClick={() => { console.log('시작하기 클릭') }}>
+                    <Mainbutton onClick={isLogin}>
                         시작하기
                     </Mainbutton>
                 </Link>
