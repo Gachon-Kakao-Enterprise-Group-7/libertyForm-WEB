@@ -89,7 +89,7 @@ const StartCard = styled.div`
 
 `
 const SurveyCard = styled.div`
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     color:black;
     width: 90vh;
     min-height : 50vh;
@@ -106,11 +106,7 @@ const SurveyCard = styled.div`
 const QuestionTitle = styled.div`
   font-size: 3rem;
   font-weight: bold;
-  /* background:rgba(0,0,0,0.025); */
 	padding: 1.5rem;
-  margin-top : 20px;
-
-  
 `
 const LinerBtn = styled.button`
   color: ${props => props.checked ? 'white' : 'black'};
@@ -134,18 +130,6 @@ const EmotionSlider = styled(Slider)({
   position: 'relative',
   '& .MuiSlider-track': {
     border: 'none',
-  },
-  '& .MuiSlider-thumb': {
-    height: 24,
-    width: 24,
-    backgroundImage: "url('../img/emotionbad.svg') !important",
-    border: '2px solid currentColor',
-    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-      boxShadow: 'inherit',
-    },
-    '&:before': {
-      display: 'none',
-    },
   },
   '& .MuiSlider-valueLabel': {
     lineHeight: 1.2,
@@ -268,7 +252,6 @@ const ModalDelete = styled.button`
   background-color: white;
   border: none;
   outline: none;
-  cursor: pointer;
 `
 
 

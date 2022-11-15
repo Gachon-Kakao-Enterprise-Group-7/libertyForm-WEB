@@ -36,7 +36,7 @@ const DragSvgWrapper = styled(DragSvg)`
 `
 
 const MainWrapper = styled(motion.div)`
-
+/* background-color: #fff9df; */
 
 `
 
@@ -122,13 +122,12 @@ const Surveybutton = styled.button`
 
 
 const BlockDiv = styled.div`
-    background-color: #fafafa;
+    background-color: white;
     margin: auto;
-    margin-top: 3vw;
+    margin-top: 2vw;
     padding: 1rem;
-    width: 50vw;
+    width : 100%;
     border-radius: 1rem;
-    //box-shadow: 10px 5px 5px #bdbdbd;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	height:auto;
 
@@ -136,7 +135,6 @@ const BlockDiv = styled.div`
 
     :hover{
         background-color: #f2f2f2;
-        //box-shadow: 10px 5px 5px #d6d6d6;
     }
 `
 const ItemDiv = styled.div`
@@ -146,7 +144,7 @@ const ItemDiv = styled.div`
     margin-top: 0.5vw;
 `
 const FuncDiv = styled.div`
-    width: 50vw;
+    width: 100%;
     margin: 3vw auto;
     text-align: right;
 `
@@ -457,7 +455,7 @@ function Mksurvey() { // Make Survey
 
 
     return (
-        <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+        <MainWrapper style={{display: 'flex',flexDirection: 'column'}}ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
             {console.log(survey)}
             {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
@@ -591,7 +589,7 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 등록 및 설문 기능 핸들링 부분 */}
             <FuncDiv>
-                <Surveybutton style={{ marginRight: '0.5rem', backgroundColor:"#ffcd00" }}
+                <Surveybutton style={{ marginRight: '0.5rem',marginBottom: '1rem', backgroundColor:"#ffcd00" }}
                     variant="contained"
                     onClick={() => {
                     setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
@@ -599,10 +597,11 @@ function Mksurvey() { // Make Survey
                     질문 추가</Surveybutton>
                 {/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
                 <Surveybutton style={{ marginRight: '0.5rem' }} onClick={requestSubmit}>설문 등록하기</Surveybutton>
-                <hr></hr><button onClick={() => {
+                <hr/>
+                {/* <button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
-                }}>JSON타입으로 뽑아내기 <br /> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button>
+                }}>JSON타입으로 뽑아내기 <br /> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button> */}
             </FuncDiv>
             <Modal isOpen={modalOpen} style={{
                 overlay: {
