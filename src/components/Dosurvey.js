@@ -359,6 +359,15 @@ function Dosurvey() {
 
   const [openSubmitModal, setOpenSubmitModal] = useState(false)
 
+  // const now = new Date()
+  // const expirationDate = new Date(surveyDetail.survey.expirationDate)
+
+  // console.log(now, '지금')
+  // console.log(expirationDate, '만료기간')
+  // console.log(expirationDate - now - 32400000)
+
+
+
   useEffect(() => {
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
@@ -443,7 +452,13 @@ function Dosurvey() {
 
 
   const startSurvey = () => {
-    setShowSurveyNumber(1)
+    const remainTime = new Date(surveyDetail.survey.expirationDate) - new Date() - 32400000 // 9시가 기본 디폴드값이어서 9시간 만큼으 더 빼준다.
+    if (remainTime > 0) {
+      setShowSurveyNumber(1)
+    }
+    else {
+      alert('만료된 설문입니다!')
+    }
   }
 
   const dataConvert = () => {
