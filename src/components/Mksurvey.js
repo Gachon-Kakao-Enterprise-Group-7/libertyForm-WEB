@@ -207,6 +207,13 @@ const StyledDatePicker = styled(DatePicker)`
     border-radius: 4px;
     font-size: 12px;
 `
+const PreviewImg = styled.div`
+    background: #e1e1e1; 
+    background-image: url(${(props) => props.imgFileSrc});
+    background-size: cover;
+    width: 300px;
+    height: 200px;
+`
 
 Modal.setAppElement("#root");
 
@@ -220,6 +227,7 @@ function Mksurvey() { // Make Survey
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
     const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
+    const [imgFileSrc, setImgFileSrc] = useState('')
 
     const openModal = () => {
         setModalOpen(true);
@@ -348,6 +356,10 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
+    useDidMountEffect(()=>{
+        encodeFileToBase64(imgFile[0])
+    },[imgFile])
+
     const saveData = () => {
         setPostData((
             {
@@ -453,6 +465,16 @@ function Mksurvey() { // Make Survey
         setModalOpen(false)
     }
 
+    const encodeFileToBase64 = (fileBlob) => { // 파일을 읽어서 
+        const reader = new FileReader();
+        reader.readAsDataURL(fileBlob);
+        return new Promise((resolve) => {
+          reader.onload = () => {
+            setImgFileSrc(reader.result);
+            resolve();
+          };
+        });
+      };
 
     return (
         <MainWrapper style={{display: 'flex',flexDirection: 'column'}}ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
@@ -473,6 +495,7 @@ function Mksurvey() { // Make Survey
                     <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
                     <input type="file" onChange={onLoadFile}></input>
+                    <PreviewImg imgFileSrc={imgFileSrc}></PreviewImg>
                 </ItemDiv>
             </BlockDiv>
 
