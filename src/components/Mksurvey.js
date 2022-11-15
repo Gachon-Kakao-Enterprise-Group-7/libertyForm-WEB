@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
-import {ReactComponent as CloseModal} from "../img/close.svg"
+import { ReactComponent as CloseModal } from "../img/close.svg"
 
 // mui import
 import { Button } from '@mui/material';
@@ -13,7 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
 import Input from '@mui/material/Input';
 
-import {ReactComponent as DragSvg} from ".././img/drag.svg"
+import { ReactComponent as DragSvg } from ".././img/drag.svg"
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
 import { motion } from "framer-motion" // 애니메이션 효과
@@ -33,11 +33,9 @@ const DragSvgWrapper = styled(DragSvg)`
       fill: #ff7800;
     }
 `
-
 const MainWrapper = styled(motion.div)`
 
 `
-
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -50,7 +48,6 @@ const ModalDelete = styled.button`
   outline: none;
   cursor: pointer;
 `
-
 const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
     width:30px;
@@ -102,7 +99,6 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
-
 const Surveybutton = styled.button`
     font-weight: bold;
     width: 220px;
@@ -117,8 +113,6 @@ const Surveybutton = styled.button`
     border-radius: 10px;
     margin-top: 80px;
 `
-
-
 const BlockDiv = styled.div`
     background-color: white;
     margin: auto;
@@ -162,6 +156,20 @@ const TextUpload = styled.div`
     width : 60%;
     height : 100%;
     background-color : transparent;
+`
+
+const MainItemDiv = styled.div`
+overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
+	/* height:auto; */
+    padding: 1vw 2vw;
+    margin-top: 1vw;
+    display : inline-flex;
+    width : 100%;
+    justify-content: space-between;
+    margin-left:5px;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding-bottom: 4px; 
 `
 
 const FuncDiv = styled.div`
@@ -241,13 +249,82 @@ const TextInput = styled.input`
   border-bottom: 3px solid #ffcd23;
   }
 
+`
+const ImageUpload = styled.div`
+    /* display: inline-block;
+    vertical-align: top; */
+    box-sizing: border-box;
+	width : 50%;
+    height : 100%;
+`
+const TextUpload = styled.div`
+    box-sizing: border-box;
+    width : 50%;
+    height : 100%;
+    background-color : transparent;
+    margin: auto;
+`
+
 const PreviewImg = styled.div`
-    background: #e1e1e1; 
+    background: #e1e1e1;
     background-image: url(${(props) => props.imgFileSrc});
     background-size: cover;
-    width: 300px;
-    height: 200px;
+    width: 425px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid #c4c4c4;
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
 `
+const Triangle = styled.div`
+    width: 0px;
+    height: 0px;
+    border-bottom: 70px solid #e1e1e1;
+    border-left: 36px solid transparent;
+    border-right: 36px solid transparent;
+    margin-left: 180px;
+    position: relative;
+    bottom: 20px;
+    z-index: 0;
+`
+const PreviewCard = styled.div`
+    background-color: #ffffffe0;
+    border-radius: 10px;
+    width: 230px;
+    height: 125px;
+    text-align: center;
+    z-index: 1;
+   
+`
+const PreviewCardDefault = styled.div`
+    background-color: #ffffffe0;
+    border-radius: 10px;
+    width: 230px;
+    height: 125px;
+    text-align: center;
+    padding: 50px;
+    font-weight: bold;
+   
+`
+const PreviewText = styled.div`
+    width: 100%;
+    padding: 0px 20px;
+    font-size: 0.7rem;
+    margin: auto;
+    font-weight: bold;
+`
+const PreviewButton = styled.button`
+    font-size: 0.5rem;
+    border: 0px;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 20px;
+    background-color: #e1e1e1;
+`
+
 
 
 `
@@ -330,7 +407,11 @@ function Mksurvey() { // Make Survey
         const q = e.target.value //사용자가 input태그에 입력한 값
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
-
+    const onChangeDescription = (e) => { //설문 질문에 대한 description
+        const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
+        const description = e.target.value //사용자가 input태그에 입력한 값
+        setSurvey(survey.map((item) => item.id === targetId ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+    }
 
     const addMcItem = (e) => {
         const targetId = parseInt(e.target.dataset.id)
@@ -392,9 +473,9 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
-    useDidMountEffect(()=>{
+    useDidMountEffect(() => {
         encodeFileToBase64(imgFile[0])
-    },[imgFile])
+    }, [imgFile])
 
     const saveData = () => {
         setPostData((
@@ -433,6 +514,7 @@ function Mksurvey() { // Make Survey
                         {
                             questionTypeId: item.type,
                             name: item.q,
+                            description: item.description,
                             number: String(item.id + 1),
                             answerRequired: item.required
                         }
@@ -445,20 +527,20 @@ function Mksurvey() { // Make Survey
     }
 
     const requestSubmit = () => {
-        if(title.length<1){ // 설문 제목의 길이가 0일때
+        if (title.length < 1) { // 설문 제목의 길이가 0일때
             alert('설문 이름을 입력하세요')
         }
-        else if(convertedDate==null){ // 저장된 만료날짜가 없을때
+        else if (convertedDate == null) { // 저장된 만료날짜가 없을때
             alert('마감날짜를 설정하세요')
         }
-        else if(survey[0].q.length<1){ // 첫번째 질문의 길이가 0일때(객관식 제외하고 나머지)
+        else if (survey[0].q.length < 1) { // 첫번째 질문의 길이가 0일때(객관식 제외하고 나머지)
             alert('최소 1개의 질문은 생성하세요')
-            
+
         }
-        else if(survey[0].type==='3' && survey[0].mcitem.length===0){ //객관식일때
+        else if (survey[0].type === '3' && survey[0].mcitem.length === 0) { //객관식일때
             alert('최소 1개의 선택지를 생성하세요');
         }
-        else{
+        else {
             openModal()
             saveData()
         }
@@ -501,23 +583,26 @@ function Mksurvey() { // Make Survey
         setModalOpen(false)
     }
 
-    const encodeFileToBase64 = (fileBlob) => { // 파일을 읽어서 
+    const encodeFileToBase64 = (file) => { // 파일을 읽어서 
         const reader = new FileReader();
-        reader.readAsDataURL(fileBlob);
+        reader.readAsDataURL(file);
         return new Promise((resolve) => {
-          reader.onload = () => {
-            setImgFileSrc(reader.result);
-            resolve();
-          };
+            reader.onload = () => {
+                setImgFileSrc(reader.result);
+                resolve();
+            };
         });
-      };
+    };
 
     return (
+
         <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+
             {console.log(survey)}
             {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
+
                 <ItemDiv>
                     <ImageUpload>
                     <a>설문 배경</a>
@@ -541,6 +626,7 @@ function Mksurvey() { // Make Survey
 
 
                 </ItemDiv>
+
             </BlockDiv>
 
             {/* 설문 항목 부분 */}
@@ -549,10 +635,10 @@ function Mksurvey() { // Make Survey
                     <ItemDiv>
                         <NumberingDiv>
                             <span>
-                                { index < 99 ? ('00' + (index + 1)).slice(-2) : index + 1 }
+                                {index < 99 ? ('00' + (index + 1)).slice(-2) : index + 1}
                             </span>
                         </NumberingDiv>
-                        <DragSvgWrapper/>
+                        <DragSvgWrapper />
                     </ItemDiv>
 
 
@@ -609,6 +695,8 @@ function Mksurvey() { // Make Survey
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input placeholder='' data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
+                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -620,6 +708,8 @@ function Mksurvey() { // Make Survey
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
+                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -656,15 +746,16 @@ function Mksurvey() { // Make Survey
 
             {/* 설문 등록 및 설문 기능 핸들링 부분 */}
             <FuncDiv>
-                <Surveybutton style={{ marginRight: '0.5rem',marginBottom: '1rem', backgroundColor:"#ffcd00" }}
+                <Surveybutton style={{ marginRight: '0.5rem', marginBottom: '1rem', backgroundColor: "#ffcd00" }}
                     variant="contained"
                     onClick={() => {
-                    setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
-                    id.current += 1}}>
+                        setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
+                        id.current += 1
+                    }}>
                     질문 추가</Surveybutton>
                 {/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
                 <Surveybutton style={{ marginRight: '0.5rem' }} onClick={requestSubmit}>설문 등록하기</Surveybutton>
-                <hr/>
+                <hr />
                 {/* <button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
@@ -677,7 +768,7 @@ function Mksurvey() { // Make Survey
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    backgroundColor: 'rgba(255, 255, 255, 0.75)'                    
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
 
                 },
                 content: {
@@ -698,7 +789,7 @@ function Mksurvey() { // Make Survey
             }}>
 
                 <ModalHeader>
-                    <ModalDelete onClick={closeModal}><CloseModalSvg/></ModalDelete>
+                    <ModalDelete onClick={closeModal}><CloseModalSvg /></ModalDelete>
                 </ModalHeader>
                 <ModalTitle><h4>설문등록</h4></ModalTitle>
                 <ModalDescription>설문을 정말로 등록하시겠습니까?</ModalDescription>

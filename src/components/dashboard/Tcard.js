@@ -7,11 +7,11 @@ import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import axios from 'axios';
 
-import {ReactComponent as LinkIcon} from '../../img/link.svg'
+import { ReactComponent as LinkIcon } from '../../img/link.svg'
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
-import {ReactComponent as CloseModal} from "../../img/close.svg"
+import { ReactComponent as CloseModal } from "../../img/close.svg"
 import { margin } from '@mui/system';
 
 
@@ -217,7 +217,7 @@ const styles = (muiBaseTheme) => ({
 
 function Scard(props) {
 
-  const { classes, surveyId, code, thumbnailImgUrl } = props
+  const { classes, surveyId, code, thumbnailImgUrl, end } = props
   const now = new Date()
   const expireDate = new Date(`${props.expirationDate}:00:00:00`)
   const startDate = new Date(props.createdAt)
@@ -298,11 +298,11 @@ function Scard(props) {
     <div>
       <TWrapper>
         <Card className={classes.card}>
-        <CustomCardMedia>
-          <CardMedia
-            className={classes.media}
-            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
-          />
+          <CustomCardMedia>
+            <CardMedia
+              className={classes.media}
+              image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
+            />
           </CustomCardMedia>
           <CardContent className={classes.content}>
             <NavDropStyle>
@@ -316,7 +316,7 @@ function Scard(props) {
                 }
               </Typography>
               <NavDropdown title="" id="collasible-nav-dropdown" bsPrefix="dropdown-button">
-                <NavDropdown.Item onClick={openLinkModal}>링크생성</NavDropdown.Item>
+                <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
@@ -364,7 +364,7 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closeDeleteModal}><CloseModalSvg/></ModalDelete>
+          <ModalDelete onClick={closeDeleteModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
         <ModalTitle><h4>설문 삭제</h4></ModalTitle>
         <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
@@ -400,18 +400,18 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closeLinkModal}><CloseModalSvg/></ModalDelete>
+          <ModalDelete onClick={closeLinkModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
         <ModalTitle><h4>설문 링크</h4></ModalTitle>
         <ModalDescription>발송자 지정 공유</ModalDescription>
-        <ModalButton onClick={copySurveyLink} style={{marginTop:"10px", marginBottom:"20px",borderRadius: "10px"}}>지정하기</ModalButton>
+        <ModalButton onClick={copySurveyLink} style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "10px" }}>지정하기</ModalButton>
         <ModalDescription>링크 복사하기</ModalDescription>
         <CopyWrapper>
           <LinkIconSvg></LinkIconSvg>
-        <input style={{ border: "none",outline:"none",height:'100%', margin: '10px', width: '100%' }} value={surveylink}></input>
-        <ModalCopyButton onClick={copySurveyLink}>복사</ModalCopyButton>
+          <input style={{ border: "none", outline: "none", height: '100%', margin: '10px', width: '100%' }} value={surveylink}></input>
+          <ModalCopyButton onClick={copySurveyLink}>복사</ModalCopyButton>
         </CopyWrapper>
-        
+
 
       </Modal>
 
