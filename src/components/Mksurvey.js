@@ -25,7 +25,6 @@ import axios from 'axios';
 
 
 const DragSvgWrapper = styled(DragSvg)`
-    /* fill: #92929d; */
     float: right;
     width:30px;
     height:30px;
@@ -36,7 +35,6 @@ const DragSvgWrapper = styled(DragSvg)`
 `
 
 const MainWrapper = styled(motion.div)`
-/* background-color: #fff9df; */
 
 `
 
@@ -126,7 +124,9 @@ const BlockDiv = styled.div`
     margin: auto;
     margin-top: 2vw;
     padding: 1rem;
-    width : 100%;
+    border-top : 20px solid #fff9df;
+    /* background-color: #fff9df; */
+    width : 80%;
     border-radius: 1rem;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	height:auto;
@@ -139,10 +139,31 @@ const BlockDiv = styled.div`
 `
 const ItemDiv = styled.div`
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
-	height:auto;
-    padding: 0vw 1vw;
-    margin-top: 0.5vw;
+	/* height:auto; */
+    padding: 1vw 2vw;
+    margin-top: 1vw;
+    display : inline-flex;
+    width : 100%;
+    justify-content: space-between;
+    margin-left:5px;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding-bottom: 4px; 
 `
+const ImageUpload = styled.div`
+    /* display: inline-block;
+    vertical-align: top; */
+    box-sizing: border-box;
+	width : 40%;
+    height : 100%;
+`
+const TextUpload = styled.div`
+    box-sizing: border-box;
+    width : 60%;
+    height : 100%;
+    background-color : transparent;
+`
+
 const FuncDiv = styled.div`
     width: 100%;
     margin: 3vw auto;
@@ -207,7 +228,19 @@ const StyledDatePicker = styled(DatePicker)`
     border-radius: 4px;
     font-size: 12px;
 `
+const TextInput = styled.input`
+  position: relative;
+  border: none;
+  outline: none;
+  border-bottom : 2px solid black;
+  font-size: 26px;
+  /* white-space:pre-line; */
+  background-color: transparent;
+   :focus{
+  border-bottom: 3px solid #ffcd23;
+  }
 
+`
 Modal.setAppElement("#root");
 
 function Mksurvey() { // Make Survey
@@ -455,24 +488,28 @@ function Mksurvey() { // Make Survey
 
 
     return (
-        <MainWrapper style={{display: 'flex',flexDirection: 'column'}}ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+        <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
             {console.log(survey)}
             {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
                 <ItemDiv>
-                    <div>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>설문의 제목을 입력해 주세요</div>
-                        <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
-                        {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
-                        {/* {setTitle.value='' && <span style={{ color: 'red' }}>중복된 글 제목입니다.<br /></span>} */}
-                    </div>
+                    <ImageUpload>
+                    <a>설문 배경</a>
+                    <input type="file" onChange={onLoadFile}></input>
+                    </ImageUpload>
+                    <TextUpload>
+                    <TextInput placeholder="e.g. Stanislav"/>
+                    <span class="field__label-wrap" aria-hidden="true">
+                    <span class="field__label">First name</span>
+                    </span>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>제목</div>
+                    <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</div>
                     <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setDescription(e.target.value) }}></Input>
                     <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
                     <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
-                    <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-                    <input type="file" onChange={onLoadFile}></input>
+                    </TextUpload>
                 </ItemDiv>
             </BlockDiv>
 
