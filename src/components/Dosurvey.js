@@ -208,7 +208,7 @@ const StartSurveyBtn = styled.button`
 `
 
 
-const AnswerInput = styled.input.attrs({ placeholder: "답안을 입력해주세요" })`
+const AnswerInput = styled.input`
   background: rgba(255, 255, 255, 0.2);
   position: relative;
   margin: auto 3%; //top left
@@ -623,10 +623,10 @@ function Dosurvey() {
           <button onClick={mkNewSurveyDetail}>객관식문제 choiceQuestions에서 questions로 파싱하기</button>
 
           <div>디자인작업 진행 10%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div>
-          {console.log(surveyDetail)}
-          {console.log(newSurveyDetail)}
+          {/* {console.log(surveyDetail)} */}
+          {/* {console.log(newSurveyDetail)} */}
           {console.log(sortedSurveyDetail)}
-          {console.log(choiceQuestions)}
+          {/* {console.log(choiceQuestions)} */}
 
         </StartCard>
       }
@@ -641,11 +641,11 @@ function Dosurvey() {
               <br />
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
 
-                <AnswerInput style={{ width: '90%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
+                <AnswerInput placeholder={sortedSurveyDetail.questions[showSurveyNumber - 1].description} style={{ width: '90%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
 
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
-                <AnswerInput style={{ width: '60%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
+                <AnswerInput placeholder={sortedSurveyDetail.questions[showSurveyNumber - 1].description} style={{ width: '60%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
               }
 
 
