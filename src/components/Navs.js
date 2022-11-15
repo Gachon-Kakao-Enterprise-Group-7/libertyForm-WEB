@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //react-bootstrap
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 
 const StyledNavbar = styled(Navbar)`
-    background-color: rgb(37 37 37 / 5%);
+    background-color : ${props => props.pathname === '/' || props.pathname === '/login' || props.pathname === '/Signin' ? 'rgb(37 37 37 / 5%)' : 'white'};
 `
+
 
 function Navs() {
 
-    const dispatch = useDispatch()
+    const pathname = useLocation().pathname
+
 
     const onLogout = () => {
         // sessionStorage 에 email 로 저장되어있는 아이템을 삭제한다.
@@ -29,12 +31,12 @@ function Navs() {
     }
 
     return (
-        <StyledNavbar collapseOnSelect expand="lg" variant="dark" >
+        <StyledNavbar pathname={pathname} collapseOnSelect expand="lg" variant={pathname==='/' || pathname==='/login' || pathname==='/Signin' ? 'dark':'light'} >
             <Container>
                 {/* <Logo to = "/"></Logo> */}
-                <Navbar.Brand href="/">Libertyform</Navbar.Brand>
+                <Navbar.Brand href="/">Libertyform</Navbar.Brand >
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
+                <Navbar.Collapse   id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href="/Dashboard_prev">test</Nav.Link>
                         <Nav.Link href="/SideBar">Sidebar</Nav.Link>
@@ -46,10 +48,10 @@ function Navs() {
                             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav>
+                    <Nav >
                         {/*localStorage의 값을 확인해서 존재하면 실행시킴  */}
                         {localStorage.getItem('email') ? <>
-                            <NavDropdown title={`반갑습니다! ${localStorage.getItem('name')}님`} id="collasible-nav-dropdown">
+                            <NavDropdown styled={{color:'black !important'}} title={`반갑습니다! ${localStorage.getItem('name')}님`} id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
                                 <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
                                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>

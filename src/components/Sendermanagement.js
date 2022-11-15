@@ -8,6 +8,8 @@ import Modal from "react-modal";
 import { ReactComponent as UserAddSvg } from "../img/adduser.svg"
 import { ReactComponent as CloseModal } from "../img/close.svg"
 import { ReactComponent as Check } from "../img/checkmark.svg"
+import { ReactComponent as Delete } from "../img/delete.svg"
+
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -142,6 +144,11 @@ const Label = styled.div`
   margin: 10px;
 `
 
+const WidthBox = styled.div`
+  width: 30px;
+  height: 30px;
+`
+
 function Sendermanagement() {
 
   const dispatch = useDispatch();
@@ -149,26 +156,26 @@ function Sendermanagement() {
   const [contacts, setContacts] = useState(false)
   const [addUserModal, setAddUserModal] = useState(false)
   const [inputs, setInputs] = useState({
-      email: '',
-      name: '',
-      relationship: '',
+    email: '',
+    name: '',
+    relationship: '',
   })
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
 
-  const changeInputs = (e) =>{
+  const changeInputs = (e) => {
     const name = e.target.name
     const value = e.target.value
 
-    setInputs((prev)=>({
+    setInputs((prev) => ({
       ...prev,
-      [name]:value
+      [name]: value
     }))
   }
 
-  const sendToServer = async () =>{ // 즐겨찾는 주소 정보 서버에 등록하기
+  const sendToServer = async () => { // 즐겨찾는 주소 정보 서버에 등록하기
     let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); //이메일 정규식
     const jwt = localStorage.getItem('jwt')
 
@@ -179,7 +186,7 @@ function Sendermanagement() {
         }
       })
         .then(res => {
-          switch(res.data.code){
+          switch (res.data.code) {
             case 1000:
               console.log('등록완료!')
               alert('등록되었습니다')
@@ -199,18 +206,18 @@ function Sendermanagement() {
               break;
           }
           console.log(res.data.code)
-          
+
         }
         )
         .catch((Error) => { console.log(Error) })
     }
-    else{
+    else {
       alert('이메일 형식이 잘못되었습니다.')
     }
-    
+
   }
 
-  useEffect(()=>{ // 서버에 등록되어 있는 연락처 정보 받아오기
+  useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
     axios.get("/contact", {
@@ -220,21 +227,21 @@ function Sendermanagement() {
     })
       .then(res => {
         console.log(res.data)
-        setContacts((prev)=>res.data.result)
-        dispatch({type:'TEST'})
+        setContacts((prev) => res.data.result)
+        dispatch({ type: 'TEST' })
         setLoading(false)
       }
       )
       .catch((Error) => { console.log(Error) })
-  },[])
+  }, [])
 
-  if(loading){
+  if (loading) {
     return null
   }
-  if(error){
+  if (error) {
     return <div>{error}</div>
   }
-  if(!contacts){
+  if (!contacts) {
     return null
   }
 
@@ -251,30 +258,33 @@ function Sendermanagement() {
           </HeaderContent>
           <br />
           <SectionWrapper>
-            <div style={{display:'inline'}}>
-                <Text1>주소록</Text1>
-                <AddUserBtn onClick={()=>{setAddUserModal(true)}}><UserAddSvg width='30px' fill='#ff7800'/>유저 추가</AddUserBtn>
+            <div style={{ display: 'inline' }}>
+              <Text1>주소록</Text1>
+              <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg width='30px' fill='#ff7800' />유저 추가</AddUserBtn>
             </div>
-            
+
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 350, }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow style={{color:'red'}}>
-                            <TableCell align='center' style={{ fontWeight: 'bold' }}>이름</TableCell>
-                            <TableCell align='center' style={{ fontWeight: 'bold' }}>이메일</TableCell>
-                            <TableCell align='center' style={{ fontWeight: 'bold' }}>관계</TableCell>
-                            <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>회원여부</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    {contacts.map((contact, index)=>(
-                      <TableBody key={index}>
-                        <TableCell align='center' >{contact.name}</TableCell>
-                        <TableCell align='center' >{contact.email}</TableCell>
-                        <TableCell align='center' >{contact.relationship}</TableCell>
-                        <TableCell align='center' >{contact.member&&<Check width='30px'/>}</TableCell>
-                      </TableBody>
-                    ))}
-                </Table>
+              <Table sx={{ minWidth: 350, }} aria-label="simple table">
+                <TableHead>
+                  <TableRow style={{ color: 'red' }}>
+                    <TableCell align='center' style={{ fontWeight: 'bold' }}>이름</TableCell>
+                    <TableCell align='center' style={{ fontWeight: 'bold' }}>이메일</TableCell>
+                    <TableCell align='center' style={{ fontWeight: 'bold' }}>관계</TableCell>
+                    <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>회원여부</TableCell>
+                    <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>삭제</TableCell>
+                  </TableRow>
+                </TableHead>
+                {contacts.map((contact, index) => (
+                  <TableBody key={index}>
+                    <TableCell align='center' padding='none'>{contact.name}</TableCell>
+                    <TableCell align='center' padding='none'>{contact.email}</TableCell>
+                    <TableCell align='center' padding='none'>{contact.relationship}</TableCell>
+                    <TableCell align='center' padding='none'>{contact.member ? <Check width='20px' height='30px' fill='black' /> : <WidthBox></WidthBox>}</TableCell>
+                    <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { console.log(`${contact.name} 삭제해주세요`) }} /></TableCell>
+                    {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
+                  </TableBody>
+                ))}
+              </Table>
             </TableContainer>
           </SectionWrapper>
         </Wrapper>
@@ -307,21 +317,21 @@ function Sendermanagement() {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={() => {setAddUserModal(false)}}><CloseModalSvg /></ModalDelete>
+          <ModalDelete onClick={() => { setAddUserModal(false) }}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
         <ModalTitle><h4>유저 추가</h4></ModalTitle>
         <ModalDescription>
           <div>
             <Label>이름</Label>
-            <input name='name' onChange={changeInputs}/>
+            <input name='name' onChange={changeInputs} />
           </div>
           <div>
             <Label>이메일</Label>
-            <input name='email' onChange={changeInputs}/>
+            <input name='email' onChange={changeInputs} />
           </div>
           <div>
             <Label>관계</Label>
-            <input name='relationship' onChange={changeInputs}/>
+            <input name='relationship' onChange={changeInputs} />
           </div>
         </ModalDescription>
         <ModalButton onClick={sendToServer}>추가</ModalButton>
