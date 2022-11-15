@@ -39,7 +39,6 @@ const UploadSvgWrapper = styled(UploadSvg)`
     padding-bottom:5px;
 `
 const MainWrapper = styled(motion.div)`
-/* background-color: #fff9df; */
 
 `
 
@@ -129,6 +128,9 @@ const BlockDiv = styled.div`
     margin: auto;
     margin-top: 2vw;
     padding: 1rem;
+
+    border-top : 20px solid #fff9df;
+    /* background-color: #fff9df; */
     width : 80%;
     border-radius: 1rem;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
@@ -219,13 +221,14 @@ const McitemAddBtn = styled.button`
 `
 const StyledDatePicker = styled(DatePicker)`
     margin-top: 1.5rem;
-    width: 50%;
+    width: 70%;
     height: 42px;
     box-sizing: border-box;
     padding: 8px 20px;
     border-radius: 4px;
     font-size: 12px;
 `
+
 const TextInput = styled.input`
   position: relative;
   border: none;
@@ -434,6 +437,11 @@ function Mksurvey() { // Make Survey
         const q = e.target.value //사용자가 input태그에 입력한 값
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
+    const onChangeDescription = (e) => { //설문 질문에 대한 description
+        const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
+        const description = e.target.value //사용자가 input태그에 입력한 값
+        setSurvey(survey.map((item) => item.id === targetId ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+    }
 
 
     const addMcItem = (e) => {
@@ -537,6 +545,7 @@ function Mksurvey() { // Make Survey
                         {
                             questionTypeId: item.type,
                             name: item.q,
+                            description: item.description,
                             number: String(item.id + 1),
                             answerRequired: item.required
                         }
@@ -617,7 +626,9 @@ function Mksurvey() { // Make Survey
     };
 
     return (
-        <MainWrapper style={{ display: 'flex', flexDirection: 'column' }} ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+
+        <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+
             {console.log(survey)}
             {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
@@ -733,6 +744,8 @@ function Mksurvey() { // Make Survey
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input placeholder='' data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
+                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -744,6 +757,8 @@ function Mksurvey() { // Make Survey
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
+                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />

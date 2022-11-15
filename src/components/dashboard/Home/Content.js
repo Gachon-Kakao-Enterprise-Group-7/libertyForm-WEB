@@ -7,7 +7,7 @@ import Mksurvey from '../../Mksurvey'
 const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 80%;
   min-width: 250px;
   background-color: #fafafa;
   padding: 40px;
