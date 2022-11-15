@@ -25,7 +25,6 @@ import axios from 'axios';
 
 
 const DragSvgWrapper = styled(DragSvg)`
-    /* fill: #92929d; */
     float: right;
     width:30px;
     height:30px;
@@ -35,7 +34,6 @@ const DragSvgWrapper = styled(DragSvg)`
     }
 `
 const MainWrapper = styled(motion.div)`
-/* background-color: #fff9df; */
 
 `
 const ModalHeader = styled.div`
@@ -120,7 +118,9 @@ const BlockDiv = styled.div`
     margin: auto;
     margin-top: 2vw;
     padding: 1rem;
-    width : 100%;
+    border-top : 20px solid #fff9df;
+    /* background-color: #fff9df; */
+    width : 80%;
     border-radius: 1rem;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	height:auto;
@@ -133,10 +133,31 @@ const BlockDiv = styled.div`
 `
 const ItemDiv = styled.div`
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
-	height:auto;
-    padding: 0vw 1vw;
-    margin-top: 0.5vw;
+	/* height:auto; */
+    padding: 1vw 2vw;
+    margin-top: 1vw;
+    display : inline-flex;
+    width : 100%;
+    justify-content: space-between;
+    margin-left:5px;
+    margin-top:5px;
+    margin-bottom:5px;
+    padding-bottom: 4px; 
 `
+const ImageUpload = styled.div`
+    /* display: inline-block;
+    vertical-align: top; */
+    box-sizing: border-box;
+	width : 40%;
+    height : 100%;
+`
+const TextUpload = styled.div`
+    box-sizing: border-box;
+    width : 60%;
+    height : 100%;
+    background-color : transparent;
+`
+
 const MainItemDiv = styled.div`
 overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	/* height:auto; */
@@ -150,6 +171,7 @@ overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 h
     margin-bottom:5px;
     padding-bottom: 4px; 
 `
+
 const FuncDiv = styled.div`
     width: 100%;
     margin: 3vw auto;
@@ -214,6 +236,7 @@ const StyledDatePicker = styled(DatePicker)`
     border-radius: 4px;
     font-size: 12px;
 `
+
 const TextInput = styled.input`
   position: relative;
   border: none;
@@ -225,6 +248,7 @@ const TextInput = styled.input`
    :focus{
   border-bottom: 3px solid #ffcd23;
   }
+
 `
 const ImageUpload = styled.div`
     /* display: inline-block;
@@ -240,6 +264,7 @@ const TextUpload = styled.div`
     background-color : transparent;
     margin: auto;
 `
+
 const PreviewImg = styled.div`
     background: #e1e1e1;
     background-image: url(${(props) => props.imgFileSrc});
@@ -301,6 +326,8 @@ const PreviewButton = styled.button`
 `
 
 
+
+`
 Modal.setAppElement("#root");
 
 function Mksurvey() { // Make Survey
@@ -568,40 +595,38 @@ function Mksurvey() { // Make Survey
     };
 
     return (
-        <MainWrapper style={{ display: 'flex', flexDirection: 'column' }} ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+
+        <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+
             {console.log(survey)}
             {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
-                <MainItemDiv>
-                    <ImageUpload>
-                        <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-                        <input type="file" label="test" onChange={onLoadFile}></input>
-                        <PreviewImg imgFileSrc={imgFileSrc}>
-                            {title.length > 0
-                                ?
-                                <PreviewCard>
-                                    <PreviewText style={{ marginTop: '10px' }}>{title.length > 0 && `${title}에 관한 설문입니다.`}</PreviewText>
-                                    <PreviewText>{description}</PreviewText>
-                                    <PreviewText style={{ marginTop: '10px' }}>{`설문 문항은 총 5문항입니다`}</PreviewText>
 
-                                    <PreviewButton onClick={() => { alert('뭘봐') }}>시작하기</PreviewButton>
-                                </PreviewCard>
-                                : <PreviewCardDefault>미리보기</PreviewCardDefault>
-                            }
-                        </PreviewImg>
-                        <Triangle></Triangle>
+                <ItemDiv>
+                    <ImageUpload>
+                    <a>설문 배경</a>
+                    <input type="file" onChange={onLoadFile}></input>
+                    <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
+                    <input type="file" onChange={onLoadFile}></input>
+                    <PreviewImg imgFileSrc={imgFileSrc}></PreviewImg>
                     </ImageUpload>
                     <TextUpload>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>제목</div>
-                        <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</div>
-                        <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setDescription(e.target.value) }}></Input>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
-                        <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
-
+                    <TextInput placeholder="e.g. Stanislav"/>
+                    <span class="field__label-wrap" aria-hidden="true">
+                    <span class="field__label">First name</span>
+                    </span>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>제목</div>
+                    <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</div>
+                    <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setDescription(e.target.value) }}></Input>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
+                    <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
                     </TextUpload>
-                </MainItemDiv>
+
+
+                </ItemDiv>
+
             </BlockDiv>
 
             {/* 설문 항목 부분 */}
