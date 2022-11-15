@@ -11,8 +11,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
-import Input from '@mui/material/Input';
 
+import { ReactComponent as UploadSvg } from ".././img/upload.svg"
 import { ReactComponent as DragSvg } from ".././img/drag.svg"
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
@@ -25,16 +25,19 @@ import axios from 'axios';
 
 
 const DragSvgWrapper = styled(DragSvg)`
-    /* fill: #92929d; */
-    float: right;
+    margin-right: 5px;
+    width:20px;
+    height:20px;
+    float:right;
+    /* &:hover {
+      fill: #ff7800;
+    } */
+`
+const UploadSvgWrapper = styled(UploadSvg)`
     width:30px;
     height:30px;
     padding-bottom:5px;
-    &:hover {
-      fill: #ff7800;
-    }
 `
-
 const MainWrapper = styled(motion.div)`
 /* background-color: #fff9df; */
 
@@ -126,11 +129,11 @@ const BlockDiv = styled.div`
     margin: auto;
     margin-top: 2vw;
     padding: 1rem;
-    width : 100%;
+    width : 80%;
     border-radius: 1rem;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	height:auto;
-
+    border-top : 20px solid #fff9df;
     transition:all 200ms linear;
 
     :hover{
@@ -144,13 +147,15 @@ const ItemDiv = styled.div`
     margin-top: 0.5vw;
 `
 const MainItemDiv = styled.div`
-overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
+    overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
 	/* height:auto; */
     padding: 1vw 2vw;
     margin-top: 1vw;
-    display : inline-flex;
     width : 100%;
+    display : flex;
     justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
     margin-left:5px;
     margin-top:5px;
     margin-bottom:5px;
@@ -214,7 +219,7 @@ const McitemAddBtn = styled.button`
 `
 const StyledDatePicker = styled(DatePicker)`
     margin-top: 1.5rem;
-    width: 300px;
+    width: 50%;
     height: 42px;
     box-sizing: border-box;
     padding: 8px 20px;
@@ -226,27 +231,67 @@ const TextInput = styled.input`
   border: none;
   outline: none;
   border-bottom : 2px solid black;
-  font-size: 26px;
+  width: 90%; 
+  margin-bottom: 5px;
+  font-size: 20px;
   /* white-space:pre-line; */
   background-color: transparent;
    :focus{
   border-bottom: 3px solid #ffcd23;
   }
 `
+
+const ImageInput = styled.div`
+  label {
+    padding-top: 10px ;
+    display: inline-flex;
+    justify-content: space-evenly;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    cursor: pointer;
+    background: #ECEFF1;
+	border: 1px solid rgba(0,0,0,0.25);
+    font-weight: bold;
+    width: 15vh;
+    height: 5vh;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+`
 const ImageUpload = styled.div`
-    /* display: inline-block;
-    vertical-align: top; */
+    padding: 1rem;
+    display: inline-flex;
+    justify-content: center ;
+    align-items: center;
+    flex-direction: column;
     box-sizing: border-box;
-	width : 50%;
-    height : 100%;
+	min-width : 30vh;
+    width:50%;
+    height : 50vh;
 `
 
-const TextUpload = styled.div`
-    box-sizing: border-box;
+const TextUpload = styled.div` 
+    display: flex;
+    justify-content: space-between ;
+    flex-direction: column;
+    padding: 3rem 1rem 3rem 5rem ;
     width : 50%;
-    height : 100%;
+    min-width : 30vh;
+    height : 50vh;
     background-color : transparent;
-    margin: auto;
 `
 
 const PreviewImg = styled.div`
@@ -269,7 +314,6 @@ const Triangle = styled.div`
     border-bottom: 70px solid #e1e1e1;
     border-left: 36px solid transparent;
     border-right: 36px solid transparent;
-    margin-left: 180px;
     position: relative;
     bottom: 20px;
     z-index: 0;
@@ -580,8 +624,8 @@ function Mksurvey() { // Make Survey
             <BlockDiv>
                 <MainItemDiv>
                     <ImageUpload>
-                        <div style={{ fontSize: '1.3rem', marginTop: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-                        <input type="file" label="test" onChange={onLoadFile}></input>
+                        <div style={{ fontSize: '1.3rem', marginTop: '20px', marginBottom: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
+                        
                         <PreviewImg imgFileSrc={imgFileSrc}>
                             {title.length > 0
                                 ?
@@ -595,16 +639,30 @@ function Mksurvey() { // Make Survey
                                 : <PreviewCardDefault>미리보기</PreviewCardDefault>
                             }
                         </PreviewImg>
+                       
                         <Triangle></Triangle>
+                        
+                        <ImageInput>
+                            <label htmlFor="ex_file">
+                                <UploadSvgWrapper/>
+                                <a>파일 선택</a>
+                            </label>
+                            <input type="file" id="ex_file"  onChange={onLoadFile}></input>
+                        </ImageInput>
                     </ImageUpload>
                     <TextUpload>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>제목</div>
-                        <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setTitle(e.target.value) }}></Input>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</div>
-                        <Input style={{ width: '100%', marginTop: '10px' }} onChange={(e) => { setDescription(e.target.value) }}></Input>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</div>
-                        <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
-
+                        <div>
+                            <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 제목을 입력해 주세요</a>
+                            <TextInput onChange={(e) => { setTitle(e.target.value) }}></TextInput>
+                        </div>
+                        <div>
+                            <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</a>
+                            <TextInput onChange={(e) => { setDescription(e.target.value) }}></TextInput>
+                        </div>
+                        <div>
+                            <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</a>
+                            <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
+                        </div>
                     </TextUpload>
                 </MainItemDiv>
             </BlockDiv>
