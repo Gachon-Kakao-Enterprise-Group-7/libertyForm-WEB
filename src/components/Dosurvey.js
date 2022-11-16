@@ -10,13 +10,19 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 import styled from 'styled-components';
+import Modal from "react-modal";
+
 import Slider from '@mui/material/Slider';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import ProgressBar from "@ramonak/react-progress-bar";
-import Modal from "react-modal";
+
+import FormLabel from '@mui/material/FormLabel';
+import FormGroup from '@mui/material/FormGroup';
+import FormHelperText from '@mui/material/FormHelperText';
+import Checkbox from '@mui/material/Checkbox';
 
 import { ReactComponent as CloseModal } from ".././img/close.svg"
 import { ReactComponent as EmotionVerybad } from "../img/emotion_verybad.svg";
@@ -335,6 +341,7 @@ const OptionContainer = styled.div`
 
 
 function Dosurvey() {
+
   const params = useParams();
   const [surveyDetail, setSurveyDetail] = useState(null) //axios를 통해 받아오는 설문 상세 정보 state [1차 데이터]
   const [newSurveyDetail, setNewSurveyDetail] = useState(null) // 객관+주관 합친 데이터 [2차 데이터]
@@ -353,7 +360,7 @@ function Dosurvey() {
   const [showSurveyNumber, setShowSurveyNumber] = useState(0); //현재 답변중인 문항 번호
 
   const [result, setResult] = useState('')//설문의 결과를 배열로 저장하는 state
-  const [inputs, setInputs] = useState(); // 현재 설문 문항에 대한 데이터를 가지고 있는 state!
+  const [inputs, setInputs] = useState([]); // 현재 설문 문항에 대한 데이터를 가지고 있는 state!
 
   const [choiceQuestions, setChoiceQuestions] = useState(null) // 객관식 정보만 담고 있는 state
 
@@ -418,6 +425,11 @@ function Dosurvey() {
     console.log('inputs이 변화했습니다', inputs)
   }, [inputs])
 
+
+  useEffect(()=>{
+    console.log('result가 변화했습니다.', result)
+  }, [result])
+
   useEffect(() => { //postData가 바뀔때마다 알려줄것!
     console.log(postData, 'postData')
   }, [postData])
@@ -474,8 +486,13 @@ function Dosurvey() {
         case 3: // 객관식(단일)
           setPostData((prev) => ({ ...prev, singleChoiceResponse: [...prev.singleChoiceResponse, { questionNumber: (index + 1), choiceNumber: result[index] }] }))
           break;
-        case 4:
-          console.log('4입니다!')
+        case 4: // 객관식(복수)
+        const choices = result[index].map((choice, index)=>(
+          {
+            "choiceNumber": choice
+          }
+        ))
+        setPostData((prev) => ({ ...prev, multipleChoiceResponse: [...prev.multipleChoiceResponse, { questionNumber: (index + 1), choices }] }))
           break;
         case 5: // 감정바
           setPostData((prev) => ({ ...prev, numericResponse: [...prev.numericResponse, { questionNumber: (index + 1), type: 'EMOTION_BAR', value: result[index] }] }))
@@ -491,6 +508,7 @@ function Dosurvey() {
 
   const sendToServer = async () => {
     const jsondata = JSON.stringify(postData)
+    console.log(jsondata)
     await axios.post("/response/create", jsondata, { headers: { 'Content-Type': 'application/json' } })
       .then(res => {
         console.log(res)
@@ -608,7 +626,32 @@ function Dosurvey() {
     temparr[showSurveyNumber - 1] = e.target.value
     setResult(temparr)
     setInputs(e.target.value)
+  }
 
+  const onChangeType4 = (e) => {
+    console.log(e.target.checked)
+
+    if(e.target.checked){
+      let temparr = result
+      console.log(result)
+      if(result[showSurveyNumber-1] === undefined){ // 기존 저장된 정보가 없으면 그냥 적는다
+        temparr[showSurveyNumber-1] = [e.target.name]
+        setResult(temparr)
+        setInputs(temparr[showSurveyNumber-1])
+      }
+      else{ // 기존에 저장된 정보가 있으면 불러와서 덮어 씌운다
+        temparr[showSurveyNumber-1] = [...new Set([...result[showSurveyNumber-1] , e.target.name])]
+        setInputs((prev)=>([...new Set([...prev, e.target.name])]))
+      }
+      setResult(temparr)
+      setInputs(temparr[showSurveyNumber-1])
+    }
+    else{ // e.target.checked가 false 즉, 체크박스 선택이 해제 될때 실행된다.
+      let temparr = result
+      temparr[showSurveyNumber-1].pop(e.target.name) // e.target.name에 해당하는 요소를 제거한다.
+      setResult(temparr)
+      setInputs(temparr[showSurveyNumber-1])
+    }
   }
 
   const onChangeType5 = (e, value) => { // 감정바 문항에 대한 핸들링
@@ -677,7 +720,24 @@ function Dosurvey() {
                   </RadioGroup>
                 </FormControl>
               }
-              {/* https://codepen.io/mobihack-official/pen/EJpRXQ */}
+              {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 4 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
+                <>
+                  <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+                    <FormGroup>
+                      {sortedSurveyDetail.questions[showSurveyNumber -1].mcitem.map((item, index)=>(
+                          <FormControlLabel
+                          control={
+                            <Checkbox onChange={onChangeType4}  name={index+1} /> //여기 checked로직 잘 짜보자.... 제발 ㅠㅠㅠ
+                          }
+                          label={item}
+                        />
+                      ))}
+                      
+                      
+                    </FormGroup>
+                  </FormControl>
+                </>
+              }
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
 
