@@ -34,11 +34,11 @@ function Navs() {
         <StyledNavbar pathname={pathname} collapseOnSelect expand="lg" variant={pathname==='/' || pathname==='/login' || pathname==='/Signin' ? 'dark':'light'} >
             <Container>
                 {/* <Logo to = "/"></Logo> */}
-                <Navbar.Brand href="/">Libertyform</Navbar.Brand >
+                <Navbar.Brand href="/" style={{fontFamily: "Montserrat"}}>LIBERTY FORM</Navbar.Brand >
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse   id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/Dashboard_prev">test</Nav.Link>
+                        {/* <Nav.Link href="/Dashboard_prev">test</Nav.Link>
                         <Nav.Link href="/SideBar">Sidebar</Nav.Link>
                         <NavDropdown title="null" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
@@ -46,7 +46,7 @@ function Navs() {
                             <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown>
+                        </NavDropdown> */}
                     </Nav>
                     <Nav >
                         {/*localStorage의 값을 확인해서 존재하면 실행시킴  */}
@@ -63,8 +63,8 @@ function Navs() {
                             </NavDropdown>
                         </> :
                             <>{/*localStorage의 값을 확인해서 로그인이 되어있으면 회원가입이랑 로그인은 안보이게함  */}
-                                <Nav.Link href="/Signin">Signin</Nav.Link>
-                                <Nav.Link eventKey={2} href="/login">Login</Nav.Link>
+                                <Nav.Link href="/Signin" >회원가입</Nav.Link>
+                                <Nav.Link eventKey={2} href="/login">로그인</Nav.Link>
                             </>
                         }
 

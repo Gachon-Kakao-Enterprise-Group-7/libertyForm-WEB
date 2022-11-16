@@ -86,7 +86,7 @@ function Signin() {
         <Backgrounddiv>
             <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <CardHeader>
-                    <CardHeading>Sign in</CardHeading>
+                    <CardHeading>회원가입</CardHeading>
                 </CardHeader>
                 <CardBody>
 
@@ -140,11 +140,11 @@ function Signin() {
                     </CardFieldset>
 
                     <CardFieldset style={{ marginTop: '30px'  ,marginBottom: '30px'}}>
-                        <CardButton type="button" onClick={onSummit}>Sign Up</CardButton>
+                        <CardButton type="button" onClick={onSummit}>회원가입</CardButton>
                     </CardFieldset>
                     <hr />
                     <CardFieldset>
-                        <CardLink href="/login">I already have an account</CardLink>
+                        <CardLink href="/login">계정이 이미 존재하시나요?</CardLink>
                     </CardFieldset>
                 </CardBody>
             </CardWrapper>
