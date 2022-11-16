@@ -647,10 +647,11 @@ function Dosurvey() {
       setInputs(temparr[showSurveyNumber - 1])
     }
     else { // e.target.checked가 false 즉, 체크박스 선택이 해제 될때 실행된다.
-      let temparr = result
-      temparr[showSurveyNumber - 1].pop(e.target.name) // e.target.name에 해당하는 요소를 제거한다.
-      setResult(temparr)
-      setInputs(temparr[showSurveyNumber - 1])
+      let temparr = result // 임시변수에 현재 설문 응답 정보를 가져오고(모든 질문의 응답)
+      const filterdtemparr = temparr[showSurveyNumber - 1].filter((choice) => (choice != e.target.name)) // 선택을 해제한 choice에 대해서 가지고 있던 result에서 뺀다
+      temparr[showSurveyNumber - 1] = filterdtemparr // 뺀 배열을 다시 임시 설문 응답 결과에 저장하고
+      setResult(temparr) // 그 결과를 반영한다.
+      setInputs(temparr[showSurveyNumber - 1]) // inputs는 현재 문항에 대한 응답을 가지고 있어 배열에 인덱스로 참조한다.
     }
   }
 
@@ -727,7 +728,7 @@ function Dosurvey() {
                       {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
                         <FormControlLabel
                           control={
-                            <Checkbox onChange={onChangeType4} name={index + 1} /> //여기 checked로직 잘 짜보자.... 제발 ㅠㅠㅠ
+                            <Checkbox checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} /> //여기 checked로직 잘 짜보자.... 제발 ㅠㅠㅠ
                           }
                           label={item}
                         />
