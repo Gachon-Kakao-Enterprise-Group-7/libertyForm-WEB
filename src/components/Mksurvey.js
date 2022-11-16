@@ -234,7 +234,7 @@ const TextInput = styled.input`
   border: none;
   outline: none;
   border-bottom : 2px solid black;
-  width: 90%; 
+  width: 100%; 
   margin-bottom: 5px;
   font-size: 20px;
   /* white-space:pre-line; */
@@ -656,7 +656,7 @@ function Mksurvey() { // Make Survey
                         <ImageInput>
                             <label htmlFor="ex_file">
                                 <UploadSvgWrapper/>
-                                <a>파일 선택</a>
+                                <a style={{paddingTop:'5px'}}>파일 선택</a>
                             </label>
                             <input type="file" id="ex_file"  onChange={onLoadFile}></input>
                         </ImageInput>

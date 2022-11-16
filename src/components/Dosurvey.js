@@ -652,7 +652,7 @@ function Dosurvey() {
           <>
             <ProgressBarDiv><ProgressBar completed={Math.round((result.length / sortedSurveyDetail.questions.length) * 100)} bgColor="#ff7800" labelColor="#f6f6f6" /></ProgressBarDiv>
             <SurveyCard>
-              <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`}</QuestionTitle>
+              <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`} {sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired&&<span style={{color:'red',paddingLeft: '0.25em'}} aria-hidden="true">*</span>}</QuestionTitle>
               <br />
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
 

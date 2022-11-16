@@ -132,7 +132,7 @@ function Login() {
 
 
                     <CardFieldset>
-                        <CardButton type="button" onClick={() => { onLogin() }}>Login</CardButton>
+                        <CardButton type="button" onClick={() => { onLogin() }}>로그인</CardButton>
                     </CardFieldset>
 
                     <CardFieldset>
@@ -147,7 +147,7 @@ function Login() {
 
                     <hr />
                     <CardFieldset>
-                        <CardLink href="/Signin">Don't have an account?</CardLink>
+                        <CardLink href="/Signin">계정이 존재하지 않으신가요?</CardLink>
                     </CardFieldset>
 
 
