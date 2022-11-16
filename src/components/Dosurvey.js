@@ -426,7 +426,7 @@ function Dosurvey() {
   }, [inputs])
 
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log('result가 변화했습니다.', result)
   }, [result])
 
@@ -464,7 +464,7 @@ function Dosurvey() {
 
 
   const startSurvey = () => {
-    const remainTime = new Date(surveyDetail.survey.expirationDate) - new Date() - 32400000 // 9시가 기본 디폴드값이어서 9시간 만큼으 더 빼준다.
+    const remainTime = new Date(surveyDetail.survey.expirationDate) - new Date() + 5400000 // 5400000 = 15시간
     if (remainTime > 0) {
       setShowSurveyNumber(1)
     }
@@ -487,12 +487,12 @@ function Dosurvey() {
           setPostData((prev) => ({ ...prev, singleChoiceResponse: [...prev.singleChoiceResponse, { questionNumber: (index + 1), choiceNumber: result[index] }] }))
           break;
         case 4: // 객관식(복수)
-        const choices = result[index].map((choice, index)=>(
-          {
-            "choiceNumber": choice
-          }
-        ))
-        setPostData((prev) => ({ ...prev, multipleChoiceResponse: [...prev.multipleChoiceResponse, { questionNumber: (index + 1), choices }] }))
+          const choices = result[index].map((choice, index) => (
+            {
+              "choiceNumber": choice
+            }
+          ))
+          setPostData((prev) => ({ ...prev, multipleChoiceResponse: [...prev.multipleChoiceResponse, { questionNumber: (index + 1), choices }] }))
           break;
         case 5: // 감정바
           setPostData((prev) => ({ ...prev, numericResponse: [...prev.numericResponse, { questionNumber: (index + 1), type: 'EMOTION_BAR', value: result[index] }] }))
@@ -631,26 +631,26 @@ function Dosurvey() {
   const onChangeType4 = (e) => {
     console.log(e.target.checked)
 
-    if(e.target.checked){
+    if (e.target.checked) {
       let temparr = result
       console.log(result)
-      if(result[showSurveyNumber-1] === undefined){ // 기존 저장된 정보가 없으면 그냥 적는다
-        temparr[showSurveyNumber-1] = [e.target.name]
+      if (result[showSurveyNumber - 1] === undefined) { // 기존 저장된 정보가 없으면 그냥 적는다
+        temparr[showSurveyNumber - 1] = [e.target.name]
         setResult(temparr)
-        setInputs(temparr[showSurveyNumber-1])
+        setInputs(temparr[showSurveyNumber - 1])
       }
-      else{ // 기존에 저장된 정보가 있으면 불러와서 덮어 씌운다
-        temparr[showSurveyNumber-1] = [...new Set([...result[showSurveyNumber-1] , e.target.name])]
-        setInputs((prev)=>([...new Set([...prev, e.target.name])]))
+      else { // 기존에 저장된 정보가 있으면 불러와서 덮어 씌운다
+        temparr[showSurveyNumber - 1] = [...new Set([...result[showSurveyNumber - 1], e.target.name])]
+        setInputs((prev) => ([...new Set([...prev, e.target.name])]))
       }
       setResult(temparr)
-      setInputs(temparr[showSurveyNumber-1])
+      setInputs(temparr[showSurveyNumber - 1])
     }
-    else{ // e.target.checked가 false 즉, 체크박스 선택이 해제 될때 실행된다.
+    else { // e.target.checked가 false 즉, 체크박스 선택이 해제 될때 실행된다.
       let temparr = result
-      temparr[showSurveyNumber-1].pop(e.target.name) // e.target.name에 해당하는 요소를 제거한다.
+      temparr[showSurveyNumber - 1].pop(e.target.name) // e.target.name에 해당하는 요소를 제거한다.
       setResult(temparr)
-      setInputs(temparr[showSurveyNumber-1])
+      setInputs(temparr[showSurveyNumber - 1])
     }
   }
 
@@ -695,7 +695,7 @@ function Dosurvey() {
           <>
             <ProgressBarDiv><ProgressBar completed={Math.round((result.length / sortedSurveyDetail.questions.length) * 100)} bgColor="#ff7800" labelColor="#f6f6f6" /></ProgressBarDiv>
             <SurveyCard>
-              <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`} {sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired&&<span style={{color:'red',paddingLeft: '0.25em'}} aria-hidden="true">*</span>}</QuestionTitle>
+              <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`} {sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired && <span style={{ color: 'red', paddingLeft: '0.25em' }} aria-hidden="true">*</span>}</QuestionTitle>
               <br />
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
 
@@ -724,16 +724,16 @@ function Dosurvey() {
                 <>
                   <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                     <FormGroup>
-                      {sortedSurveyDetail.questions[showSurveyNumber -1].mcitem.map((item, index)=>(
-                          <FormControlLabel
+                      {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
+                        <FormControlLabel
                           control={
-                            <Checkbox onChange={onChangeType4}  name={index+1} /> //여기 checked로직 잘 짜보자.... 제발 ㅠㅠㅠ
+                            <Checkbox onChange={onChangeType4} name={index + 1} /> //여기 checked로직 잘 짜보자.... 제발 ㅠㅠㅠ
                           }
                           label={item}
                         />
                       ))}
-                      
-                      
+
+
                     </FormGroup>
                   </FormControl>
                 </>

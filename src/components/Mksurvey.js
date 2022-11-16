@@ -636,7 +636,7 @@ function Mksurvey() { // Make Survey
                 <MainItemDiv>
                     <ImageUpload>
                         <div style={{ fontSize: '1.3rem', marginTop: '20px', marginBottom: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-                        
+
                         <PreviewImg imgFileSrc={imgFileSrc}>
                             {title.length > 0
                                 ?
@@ -650,15 +650,15 @@ function Mksurvey() { // Make Survey
                                 : <PreviewCardDefault>미리보기</PreviewCardDefault>
                             }
                         </PreviewImg>
-                       
+
                         <Triangle></Triangle>
-                        
+
                         <ImageInput>
                             <label htmlFor="ex_file">
-                                <UploadSvgWrapper/>
-                                <a style={{paddingTop:'5px'}}>파일 선택</a>
+                                <UploadSvgWrapper />
+                                <a style={{ paddingTop: '5px' }}>파일 선택</a>
                             </label>
-                            <input type="file" id="ex_file"  onChange={onLoadFile}></input>
+                            <input type="file" id="ex_file" onChange={onLoadFile}></input>
                         </ImageInput>
                     </ImageUpload>
                     <TextUpload>
