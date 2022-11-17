@@ -7,12 +7,12 @@ import { Flex } from "@semcore/flex-box";
 import { Text } from "@semcore/typography";
 import Checkbox from "@semcore/checkbox";
 
-import IconTasks from './icon/Tasks'
-import IconMessages from './icon/Messages'
-import IconSchedule from './icon/Schedule'
-import IconActivity from './icon/Activity'
-import IconSettings from './icon/Settings'
-import IconDashboard from './icon/Dashboard'
+import IconTasks from './dashboard/sidebar/SidebarIcon/Tasks'
+import IconMessages from './dashboard/sidebar/SidebarIcon/Messages'
+import IconSchedule from './dashboard/sidebar/SidebarIcon/Schedule'
+import IconActivity from './dashboard/sidebar/SidebarIcon/Activity'
+import IconSettings from './dashboard/sidebar/SidebarIcon/Settings'
+import IconDashboard from './dashboard/sidebar/SidebarIcon/Dashboard'
 
 const CheckboxWrapper = styled.div`
   display: flex;
@@ -112,12 +112,12 @@ function Sidebar() {
     {
       name: 'Dashboard',
       icon: IconDashboard(),
-      link: '/dashboard'
+      link: '/home/dashboard'
     },
     {
       name: '새로운 설문 생성',
       icon: IconMessages(),
-      link: '/mksurvey'
+      link: '/home/mksurvey'
     },
     {
       name: '설문결과 분석',
@@ -127,7 +127,7 @@ function Sidebar() {
     {
       name: '설문 이메일 발송',
       icon: IconSchedule(),
-      link: '/surveysend'
+      link: '/home/surveysend'
     },
     {
       name: 'Activity',
@@ -137,7 +137,7 @@ function Sidebar() {
     {
       name: '발송자 관리',
       icon: IconSettings(),
-      link: '/sendermanagement'
+      link: '/home/sendermanagement'
     }
   ]
 

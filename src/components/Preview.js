@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import useDidMountEffect from '../../hooks/useDidMountEffect';
+import useDidMountEffect from '../hooks/useDidMountEffect';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

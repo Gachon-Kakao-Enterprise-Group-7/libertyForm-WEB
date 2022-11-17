@@ -5,7 +5,6 @@ import Modal from "react-modal";
 import { ReactComponent as CloseModal } from "../img/close.svg"
 
 // mui import
-import { Button } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -614,7 +613,7 @@ function Mksurvey() { // Make Survey
                 console.log(res.data.code)
                 switch (res.data.code) {
                     case 1000:
-                        document.location.href = '/dashboard'
+                        document.location.href = '/home/dashboard'
                         break;
                     case 4001: //질문유형이 없을경우
                         break;
@@ -764,7 +763,7 @@ function Mksurvey() { // Make Survey
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>객관식 선택 요소를 추가하세요</div>
-                                <input value={multiChoiceItem} data-id={index} style={{ width: '90%' }} placeholder='' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
+                                <input onKeyPress={handleOnKeyPress} value={multiChoiceItem} data-id={index} style={{ width: '90%' }} placeholder='' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
                                 <McitemAddBtn onClick={addMcItem} data-id={index}>추가</McitemAddBtn>
                                 <StyledOl>
 

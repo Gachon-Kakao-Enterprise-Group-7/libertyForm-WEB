@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Groupcontrol from './Groupcontrol';
 import axios from 'axios';
 import styled from 'styled-components';
-import Sidebar from './dashboard/sidebar/Sidebar';
 import { useDispatch, useSelector } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
 import { ReactComponent as CloseModal } from "../img/close.svg"
@@ -20,23 +19,6 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
-const MainWrapper = styled.div`
-  display: flex;
-  max-width: 1600px;
-  margin: 0 auto;
-`
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-width: 250px;
-  background-color: #fafafa;
-  padding: 40px;
-  @media (max-width: 450px) {
-    padding: 10px;
-  }
-
-`
 const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -225,7 +207,7 @@ function Surveysend() {
     })
       .then(res => {
         alert('발송 하였습니다!')
-        document.location.href = '/dashboard'
+        document.location.href = '/home/dashboard'
 
       }
       )
@@ -261,9 +243,6 @@ function Surveysend() {
 
   return (
     <>
-      <MainWrapper>
-        <Sidebar />
-        <Wrapper>
           <HeaderContent>
             <div>
               <Text1>환영합니다,</Text1>
@@ -318,8 +297,6 @@ function Surveysend() {
           <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '50px' }}>
             <Surveybutton onClick={verifyData}>메일 발송하기</Surveybutton>
           </div>
-        </Wrapper>
-      </MainWrapper>
       <Modal isOpen={mailSendModal} style={{
         overlay: {
           position: 'fixed',
