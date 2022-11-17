@@ -50,6 +50,13 @@ const HeaderContent = styled.div`
   align-items: center;
   height: 38px;
 `
+const Tilte = styled.span`
+  font-size: 24px;
+  text-align: left;
+  letter-spacing: 0.1px;
+  color: #171725;
+  font-weight:900;
+`
 const Text1 = styled.span`
   font-size: 24px;
   text-align: left;
@@ -265,7 +272,7 @@ function Surveysend() {
           </HeaderContent>
           <br />
           <SectionWrapper>
-            <Text1>설문 선택</Text1>
+            <Tilte>설문 선택</Tilte>
             <br />
             <FormControl>
               <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
@@ -295,7 +302,7 @@ function Surveysend() {
             {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
           </SectionWrapper>
           <SectionWrapper>
-            <Text1>사용자 직접 추가</Text1>
+            <Tilte>사용자 직접 추가</Tilte>
             <br />
             <UserSelectDiv>
               <UserAddInput value={userInput} onChange={(e) => { setUserInput(e.target.value) }} />
@@ -303,7 +310,7 @@ function Surveysend() {
             </UserSelectDiv>
           </SectionWrapper>
           <SectionWrapper>
-            <Text1>발송 리스트 {users.length}명</Text1>
+            <Tilte>발송 리스트 {users.length}명</Tilte>
             {users.map((user, index) => (
               <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
             ))}

@@ -106,7 +106,8 @@ const ModalButton = styled.button`
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-  width:100%;
+  margin-left: 10px;
+  width: 98%;
   background-color: #ff7800;
   outline: none;
   cursor: pointer;
@@ -149,21 +150,46 @@ const WidthBox = styled.div`
   height: 30px;
 `
 
+const Search = styled.input`
+    all: unset;
+    background-color: white;
+    width: 90%;
+    height: 50px;
+    font-size: 25px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+    ::placeholder {
+        font-size: 16px;
+    }
+`;
+
 function Sendermanagement() {
 
   const dispatch = useDispatch();
 
   const [contacts, setContacts] = useState(false)
   const [addUserModal, setAddUserModal] = useState(false)
+  const [DeleteModal, setDeleteModal] = useState(false)
   const [inputs, setInputs] = useState({
     email: '',
     name: '',
     relationship: '',
   })
 
+  const [users, setUsers] = useState([]);
+  const [copy, setCopy] = useState([]);
+  const [search, setSearch] = useState("");
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+  const [wantToDel, setWantToDel] = useState('')
 
+  const handleInputChange = (e) => {
+    setSearch(e.target.value); 
+    };
 
   const changeInputs = (e) => {
     const name = e.target.name
@@ -174,11 +200,23 @@ function Sendermanagement() {
       [name]: value
     }))
   }
+  const jwt = localStorage.getItem('jwt')
+  const deleteUser = () => {
+    console.log(wantToDel)
+    axios.get(`/contact/delete?email=${wantToDel}`, {
+      headers: {
+        Authorization: 'Bearer ' + jwt
+      }
+    })
+      .then((res) => {
+        console.log(res.data.code)
+      })
+      .catch((Error) => { console.log(Error) })
+  }
+
 
   const sendToServer = async () => { // 즐겨찾는 주소 정보 서버에 등록하기
     let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); //이메일 정규식
-    const jwt = localStorage.getItem('jwt')
-
     if (regex.test(inputs.email)) {
       await axios.post("/contact/create", inputs, {
         headers: {
@@ -219,7 +257,6 @@ function Sendermanagement() {
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     setLoading(true)
-    const jwt = localStorage.getItem('jwt')
     axios.get("/contact", {
       headers: {
         Authorization: 'Bearer ' + jwt
@@ -228,12 +265,29 @@ function Sendermanagement() {
       .then(res => {
         console.log(res.data)
         setContacts((prev) => res.data.result)
+        setUsers((prev) => res.data.result);
+        setCopy((prev) => res.data.result);
         dispatch({ type: 'TEST' })
         setLoading(false)
       }
       )
       .catch((Error) => { console.log(Error) })
   }, [])
+
+  useEffect(() => {
+    setUsers(
+        copy.filter(
+            (e) =>
+                e.name.toLowerCase().includes(search.toLowerCase()) ||
+                e.email.toLowerCase().includes(search.toLowerCase()) ||
+                e.relationship.toLowerCase().includes(search.toLowerCase())
+        )
+    );
+    console.log(users);
+}, [search, copy]);
+
+
+
 
   if (loading) {
     return null
@@ -261,6 +315,10 @@ function Sendermanagement() {
             <div style={{ display: 'inline' }}>
               <Text1>주소록</Text1>
               <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg width='30px' fill='#ff7800' />유저 추가</AddUserBtn>
+              <Search
+                    placeholder="이름, 팀, 이메일 검색"
+                    onChange={handleInputChange}
+                />
             </div>
 
             <TableContainer component={Paper}>
@@ -274,29 +332,31 @@ function Sendermanagement() {
                     <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>삭제</TableCell>
                   </TableRow>
                 </TableHead>
-                {contacts.map((contact, index) => (
+                {users.map((user, index) => (
                   <TableBody key={index}>
-                    <TableCell align='center' padding='none'>{contact.name}</TableCell>
-                    <TableCell align='center' padding='none'>{contact.email}</TableCell>
-                    <TableCell align='center' padding='none'>{contact.relationship}</TableCell>
-                    <TableCell align='center' padding='none'>{contact.member ? <Check width='20px' height='30px' fill='black' /> : <WidthBox></WidthBox>}</TableCell>
-                    <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { console.log(`${contact.name} 삭제해주세요`) }} /></TableCell>
+                    <TableCell align='center' padding='none'>{user.name}</TableCell>
+                    <TableCell align='center' padding='none'>{user.email}</TableCell>
+                    <TableCell align='center' padding='none'>{user.relationship}</TableCell>
+                    <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' fill='black' /> : <WidthBox></WidthBox>}</TableCell>
+                    <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true);setWantToDel(user.email) }} /></TableCell>
                     {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
                   </TableBody>
-                ))}
+
+                )) }
               </Table>
             </TableContainer>
           </SectionWrapper>
         </Wrapper>
       </MainWrapper>
-      <Modal isOpen={addUserModal} style={{
+
+      <Modal isOpen={DeleteModal} style={{ // 설문 삭제에 관한 모달
         overlay: {
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(255, 255, 255, 0.75)'
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
 
         },
         content: {
@@ -304,12 +364,45 @@ function Sendermanagement() {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '550px',
-          height: '550px',
+          width: '30%',
+          height: '300px',
           border: '1px solid #ccc',
           background: '#fff',
-          overflow: "hidden",
-          WebkitOverflowScrolling: 'touch',
+          overflow: 'hidden',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={() => { setDeleteModal(false) }}><CloseModalSvg /></ModalDelete>
+        </ModalHeader>
+        <ModalTitle><h4>유저 삭제</h4></ModalTitle>
+        <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
+        <ModalButton onClick={deleteUser}>삭제하기</ModalButton>
+      </Modal>
+
+      <Modal isOpen={addUserModal} style={{
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '30%',
+          height: '50vh',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'hidden',
           outline: 'none',
           borderRadius: '20px',
           padding: '20px 25px'

@@ -72,13 +72,13 @@ const NavDropStyle = styled.div`
 `
 
 const ShowLeftDate = styled.div`
-  font-weight: 600;
+  font-weight: bold;
   color: var(--soft-blue);
   font-size: 18px;
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 5px; 
-
+  margin-top: 5px; 
   display: flex;
   align-items: center;
 `

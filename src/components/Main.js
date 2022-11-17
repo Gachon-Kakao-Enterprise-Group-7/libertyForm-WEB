@@ -24,13 +24,13 @@ const Bodydiv = styled(motion.div)`
     margin: auto;
 
     & h1 {
-    font-family: "Montserrat" , sans-serif;
-    font-size: 6vw;
+    font-family: "Montserrat";
+    font-size: 7vw;
     cursor: context-menu;
     font-weight: 3000;
     color: transparent;
     -webkit-text-stroke: 3px white;
-    h1:hover{
+    :hover{
         color:white;
     }
   }
@@ -44,8 +44,9 @@ const Bodydiv = styled(motion.div)`
 
 const Mainbutton = styled.button`
     font-weight: bold;
-    width: 220px;
-    height: 50px;
+    font-size : 23px;
+    width: 250px;
+    height: 70px;
     border: none;
     outline: none;
     color: #fff;
@@ -96,7 +97,6 @@ const Mainbutton = styled.button`
         top: 0;
         border-radius: 10px;
         opacity: 0.8;
-        border: 1px solid #ffffff;
     }
 
     @keyframes glowing {
@@ -145,8 +145,8 @@ function Main() {
         <div style={{ height: "100vh", width: "100%", position: 'absolute', top: '0px', zIndex:'-1' }} ref={vantaRef}>
             <Spacingdiv></Spacingdiv>
 
-            <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
-                <h1>LIBERTY FROM</h1>
+            <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>      
+                <h1>LIBERTY FORM</h1>
             </Bodydiv>
 
 
