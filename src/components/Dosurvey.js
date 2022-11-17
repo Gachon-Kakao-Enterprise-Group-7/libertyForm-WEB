@@ -721,15 +721,22 @@ function Dosurvey() {
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 4 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
                 <>
+                  
                   <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                     <FormGroup>
+                    <>복수선택</>
                       {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
-                        <FormControlLabel
-                          control={
-                            <Checkbox checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} /> //여기 checked로직 잘 짜보자.... 제발 ㅠㅠㅠ
-                          }
-                          label={item}
-                        />
+                        <OptionWrapper onChange={onChangeType4}>
+                          <OptionContainer>
+                            <FormControlLabel
+                              control={
+                                <Checkbox  checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} />
+                              }
+                              label={item}
+                              sx={{width:800, pl:1}}
+                            />
+                          </OptionContainer>
+                        </OptionWrapper>
                       ))}
 
 
