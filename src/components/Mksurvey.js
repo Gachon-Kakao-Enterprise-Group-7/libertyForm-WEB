@@ -520,7 +520,7 @@ function Mksurvey() { // Make Survey
                 },
                 choiceQuestions: [
                     ...postData.choiceQuestions,
-                    ...survey.filter((item) => (item.type === '3')).map((item, index) => ( //여기 괄호 안이 한질문임!
+                    ...survey.filter((item) => (item.type === '3' || item.type === '4')).map((item, index) => ( //여기 괄호 안이 한질문임!
                         {
                             choices:
                                 item.mcitem.map((mcitem, index) => (
@@ -541,7 +541,7 @@ function Mksurvey() { // Make Survey
                 ],
                 questions: [
                     ...postData.questions,
-                    ...survey.filter((item) => (item.type !== '3')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
+                    ...survey.filter((item) => (item.type !== '3' && item.type !== '4')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
                         {
                             questionTypeId: item.type,
                             name: item.q,
@@ -636,7 +636,7 @@ function Mksurvey() { // Make Survey
                 <MainItemDiv>
                     <ImageUpload>
                         <div style={{ fontSize: '1.3rem', marginTop: '20px', marginBottom: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-                        
+
                         <PreviewImg imgFileSrc={imgFileSrc}>
                             {title.length > 0
                                 ?
@@ -650,15 +650,15 @@ function Mksurvey() { // Make Survey
                                 : <PreviewCardDefault>미리보기</PreviewCardDefault>
                             }
                         </PreviewImg>
-                       
+
                         <Triangle></Triangle>
-                        
+
                         <ImageInput>
                             <label htmlFor="ex_file">
-                                <UploadSvgWrapper/>
-                                <a style={{paddingTop:'5px'}}>파일 선택</a>
+                                <UploadSvgWrapper />
+                                <a style={{ paddingTop: '5px' }}>파일 선택</a>
                             </label>
-                            <input type="file" id="ex_file"  onChange={onLoadFile}></input>
+                            <input type="file" id="ex_file" onChange={onLoadFile}></input>
                         </ImageInput>
                     </ImageUpload>
                     <TextUpload>
@@ -699,8 +699,11 @@ function Mksurvey() { // Make Survey
                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                 name="row-radio-buttons-group"
                             >
-                                <FormControlLabel value="3" control={<Radio />} label="객관식" onClick={(e) => {
+                                <FormControlLabel value="3" control={<Radio />} label="객관식(단일)" onClick={(e) => {
                                     setSurvey(survey.map((item) => item.id === index ? { ...item, type: '3', mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                }} />
+                                <FormControlLabel value="4" control={<Radio />} label="객관식(복수)" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '4', mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
                                 <FormControlLabel value="2" control={<Radio />} label="단답형" onClick={(e) => {
                                     setSurvey(survey.map((item) => item.id === index ? { ...item, type: '2' } : item)) // 단답형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
@@ -720,6 +723,27 @@ function Mksurvey() { // Make Survey
                     <ItemDiv>
                         {/* 객관식, 주관식, 감정바, 선형표현를 선택함에 따라 다른 정보를 수집 */}
                         {survey[index].type === '3' &&
+                            <>
+                                <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
+                                <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>객관식 선택 요소를 추가하세요</div>
+                                <input value={multiChoiceItem} data-id={index} style={{ width: '90%' }} placeholder='' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
+                                <McitemAddBtn onClick={addMcItem} data-id={index}>추가</McitemAddBtn>
+                                <StyledOl>
+
+                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
+                                </StyledOl><hr />
+
+                                <FormControlLabel
+                                    control={
+                                        <Switch onClick={onToggle} checked={survey[index].required} name={index} />
+                                    }
+                                    label="필수답변"
+                                />
+
+                            </>
+                        }
+                        {survey[index].type === '4' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
