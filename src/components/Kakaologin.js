@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from './OAuth';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -100,7 +100,7 @@ function Kakaologin() {
         <MainDiv>
             <LoadingDiv>
                 {/* <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50}/> */}
-                <img src={loadingimage}></img>
+                <img alt='' src={loadingimage}></img>
             </LoadingDiv>
             <h3 style={{ fontSize: '2em', fontWeight: 'bold' }}>로그인 중입니다...</h3>
         </MainDiv>

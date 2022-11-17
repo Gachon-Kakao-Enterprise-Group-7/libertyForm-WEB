@@ -19,9 +19,7 @@ import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import ProgressBar from "@ramonak/react-progress-bar";
 
-import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
-import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 
 import { ReactComponent as CloseModal } from ".././img/close.svg"
@@ -464,7 +462,7 @@ function Dosurvey() {
 
 
   const startSurvey = () => {
-    const remainTime = new Date(surveyDetail.survey.expirationDate) - new Date() + 5400000 // 5400000 = 15시간
+    const remainTime = new Date(surveyDetail.survey.expirationDate) - new Date() + 54000000 // 54000000 = 15시간
     if (remainTime > 0) {
       setShowSurveyNumber(1)
     }
@@ -648,7 +646,7 @@ function Dosurvey() {
     }
     else { // e.target.checked가 false 즉, 체크박스 선택이 해제 될때 실행된다.
       let temparr = result // 임시변수에 현재 설문 응답 정보를 가져오고(모든 질문의 응답)
-      const filterdtemparr = temparr[showSurveyNumber - 1].filter((choice) => (choice != e.target.name)) // 선택을 해제한 choice에 대해서 가지고 있던 result에서 뺀다
+      const filterdtemparr = temparr[showSurveyNumber - 1].filter((choice) => (choice !== e.target.name)) // 선택을 해제한 choice에 대해서 가지고 있던 result에서 뺀다
       temparr[showSurveyNumber - 1] = filterdtemparr // 뺀 배열을 다시 임시 설문 응답 결과에 저장하고
       setResult(temparr) // 그 결과를 반영한다.
       setInputs(temparr[showSurveyNumber - 1]) // inputs는 현재 문항에 대한 응답을 가지고 있어 배열에 인덱스로 참조한다.

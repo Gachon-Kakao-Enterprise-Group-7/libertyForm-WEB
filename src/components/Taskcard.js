@@ -234,7 +234,7 @@ function Scard(props) {
     Dayratio = 0
   }
 
-  const [error, setError] = useState(null)
+  
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [linkModalOpen, setLinkModalOpen] = useState(false)
   const [previewModalOpen, setPreviewModalOpen] = useState(false)
@@ -286,7 +286,8 @@ function Scard(props) {
         return window.location.reload();
       })
       .catch((Error) => {
-        setError(Error)
+        console.log(Error)
+        alert('에러발생')
       })
   }
 

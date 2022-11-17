@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import background from "../img/loba.svg"
 import kakaobtn from "../img/kakao_login_large_wide.png"

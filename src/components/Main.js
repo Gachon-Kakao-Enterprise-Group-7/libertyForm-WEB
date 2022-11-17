@@ -2,12 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 import * as THREE from "three";
 import FOG from "vanta/dist/vanta.fog.min";
-
 import { motion } from "framer-motion"
 
-import { useSelector, useDispatch } from 'react-redux' // react-redux사용
 
-import { Link } from "react-router-dom"; // Link를 이용해 원하는 페이지로 이동할 수 있게 한다
 
 
 const Spacingdiv = styled.div`
@@ -108,8 +105,6 @@ const Mainbutton = styled.button`
 
 function Main() {
 
-    const state = useSelector((state) => state) // useSelector를 이용해서 store를 읽어옴
-    const dispatch = useDispatch();
     const [vantaEffect, setVantaEffect] = useState(0);
     const vantaRef = useRef(null);
 

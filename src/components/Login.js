@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'; //swagger api 요청
 import { useDispatch } from 'react-redux';
 import { REST_API_KEY, REDIRECT_URI } from './OAuth';
