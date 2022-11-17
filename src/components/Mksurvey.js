@@ -128,7 +128,7 @@ const BlockDiv = styled.div`
     margin: auto;
     margin-top: 2vw;
     padding: 1rem;
-
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-top : 20px solid #fff9df;
     /* background-color: #fff9df; */
     width : 80%;
@@ -139,7 +139,7 @@ const BlockDiv = styled.div`
     transition:all 200ms linear;
 
     :hover{
-        background-color: #f2f2f2;
+        background-color: #f7f7f7;
     }
 `
 const ItemDiv = styled.div`
@@ -187,13 +187,15 @@ const StyledLi = styled.li`
     ::before{
         margin: 0.15rem;
         content: counter(item);
-        background: #ababab;
-        border-radius: 100%;
-        color: white;
-        width: 1.2em;
+        border-radius: 0 50px 50px 50px;
+        color: #fdfdfd;
+        background: #ff7800 linear-gradient(to bottom right, #ff7800 25%, #ffcd00);
+        text-shadow: 0 0 2px #ff7800;
+        width: 1.5em;
         text-align: center;
-        display: inline-block
+        display: inline-block;
     }
+    border-top-left-radius: 3px;
     transition:all 100ms linear;
 `
 const StyledOl = styled.ol`
@@ -455,6 +457,20 @@ function Mksurvey() { // Make Survey
             alert('1글자 이상 입력하세요')
         }
 
+    }
+
+    const handleOnKeyPress = (e) => {
+        if (e.key === 'Enter') { // Enter 입력이 되면 클릭 이벤트 실행
+            const targetId = parseInt(e.target.dataset.id)
+            const mcitem = multiChoiceItem
+            if (mcitem.length > 0) {
+                setSurvey(survey.map((item) => item.id === targetId ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
+                setMultiChoiceItem('')
+            }
+            else {
+                alert('1글자 이상 입력하세요')
+            }
+        }
     }
 
 
@@ -724,7 +740,7 @@ function Mksurvey() { // Make Survey
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>객관식 선택 요소를 추가하세요</div>
-                                <input value={multiChoiceItem} data-id={index} style={{ width: '90%' }} placeholder='' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
+                                <input onKeyPress={handleOnKeyPress} value={multiChoiceItem} data-id={index} style={{ width: '90%' }} placeholder='' onChange={(e) => { setMultiChoiceItem(e.target.value) }}></input>
                                 <McitemAddBtn onClick={addMcItem} data-id={index}>추가</McitemAddBtn>
                                 <StyledOl>
 
@@ -780,7 +796,7 @@ function Mksurvey() { // Make Survey
                         {survey[index].type === '6' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
-                                <input data-id={index} value={survey[index].q} style={{ width: '100%', borderRight: '0px' }} onChange={onChange}></input><hr />
+                                <input data-id={index} value={survey[index].q} style={{ width: '100%'}} onChange={onChange}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
