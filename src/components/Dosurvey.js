@@ -485,6 +485,10 @@ function Dosurvey() {
           setPostData((prev) => ({ ...prev, singleChoiceResponse: [...prev.singleChoiceResponse, { questionNumber: (index + 1), choiceNumber: result[index] }] }))
           break;
         case 4: // 객관식(복수)
+          if (result[survey.number - 1] === null) {
+            setPostData((prev) => ({ ...prev, multipleChoiceResponse: [...prev.multipleChoiceResponse, { questionNumber: (index + 1), choices: [{ choiceNumber: null }] }] })) // 이부분은 null로 넣어버리는거라 문제가 조금 있을 순 있는데 일단 백엔드와 소통 후에 다시 적용해보도록 하자
+            break;
+          }
           const choices = result[index].map((choice, index) => (
             {
               "choiceNumber": choice
@@ -721,19 +725,19 @@ function Dosurvey() {
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 4 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
                 <>
-                  
+
                   <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                     <FormGroup>
-                    <>복수선택</>
+                      <>복수선택</>
                       {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
                         <OptionWrapper onChange={onChangeType4}>
                           <OptionContainer>
                             <FormControlLabel
                               control={
-                                <Checkbox  checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} />
+                                <Checkbox checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} />
                               }
                               label={item}
-                              sx={{width:800, pl:1}}
+                              sx={{ width: 800, pl: 1 }}
                             />
                           </OptionContainer>
                         </OptionWrapper>
