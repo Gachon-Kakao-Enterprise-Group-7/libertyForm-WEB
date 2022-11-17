@@ -251,7 +251,7 @@ function Sendermanagement() {
         setLoading(false)
       }
       )
-      .catch((Error) => { console.log(Error) })
+      .catch((Error) => { setError(Error) })
   }, [])
 
   useEffect(() => {

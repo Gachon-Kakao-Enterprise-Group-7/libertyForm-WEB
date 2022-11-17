@@ -80,7 +80,6 @@ transition: all 300ms;
 
 
 const Dashboard = () => {
-
   const jwt = localStorage.getItem('jwt')
   useEffect(() => {
     axios.get("/survey", {

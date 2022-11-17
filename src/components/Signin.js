@@ -1,10 +1,7 @@
-import React, { useEffect, useState, useNavigate } from 'react';
-import styled from 'styled-components'; // styled components 사용 -> CSS in Js
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import axios from 'axios'; //swagger api 요청
 
 import {
-    KaKaoBtn,
     Backgrounddiv,
     CardWrapper,
     CardHeader,
@@ -12,7 +9,6 @@ import {
     CardBody,
     CardFieldset,
     CardInput,
-    CardOptionsNote,
     CardButton,
     CardLink
 } from "./Card"
@@ -21,9 +17,6 @@ function Signin() {
 
     const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; //비밀번호 정규식
 
-
-    const dispatch = useDispatch()  // useDispatch를 이용해 reducer로 action을 보낸다.
-    const state = useSelector((state) => state) // useSelector를 이용해 state값을 사용 할 수 있게 한다
 
     // useEffect(() => {
     //     console.log(state)
@@ -53,7 +46,7 @@ function Signin() {
 
     const onSummit = () => {
 
-        inputs.email.indexOf('@') >= 0 && inputs.email.length > 0 && inputs.password.length > 0 && regPass.test(password) && inputs.password == inputs.checkPassword //여기 조건이 모두 만족할때, ?뒤에 문장 실행, 하나라도 거짓일 경우 :뒤에 문장 실행
+        inputs.email.indexOf('@') >= 0 && inputs.email.length > 0 && inputs.password.length > 0 && regPass.test(password) && inputs.password === inputs.checkPassword //여기 조건이 모두 만족할때, ?뒤에 문장 실행, 하나라도 거짓일 경우 :뒤에 문장 실행
             ? axios.post("/members", inputs)
 
                 .then(res => {
