@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Groupcontrol from './Groupcontrol';
 import axios from 'axios';
 import styled from 'styled-components';
-import Sidebar from './dashboard/sidebar/Sidebar';
-import { useDispatch, useSelector } from 'react-redux' // react-redux사용
+import { useDispatch } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
 import { ReactComponent as UserAddSvg } from "../img/adduser.svg"
 import { ReactComponent as CloseModal } from "../img/close.svg"
@@ -20,24 +18,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 
-
-const MainWrapper = styled.div`
-  display: flex;
-  max-width: 1600px;
-  margin: 0 auto;
-`
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-width: 250px;
-  background-color: #fafafa;
-  padding: 40px;
-  @media (max-width: 450px) {
-    padding: 10px;
-  }
-
-`
 const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -301,9 +281,6 @@ function Sendermanagement() {
 
   return (
     <>
-      <MainWrapper>
-        <Sidebar />
-        <Wrapper>
           <HeaderContent>
             <div>
               <Text1>환영합니다,</Text1>
@@ -346,9 +323,6 @@ function Sendermanagement() {
               </Table>
             </TableContainer>
           </SectionWrapper>
-        </Wrapper>
-      </MainWrapper>
-
       <Modal isOpen={DeleteModal} style={{ // 설문 삭제에 관한 모달
         overlay: {
           position: 'fixed',

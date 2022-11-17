@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Preview from './Preview';
 
 import { withStyles } from "@material-ui/core/styles";
@@ -7,15 +7,13 @@ import styled from 'styled-components';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import axios from 'axios';
 
-import { ReactComponent as LinkIcon } from '../../img/link.svg'
-
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
-import { ReactComponent as CloseModal } from "../../img/close.svg"
-import { margin } from '@mui/system';
 
+import { ReactComponent as CloseModal } from "../img/close.svg"
+import { ReactComponent as LinkIcon } from '../img/link.svg'
+import defaultImg from '../img/default-thumbnail.jpg'
 
-import defaultImg from '../../img/default-thumbnail.jpg'
 
 
 const ScoreLine = styled.div`
@@ -292,8 +290,6 @@ function Scard(props) {
       })
   }
 
-  const [NavbarOpen, setNavbarOpen] = useState(false)
-
   return (
     <div>
       <TWrapper>
@@ -456,5 +452,5 @@ Scard.defaltProps = {
 }
 
 
-const Tcards = withStyles(styles)(Scard);
-export default Tcards;
+const Taskcard = withStyles(styles)(Scard);
+export default Taskcard;

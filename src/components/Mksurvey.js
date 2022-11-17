@@ -5,7 +5,6 @@ import Modal from "react-modal";
 import { ReactComponent as CloseModal } from "../img/close.svg"
 
 // mui import
-import { Button } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -614,7 +613,7 @@ function Mksurvey() { // Make Survey
                 console.log(res.data.code)
                 switch (res.data.code) {
                     case 1000:
-                        document.location.href = '/dashboard'
+                        document.location.href = '/home/dashboard'
                         break;
                     case 4001: //질문유형이 없을경우
                         break;

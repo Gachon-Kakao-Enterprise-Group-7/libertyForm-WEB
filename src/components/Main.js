@@ -115,7 +115,7 @@ function Main() {
 
     const isLogin = () =>{
         if(localStorage.getItem('email')){
-            document.location.href ='/dashboard'
+            document.location.href ='/home/dashboard'
         }
         else{
             document.location.href='/login'
@@ -151,11 +151,9 @@ function Main() {
 
 
             <Bodydiv >
-                <Link to="/dashboard">
                     <Mainbutton onClick={isLogin}>
                         시작하기
                     </Mainbutton>
-                </Link>
             </Bodydiv>
         </div >
     );
