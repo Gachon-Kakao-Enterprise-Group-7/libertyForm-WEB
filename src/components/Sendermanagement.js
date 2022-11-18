@@ -223,7 +223,7 @@ function Sendermanagement() {
             case 1000:
               console.log('등록완료!')
               alert('등록되었습니다')
-              window.location.href = '/sendermanagement'
+              window.location.href = '/home/sendermanagement'
               setAddUserModal(false)
               break;
             case 2010:
