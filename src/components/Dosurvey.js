@@ -486,7 +486,8 @@ function Dosurvey() {
           break;
         case 4: // 객관식(복수)
           if (result[survey.number - 1] === null) {
-            setPostData((prev) => ({ ...prev, multipleChoiceResponse: [...prev.multipleChoiceResponse, { questionNumber: (index + 1), choices: [{ choiceNumber: null }] }] })) // 이부분은 null로 넣어버리는거라 문제가 조금 있을 순 있는데 일단 백엔드와 소통 후에 다시 적용해보도록 하자
+            // setPostData((prev) => ({ ...prev, multipleChoiceResponse: [...prev.multipleChoiceResponse, { questionNumber: (index + 1), choices: [{ choiceNumber: null }] }] })) 
+            // 객관식 응답이 필수가 아닐때, 아무 응답도 없을경우 어떻게 처리할지 로직 적는 부분인데, break를 바로 실행해서 아무 정보도 저장안한다.
             break;
           }
           const choices = result[index].map((choice, index) => (
