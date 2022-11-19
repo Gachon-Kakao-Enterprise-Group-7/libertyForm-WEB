@@ -485,6 +485,11 @@ function Dosurvey() {
           setPostData((prev) => ({ ...prev, singleChoiceResponse: [...prev.singleChoiceResponse, { questionNumber: (index + 1), choiceNumber: result[index] }] }))
           break;
         case 4: // 객관식(복수)
+          if (result[survey.number - 1] === null) {
+            // setPostData((prev) => ({ ...prev, multipleChoiceResponse: [...prev.multipleChoiceResponse, { questionNumber: (index + 1), choices: [{ choiceNumber: null }] }] })) 
+            // 객관식 응답이 필수가 아닐때, 아무 응답도 없을경우 어떻게 처리할지 로직 적는 부분인데, break를 바로 실행해서 아무 정보도 저장안한다.
+            break;
+          }
           const choices = result[index].map((choice, index) => (
             {
               "choiceNumber": choice
@@ -721,15 +726,22 @@ function Dosurvey() {
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 4 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
                 <>
+
                   <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                     <FormGroup>
+                      <>복수선택</>
                       {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
-                        <FormControlLabel
-                          control={
-                            <Checkbox checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} /> //여기 checked로직 잘 짜보자.... 제발 ㅠㅠㅠ
-                          }
-                          label={item}
-                        />
+                        <OptionWrapper onChange={onChangeType4}>
+                          <OptionContainer>
+                            <FormControlLabel
+                              control={
+                                <Checkbox checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} />
+                              }
+                              label={item}
+                              sx={{ width: 800, pl: 1 }}
+                            />
+                          </OptionContainer>
+                        </OptionWrapper>
                       ))}
 
 

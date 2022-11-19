@@ -7,7 +7,7 @@ import { ReactComponent as UserAddSvg } from "../img/adduser.svg"
 import { ReactComponent as CloseModal } from "../img/close.svg"
 import { ReactComponent as Check } from "../img/checkmark.svg"
 import { ReactComponent as Delete } from "../img/delete.svg"
-
+import { ReactComponent as SearchSvg } from "../img/search.svg"
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -28,15 +28,25 @@ const HeaderContent = styled.div`
   align-items: center;
   height: 38px;
 `
-const Text1 = styled.span`
-  font-size: 1.8rem;
+
+const Title = styled.span`
+  font-size: 30px;
   text-align: left;
   letter-spacing: 0.1px;
   color: #171725;
-  @media (max-width: 450px) {
-    display: none;
-  }
+  font-weight:900;
+  padding-top : 20px;
 `
+const Text1 = styled.span`
+  font-size: 24px;
+  text-align: left;
+  letter-spacing: 0.1px;
+  color: #171725;
+  /* @media (max-width: 450px) {
+    display: none;
+  } */
+`
+
 const Text2 = styled.span`
   font-size: 18px;
   letter-spacing: 0.1px;
@@ -109,12 +119,12 @@ const CloseModalSvg = styled(CloseModal)`
     }
 `
 const AddUserBtn = styled.button`
-border: 0px;
-background: #ffcd00;
+background: white;
 height: 40px;
-color:#fff6da;
+color:#ffcd00;
 font-weight: bold;
-padding: 5px;
+padding: auto;
+border : 1px solid #ffcd00 ;
 border-radius: 5px;
 margin-left: 10px;
 margin-bottom: 5px;
@@ -130,22 +140,27 @@ const WidthBox = styled.div`
   height: 30px;
 `
 
-const Search = styled.input`
-    all: unset;
-    background-color: white;
-    width: 90%;
-    height: 50px;
-    font-size: 25px;
-    margin-bottom: 40px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+const SearchWrapper = styled.div`
+  display: flex;
+  float : right;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 50%;
+  padding: 1.5rem;
+  height: 1rem;
+  border-radius: 10rem;
+`;
 
+const Search = styled.input`
+    color : black;
+    font-size: 20px;
+    width: 100%;
+    border: none;
     ::placeholder {
         font-size: 16px;
     }
 `;
-
 function Sendermanagement() {
 
   const dispatch = useDispatch();
@@ -208,7 +223,7 @@ function Sendermanagement() {
             case 1000:
               console.log('등록완료!')
               alert('등록되었습니다')
-              window.location.href = '/sendermanagement'
+              window.location.href = '/home/sendermanagement'
               setAddUserModal(false)
               break;
             case 2010:
@@ -289,13 +304,16 @@ function Sendermanagement() {
           </HeaderContent>
           <br />
           <SectionWrapper>
-            <div style={{ display: 'inline' }}>
-              <Text1>주소록</Text1>
-              <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg width='30px' fill='#ff7800' />유저 추가</AddUserBtn>
+          <div style={{ display: 'inline' , marginBottom: '40px'}}>
+              <Title>주소록</Title>
+              <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{marginRight : '10px', width:'25px', height:'25px', fill:'#ffcd00' }} />유저 추가</AddUserBtn>
+              <SearchWrapper>
+              <SearchSvg  style={{marginRight : '10px', width:'30px', height:'30px' }}/>
               <Search
-                    placeholder="이름, 팀, 이메일 검색"
+                    placeholder="이름, 관계, 이메일 검색"
                     onChange={handleInputChange}
                 />
+              </SearchWrapper>
             </div>
 
             <TableContainer component={Paper}>

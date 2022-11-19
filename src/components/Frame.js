@@ -11,7 +11,7 @@ import Sendermanagement from './Sendermanagement';
 const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 85%;
   min-width: 250px;
   background-color: #fafafa;
   padding: 40px;
@@ -34,12 +34,12 @@ const Frame = () => {
         <Wrapper>
           <Routes>
             {localStorage.getItem('email') //로그인된 여부에 따라 경로를 다르게 설정함
-            ? <Route path='dashboard' element={< Dashboard/>} />
-            : document.location.href="/login"
+              ? <Route path='dashboard' element={< Dashboard />} />
+              : document.location.href = "/login"
             }
-            <Route path='mksurvey' element={<Mksurvey/>}/>
-            <Route path='surveysend' element={<Surveysend />}/>
-            <Route path='sendermanagement' element={<Sendermanagement/>}/>
+            <Route path='mksurvey' element={<Mksurvey />} />
+            <Route path='surveysend' element={<Surveysend />} />
+            <Route path='sendermanagement' element={<Sendermanagement />} />
           </Routes>
         </Wrapper>
       </MainWrapper>

@@ -519,6 +519,10 @@ function Mksurvey() { // Make Survey
         console.log(state)
     }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
 
+    useEffect(() => {
+        console.log(postData, 'pd')
+    }, [postData])
+
     useDidMountEffect(() => {
         encodeFileToBase64(imgFile[0])
     }, [imgFile])
@@ -819,7 +823,7 @@ function Mksurvey() { // Make Survey
                         {survey[index].type === '6' &&
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
-                                <input data-id={index} value={survey[index].q} style={{ width: '100%'}} onChange={onChange}></input><hr />
+                                <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -877,7 +881,21 @@ function Mksurvey() { // Make Survey
             }}>
 
                 <ModalHeader>
-                    <ModalDelete onClick={closeModal}><CloseModalSvg /></ModalDelete>
+                    <ModalDelete onClick={() => { // 모달창을 닫았을때, closeModal을 통해 모달을 닫아주고, PostData 즉, 백엔드로 보낼 데이터도 다시 초기화 해주는 작업 진행
+                        closeModal(); setPostData({
+                            survey: {
+                                name: "",
+                                description: "",
+                                expirationDate: '',
+                            },
+                            questions: [
+
+                            ],
+                            choiceQuestions: [
+
+                            ]
+                        })
+                    }}><CloseModalSvg /></ModalDelete>
                 </ModalHeader>
                 <ModalTitle><h4>설문등록</h4></ModalTitle>
                 <ModalDescription>설문을 정말로 등록하시겠습니까?</ModalDescription>
