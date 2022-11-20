@@ -143,7 +143,6 @@ const DWrapper = styled.div`
     align-items: center;
     @media (max-width: 620px) {
     display: none;
-    
   }
 `
 const Wrapper = styled.section`

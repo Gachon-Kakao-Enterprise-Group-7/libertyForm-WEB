@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components'
-import Roboto from '../../assets/fonts/Roboto/Roboto-Regular.woff'
-import Poppins from '../../assets/fonts/Poppins/Poppins-Regular.woff'
-import NaverNanumSquare from '../../assets/fonts/NaverNanumSquare/NanumSquareR.otf'
-import RobotoMono from '../../assets/fonts/RobotoMono/RobotoMono-Medium.ttf'
-import Montserrat from '../../assets/fonts/Montserrat/Montserrat-Bold.ttf'
-import SpoqaHanSansNeo from '../../assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Medium.otf'
-import SpoqaHanSansNeo2 from '../../assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Bold.otf'
-import SpoqaHanSansNeo3 from '../../assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Light.otf'
+import Roboto from '.././assets/fonts/Roboto/Roboto-Regular.woff'
+import Poppins from '.././assets/fonts/Poppins/Poppins-Regular.woff'
+import NaverNanumSquare from '.././assets/fonts/NaverNanumSquare/NanumSquareR.otf'
+import RobotoMono from '.././assets/fonts/RobotoMono/RobotoMono-Medium.ttf'
+import Montserrat from '.././assets/fonts/Montserrat/Montserrat-Bold.ttf'
+import SpoqaHanSansNeo from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Medium.otf'
+import SpoqaHanSansNeo2 from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Bold.otf'
+import SpoqaHanSansNeo3 from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Light.otf'
 
 //1. 특수문자 범위: U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E
 //2. 영문 범위: U+0041-005A(대문자), U+0061-007A(소문자)
