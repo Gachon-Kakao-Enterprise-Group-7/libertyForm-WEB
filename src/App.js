@@ -10,7 +10,7 @@ import Dosurvey from './components/Dosurvey';
 import Surveyend from './components/Surveyend';
 import Adminpage from './components/Adminpage';
 
-import { GlobalStyle } from './components/GlobalStyle'
+import { GlobalStyle } from './globalstyle'
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 기능 사용
