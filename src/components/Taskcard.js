@@ -4,44 +4,41 @@ import Preview from './Preview';
 import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
 import styled from 'styled-components';
-import AlarmIcon from '@mui/icons-material/Alarm';
 import axios from 'axios';
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
 
-import { ReactComponent as CloseModal } from "../img/close.svg"
-import { ReactComponent as LinkIcon } from '../img/link.svg'
-import defaultImg from '../img/default-thumbnail.jpg'
+import { ReactComponent as CloseModal } from "img/close.svg"
+import { ReactComponent as LinkIcon } from 'img/link.svg'
+import { ReactComponent as AlamIcon } from 'img/alam.svg'
+import defaultImg from 'img/default-thumbnail.jpg'
 
 
 
 const ScoreLine = styled.div`
-  background-color: #e2e2ea;
   width: ${(props) => props.Dayratio}%;
   height: 3px;
   border-radius: 2.5px;
-
-  div {
-    height: 3px;
-    background-color: #f5c525;
-  }
+  background-color: #f5c525;
 `
-const CustomCardMedia = styled.div`
+const CustomCardMedia = styled(CardMedia)`
 transition: transform 400ms ;
-overflow: hidden;
-
 &:hover{
-
   transform: scale(1.1);
-  overflow: hidden;
 }
 
 `
 const LinkIconSvg = styled(LinkIcon)`
     width:30px;
     height: 25px;
-  
+`
+
+const AlamIconSvg = styled(AlamIcon)`
+    width:22px;
+    height: 22px;
+    padding-bottom : 3px;
+    margin-right : 3px;
 `
 const TypographyTitle = styled.div`
   white-space: nowrap;
@@ -50,20 +47,13 @@ const TypographyTitle = styled.div`
 `
 const TWrapper = styled.div`
   margin: 10px;
-  width: 280px;
+  width: 30vmin;
   color : transparent;
   border-radius: 20px;
-`
-const Icon = styled.div`
-    margin-right : 3px;
-    display: flex;
-    align-items: center;
 `
 const NavDropStyle = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  color :"black";
   .dropdown-button {
     color: #ffcd00;
   }
@@ -71,12 +61,8 @@ const NavDropStyle = styled.div`
 
 const ShowLeftDate = styled.div`
   font-weight: bold;
-  color: var(--soft-blue);
   font-size: 18px;
-  padding: 5px;
-  border-radius: 5px;
-  margin-bottom: 5px; 
-  margin-top: 5px; 
+  padding: 15px 0 10px 0 ;
   display: flex;
   align-items: center;
 `
@@ -295,11 +281,9 @@ function Scard(props) {
     <div>
       <TWrapper>
         <Card className={classes.card}>
-          <CustomCardMedia>
-            <CardMedia
+          <CustomCardMedia 
               className={classes.media}
-              image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
-            />
+              image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}>
           </CustomCardMedia>
           <CardContent className={classes.content}>
             <NavDropStyle>
@@ -312,7 +296,7 @@ function Scard(props) {
                   : <TypographyTitle style={{ fontWeight: 'bold' }}>{props.title}</TypographyTitle>
                 }
               </Typography>
-              <NavDropdown title="" id="collasible-nav-dropdown" bsPrefix="dropdown-button">
+              <NavDropdown id="collasible-nav-dropdown" bsPrefix="dropdown-button">
                 <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
                 <NavDropdown.Divider />
@@ -321,15 +305,12 @@ function Scard(props) {
             </NavDropStyle>
             <Divider light />
             <ShowLeftDate>
-              <Icon>
-                <AlarmIcon fontSize="small" />
-              </Icon>
+              <AlamIconSvg/>
               {RemainDayCount >= 1 && <> {RemainDayCount} Days Left</>}
               {RemainDayCount === 0 && <>Today is deadline</>}
               {RemainDayCount < 0 && <>Expired</>}
             </ShowLeftDate>
-            <ScoreLine Dayratio={Dayratio}>
-              <div /></ScoreLine>
+            {RemainDayCount >= 0 && <><ScoreLine Dayratio={Dayratio}/></>}
           </CardContent>
         </Card>
       </TWrapper>

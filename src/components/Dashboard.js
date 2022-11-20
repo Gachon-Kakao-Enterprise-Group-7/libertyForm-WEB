@@ -29,12 +29,14 @@ const HeaderContent = styled.div`
   height: 38px;
 `
 const TaskWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   border: 1px solid #e2e2ea;
   border-radius: 23px;
   margin: 35px 0 20px 0;
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
+  padding: 15px;
+  padding-left:30px;
 `;
 const Header = styled.div`
   display: flex;
