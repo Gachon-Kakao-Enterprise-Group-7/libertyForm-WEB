@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { REST_API_KEY, REDIRECT_URI } from './OAuth';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 
 import background from "../img/register_background.svg"
 import kakaobtn from "../img/kakao_login_large_wide.png"

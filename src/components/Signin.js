@@ -1,8 +1,10 @@
 import styled from "styled-components"
 import React, { useState } from 'react';
 import { motion } from "framer-motion"
+import Swal from "sweetalert2";
+import axios from 'axios';
 
-import background from "../img/register_background.svg"
+import background from "../img/register_background.svg";
 
 export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
   position: absolute;
