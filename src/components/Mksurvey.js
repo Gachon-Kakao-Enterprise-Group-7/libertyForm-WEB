@@ -21,6 +21,7 @@ import DatePicker from "react-datepicker";//리액트 캘린더 라이브러리
 import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 const DragSvgWrapper = styled(DragSvg)`
@@ -453,7 +454,12 @@ function Mksurvey() { // Make Survey
             setMultiChoiceItem('')
         }
         else {
-            alert('1글자 이상 입력하세요')
+            Swal.fire({
+                title: 'Error!',
+                text: '1글자 이상 입력하세요',
+                icon: 'error',
+                confirmButtonText: '확인'
+            })
         }
 
     }
@@ -467,7 +473,12 @@ function Mksurvey() { // Make Survey
                 setMultiChoiceItem('')
             }
             else {
-                alert('1글자 이상 입력하세요')
+                Swal.fire({
+                    title: 'Error!',
+                    text: '1글자 이상 입력하세요',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                })
             }
         }
     }
@@ -578,17 +589,36 @@ function Mksurvey() { // Make Survey
 
     const requestSubmit = () => {
         if (title.length < 1) { // 설문 제목의 길이가 0일때
-            alert('설문 이름을 입력하세요')
+            Swal.fire({
+                title: 'Error!',
+                text: '설문 이름을 입력하세요',
+                icon: 'error',
+                confirmButtonText: '확인'
+            })
         }
         else if (convertedDate == null) { // 저장된 만료날짜가 없을때
-            alert('마감날짜를 설정하세요')
+            Swal.fire({
+                title: 'Error!',
+                text: '마감날짜를 설정하세요',
+                icon: 'error',
+                confirmButtonText: '확인'
+            })
         }
         else if (survey[0].q.length < 1) { // 첫번째 질문의 길이가 0일때(객관식 제외하고 나머지)
-            alert('최소 1개의 질문은 생성하세요')
-
+            Swal.fire({
+                title: 'Error!',
+                text: '최소 1개의 질문을 생성하세요',
+                icon: 'error',
+                confirmButtonText: '확인'
+            })
         }
         else if (survey[0].type === '3' && survey[0].mcitem.length === 0) { //객관식일때
-            alert('최소 1개의 선택지를 생성하세요');
+            Swal.fire({
+                title: 'Error!',
+                text: '최소 1개의 선택지를 생성하세요',
+                icon: 'error',
+                confirmButtonText: '확인'
+            })
         }
         else {
             openModal()
@@ -664,7 +694,40 @@ function Mksurvey() { // Make Survey
                                     <PreviewText>{description}</PreviewText>
                                     <PreviewText style={{ marginTop: '10px' }}>{`설문 문항은 총 5문항입니다`}</PreviewText>
 
-                                    <PreviewButton onClick={() => { alert('뭘봐') }}>시작하기</PreviewButton>
+                                    <PreviewButton onClick={() => {
+                                        Swal.fire({
+                                            title: 'Submit your Github username',
+                                            input: 'text',
+                                            inputAttributes: {
+                                                autocapitalize: 'off'
+                                            },
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Look up',
+                                            showLoaderOnConfirm: true,
+                                            preConfirm: (login) => {
+                                                return fetch(`//api.github.com/users/${login}`)
+                                                    .then(response => {
+                                                        if (!response.ok) {
+                                                            throw new Error(response.statusText)
+                                                        }
+                                                        return response.json()
+                                                    })
+                                                    .catch(error => {
+                                                        Swal.showValidationMessage(
+                                                            `Request failed: ${error}`
+                                                        )
+                                                    })
+                                            },
+                                            allowOutsideClick: () => !Swal.isLoading()
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                Swal.fire({
+                                                    title: `${result.value.login}'s avatar`,
+                                                    imageUrl: result.value.avatar_url
+                                                })
+                                            }
+                                        })
+                                    }}>시작하기</PreviewButton>
                                 </PreviewCard>
                                 : <PreviewCardDefault>미리보기</PreviewCardDefault>
                             }

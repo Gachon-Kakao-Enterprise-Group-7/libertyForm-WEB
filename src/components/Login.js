@@ -14,7 +14,8 @@ import {
     CardOptionsNote,
     CardButton,
     CardLink
-} from "./Card"
+} from "./Card";
+import Swal from 'sweetalert2';
 
 
 function Login() {
@@ -79,7 +80,12 @@ function Login() {
 
                 switch (res.data.code) {
                     case 2007:
-                        alert('아이디, 비밀번호가 일치하지 않습니다.')
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '아이디, 비밀번호가 일치하지 않습니다',
+                            icon: 'error',
+                            confirmButtonText: '확인'
+                        })
                         break;
                     case 1000:
                         console.log('======================', '로그인 성공', res.data.code)
@@ -103,58 +109,58 @@ function Login() {
 
     return (
         <div style={{ height: "100vh", width: "100%", position: 'absolute', top: '0px', zIndex: '-1' }}>
-        <Backgrounddiv>
-            <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <CardHeader>
-                    <CardHeading>로그인</CardHeading>
-                </CardHeader>
+            <Backgrounddiv>
+                <CardWrapper initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <CardHeader>
+                        <CardHeading>로그인</CardHeading>
+                    </CardHeader>
 
-                <CardBody>
-                    <CardFieldset>
-                        <CardInput
-                            placeholder="E-mail"
-                            type="text"
-                            onChange={onChange}
-                            name="email"
-                            value={email}
-                            required />
-                    </CardFieldset>
+                    <CardBody>
+                        <CardFieldset>
+                            <CardInput
+                                placeholder="E-mail"
+                                type="text"
+                                onChange={onChange}
+                                name="email"
+                                value={email}
+                                required />
+                        </CardFieldset>
 
-                    <CardFieldset>
-                        <CardInput
-                            placeholder="Password"
-                            type="password"
-                            onChange={onChange}
-                            name="password"
-                            value={password}
-                            required />
-                    </CardFieldset>
-
-
-                    <CardFieldset>
-                        <CardButton type="button" onClick={() => { onLogin() }}>로그인</CardButton>
-                    </CardFieldset>
-
-                    <CardFieldset>
-                        <CardOptionsNote>Or sign up with</CardOptionsNote>
-                    </CardFieldset>
-                    <br></br>
+                        <CardFieldset>
+                            <CardInput
+                                placeholder="Password"
+                                type="password"
+                                onChange={onChange}
+                                name="password"
+                                value={password}
+                                required />
+                        </CardFieldset>
 
 
-                    <KaKaoBtn onClick={onKakaoLogin}>
-                    </KaKaoBtn>
+                        <CardFieldset>
+                            <CardButton type="button" onClick={() => { onLogin() }}>로그인</CardButton>
+                        </CardFieldset>
+
+                        <CardFieldset>
+                            <CardOptionsNote>Or sign up with</CardOptionsNote>
+                        </CardFieldset>
+                        <br></br>
 
 
-                    <hr />
-                    <CardFieldset>
-                        <CardLink href="/Signin">계정이 존재하지 않으신가요?</CardLink>
-                    </CardFieldset>
+                        <KaKaoBtn onClick={onKakaoLogin}>
+                        </KaKaoBtn>
+
+
+                        <hr />
+                        <CardFieldset>
+                            <CardLink href="/Signin">계정이 존재하지 않으신가요?</CardLink>
+                        </CardFieldset>
 
 
 
-                </CardBody>
-            </CardWrapper>
-        </Backgrounddiv>
+                    </CardBody>
+                </CardWrapper>
+            </Backgrounddiv>
         </div>
     );
 }

@@ -9,6 +9,7 @@ import axios from 'axios';
 
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
+import Swal from 'sweetalert2';
 
 import { ReactComponent as CloseModal } from "../img/close.svg"
 import { ReactComponent as LinkIcon } from '../img/link.svg'
@@ -234,7 +235,7 @@ function Scard(props) {
     Dayratio = 0
   }
 
-  
+
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [linkModalOpen, setLinkModalOpen] = useState(false)
   const [previewModalOpen, setPreviewModalOpen] = useState(false)
@@ -270,7 +271,12 @@ function Scard(props) {
 
   const copySurveyLink = async () => {
     await navigator.clipboard.writeText(surveylink)
-    alert('링크가 복사되었습니다!')
+    Swal.fire({
+      title: 'Success!',
+      text: '링크가 복사되었습니다!',
+      icon: 'success',
+      confirmButtonText: '확인'
+    })
   }
 
   const jwt = localStorage.getItem('jwt');
@@ -287,7 +293,12 @@ function Scard(props) {
       })
       .catch((Error) => {
         console.log(Error)
-        alert('에러발생')
+        Swal.fire({
+          title: 'Error!',
+          text: '에러 발생',
+          icon: 'error',
+          confirmButtonText: '확인'
+        })
       })
   }
 
