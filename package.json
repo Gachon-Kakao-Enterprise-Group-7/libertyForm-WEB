@@ -25,6 +25,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.1.2",
     "bootstrap": "^5.2.1",
+    "cross-env": "^7.0.3",
     "framer-motion": "^7.6.2",
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^8.5.1",
@@ -49,9 +50,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env REACT_APP_URL=http://libertyform.shop react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "local":"cross-env REACT_APP_URL=http://libertyform.shop react-scripts start"
   },
   "eslintConfig": {
     "extends": [
@@ -75,7 +77,5 @@
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0"
   },
-  "proxy": "https://libertyform.shop",
-  "homepage": "https://gayoung1115.github.io/"
-  
+  "proxy": "https://libertyform.shop"
 }
