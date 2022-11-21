@@ -4,7 +4,7 @@ import Taskcard from './Taskcard';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import { ReactComponent as Bulb } from "../img/bulb.svg";
+import { ReactComponent as Bulb } from "svg/bulb.svg";
 
 
 const Text1 = styled.span`

@@ -10,9 +10,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from "react-modal";
 import Swal from 'sweetalert2';
 
-import { ReactComponent as CloseModal } from "img/close.svg"
-import { ReactComponent as LinkIcon } from 'img/link.svg'
-import { ReactComponent as AlamIcon } from 'img/alam.svg'
+import { ReactComponent as CloseModal } from "svg/close.svg"
+import { ReactComponent as LinkIcon } from 'svg/link.svg'
+import { ReactComponent as AlamIcon } from 'svg/alam.svg'
 import defaultImg from 'img/default-thumbnail.jpg'
 
 
@@ -292,9 +292,9 @@ function Scard(props) {
     <div>
       <TWrapper>
         <Card className={classes.card}>
-          <CustomCardMedia 
-              className={classes.media}
-              image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}>
+          <CustomCardMedia
+            className={classes.media}
+            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}>
           </CustomCardMedia>
           <CardContent className={classes.content}>
             <NavDropStyle>
@@ -316,12 +316,12 @@ function Scard(props) {
             </NavDropStyle>
             <Divider light />
             <ShowLeftDate>
-              <AlamIconSvg/>
+              <AlamIconSvg />
               {RemainDayCount >= 1 && <> {RemainDayCount} Days Left</>}
               {RemainDayCount === 0 && <>Today is deadline</>}
               {RemainDayCount < 0 && <>Expired</>}
             </ShowLeftDate>
-            {RemainDayCount >= 0 && <><ScoreLine Dayratio={Dayratio}/></>}
+            {RemainDayCount >= 0 && <><ScoreLine Dayratio={Dayratio} /></>}
           </CardContent>
         </Card>
       </TWrapper>

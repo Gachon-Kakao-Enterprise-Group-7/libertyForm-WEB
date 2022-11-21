@@ -12,8 +12,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { ReactComponent as Add } from "../img/add.svg"
-import { ReactComponent as Check } from "../img/checkmark.svg"
+import { ReactComponent as Add } from "svg/add.svg"
+import { ReactComponent as Check } from "svg/checkmark.svg"
 
 const Text1 = styled.div`
   display: flex;

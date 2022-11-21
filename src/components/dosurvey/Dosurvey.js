@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
+import useDidMountEffect from '../../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 import styled from 'styled-components';
 import Modal from "react-modal";
 import Swal from "sweetalert2";
@@ -23,12 +23,12 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 
-import { ReactComponent as CloseModal } from ".././img/close.svg"
-import { ReactComponent as EmotionVerybad } from "../img/emotion_verybad.svg";
-import { ReactComponent as EmotionBad } from "../img/emotion_bad.svg";
-import { ReactComponent as EmotionMedium } from "../img/emotion_medium.svg";
-import { ReactComponent as EmotionGood } from "../img/emotion_good.svg";
-import { ReactComponent as EmotionVerygood } from "../img/emotion_verygood.svg";
+import { ReactComponent as CloseModal } from "svg/close.svg"
+import { ReactComponent as EmotionVerybad } from "svg/emotion_verybad.svg";
+import { ReactComponent as EmotionBad } from "svg/emotion_bad.svg";
+import { ReactComponent as EmotionMedium } from "svg/emotion_medium.svg";
+import { ReactComponent as EmotionGood } from "svg/emotion_good.svg";
+import { ReactComponent as EmotionVerygood } from "svg/emotion_verygood.svg";
 
 
 const SurveyFooter = styled.div`

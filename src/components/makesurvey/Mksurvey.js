@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
-import { ReactComponent as CloseModal } from "../img/close.svg"
 
 // mui import
 import Radio from '@mui/material/Radio';
@@ -11,9 +10,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
 
-import { ReactComponent as UploadSvg } from ".././img/upload.svg"
-import { ReactComponent as DragSvg } from ".././img/drag.svg"
-import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
+import { ReactComponent as CloseModal } from "svg/close.svg"
+import { ReactComponent as UploadSvg } from "svg/upload.svg"
+import { ReactComponent as DragSvg } from "svg/drag.svg"
+import useDidMountEffect from 'hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
 import { motion } from "framer-motion" // 애니메이션 효과
 

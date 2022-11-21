@@ -4,7 +4,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
-import { ReactComponent as CloseModal } from "../img/close.svg"
+import { ReactComponent as CloseModal } from "svg/close.svg"
 import Swal from 'sweetalert2';
 
 import Table from '@mui/material/Table';

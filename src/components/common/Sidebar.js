@@ -301,7 +301,7 @@ function Sidebar() {
                     <Text>진행중 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
-                <Checkbox theme='#eb7830' style={{marginBottom: '10px' }}>
+                <Checkbox theme='#eb7830' style={{ marginBottom: '10px' }}>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
                     <Text>만료된 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length}</Text>
@@ -314,7 +314,7 @@ function Sidebar() {
         <ItemWrapper>
           {itemsData.map((item, index) => {
             return (
-              <NavItem key={index}className={({ isActive }) => (isActive ? "active" : "")} to={item.link} onClick="window.location.reload()">
+              <NavItem key={index} className={({ isActive }) => (isActive ? "active" : "")} to={item.link} onClick="window.location.reload()">
                 <Icon>{item.icon}</Icon>
                 <NameLink>{item.name}</NameLink>
               </NavItem>

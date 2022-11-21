@@ -6,9 +6,9 @@ import { REST_API_KEY, REDIRECT_URI } from './OAuth';
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 
-import background from "../img/register_background.svg"
-import kakaobtn from "../img/kakao_login_large_wide.png"
-import kakaobtn2 from "../img/kakao_login_large_narrow.png"
+import background from "svg/register_background.svg"
+import kakaobtn from "img/kakao_login_large_wide.png"
+import kakaobtn2 from "img/kakao_login_large_narrow.png"
 
 export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
   position: absolute;
