@@ -183,8 +183,11 @@ function Signin() {
                 text: '회원가입 성공',
                 icon: 'success',
                 confirmButtonText: '확인'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  document.location.href = '/login'
+                }
               })
-              document.location.href = '/login'
               break;
             default:
               console.log('정의되지 않은 오류입니다....')
