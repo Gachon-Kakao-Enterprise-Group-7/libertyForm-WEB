@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 import Montserrat from '.././assets/fonts/Montserrat/Montserrat-Bold.ttf'
+import RobotoMono from '.././assets/fonts/RobotoMono/RobotoMono-Medium.ttf'
 import SpoqaHanSansNeo from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Medium.otf'
 import SpoqaHanSansNeo2 from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Bold.otf'
 import SpoqaHanSansNeo3 from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Light.otf'
@@ -15,6 +16,11 @@ export const GlobalStyle = createGlobalStyle`
   font-family: 'Montserrat';
   src: url('${Montserrat}') format('truetype');
 
+  }
+
+  @font-face {
+  font-family: 'RobotoMono';
+  src: url('${RobotoMono}') format('truetype');
   }
 
   @font-face {

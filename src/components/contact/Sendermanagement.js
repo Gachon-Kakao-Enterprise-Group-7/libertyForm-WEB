@@ -32,6 +32,7 @@ const HeaderContent = styled.div`
 
 const Title = styled.span`
   font-size: 30px;
+  position: relative;
   text-align: left;
   letter-spacing: 0.1px;
   color: #171725;
@@ -121,14 +122,16 @@ const CloseModalSvg = styled(CloseModal)`
 `
 const AddUserBtn = styled.button`
 background: white;
-height: 40px;
+position: absolute;
+width: 150px;
+height: 45px;
 color:#ffcd00;
 font-weight: bold;
+font-size: 20px;
 padding: auto;
 border : 1px solid #ffcd00 ;
 border-radius: 5px;
 margin-left: 10px;
-margin-bottom: 5px;
 `
 const Label = styled.div`
   width: 50px;
@@ -331,8 +334,10 @@ function Sendermanagement() {
       <br />
       <SectionWrapper>
         <div style={{ display: 'inline', marginBottom: '40px' }}>
-          <Title>주소록</Title>
-          <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
+          <Title>주소록
+            <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '20px', height: '20px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
+          </Title>
+          {/* <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn> */}
           <SearchWrapper>
             <SearchSvg style={{ marginRight: '10px', width: '30px', height: '30px' }} />
             <Search
