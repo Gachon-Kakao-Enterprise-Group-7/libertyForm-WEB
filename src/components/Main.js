@@ -3,7 +3,7 @@ import styled from 'styled-components'; // styled components 사용 -> CSS in Js
 import * as THREE from "three";
 import FOG from "vanta/dist/vanta.fog.min";
 import { motion } from "framer-motion"
-
+import axios from 'axios';
 
 
 
@@ -107,6 +107,26 @@ function Main() {
 
     const [vantaEffect, setVantaEffect] = useState(0);
     const vantaRef = useRef(null);
+
+//axios 테스트하기 위해서 작성한 임시 axios 코드입니다. 
+// 리버티폼 메인페이지에서 콘솔찍어보면 api통신이 되는지 안되는지 바로 볼 수 있습니다!
+useEffect(() => {
+    axios.get("/api/survey", {
+      headers: {
+        Authorization: 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjo0fSwiaWF0IjoxNjY4OTk4MjI5LCJleHAiOjE2NzA3NzYyOTR9.ZVGf5i48rXOpl1hIkraKRcYGDozlTcsKirHVS4MeAww'
+      }
+    })
+      .then((res) => {
+        console.log(res)
+
+      })
+      .catch((Error) => {
+        console.log(Error)
+      })
+  }, [])
+
+//여기까지 axios 테스트 코드
+
 
     const isLogin = () =>{
         if(localStorage.getItem('email')){
