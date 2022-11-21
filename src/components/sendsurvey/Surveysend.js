@@ -20,25 +20,18 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
-const SectionWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
-  border: 1px solid black;
-  max-width: 1000px;
-`
-
 const HeaderContent = styled.div`
   display: flex;
   align-items: center;
   height: 38px;
 `
-const Tilte = styled.span`
+const Title = styled.span`
   font-size: 24px;
   text-align: left;
   letter-spacing: 0.1px;
   color: #171725;
-  font-weight:900;
+  font-weight: bold;
+  margin-bottom : 20px;
 `
 const Text1 = styled.span`
   font-size: 24px;
@@ -155,6 +148,19 @@ const Email = styled.div`
     font-weight: bold;
 }
 `
+
+const SectionWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin: auto;
+    padding: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width : 90%;
+    border-radius: 1rem; 
+	  height:auto;
+    margin-top: 20px;
+`;
 
 
 
@@ -273,38 +279,38 @@ function Surveysend() {
         </div>
       </HeaderContent>
       <br />
-      <SectionWrapper>
-        <Tilte>설문 선택</Tilte>
-        <br />
-        <FormControl>
-          <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
-            <TableContainer sx={{ minWidth: 350, maxWidth: 1000 }} component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell size='small' align='center' style={{ fontWeight: 'bold' }}>선택</TableCell>
-                    <TableCell align='center' style={{ fontWeight: 'bold' }}>설문이름</TableCell>
-                    <TableCell align='center' style={{ fontWeight: 'bold' }}>만료일</TableCell>
-                  </TableRow>
-                </TableHead>
-                {surveys.map((survey, index) => (
-                  <TableBody key={index}>
-                    <TableCell align='center' padding='none' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
-                    <TableCell align='center' padding='none'>{survey.name}</TableCell>
-                    <TableCell align='center' padding='none' >{survey.expirationDate}</TableCell>
-                  </TableBody>
-                ))}
-              </Table>
-            </TableContainer>
-          </RadioGroup>
-        </FormControl>
-      </SectionWrapper>
+        <SectionWrapper>
+        <Title>설문 선택</Title>
+          <FormControl>
+            <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
+              <TableContainer sx={{ minWidth: 350, maxWidth: 1000 }} component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell size='small' align='center' style={{ fontWeight: 'bold' }}>선택</TableCell>
+                      <TableCell align='center' style={{ fontWeight: 'bold' }}>설문이름</TableCell>
+                      <TableCell align='center' style={{ fontWeight: 'bold' }}>만료일</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  {surveys.map((survey, index) => (
+                    <TableBody key={index}>
+                      <TableCell align='center' padding='none' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
+                      <TableCell align='center' padding='none'>{survey.name}</TableCell>
+                      <TableCell align='center' padding='none' >{survey.expirationDate}</TableCell>
+                    </TableBody>
+                  ))}
+                </Table>
+              </TableContainer>
+            </RadioGroup>
+          </FormControl>
+        </SectionWrapper>
+      
       <SectionWrapper>
         <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol>
         {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
       </SectionWrapper>
       <SectionWrapper>
-        <Tilte>사용자 직접 추가</Tilte>
+        <Title>사용자 직접 추가</Title>
         <br />
         <UserSelectDiv>
           <UserAddInput value={userInput} onChange={(e) => { setUserInput(e.target.value) }} />
@@ -312,7 +318,7 @@ function Surveysend() {
         </UserSelectDiv>
       </SectionWrapper>
       <SectionWrapper>
-        <Tilte>발송 리스트 {users.length}명</Tilte>
+        <Title>발송 리스트 {users.length}명</Title>
         {users.map((user, index) => (
           <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
         ))}
