@@ -528,8 +528,11 @@ function Dosurvey() {
               text: '요청에 성공하였습니다',
               icon: 'success',
               confirmButtonText: '확인'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                document.location.href = '/surveyend'
+              }
             })
-            document.location.href = '/surveyend'
             break;
           case 2013:
             Swal.fire({

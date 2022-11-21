@@ -230,9 +230,12 @@ function Sendermanagement() {
                 text: '등록되었습니다',
                 icon: 'success',
                 confirmButtonText: '확인'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '/home/sendermanagement'
+                  setAddUserModal(false)
+                }
               })
-              window.location.href = '/home/sendermanagement'
-              setAddUserModal(false)
               break;
             case 2010:
               console.log('존재하지 않는 유저입니다.')

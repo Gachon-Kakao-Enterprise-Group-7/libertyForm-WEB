@@ -217,8 +217,11 @@ function Surveysend() {
           text: '발송했습니다!',
           icon: 'success',
           confirmButtonText: '확인'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            document.location.href = '/home/dashboard'
+          }
         })
-        document.location.href = '/home/dashboard'
 
       }
       )
