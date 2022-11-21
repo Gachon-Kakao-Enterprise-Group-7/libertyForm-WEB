@@ -1,8 +1,4 @@
 import { createGlobalStyle } from 'styled-components'
-import Roboto from '.././assets/fonts/Roboto/Roboto-Regular.woff'
-import Poppins from '.././assets/fonts/Poppins/Poppins-Regular.woff'
-import NaverNanumSquare from '.././assets/fonts/NaverNanumSquare/NanumSquareR.otf'
-import RobotoMono from '.././assets/fonts/RobotoMono/RobotoMono-Medium.ttf'
 import Montserrat from '.././assets/fonts/Montserrat/Montserrat-Bold.ttf'
 import SpoqaHanSansNeo from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Medium.otf'
 import SpoqaHanSansNeo2 from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSansNeo-Bold.otf'
@@ -16,30 +12,11 @@ import SpoqaHanSansNeo3 from '.././assets/fonts/SpoqaHanSansNeo_all/SpoqaHanSans
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {
-  font-family: 'Poppins';
-  src: url('${Poppins}') format('woff');
-  font-style: normal;
-  /* unicode-range:  U+0020-007E; //영문 특수문자 */
-  }
-  @font-face {
-  font-family: 'Roboto';
-  src: url('${Roboto}') format('woff');
-  font-weight: 600;
-  font-style: normal;
-  }
-  @font-face {
-  font-family: 'RobotoMono';
-  src: url('${RobotoMono}') format('truetype');
-  font-style: normal;
-  unicode-range:  U+0020-007E; 
-  /* unicode-range: U+0030-0039; // 숫자 */
-  }
-
-  @font-face {
   font-family: 'Montserrat';
   src: url('${Montserrat}') format('truetype');
 
   }
+
   @font-face {
   font-family: 'SpoqaHanSansNeo';
   src: url('${SpoqaHanSansNeo}') format('opentype');
@@ -60,12 +37,6 @@ export const GlobalStyle = createGlobalStyle`
   /* unicode-range: U+AC00-D7A3; //한글 */
   }
 
-  @font-face {
-    font-family: 'NaverNanumSquare';
-    src: url('${NaverNanumSquare}') format('opentype');
-    unicode-range: U+AC00-D7A3; //한글
-    
-    }
   body {
     font-family: 'SpoqaHanSansNeo';
 }
