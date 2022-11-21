@@ -7,7 +7,6 @@ import { Flex } from "@semcore/flex-box";
 import { Text } from "@semcore/typography";
 import Checkbox from "@semcore/checkbox";
 
-
 const IconActivity = () => {
   return (
     <svg
@@ -175,6 +174,8 @@ const NavItem = styled(NavLink)`
   
   svg {
     fill: #92929d; 
+    width: 22px;
+    height: 22px;
   }
   &.active{
     color: rgb(235,120,48);  

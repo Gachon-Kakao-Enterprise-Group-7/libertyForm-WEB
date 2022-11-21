@@ -25,6 +25,7 @@ export default function surveyReducer(state = initialstate, action) {
         //     alert('정상적으로 등록되었습니다!')
         //     return [...state, action.data]
         case 'ADDPREVIEWSURVEY':
+            console.log('s테스트가 정상적으로 들어옵니다!')
             return {...state, previewsurvey:action.data}
         default:
             return state

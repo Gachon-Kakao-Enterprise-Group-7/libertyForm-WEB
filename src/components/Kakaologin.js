@@ -4,7 +4,9 @@ import { REDIRECT_URI, REST_API_KEY } from './OAuth';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 // import RotateLoader from "react-spinners/RotateLoader";
-import loadingimage from ".././img/loading.gif"
+import loadingimage from "img/loading.gif"
+
+
 const MainDiv = styled.div`
     width: 50vw;
     height: 100vh;
