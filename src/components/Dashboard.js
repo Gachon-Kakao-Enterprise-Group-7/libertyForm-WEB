@@ -36,7 +36,6 @@ const TaskWrapper = styled.div`
   border-radius: 23px;
   margin: 35px 0 20px 0;
   padding: 15px;
-  padding-left:30px;
 `;
 const Header = styled.div`
   display: flex;
@@ -52,6 +51,7 @@ const TeamsTitle = styled.span`
 const TasksWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  padding-left:30px;
 `;
 const Nosurvey = styled.div`
   border: 1px solid #e2e2ea;

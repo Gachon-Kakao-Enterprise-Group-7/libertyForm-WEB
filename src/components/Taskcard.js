@@ -46,7 +46,7 @@ const TypographyTitle = styled.div`
   text-overflow: ellipsis;
 `
 const TWrapper = styled.div`
-  margin: 10px;
+  margin: 15px;
   width: 30vmin;
   color : transparent;
   border-radius: 20px;
