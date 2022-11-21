@@ -111,7 +111,7 @@ function Main() {
 //axios 테스트하기 위해서 작성한 임시 axios 코드입니다. 
 // 리버티폼 메인페이지에서 콘솔찍어보면 api통신이 되는지 안되는지 바로 볼 수 있습니다!
 useEffect(() => {
-    axios.get("/api/survey", {
+    axios.get("/survey", {
       headers: {
         Authorization: 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjo0fSwiaWF0IjoxNjY4OTk4MjI5LCJleHAiOjE2NzA3NzYyOTR9.ZVGf5i48rXOpl1hIkraKRcYGDozlTcsKirHVS4MeAww'
       }
