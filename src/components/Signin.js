@@ -1,5 +1,7 @@
 import styled from "styled-components"
 import React, { useState } from 'react';
+
+import axios from 'axios'; //swagger api 요청
 import { motion } from "framer-motion"
 import Swal from "sweetalert2";
 import axios from 'axios';
@@ -129,7 +131,6 @@ export const CardLink = styled.a`
 `;
 
 function Signin() {
-
     const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; //비밀번호 정규식
 
 
@@ -159,10 +160,11 @@ function Signin() {
     //     dispatch({type:'CHECKID', data:id})
     // }
 
-    const onSummit = () => {
 
+    const onSummit = () => {
+        console.log(`${process.env.REACT_APP_URL}/members`)
         inputs.email.indexOf('@') >= 0 && inputs.email.length > 0 && inputs.password.length > 0 && regPass.test(password) && inputs.password === inputs.checkPassword //여기 조건이 모두 만족할때, ?뒤에 문장 실행, 하나라도 거짓일 경우 :뒤에 문장 실행
-            ? axios.post("/members", inputs)
+            ? axios.post(`/members`, inputs)
 
                 .then(res => {
                     console.log(res)

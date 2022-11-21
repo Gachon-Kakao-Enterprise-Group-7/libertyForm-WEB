@@ -162,6 +162,8 @@ const Search = styled.input`
         font-size: 16px;
     }
 `;
+
+
 function Sendermanagement() {
 
   const dispatch = useDispatch();
@@ -273,7 +275,7 @@ function Sendermanagement() {
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     setLoading(true)
-    axios.get("/contact", {
+    axios.get("/contact?cursor=1", {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
@@ -283,11 +285,10 @@ function Sendermanagement() {
         setContacts((prev) => res.data.result)
         setUsers((prev) => res.data.result);
         setCopy((prev) => res.data.result);
-        dispatch({ type: 'TEST' })
         setLoading(false)
       }
       )
-      .catch((Error) => { setError(Error) })
+      .catch((Error) => { console.log('에러있네...') })
   }, [])
 
   useEffect(() => {
@@ -306,16 +307,17 @@ function Sendermanagement() {
 
 
   if (loading) {
-    return null
+    return <>로딩안됨 axios문제</>
   }
-  if (error) {
-    return <div>{error}</div>
-  }
-  if (!contacts) {
-    return null
-  }
+  // if (error) {
+  //   return <div>{error}</div>
+  // }
+  // if (!contacts) {
+  //   return <div>contacts가 false임</div>
+  // }
 
   return (
+
     <>
       <HeaderContent>
         <div>
