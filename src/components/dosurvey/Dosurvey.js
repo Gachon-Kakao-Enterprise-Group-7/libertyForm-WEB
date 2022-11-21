@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import useDidMountEffect from '../../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
+import useDidMountEffect from 'hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 import styled from 'styled-components';
 import Modal from "react-modal";
 import Swal from "sweetalert2";
@@ -56,6 +56,24 @@ const SurveyNextButton = styled.button`
 		cursor: pointer;
 		background: #ECEFF1;
 		border-color:rgba(0,0,0,0.25);
+	}
+`
+
+const SurveyFinalButton = styled.button`
+  background-color: #ffcd00;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  height: 50px;
+  border: 1px solid #ffcd00;
+  border-radius: 5rem;
+	padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  font-size:22px;
+  :hover{
+		cursor: pointer;
+    color: #ffcd00;
+		background: white;
 	}
 `
 const BackgroundDiv = styled.div`
@@ -843,7 +861,7 @@ function Dosurvey() {
                 <SurveyFooter>
                   <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 25px' }}>
                     <SurveyNextButton onClick={prevQuestion}>이전문항</SurveyNextButton>
-                    <SurveyNextButton onClick={onSubmit}>제출하기</SurveyNextButton>
+                    <SurveyFinalButton onClick={onSubmit}>제출하기</SurveyFinalButton>
                   </div>
                 </SurveyFooter>
                 :
