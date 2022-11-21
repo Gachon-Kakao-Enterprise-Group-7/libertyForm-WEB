@@ -3,11 +3,11 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
-import { ReactComponent as UserAddSvg } from "../img/adduser.svg"
-import { ReactComponent as CloseModal } from "../img/close.svg"
-import { ReactComponent as Check } from "../img/checkmark.svg"
-import { ReactComponent as Delete } from "../img/delete.svg"
-import { ReactComponent as SearchSvg } from "../img/search.svg"
+import { ReactComponent as UserAddSvg } from "svg/adduser.svg"
+import { ReactComponent as CloseModal } from "svg/close.svg"
+import { ReactComponent as Check } from "svg/checkmark.svg"
+import { ReactComponent as Delete } from "svg/delete.svg"
+import { ReactComponent as SearchSvg } from "svg/search.svg"
 import Swal from 'sweetalert2';
 
 import Table from '@mui/material/Table';

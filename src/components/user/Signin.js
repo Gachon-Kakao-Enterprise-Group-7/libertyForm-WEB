@@ -5,7 +5,7 @@ import axios from 'axios'; //swagger api 요청
 import { motion } from "framer-motion"
 import Swal from "sweetalert2";
 
-import background from "../img/register_background.svg";
+import background from "svg/register_background.svg";
 
 export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
   position: absolute;

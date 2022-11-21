@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import Sidebar from './Sidebar'
 import { Route, Routes } from "react-router-dom";
-import Dashboard from './Dashboard';
-import Mksurvey from './Mksurvey';
-import Surveysend from './Surveysend';
-import Sendermanagement from './Sendermanagement';
 
+import Dashboard from '../dashboard/Dashboard';
+import Mksurvey from '../makesurvey/Mksurvey';
+import Surveysend from '../sendsurvey/Surveysend';
+import Sendermanagement from '../contact/Sendermanagement';
 
 const Wrapper = styled.section`
   display: flex;

@@ -1,17 +1,17 @@
 //컴포넌트 불러오는곳
-import Main from './components/Main';
-import Navs from './components/Navs';
-import Notfound from './components/Notfound';
-import Login from './components/Login';
-import Signin from './components/Signin';
-import Kakaologin from './components/Kakaologin';
-import Frame from './components/Frame';
-import Dosurvey from './components/Dosurvey';
-import Surveyend from './components/Surveyend';
-import Adminpage from './components/Adminpage';
+
+import Main from './components/common/Main';
+import Navs from './components/common/Navs';
+import Notfound from './components/common/Notfound';
+import Login from './components/user/Login';
+import Signin from './components/user/Signin';
+import Kakaologin from './components/user/Kakaologin';
+import Frame from './components/common/Frame';
+import Dosurvey from './components/dosurvey/Dosurvey';
+import Surveyend from './components/dosurvey/Surveyend'
+import Adminpage from './components/common/Adminpage';
 
 import { GlobalStyle } from './globalstyle'
-
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 기능 사용
 import { AnimatePresence } from "framer-motion"; //애니메이션 라이브러리

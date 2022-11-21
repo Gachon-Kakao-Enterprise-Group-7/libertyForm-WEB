@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
-import { ReactComponent as Prohibition } from "../img/prohibition.svg";
+import { ReactComponent as Prohibition } from "svg/prohibition.svg";
 
 const Container = styled.div`
     position: absolute;
@@ -31,27 +31,27 @@ const HomeBtn = styled.button`
 
 function Adminpage() {
 
-    if(localStorage.getItem('email')!=='bwj59@naver.com'){
+    if (localStorage.getItem('email') !== 'bwj59@naver.com') {
         return (
             <Container>
                 <Prohibition width='300px' />
-                <div style={{margin:'20px'}}>접근 권한이 없습니다<br/>관리자에게 문의하세요</div>
+                <div style={{ margin: '20px' }}>접근 권한이 없습니다<br />관리자에게 문의하세요</div>
                 <Link to='/'>
                     <HomeBtn>홈으로 돌아가기</HomeBtn>
                 </Link>
             </Container>
-            
+
         )
 
     }
 
 
-  return (
-    <div>
-        <div>관리자 페이지 입니다.</div>
-        <div>테스트</div>
-    </div>
-  );
+    return (
+        <div>
+            <div>관리자 페이지 입니다.</div>
+            <div>테스트</div>
+        </div>
+    );
 }
 
 export default Adminpage;
