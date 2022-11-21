@@ -8,6 +8,7 @@ import { ReactComponent as CloseModal } from "../img/close.svg"
 import { ReactComponent as Check } from "../img/checkmark.svg"
 import { ReactComponent as Delete } from "../img/delete.svg"
 import { ReactComponent as SearchSvg } from "../img/search.svg"
+import Swal from 'sweetalert2';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -224,7 +225,12 @@ function Sendermanagement() {
           switch (res.data.code) {
             case 1000:
               console.log('등록완료!')
-              alert('등록되었습니다')
+              Swal.fire({
+                title: 'Success!',
+                text: '등록되었습니다',
+                icon: 'success',
+                confirmButtonText: '확인'
+              })
               window.location.href = '/home/sendermanagement'
               setAddUserModal(false)
               break;
@@ -232,10 +238,20 @@ function Sendermanagement() {
               console.log('존재하지 않는 유저입니다.')
               break;
             case 2017:
-              alert('본인은 등록 할 수 없습니다.')
+              Swal.fire({
+                title: 'Error!',
+                text: '본인은 등록 할 수 없습니다',
+                icon: 'error',
+                confirmButtonText: '확인'
+              })
               break;
             case 2018:
-              alert('이미 등록되어 있습니다.')
+              Swal.fire({
+                title: 'Error!',
+                text: '이미 등록되어 있습니다',
+                icon: 'error',
+                confirmButtonText: '확인'
+              })
               break;
             default:
               break;
@@ -247,7 +263,12 @@ function Sendermanagement() {
         .catch((Error) => { console.log(Error) })
     }
     else {
-      alert('이메일 형식이 잘못되었습니다.')
+      Swal.fire({
+        title: 'Error!',
+        text: '이메일 형식이 잘못되었습니다',
+        icon: 'error',
+        confirmButtonText: '확인'
+      })
     }
 
   }
@@ -298,7 +319,6 @@ function Sendermanagement() {
   return (
 
     <>
-      {console.log('test')}
       <HeaderContent>
         <div>
           <Text1>환영합니다,</Text1>
