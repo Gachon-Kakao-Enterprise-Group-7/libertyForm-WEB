@@ -637,7 +637,7 @@ function Mksurvey() { // Make Survey
         formData.append("surveyReqDto", blob)//formData는 특수 개체라 특정한 조작으로만 조작 가능!
         await axios({
             method: "POST",
-            url: `/survey/create`,
+            url: `${process.env.REACT_APP_DB_HOST}/survey/create`,
             headers: {
                 Authorization: 'Bearer ' + jwt,
             },

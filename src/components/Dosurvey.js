@@ -377,7 +377,7 @@ function Dosurvey() {
   useEffect(() => {
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
-    axios.get(`/survey/${params.surveyCode}`, {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/survey/${params.surveyCode}`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
@@ -518,7 +518,7 @@ function Dosurvey() {
   const sendToServer = async () => {
     const jsondata = JSON.stringify(postData)
     console.log(jsondata)
-    await axios.post("/response/create", jsondata, { headers: { 'Content-Type': 'application/json' } })
+    await axios.post(`${process.env.REACT_APP_DB_HOST}/response/create`, jsondata, { headers: { 'Content-Type': 'application/json' } })
       .then(res => {
         console.log(res)
         switch (res.data.code) {
