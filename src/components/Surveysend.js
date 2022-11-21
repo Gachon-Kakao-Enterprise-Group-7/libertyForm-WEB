@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
 import { ReactComponent as CloseModal } from "../img/close.svg"
+import Swal from 'sweetalert2';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -177,7 +178,12 @@ function Surveysend() {
       setUserInput('')
     }
     else {
-      alert('이메일 형식이 잘못되었습니다.')
+      Swal.fire({
+        title: 'Error!',
+        text: '이메일 형식이 잘못되었습니다',
+        icon: 'error',
+        confirmButtonText: '확인'
+      })
     }
   }
 
@@ -206,7 +212,12 @@ function Surveysend() {
       }
     })
       .then(res => {
-        alert('발송 하였습니다!')
+        Swal.fire({
+          title: 'Success!',
+          text: '발송했습니다!',
+          icon: 'success',
+          confirmButtonText: '확인'
+        })
         document.location.href = '/home/dashboard'
 
       }
@@ -216,10 +227,18 @@ function Surveysend() {
 
   const verifyData = () => {
     if (selectSurvey === null) {
-      alert('설문을 선택해주세요')
+      Swal.fire({
+        text: '설문을 선택해주세요',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     }
     else if (users.length < 1) {
-      alert('사용자를 추가해주세요')
+      Swal.fire({
+        text: '사용자를 추가해주세요',
+        icon: 'warning',
+        confirmButtonText: '확인'
+      })
     }
     else {
       setMailSendModal(true);
@@ -243,60 +262,60 @@ function Surveysend() {
 
   return (
     <>
-          <HeaderContent>
-            <div>
-              <Text1>환영합니다,</Text1>
-              <Text2>설문이 이메일로 발송됩니다.</Text2>
-            </div>
-          </HeaderContent>
-          <br />
-          <SectionWrapper>
-            <Tilte>설문 선택</Tilte>
-            <br />
-            <FormControl>
-              <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
-                <TableContainer sx={{ minWidth: 350, maxWidth: 1000 }} component={Paper}>
-                  <Table aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell size='small' align='center' style={{ fontWeight: 'bold' }}>선택</TableCell>
-                        <TableCell align='center' style={{ fontWeight: 'bold' }}>설문이름</TableCell>
-                        <TableCell align='center' style={{ fontWeight: 'bold' }}>만료일</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    {surveys.map((survey, index) => (
-                      <TableBody key={index}>
-                        <TableCell align='center' padding='none' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
-                        <TableCell align='center' padding='none'>{survey.name}</TableCell>
-                        <TableCell align='center' padding='none' >{survey.expirationDate}</TableCell>
-                      </TableBody>
-                    ))}
-                  </Table>
-                </TableContainer>
-              </RadioGroup>
-            </FormControl>
-          </SectionWrapper>
-          <SectionWrapper>
-            <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol>
-            {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
-          </SectionWrapper>
-          <SectionWrapper>
-            <Tilte>사용자 직접 추가</Tilte>
-            <br />
-            <UserSelectDiv>
-              <UserAddInput value={userInput} onChange={(e) => { setUserInput(e.target.value) }} />
-              <UserAddBtn onClick={addUser}>추가</UserAddBtn>
-            </UserSelectDiv>
-          </SectionWrapper>
-          <SectionWrapper>
-            <Tilte>발송 리스트 {users.length}명</Tilte>
-            {users.map((user, index) => (
-              <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
-            ))}
-          </SectionWrapper>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '50px' }}>
-            <Surveybutton onClick={verifyData}>메일 발송하기</Surveybutton>
-          </div>
+      <HeaderContent>
+        <div>
+          <Text1>환영합니다,</Text1>
+          <Text2>설문이 이메일로 발송됩니다.</Text2>
+        </div>
+      </HeaderContent>
+      <br />
+      <SectionWrapper>
+        <Tilte>설문 선택</Tilte>
+        <br />
+        <FormControl>
+          <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
+            <TableContainer sx={{ minWidth: 350, maxWidth: 1000 }} component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell size='small' align='center' style={{ fontWeight: 'bold' }}>선택</TableCell>
+                    <TableCell align='center' style={{ fontWeight: 'bold' }}>설문이름</TableCell>
+                    <TableCell align='center' style={{ fontWeight: 'bold' }}>만료일</TableCell>
+                  </TableRow>
+                </TableHead>
+                {surveys.map((survey, index) => (
+                  <TableBody key={index}>
+                    <TableCell align='center' padding='none' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
+                    <TableCell align='center' padding='none'>{survey.name}</TableCell>
+                    <TableCell align='center' padding='none' >{survey.expirationDate}</TableCell>
+                  </TableBody>
+                ))}
+              </Table>
+            </TableContainer>
+          </RadioGroup>
+        </FormControl>
+      </SectionWrapper>
+      <SectionWrapper>
+        <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol>
+        {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
+      </SectionWrapper>
+      <SectionWrapper>
+        <Tilte>사용자 직접 추가</Tilte>
+        <br />
+        <UserSelectDiv>
+          <UserAddInput value={userInput} onChange={(e) => { setUserInput(e.target.value) }} />
+          <UserAddBtn onClick={addUser}>추가</UserAddBtn>
+        </UserSelectDiv>
+      </SectionWrapper>
+      <SectionWrapper>
+        <Tilte>발송 리스트 {users.length}명</Tilte>
+        {users.map((user, index) => (
+          <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
+        ))}
+      </SectionWrapper>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '50px' }}>
+        <Surveybutton onClick={verifyData}>메일 발송하기</Surveybutton>
+      </div>
       <Modal isOpen={mailSendModal} style={{
         overlay: {
           position: 'fixed',

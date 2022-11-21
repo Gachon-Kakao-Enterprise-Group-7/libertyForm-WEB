@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { REST_API_KEY, REDIRECT_URI } from './OAuth';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 
 import background from "../img/register_background.svg"
 import kakaobtn from "../img/kakao_login_large_wide.png"
@@ -226,7 +227,12 @@ function Login() {
 
                 switch (res.data.code) {
                     case 2007:
-                        alert('아이디, 비밀번호가 일치하지 않습니다.')
+                        Swal.fire({
+                            title: 'Error!',
+                            text: '아이디, 비밀번호가 일치하지 않습니다',
+                            icon: 'error',
+                            confirmButtonText: '확인'
+                        })
                         break;
                     case 1000:
                         console.log('======================', '로그인 성공', res.data.code)
@@ -280,7 +286,7 @@ function Login() {
                         <CardOptionsNote>또는</CardOptionsNote>
                     </CardFieldset>
                     <CardFieldset>
-                        <KaKaoBtn onClick={onKakaoLogin}/>
+                        <KaKaoBtn onClick={onKakaoLogin} />
                     </CardFieldset>
                     <hr />
                     <CardFieldset>

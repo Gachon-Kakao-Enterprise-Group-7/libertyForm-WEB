@@ -1,9 +1,10 @@
 import styled from "styled-components"
 import React, { useState } from 'react';
-import axios from 'axios'; 
 import { motion } from "framer-motion"
+import Swal from "sweetalert2";
+import axios from 'axios';
 
-import background from "../img/register_background.svg"
+import background from "../img/register_background.svg";
 
 export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
   position: absolute;
@@ -168,11 +169,21 @@ function Signin() {
 
                     switch (res.data.code) {
                         case 2005:
-                            alert('중복된 이메일입니다')
+                            Swal.fire({
+                                title: 'Error!',
+                                text: '중복된 이메일입니다',
+                                icon: 'error',
+                                confirmButtonText: '확인'
+                            })
                             break;
                         case 1000:
                             console.log('======================', '회원가입 성공', res.data.code)
-                            alert('회원가입 성공')
+                            Swal.fire({
+                                title: 'Success!',
+                                text: '회원가입 성공',
+                                icon: 'success',
+                                confirmButtonText: '확인'
+                            })
                             document.location.href = '/login'
                             break;
                         default:
@@ -182,7 +193,12 @@ function Signin() {
 
                 })
                 .catch((Error) => { console.log(Error) })
-            : alert('잘못된 정보가 있습니다. 변경해주세요!')
+            : Swal.fire({
+                title: 'Error!',
+                text: '잘못된 정보가 있습니다. 변경해주세요!',
+                icon: 'error',
+                confirmButtonText: '확인'
+            })
 
 
 
@@ -241,7 +257,7 @@ function Signin() {
                             required />
                     </CardFieldset>
 
-                    <CardFieldset style={{ marginTop: '30px'  ,marginBottom: '30px'}}>
+                    <CardFieldset style={{ marginTop: '30px', marginBottom: '30px' }}>
                         <CardButton type="button" onClick={onSummit}>회원가입</CardButton>
                     </CardFieldset>
                     <hr />

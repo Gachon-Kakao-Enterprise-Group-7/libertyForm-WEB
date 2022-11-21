@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import useDidMountEffect from '../hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 import styled from 'styled-components';
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 
 import Slider from '@mui/material/Slider';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -467,7 +468,12 @@ function Dosurvey() {
       setShowSurveyNumber(1)
     }
     else {
-      alert('만료된 설문입니다!')
+      Swal.fire({
+        title: 'Error!',
+        text: '만료된 설문입니다',
+        icon: 'error',
+        confirmButtonText: '확인'
+      })
     }
   }
 
@@ -517,17 +523,37 @@ function Dosurvey() {
         console.log(res)
         switch (res.data.code) {
           case 1000:
-            alert('요청에 성공하였습니다.')
+            Swal.fire({
+              title: 'Success!',
+              text: '요청에 성공하였습니다',
+              icon: 'success',
+              confirmButtonText: '확인'
+            })
             document.location.href = '/surveyend'
             break;
           case 2013:
-            alert('존재하지 않는 설문지입니다.')
+            Swal.fire({
+              title: 'Error!',
+              text: '존재하지 않는 설문지입니다',
+              icon: 'error',
+              confirmButtonText: '확인'
+            })
             break;
           case 2015:
-            alert('존재하지 않는 질문입니다.')
+            Swal.fire({
+              title: 'Error!',
+              text: '존재하지 않는 질문입니다',
+              icon: 'error',
+              confirmButtonText: '확인'
+            })
             break;
           case 2016:
-            alert('존재하지 않는 선택지입니다.')
+            Swal.fire({
+              title: 'Error!',
+              text: '존재하지 않는 선택지입니다',
+              icon: 'error',
+              confirmButtonText: '확인'
+            })
             break;
           default:
             break;
@@ -547,7 +573,11 @@ function Dosurvey() {
 
       }
       else {
-        alert('필수 문항입니다. 답변해주세요!')
+        Swal.fire({
+          text: '필수 문항입니다. 답변해주세요!',
+          icon: 'warning',
+          confirmButtonText: '확인'
+        })
       }
     }
     else {
@@ -573,7 +603,11 @@ function Dosurvey() {
         }
       }
       else {
-        alert('필수 문항입니다. 답변해주세요!')
+        Swal.fire({
+          text: '필수 문항입니다. 답변해주세요!',
+          icon: 'warning',
+          confirmButtonText: '확인'
+        })
       }
     }
     else {

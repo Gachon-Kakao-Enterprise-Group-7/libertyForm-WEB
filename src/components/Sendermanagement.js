@@ -8,6 +8,7 @@ import { ReactComponent as CloseModal } from "../img/close.svg"
 import { ReactComponent as Check } from "../img/checkmark.svg"
 import { ReactComponent as Delete } from "../img/delete.svg"
 import { ReactComponent as SearchSvg } from "../img/search.svg"
+import Swal from 'sweetalert2';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -183,8 +184,8 @@ function Sendermanagement() {
   const [wantToDel, setWantToDel] = useState('')
 
   const handleInputChange = (e) => {
-    setSearch(e.target.value); 
-    };
+    setSearch(e.target.value);
+  };
 
   const changeInputs = (e) => {
     const name = e.target.name
@@ -222,7 +223,12 @@ function Sendermanagement() {
           switch (res.data.code) {
             case 1000:
               console.log('등록완료!')
-              alert('등록되었습니다')
+              Swal.fire({
+                title: 'Success!',
+                text: '등록되었습니다',
+                icon: 'success',
+                confirmButtonText: '확인'
+              })
               window.location.href = '/home/sendermanagement'
               setAddUserModal(false)
               break;
@@ -230,10 +236,20 @@ function Sendermanagement() {
               console.log('존재하지 않는 유저입니다.')
               break;
             case 2017:
-              alert('본인은 등록 할 수 없습니다.')
+              Swal.fire({
+                title: 'Error!',
+                text: '본인은 등록 할 수 없습니다',
+                icon: 'error',
+                confirmButtonText: '확인'
+              })
               break;
             case 2018:
-              alert('이미 등록되어 있습니다.')
+              Swal.fire({
+                title: 'Error!',
+                text: '이미 등록되어 있습니다',
+                icon: 'error',
+                confirmButtonText: '확인'
+              })
               break;
             default:
               break;
@@ -245,7 +261,12 @@ function Sendermanagement() {
         .catch((Error) => { console.log(Error) })
     }
     else {
-      alert('이메일 형식이 잘못되었습니다.')
+      Swal.fire({
+        title: 'Error!',
+        text: '이메일 형식이 잘못되었습니다',
+        icon: 'error',
+        confirmButtonText: '확인'
+      })
     }
 
   }
@@ -271,15 +292,15 @@ function Sendermanagement() {
 
   useEffect(() => {
     setUsers(
-        copy.filter(
-            (e) =>
-                e.name.toLowerCase().includes(search.toLowerCase()) ||
-                e.email.toLowerCase().includes(search.toLowerCase()) ||
-                e.relationship.toLowerCase().includes(search.toLowerCase())
-        )
+      copy.filter(
+        (e) =>
+          e.name.toLowerCase().includes(search.toLowerCase()) ||
+          e.email.toLowerCase().includes(search.toLowerCase()) ||
+          e.relationship.toLowerCase().includes(search.toLowerCase())
+      )
     );
     console.log(users);
-}, [search, copy]);
+  }, [search, copy]);
 
 
 
@@ -296,51 +317,51 @@ function Sendermanagement() {
 
   return (
     <>
-          <HeaderContent>
-            <div>
-              <Text1>환영합니다,</Text1>
-              <Text2>즐겨찾는 이메일 주소를 추가하고 편리하게 발송하세요</Text2>
-            </div>
-          </HeaderContent>
-          <br />
-          <SectionWrapper>
-          <div style={{ display: 'inline' , marginBottom: '40px'}}>
-              <Title>주소록</Title>
-              <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{marginRight : '10px', width:'25px', height:'25px', fill:'#ffcd00' }} />유저 추가</AddUserBtn>
-              <SearchWrapper>
-              <SearchSvg  style={{marginRight : '10px', width:'30px', height:'30px' }}/>
-              <Search
-                    placeholder="이름, 관계, 이메일 검색"
-                    onChange={handleInputChange}
-                />
-              </SearchWrapper>
-            </div>
+      <HeaderContent>
+        <div>
+          <Text1>환영합니다,</Text1>
+          <Text2>즐겨찾는 이메일 주소를 추가하고 편리하게 발송하세요</Text2>
+        </div>
+      </HeaderContent>
+      <br />
+      <SectionWrapper>
+        <div style={{ display: 'inline', marginBottom: '40px' }}>
+          <Title>주소록</Title>
+          <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
+          <SearchWrapper>
+            <SearchSvg style={{ marginRight: '10px', width: '30px', height: '30px' }} />
+            <Search
+              placeholder="이름, 관계, 이메일 검색"
+              onChange={handleInputChange}
+            />
+          </SearchWrapper>
+        </div>
 
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 350, }} aria-label="simple table">
-                <TableHead>
-                  <TableRow style={{ color: 'red' }}>
-                    <TableCell align='center' style={{ fontWeight: 'bold' }}>이름</TableCell>
-                    <TableCell align='center' style={{ fontWeight: 'bold' }}>이메일</TableCell>
-                    <TableCell align='center' style={{ fontWeight: 'bold' }}>관계</TableCell>
-                    <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>회원여부</TableCell>
-                    <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>삭제</TableCell>
-                  </TableRow>
-                </TableHead>
-                {users.map((user, index) => (
-                  <TableBody key={index}>
-                    <TableCell align='center' padding='none'>{user.name}</TableCell>
-                    <TableCell align='center' padding='none'>{user.email}</TableCell>
-                    <TableCell align='center' padding='none'>{user.relationship}</TableCell>
-                    <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' fill='black' /> : <WidthBox></WidthBox>}</TableCell>
-                    <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true);setWantToDel(user.email) }} /></TableCell>
-                    {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
-                  </TableBody>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 350, }} aria-label="simple table">
+            <TableHead>
+              <TableRow style={{ color: 'red' }}>
+                <TableCell align='center' style={{ fontWeight: 'bold' }}>이름</TableCell>
+                <TableCell align='center' style={{ fontWeight: 'bold' }}>이메일</TableCell>
+                <TableCell align='center' style={{ fontWeight: 'bold' }}>관계</TableCell>
+                <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>회원여부</TableCell>
+                <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>삭제</TableCell>
+              </TableRow>
+            </TableHead>
+            {users.map((user, index) => (
+              <TableBody key={index}>
+                <TableCell align='center' padding='none'>{user.name}</TableCell>
+                <TableCell align='center' padding='none'>{user.email}</TableCell>
+                <TableCell align='center' padding='none'>{user.relationship}</TableCell>
+                <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' fill='black' /> : <WidthBox></WidthBox>}</TableCell>
+                <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true); setWantToDel(user.email) }} /></TableCell>
+                {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
+              </TableBody>
 
-                )) }
-              </Table>
-            </TableContainer>
-          </SectionWrapper>
+            ))}
+          </Table>
+        </TableContainer>
+      </SectionWrapper>
       <Modal isOpen={DeleteModal} style={{ // 설문 삭제에 관한 모달
         overlay: {
           position: 'fixed',
