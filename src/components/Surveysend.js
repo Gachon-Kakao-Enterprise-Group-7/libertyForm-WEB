@@ -206,7 +206,7 @@ function Surveysend() {
 
   const sendToServer = async () => {
     const jwt = localStorage.getItem('jwt')
-    await axios.post("/send/email", postData, {
+    await axios.post(`${process.env.REACT_APP_DB_HOST}/send/email`, postData, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
@@ -248,12 +248,13 @@ function Surveysend() {
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     const jwt = localStorage.getItem('jwt')
-    axios.get("/contact", {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact?cursor=1`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
       .then(res => {
+        console.log('유저 정보 업데이트 완료!')
         dispatch({ type: 'SAVECONTACT', data: res.data.result })
       }
       )

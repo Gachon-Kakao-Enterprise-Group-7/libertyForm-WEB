@@ -36,7 +36,7 @@ function Preview(props) {
     useEffect(() => {
         setLoading(true)
         const jwt = localStorage.getItem('jwt')
-        axios.get(`/survey/${code}`, {
+        axios.get(`${process.env.REACT_APP_DB_HOST}/survey/${code}`, {
             headers: {
                 Authorization: 'Bearer ' + jwt
             }
@@ -80,7 +80,7 @@ function Preview(props) {
             <PreviewContent>설문 설명 : {newSurveyDetail.survey.description}</PreviewContent>
             <PreviewContent>설문 생성일 : {newSurveyDetail.survey.createdAt}</PreviewContent>
             <PreviewContent>설문 만료일 : {newSurveyDetail.survey.expirationDate}</PreviewContent>
-            <hr/>
+            <hr />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 350, }} aria-label="simple table">
                     <TableHead>

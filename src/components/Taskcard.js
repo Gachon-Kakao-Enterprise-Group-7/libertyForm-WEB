@@ -268,7 +268,7 @@ function Scard(props) {
   const jwt = localStorage.getItem('jwt');
 
   const deleteSurvey = () => {
-    axios.patch(`/survey/delete/${surveyId}`, {}, {
+    axios.patch(`${process.env.REACT_APP_DB_HOST}/survey/delete/${surveyId}`, {}, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }

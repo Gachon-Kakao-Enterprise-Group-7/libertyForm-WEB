@@ -201,7 +201,7 @@ function Sendermanagement() {
   const jwt = localStorage.getItem('jwt')
   const deleteUser = () => {
     console.log(wantToDel)
-    axios.get(`/contact/delete?email=${wantToDel}`, {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact/delete?email=${wantToDel}`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
@@ -216,7 +216,7 @@ function Sendermanagement() {
   const sendToServer = async () => { // 즐겨찾는 주소 정보 서버에 등록하기
     let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); //이메일 정규식
     if (regex.test(inputs.email)) {
-      await axios.post("/contact/create", inputs, {
+      await axios.post(`${process.env.REACT_APP_DB_HOST}/contact/create`, inputs, {
         headers: {
           Authorization: 'Bearer ' + jwt
         }
@@ -275,7 +275,7 @@ function Sendermanagement() {
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     setLoading(true)
-    axios.get("/contact?cursor=1", {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact?cursor=1`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }

@@ -35,7 +35,7 @@ function Kakaologin() {
     const dispatch = useDispatch()
     const saveSurveyData = () => {
         const jwt = localStorage.getItem('jwt')
-        axios.get("/survey", {
+        axios.get(`${process.env.REACT_APP_DB_HOST}/survey`, {
             headers: {
                 Authorization: 'Bearer ' + jwt
             }
@@ -78,7 +78,7 @@ function Kakaologin() {
         //2
         const jsontoken = { accessToken: localStorage.getItem('token') }
 
-        await axios.post("/login/kakao", jsontoken)
+        await axios.post(`${process.env.REACT_APP_DB_HOST}/login/kakao`, jsontoken)
             .then(res => {
                 console.log('axios성공')
                 localStorage.removeItem('token')

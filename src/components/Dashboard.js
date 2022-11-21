@@ -84,7 +84,7 @@ transition: all 300ms;
 const Dashboard = () => {
   const jwt = localStorage.getItem('jwt')
   useEffect(() => {
-    axios.get("/survey", {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/survey`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
