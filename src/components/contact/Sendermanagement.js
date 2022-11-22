@@ -171,7 +171,12 @@ function Sendermanagement() {
 
   const dispatch = useDispatch();
 
-  const [contacts, setContacts] = useState(false)
+  const [contacts, setContacts] = useState({
+    contacts:[],
+  })
+  const [currentPage, setCurrentPage] = useState(1)
+  const [prevMove, setPrevMove] = useState(true)
+  const [nextMove, setNextMove] = useState(true)
   const [addUserModal, setAddUserModal] = useState(false)
   const [DeleteModal, setDeleteModal] = useState(false)
   const [inputs, setInputs] = useState({
@@ -181,16 +186,11 @@ function Sendermanagement() {
   })
 
   const [users, setUsers] = useState([]);
-  const [copy, setCopy] = useState([]);
-  const [search, setSearch] = useState("");
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [wantToDel, setWantToDel] = useState('')
 
-  const handleInputChange = (e) => {
-    setSearch(e.target.value);
-  };
 
   const changeInputs = (e) => {
     const name = e.target.name
@@ -281,39 +281,35 @@ function Sendermanagement() {
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     setLoading(true)
-    axios.get(`${process.env.REACT_APP_DB_HOST}/contact?cursor=1`, {
+    const jwt = localStorage.getItem('jwt')
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact?currentPage=${currentPage}`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
       .then(res => {
-        console.log(res.data)
-        setContacts((prev) => res.data.result)
-        setUsers((prev) => res.data.result);
-        setCopy((prev) => res.data.result);
+        console.log(res.data.code)
+        if(res.data.code !==4004){
+          setContacts((prev) => res.data.result)
+          setUsers((prev) => res.data.result.contacts);
+          setNextMove(res.data.result.prevMove)
+          setPrevMove(res.data.result.nextMove)    
+        }
         setLoading(false)
       }
       )
-      .catch((Error) => { console.log('에러있네...') })
-  }, [])
-
-  useEffect(() => {
-    setUsers(
-      copy.filter(
-        (e) =>
-          e.name.toLowerCase().includes(search.toLowerCase()) ||
-          e.email.toLowerCase().includes(search.toLowerCase()) ||
-          e.relationship.toLowerCase().includes(search.toLowerCase())
-      )
-    );
-    console.log(users);
-  }, [search, copy]);
+      .catch((Error) => { setError(Error) })
+  }, [currentPage])
 
 
 
 
   if (loading) {
-    return <>로딩안됨 axios문제</>
+    return (
+      <>
+        axios 에러입니다.<br/>
+      </>
+    )
   }
   // if (error) {
   //   return <div>{error}</div>
@@ -325,6 +321,7 @@ function Sendermanagement() {
   return (
 
     <>
+    {console.log(contacts)}
       <HeaderContent>
         <div>
           <Text1>환영합니다,</Text1>
@@ -338,13 +335,7 @@ function Sendermanagement() {
             <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '20px', height: '20px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
           </Title>
           {/* <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn> */}
-          <SearchWrapper>
-            <SearchSvg style={{ marginRight: '10px', width: '30px', height: '30px' }} />
-            <Search
-              placeholder="이름, 관계, 이메일 검색"
-              onChange={handleInputChange}
-            />
-          </SearchWrapper>
+      
         </div>
 
         <TableContainer component={Paper}>
@@ -371,6 +362,13 @@ function Sendermanagement() {
             ))}
           </Table>
         </TableContainer>
+        <div>
+              <button disabled={prevMove} onClick={()=>{setCurrentPage(prev => prev-1)}}>이전</button>
+              {console.log(!contacts.preMove)}
+              <div>{currentPage}페이지</div>
+              <button disabled={nextMove} onClick={()=>{setCurrentPage(prev => prev+1)}}>다음</button>
+              {console.log(!contacts.nextMove)}
+        </div>
       </SectionWrapper>
       <Modal isOpen={DeleteModal} style={{ // 설문 삭제에 관한 모달
         overlay: {
