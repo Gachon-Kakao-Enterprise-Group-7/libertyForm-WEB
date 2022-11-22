@@ -23,6 +23,7 @@ const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 15px;
+  position: relative;
 `
 const HeaderContent = styled.div`
   display: flex;
@@ -166,13 +167,33 @@ const Search = styled.input`
     }
 `;
 
+const PaginationDiv = styled.div`
+  display: flex;
+  position: absolute;
+  top: 650px;
+  width: 100%;
+  justify-content: center;
+`
+
+const PageNumDiv = styled.div`
+  padding: 8px 16px;
+  font-weight: 900;
+`
+
+const PageBtn = styled.button`
+  border: none;
+  border-radius: 10px;
+  padding: 4px 8px;
+  color: black;
+`
+
 
 function Sendermanagement() {
 
   const dispatch = useDispatch();
 
   const [contacts, setContacts] = useState({
-    contacts:[],
+    contacts: [],
   })
   const [currentPage, setCurrentPage] = useState(1)
   const [prevMove, setPrevMove] = useState()
@@ -290,11 +311,11 @@ function Sendermanagement() {
     })
       .then(res => {
         console.log(res.data.code)
-        if(res.data.code !==4004){
+        if (res.data.code !== 4004) {
           setContacts((prev) => res.data.result)
           setUsers((prev) => res.data.result.contacts);
           setNextMove(res.data.result.nextMove)
-          setPrevMove(res.data.result.prevMove)    
+          setPrevMove(res.data.result.prevMove)
         }
         setLoading(false)
       }
@@ -308,7 +329,7 @@ function Sendermanagement() {
   if (loading) {
     return (
       <>
-        axios 에러입니다.<br/>
+        axios 에러입니다.<br />
       </>
     )
   }
@@ -322,7 +343,7 @@ function Sendermanagement() {
   return (
 
     <>
-    {console.log(contacts)}
+      {console.log(contacts)}
       <HeaderContent>
         <div>
           <Text1>환영합니다,</Text1>
@@ -336,7 +357,7 @@ function Sendermanagement() {
             <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '20px', height: '20px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
           </Title>
           {/* <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn> */}
-      
+
         </div>
 
         <TableContainer component={Paper}>
@@ -363,13 +384,13 @@ function Sendermanagement() {
             ))}
           </Table>
         </TableContainer>
-        <div>
-              <button disabled={!prevMove} onClick={()=>{setCurrentPage(prev => prev-1)}}>이전</button>
-              {console.log(prevMove, 'prev값')}
-              <div>{currentPage}페이지</div>
-              <button disabled={!nextMove} onClick={()=>{setCurrentPage(prev => prev+1)}}>다음</button>
-              {console.log(nextMove, 'next값')}
-        </div>
+        <PaginationDiv>
+          <PageBtn disabled={!prevMove} onClick={() => { setCurrentPage(prev => prev - 1) }} style={prevMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>&laquo; 이전</PageBtn>
+          {console.log(prevMove, 'prev값')}
+          <PageNumDiv>{currentPage}</PageNumDiv>
+          <PageBtn disabled={!nextMove} onClick={() => { setCurrentPage(prev => prev + 1) }} style={nextMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>다음 &raquo;</PageBtn>
+          {console.log(nextMove, 'next값')}
+        </PaginationDiv>
       </SectionWrapper>
       <Modal isOpen={DeleteModal} style={{ // 설문 삭제에 관한 모달
         overlay: {
