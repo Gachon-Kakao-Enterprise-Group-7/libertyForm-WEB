@@ -175,8 +175,8 @@ function Sendermanagement() {
     contacts:[],
   })
   const [currentPage, setCurrentPage] = useState(1)
-  const [prevMove, setPrevMove] = useState(true)
-  const [nextMove, setNextMove] = useState(true)
+  const [prevMove, setPrevMove] = useState()
+  const [nextMove, setNextMove] = useState()
   const [addUserModal, setAddUserModal] = useState(false)
   const [DeleteModal, setDeleteModal] = useState(false)
   const [inputs, setInputs] = useState({
@@ -280,9 +280,10 @@ function Sendermanagement() {
   }
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
+    console.log('axios 업데이트입니다!!!!!!!!!!!!!!!!!!!!!!!!11')
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
-    axios.get(`${process.env.REACT_APP_DB_HOST}/contact?currentPage=${currentPage}`, {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact/${currentPage}`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
@@ -292,8 +293,8 @@ function Sendermanagement() {
         if(res.data.code !==4004){
           setContacts((prev) => res.data.result)
           setUsers((prev) => res.data.result.contacts);
-          setNextMove(res.data.result.prevMove)
-          setPrevMove(res.data.result.nextMove)    
+          setNextMove(res.data.result.nextMove)
+          setPrevMove(res.data.result.prevMove)    
         }
         setLoading(false)
       }
@@ -363,11 +364,11 @@ function Sendermanagement() {
           </Table>
         </TableContainer>
         <div>
-              <button disabled={prevMove} onClick={()=>{setCurrentPage(prev => prev-1)}}>이전</button>
-              {console.log(!contacts.preMove)}
+              <button disabled={!prevMove} onClick={()=>{setCurrentPage(prev => prev-1)}}>이전</button>
+              {console.log(prevMove, 'prev값')}
               <div>{currentPage}페이지</div>
-              <button disabled={nextMove} onClick={()=>{setCurrentPage(prev => prev+1)}}>다음</button>
-              {console.log(!contacts.nextMove)}
+              <button disabled={!nextMove} onClick={()=>{setCurrentPage(prev => prev+1)}}>다음</button>
+              {console.log(nextMove, 'next값')}
         </div>
       </SectionWrapper>
       <Modal isOpen={DeleteModal} style={{ // 설문 삭제에 관한 모달
