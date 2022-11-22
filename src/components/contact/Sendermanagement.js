@@ -211,6 +211,13 @@ function Sendermanagement() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [wantToDel, setWantToDel] = useState('')
+  const [search, setSearch] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
+
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+  };
 
 
   const changeInputs = (e) => {
@@ -223,6 +230,7 @@ function Sendermanagement() {
     }))
   }
   const jwt = localStorage.getItem('jwt')
+
   const deleteUser = () => {
     console.log(wantToDel)
     axios.get(`${process.env.REACT_APP_DB_HOST}/contact/delete?email=${wantToDel}`, {
@@ -236,9 +244,8 @@ function Sendermanagement() {
       .catch((Error) => { console.log(Error) })
   }
 
-
   const sendToServer = async () => { // 즐겨찾는 주소 정보 서버에 등록하기
-    let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'); //이메일 정규식
+    let regex = new RegExp('[a-z0-9]+@[a-z]+[a-z]{2,3}'); //이메일 정규식
     if (regex.test(inputs.email)) {
       await axios.post(`${process.env.REACT_APP_DB_HOST}/contact/create`, inputs, {
         headers: {
@@ -300,6 +307,7 @@ function Sendermanagement() {
 
   }
 
+
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     console.log('axios 업데이트입니다!!!!!!!!!!!!!!!!!!!!!!!!11')
     setLoading(true)
@@ -312,6 +320,7 @@ function Sendermanagement() {
       .then(res => {
         console.log(res.data.code)
         if (res.data.code !== 4004) {
+
           setContacts((prev) => res.data.result)
           setUsers((prev) => res.data.result.contacts);
           setNextMove(res.data.result.nextMove)
@@ -322,6 +331,21 @@ function Sendermanagement() {
       )
       .catch((Error) => { setError(Error) })
   }, [currentPage])
+
+  useEffect(() => { // 서버에 등록되어 있는 검색결과 받아오기
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact/find/1?keyword=${search}`, {
+      headers: {
+        Authorization: 'Bearer ' + jwt
+      }
+    })
+      .then((res) => {
+        console.log('서치값 서치리저트에 저장함')
+        setSearchResult((prev) => res.data.result.contacts);
+      })
+      .catch((Error) => { console.log(Error) })
+
+
+  }, [search])
 
 
 
@@ -353,13 +377,16 @@ function Sendermanagement() {
       <br />
       <SectionWrapper>
         <div style={{ display: 'inline', marginBottom: '40px' }}>
-          <Title>주소록
-            <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '20px', height: '20px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
-          </Title>
-          {/* <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn> */}
-
+          <Title>주소록</Title>
+          <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
+          <SearchWrapper>
+            <SearchSvg style={{ marginRight: '10px', width: '30px', height: '30px' }} />
+            <Search
+              placeholder="이름 검색"
+              onChange={handleSearchChange}
+            />
+          </SearchWrapper>
         </div>
-
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 350, }} aria-label="simple table">
             <TableHead>
@@ -371,26 +398,41 @@ function Sendermanagement() {
                 <TableCell align='center' size='small' style={{ fontWeight: 'bold' }}>삭제</TableCell>
               </TableRow>
             </TableHead>
-            {users.map((user, index) => (
-              <TableBody key={index}>
-                <TableCell align='center' padding='none'>{user.name}</TableCell>
-                <TableCell align='center' padding='none'>{user.email}</TableCell>
-                <TableCell align='center' padding='none'>{user.relationship}</TableCell>
-                <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' /> : <WidthBox></WidthBox>}</TableCell>
-                <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true); setWantToDel(user.email) }} /></TableCell>
-                {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
-              </TableBody>
+            {search.length > 0
+              ?
+              searchResult.map((user, index) => (
+                <TableBody key={index}>
+                  <TableCell align='center' padding='none'>{user.name}</TableCell>
+                  <TableCell align='center' padding='none'>{user.email}</TableCell>
+                  <TableCell align='center' padding='none'>{user.relationship}</TableCell>
+                  <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' /> : <WidthBox></WidthBox>}</TableCell>
+                  <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true); setWantToDel(user.email) }} /></TableCell>
+                </TableBody>
+              ))
+              : users.map((user, index) => (
+                <TableBody key={index}>
+                  <TableCell align='center' padding='none'>{user.name}</TableCell>
+                  <TableCell align='center' padding='none'>{user.email}</TableCell>
+                  <TableCell align='center' padding='none'>{user.relationship}</TableCell>
+                  <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' /> : <WidthBox></WidthBox>}</TableCell>
+                  <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true); setWantToDel(user.email) }} /></TableCell>
+                  {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
+                </TableBody>
+              ))}
 
-            ))}
+
+
           </Table>
         </TableContainer>
-        <PaginationDiv>
-          <PageBtn disabled={!prevMove} onClick={() => { setCurrentPage(prev => prev - 1) }} style={prevMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>&laquo; 이전</PageBtn>
-          {console.log(prevMove, 'prev값')}
-          <PageNumDiv>{currentPage}</PageNumDiv>
-          <PageBtn disabled={!nextMove} onClick={() => { setCurrentPage(prev => prev + 1) }} style={nextMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>다음 &raquo;</PageBtn>
-          {console.log(nextMove, 'next값')}
-        </PaginationDiv>
+        {search.length == 0 &&
+          <PaginationDiv>
+            <PageBtn disabled={!prevMove} onClick={() => { setCurrentPage(prev => prev - 1) }} style={prevMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>&laquo; 이전</PageBtn>
+            {console.log(prevMove, 'prev값')}
+            <PageNumDiv>{currentPage}</PageNumDiv>
+            <PageBtn disabled={!nextMove} onClick={() => { setCurrentPage(prev => prev + 1) }} style={nextMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>다음 &raquo;</PageBtn>
+            {console.log(nextMove, 'next값')}
+          </PaginationDiv>
+        }
       </SectionWrapper>
       <Modal isOpen={DeleteModal} style={{ // 설문 삭제에 관한 모달
         overlay: {

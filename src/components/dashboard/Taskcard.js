@@ -49,7 +49,7 @@ const TypographyTitle = styled.div`
   text-overflow: ellipsis;
 `
 const TWrapper = styled.div`
-  margin: 15px;
+  margin: 10px;
   width: 30vmin;
   color : transparent;
   border-radius: 20px;
@@ -267,13 +267,15 @@ function Scard(props) {
     })
   }
 
+ 
+
   const jwt = localStorage.getItem('jwt');
 
   const deleteSurvey = () => {
-    axios.patch(`${process.env.REACT_APP_DB_HOST}/survey/delete/${surveyId}`, {}, {
+    axios.patch(`${process.env.REACT_APP_DB_HOST}/survey/delete/${surveyId}`, {
       headers: {
         Authorization: 'Bearer ' + jwt
-      }
+      },data:{}
     })
       .then((res) => {
         console.log(res)

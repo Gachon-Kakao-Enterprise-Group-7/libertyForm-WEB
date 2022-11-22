@@ -56,7 +56,7 @@ const TasksWrapper = styled.div`
 const Nosurvey = styled.div`
   border: 1px solid #e2e2ea;
   border-radius: 23px;
-  margin: 35px 0 20px 0;
+  margin: 30px 0 20px 0;
   padding: 100px;
 `
 const MksurveyBtn = styled.button`
