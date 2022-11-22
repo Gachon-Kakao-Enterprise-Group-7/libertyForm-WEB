@@ -283,7 +283,7 @@ function Sendermanagement() {
     console.log('axios 업데이트입니다!!!!!!!!!!!!!!!!!!!!!!!!11')
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
-    axios.get(`${process.env.REACT_APP_DB_HOST}/contact/${currentPage}`, {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact/load/${currentPage}`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }

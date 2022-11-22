@@ -55,7 +55,7 @@ function Groupcontrol(props) {
   const state = useSelector((state) => (state.contact.contacts))
   console.log(state)
   const [groupValue, setGroupValue] = useState(null);
-  let options = [...new Set(state.map((contact) => (contact.relationship)))] // 사용자의 연락처에서 릴레이션쉽으로 옵션 배열을 만들어 준다
+  let options = [...new Set(state && state.map((contact) => (contact.relationship)))] // 사용자의 연락처에서 릴레이션쉽으로 옵션 배열을 만들어 준다
 
 
   const addAlluser = (e) => {
