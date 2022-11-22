@@ -170,6 +170,7 @@ function Surveysend() {
 
   const surveys = useSelector((state) => state.survey.previewsurvey)
 
+  const [loading, setLoading] = useState(false)
   const [selectSurvey, setSelectSurvey] = useState(null) // 선택한 설문에 대한 정보를 가진 state
   const [userInput, setUserInput] = useState('') // input에 입력한 정보를 가지고 있는 state
   const [users, setUsers] = useState([]) // 설문을 발송하고자 하는 유저 정보를 가진 배열 state
@@ -256,19 +257,29 @@ function Surveysend() {
   }
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
+    setLoading(true)
     const jwt = localStorage.getItem('jwt')
-    axios.get(`${process.env.REACT_APP_DB_HOST}/contact?cursor=1`, {
+    axios.get(`${process.env.REACT_APP_DB_HOST}/contact`, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
       .then(res => {
         console.log('유저 정보 업데이트 완료!')
+        console.log(res.data.result)
         dispatch({ type: 'SAVECONTACT', data: res.data.result })
+        setLoading(false)
       }
       )
       .catch((Error) => { console.log(Error) })
   }, [])
+
+  if(loading){
+    return(
+      <>로딩중</>
+    )
+  }
+
 
   return (
     <>
@@ -281,6 +292,8 @@ function Surveysend() {
       <br />
         <SectionWrapper>
         <Title>설문 선택</Title>
+        
+        {surveys.length!==0 ?
           <FormControl>
             <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
               <TableContainer sx={{ minWidth: 350, maxWidth: 1000 }} component={Paper}>
@@ -292,6 +305,7 @@ function Surveysend() {
                       <TableCell align='center' style={{ fontWeight: 'bold' }}>만료일</TableCell>
                     </TableRow>
                   </TableHead>
+
                   {surveys.map((survey, index) => (
                     <TableBody key={index}>
                       <TableCell align='center' padding='none' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
@@ -303,6 +317,9 @@ function Surveysend() {
               </TableContainer>
             </RadioGroup>
           </FormControl>
+          :
+          <div>생성된 설문이 없습니다.</div>
+          }
         </SectionWrapper>
       
       <SectionWrapper>
