@@ -274,8 +274,8 @@ function Surveysend() {
       .catch((Error) => { console.log(Error) })
   }, [])
 
-  if(loading){
-    return(
+  if (loading) {
+    return (
       <>로딩중</>
     )
   }
@@ -290,10 +290,9 @@ function Surveysend() {
         </div>
       </HeaderContent>
       <br />
-        <SectionWrapper>
+      <SectionWrapper>
         <Title>설문 선택</Title>
-        
-        {surveys.length!==0 ?
+        {surveys.length !== 0 ?
           <FormControl>
             <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
               <TableContainer sx={{ minWidth: 350, maxWidth: 1000 }} component={Paper}>
@@ -305,11 +304,16 @@ function Surveysend() {
                       <TableCell align='center' style={{ fontWeight: 'bold' }}>만료일</TableCell>
                     </TableRow>
                   </TableHead>
-
-                  {surveys.map((survey, index) => (
+                  {surveys.sort((a, b) => new Date(b.expirationDate) - new Date(a.expirationDate)).map((survey, index) => (
                     <TableBody key={index}>
-                      <TableCell align='center' padding='none' ><FormControlLabel onClick={(e) => { setSelectSurvey(e.target.value) }} value={survey.surveyId} control={<Radio />} /></TableCell>
-                      <TableCell align='center' padding='none'>{survey.name}</TableCell>
+                      <TableCell align='center' padding='none' >
+                        <FormControlLabel
+                          disabled={new Date(survey.expirationDate) - new Date() + 54000000 < 0}
+                          onClick={(e) => { setSelectSurvey(e.target.value) }}
+                          value={survey.surveyId}
+                          control={<Radio />} />
+                      </TableCell>
+                      <TableCell style={{ textDecoration: new Date(survey.expirationDate) - new Date() + 54000000 < 0 ? 'line-through' : 'none' }} align='center' padding='none'>{survey.name}</TableCell>
                       <TableCell align='center' padding='none' >{survey.expirationDate}</TableCell>
                     </TableBody>
                   ))}
@@ -318,10 +322,10 @@ function Surveysend() {
             </RadioGroup>
           </FormControl>
           :
-          <div>생성된 설문이 없습니다.</div>
-          }
-        </SectionWrapper>
-      
+          <div>발송할 수 있는 설문이 없습니다.</div>
+        }
+      </SectionWrapper>
+
       <SectionWrapper>
         <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol>
         {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
