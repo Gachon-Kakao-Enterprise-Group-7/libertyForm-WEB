@@ -361,7 +361,7 @@ function Sendermanagement() {
         <SearchWrapper>
           <SearchSvg style={{ marginRight: '10px', width: '30px', height: '30px' }} />
           <Search
-            placeholder="이름, 관계, 이메일 검색"
+            placeholder="이름 검색"
             onChange={handleSearchChange}
           />
       </SearchWrapper>
@@ -385,7 +385,7 @@ function Sendermanagement() {
               <TableCell align='center' padding='none'>{user.email}</TableCell>
               <TableCell align='center' padding='none'>{user.relationship}</TableCell>
               <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' /> : <WidthBox></WidthBox>}</TableCell>
-              <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true); setWantToDel(user.email) }} />서치</TableCell>
+              <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true); setWantToDel(user.email) }} /></TableCell>
               </TableBody>
             ))
             :users.map((user, index) => (
