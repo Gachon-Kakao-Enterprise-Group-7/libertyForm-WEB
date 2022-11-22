@@ -52,17 +52,19 @@ const Title = styled.span`
 
 function Groupcontrol(props) {
 
-  const state = useSelector((state) => (state.contact))
-
-
+  const state = useSelector((state) => (state.contact.contacts))
+  console.log(state)
   const [groupValue, setGroupValue] = useState(null);
-
   let options = [...new Set(state.map((contact) => (contact.relationship)))] // 사용자의 연락처에서 릴레이션쉽으로 옵션 배열을 만들어 준다
 
 
   const addAlluser = (e) => {
     const temp = state.filter((contact) => (contact.relationship === groupValue)).map((contact) => (contact.email))
     props.setUsers((prev) => ([...new Set([...prev, ...temp])]))
+  }
+
+  if(props.users === null){
+    return(<div>user값이 존재하지 않는 오류</div>)
   }
 
   return (
