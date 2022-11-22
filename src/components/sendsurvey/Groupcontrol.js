@@ -41,7 +41,14 @@ const StyledAdd = styled(Add)`
     border-radius: 10px;
   }
 `
-
+const Title = styled.span`
+  font-size: 24px;
+  text-align: left;
+  letter-spacing: 0.1px;
+  color: #171725;
+  font-weight: bold;
+  margin-bottom : 20px;
+`
 
 function Groupcontrol(props) {
 
@@ -60,7 +67,7 @@ function Groupcontrol(props) {
 
   return (
     <div>
-      <Text1><div>그룹에서 선택</div><div>{groupValue !== null && <AddBtn onClick={addAlluser}>전체 추가하기</AddBtn>}</div></Text1>
+      <Title><div>그룹에서 선택</div><div>{groupValue !== null && <AddBtn onClick={addAlluser}>전체 추가하기</AddBtn>}</div></Title>
       <Autocomplete // 그룹 선택하는 콤보 박스
         value={groupValue}
         onChange={(event, newGroupValue) => {

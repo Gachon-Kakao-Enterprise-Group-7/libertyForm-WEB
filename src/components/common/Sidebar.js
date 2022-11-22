@@ -204,7 +204,7 @@ function Sidebar() {
 
   const itemsData = [
     {
-      name: 'Dashboard',
+      name: '대시보드',
       icon: IconDashboard(),
       link: '/home/dashboard'
     },
@@ -224,15 +224,15 @@ function Sidebar() {
       link: '/home/surveysend'
     },
     {
+      name: '발송자 관리',
+      icon: IconSettings(),
+      link: '/home/sendermanagement'
+    },
+    {
       name: 'Activity',
       icon: IconActivity(),
       link: '/default'
     },
-    {
-      name: '발송자 관리',
-      icon: IconSettings(),
-      link: '/home/sendermanagement'
-    }
   ]
 
   const state = useSelector(state => state.survey.previewsurvey)

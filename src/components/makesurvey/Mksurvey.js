@@ -37,6 +37,7 @@ const UploadSvgWrapper = styled(UploadSvg)`
     width:30px;
     height:30px;
     padding-bottom:5px;
+    fill: #ffbc00;
 `
 const MainWrapper = styled(motion.div)`
 
@@ -130,7 +131,6 @@ const BlockDiv = styled.div`
     padding: 1rem;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-top : 20px solid #fff9df;
-    /* background-color: #fff9df; */
     width : 80%;
     border-radius: 1rem;
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
@@ -248,19 +248,19 @@ const TextInput = styled.input`
 
 const ImageInput = styled.div`
   label {
-    padding-top: 10px ;
+    padding-top: 7px ;
     display: inline-flex;
     justify-content: space-evenly;
     font-size: inherit;
     line-height: normal;
     vertical-align: middle;
     cursor: pointer;
-    background: #ECEFF1;
-	border: 1px solid rgba(0,0,0,0.25);
+    background: white;
+	border: 1px solid #ffbc00;
     font-weight: bold;
     width: 15vh;
     height: 5vh;
-    color: black;
+    color: #ffbc00;
     cursor: pointer;
     border-radius: 5px;
   }

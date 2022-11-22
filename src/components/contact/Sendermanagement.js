@@ -363,7 +363,7 @@ function Sendermanagement() {
                 <TableCell align='center' padding='none'>{user.name}</TableCell>
                 <TableCell align='center' padding='none'>{user.email}</TableCell>
                 <TableCell align='center' padding='none'>{user.relationship}</TableCell>
-                <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' fill='black' /> : <WidthBox></WidthBox>}</TableCell>
+                <TableCell align='center' padding='none'>{user.member ? <Check width='20px' height='30px' /> : <WidthBox></WidthBox>}</TableCell>
                 <TableCell align='center' padding='none' ><Delete width='20px' cursor='pointer' onClick={() => { setDeleteModal(true); setWantToDel(user.email) }} /></TableCell>
                 {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
               </TableBody>

@@ -130,8 +130,8 @@ export const CardLink = styled.a`
 `;
 
 function Signin() {
-  const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; //비밀번호 정규식
-
+  const regPass = new RegExp('(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}'); //비밀번호 정규식
+  const regex = new RegExp('[a-z0-9]+@[a-z]+[a-z]{2,3}');
 
   // useEffect(() => {
   //     console.log(state)
@@ -155,13 +155,10 @@ function Signin() {
     })
   }
 
-  // const onBlur =()=>{
-  //     dispatch({type:'CHECKID', data:id})
-  // }
-
 
   const onSummit = () => {
-    inputs.email.indexOf('@') >= 0 && inputs.email.length > 0 && inputs.password.length > 0 && regPass.test(password) && inputs.password === inputs.checkPassword //여기 조건이 모두 만족할때, ?뒤에 문장 실행, 하나라도 거짓일 경우 :뒤에 문장 실행
+    inputs.email.length > 0 && inputs.password.length > 0 && regex.test(email) && regPass.test(password) && inputs.password === inputs.checkPassword 
+    //여기 조건이 모두 만족할때, ?뒤에 문장 실행, 하나라도 거짓일 경우 :뒤에 문장 실행
       ? axios.post(`${process.env.REACT_APP_DB_HOST}/members`, inputs)
 
         .then(res => {
@@ -223,7 +220,7 @@ function Signin() {
               value={email}
               required />
 
-            {inputs.email.indexOf('@') < 0 && inputs.email.length > 0 && <span style={{ color: 'red' }}>이메일 형식이 맞지 않습니다.<br /></span>}
+            {!regex.test(email) && inputs.email.length > 0 && <span style={{ color: 'red' }}>이메일 형식이 맞지 않습니다.<br /></span>}
             {/* 이메일 형식 안맞으면 오류메세지 코드 작성 부분 */}
           </CardFieldset>
           <CardFieldset>

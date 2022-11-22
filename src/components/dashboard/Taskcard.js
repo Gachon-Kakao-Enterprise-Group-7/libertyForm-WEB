@@ -17,6 +17,8 @@ import defaultImg from 'img/default-thumbnail.jpg'
 
 
 
+
+
 const ScoreLine = styled.div`
   width: ${(props) => props.Dayratio}%;
   height: 3px;
@@ -303,8 +305,8 @@ function Scard(props) {
                 variant={"h6"}
                 gutterBottom>
                 {DayCount < 0
-                  ? <TypographyTitle style={{ fontWeight: 'bold', textDecoration: 'line-through' }}>{props.title}</TypographyTitle>
-                  : <TypographyTitle style={{ fontWeight: 'bold' }}>{props.title}</TypographyTitle>
+                  ? <TypographyTitle style={{ fontWeight: '400', textDecoration: 'line-through' }}>{props.title}</TypographyTitle>
+                  : <TypographyTitle style={{ fontWeight: '400' }}>{props.title}</TypographyTitle>
                 }
               </Typography>
               <NavDropdown id="collasible-nav-dropdown" bsPrefix="dropdown-button">
@@ -432,7 +434,7 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closePreviewModal}>X</ModalDelete>
+          <ModalDelete onClick={closePreviewModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
         <Preview code={code} />
       </Modal>
