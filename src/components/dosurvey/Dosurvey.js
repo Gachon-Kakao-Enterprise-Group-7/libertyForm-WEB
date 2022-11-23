@@ -102,6 +102,10 @@ const BackgroundDiv = styled.div`
   }
 `
 const StartCard = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
     background-color: rgba(255, 255, 255, 0.9);
     color:black;
     width: 100vh;
@@ -129,7 +133,6 @@ const SurveyCard = styled.div`
 const QuestionTitle = styled.div`
   font-size: 3rem;
   font-weight: bold;
-	padding: 1.5rem;
 `
 const LinerBtn = styled.button`
   color: ${props => props.checked ? 'white' : 'black'};
@@ -213,9 +216,10 @@ const EmotionText = styled.div`
 `
 
 const StartSurveyBtn = styled.button`
-  margin: 20px auto;
+  position: absolute;
+  margin: 50px auto;  
+  bottom: 0px;
   display: block;
-  border: 0px;
   width: 200px;
   height: 50px;
   background: rgba(255, 255, 255, 0.5);
@@ -731,15 +735,16 @@ function Dosurvey() {
       {showSurveyNumber === 0 //설문 시작화면 보여주기
         &&
         <StartCard>
-          <QuestionTitle><span style={{ fontWeight: 'bold' }}>{sortedSurveyDetail.survey.name}</span>에 관한 설문입니다.</QuestionTitle>
-          <QuestionTitle>설문 문항은 총 <span style={{ fontWeight: 'bold' }}>{sortedSurveyDetail.questions.length}문항</span> 입니다. </QuestionTitle>
+          <QuestionTitle style={{ marginTop: '30px' }}>{sortedSurveyDetail.survey.name}에 관한 설문입니다.</QuestionTitle>
+          <QuestionTitle>{sortedSurveyDetail.survey.description}</QuestionTitle>
+          <QuestionTitle style={{ marginTop: '30px' }}>설문 문항은 총 {sortedSurveyDetail.questions.length}문항 입니다. </QuestionTitle>
           <StartSurveyBtn onClick={startSurvey}>설문시작</StartSurveyBtn>
-          <hr />
+          {/* <hr />
           <div>개발자 참고 공간 ↓</div>
           <div>설문번호 : {params.surveyId}</div>
           <button onClick={mkNewSurveyDetail}>객관식문제 choiceQuestions에서 questions로 파싱하기</button>
 
-          <div>디자인작업 진행 10%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div>
+          <div>디자인작업 진행 10%, 로직 진행도 40%, 위에 NAV안나오게 해야함</div> */}
           {/* {console.log(surveyDetail)} */}
           {/* {console.log(newSurveyDetail)} */}
           {console.log(sortedSurveyDetail)}
