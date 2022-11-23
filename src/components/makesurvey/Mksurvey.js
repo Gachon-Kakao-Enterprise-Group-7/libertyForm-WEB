@@ -692,7 +692,7 @@ function Mksurvey() { // Make Survey
                                 <PreviewCard>
                                     <PreviewText style={{ marginTop: '10px' }}>{title.length > 0 && `${title}에 관한 설문입니다.`}</PreviewText>
                                     <PreviewText>{description}</PreviewText>
-                                    <PreviewText style={{ marginTop: '10px' }}>{`설문 문항은 총 5문항입니다`}</PreviewText>
+                                    <PreviewText style={{ marginTop: '10px' }}>설문 문항은 총 {survey.length}문항입니다</PreviewText>
 
                                     <PreviewButton onClick={() => {
                                         Swal.fire({

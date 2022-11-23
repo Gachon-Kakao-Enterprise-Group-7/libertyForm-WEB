@@ -267,19 +267,33 @@ function Scard(props) {
     })
   }
 
- 
 
-  const jwt = localStorage.getItem('jwt');
+
+
 
   const deleteSurvey = () => {
-    axios.patch(`${process.env.REACT_APP_DB_HOST}/survey/delete/${surveyId}`, {
+    const jwt = localStorage.getItem('jwt');
+    axios.patch(`${process.env.REACT_APP_DB_HOST}/survey/delete/${surveyId}`, {}, {
       headers: {
         Authorization: 'Bearer ' + jwt
-      },data:{}
+      }, data: {}
     })
       .then((res) => {
-        console.log(res)
-        return window.location.reload();
+        switch (res.data.code) {
+          case 1000:
+            Swal.fire({
+              title: 'Success!',
+              text: '설문 삭제 성공',
+              icon: 'success',
+              confirmButtonText: '확인'
+            }).then((result) => {
+              window.location.reload()
+            })
+            break;
+          default:
+            alert('정의되지 않는 코드입니다.')
+            break;
+        }
       })
       .catch((Error) => {
         console.log(Error)

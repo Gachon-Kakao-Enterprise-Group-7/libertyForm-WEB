@@ -15,19 +15,6 @@ import Paper from '@mui/material/Paper';
 import { ReactComponent as Add } from "svg/add.svg"
 import { ReactComponent as Check } from "svg/checkmark.svg"
 
-const Text1 = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-  text-align: left;
-  letter-spacing: 0.1px;
-  color: #171725;
-  margin-bottom: 10px;
-  @media (max-width: 450px) {
-    display: none;
-
-  }
-`
 const AddBtn = styled.button`
     border: 0px;
     color:white;

@@ -232,14 +232,30 @@ function Sendermanagement() {
   const jwt = localStorage.getItem('jwt')
 
   const deleteUser = () => {
-    console.log(wantToDel)
-    axios.get(`${process.env.REACT_APP_DB_HOST}/contact/delete?email=${wantToDel}`, {
+    console.log(`/contact/delete?email=${wantToDel}`)
+    axios.patch(`${process.env.REACT_APP_DB_HOST}/contact/delete?email=${wantToDel}`, {}, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
       .then((res) => {
-        console.log(res.data.code)
+        switch (res.data.code) {
+          case 2500:
+            console.log('삭제 되었습니다.')
+            Swal.fire({
+              title: 'Success!',
+              text: '삭제되었습니다.',
+              icon: 'success',
+              confirmButtonText: '확인'
+            }).then((result) => {
+              window.location.reload()
+            })
+            break;
+          default:
+            console.log('정의되지 않은 오류입니다.')
+            break;
+
+        }
       })
       .catch((Error) => { console.log(Error) })
   }
@@ -318,7 +334,6 @@ function Sendermanagement() {
       }
     })
       .then(res => {
-        console.log(res.data.code)
         if (res.data.code !== 4004) {
 
           setContacts((prev) => res.data.result)
@@ -339,7 +354,6 @@ function Sendermanagement() {
       }
     })
       .then((res) => {
-        console.log('서치값 서치리저트에 저장함')
         setSearchResult((prev) => res.data.result.contacts);
       })
       .catch((Error) => { console.log(Error) })
@@ -367,7 +381,6 @@ function Sendermanagement() {
   return (
 
     <>
-      {console.log(contacts)}
       <HeaderContent>
         <div>
           <Text1>환영합니다,</Text1>
@@ -419,18 +432,13 @@ function Sendermanagement() {
                   {/* 주소록에 글자 패딩 사이즈 조절하고 싶으면 바로 위에 Check에 height 변경하고, WidthBox의 크기 똑같이 조절해주면 됨 */}
                 </TableBody>
               ))}
-
-
-
           </Table>
         </TableContainer>
-        {search.length == 0 &&
+        {search.length === 0 &&
           <PaginationDiv>
             <PageBtn disabled={!prevMove} onClick={() => { setCurrentPage(prev => prev - 1) }} style={prevMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>&laquo; 이전</PageBtn>
-            {console.log(prevMove, 'prev값')}
             <PageNumDiv>{currentPage}</PageNumDiv>
             <PageBtn disabled={!nextMove} onClick={() => { setCurrentPage(prev => prev + 1) }} style={nextMove ? { backgroundColor: "#ffcd00" } : { backgroundColor: "#efefef", color: "#cdcdcd" }}>다음 &raquo;</PageBtn>
-            {console.log(nextMove, 'next값')}
           </PaginationDiv>
         }
       </SectionWrapper>
