@@ -267,8 +267,9 @@ function Scard(props) {
     })
   }
 
-
-
+  const editSurvey = () =>{
+    window.location.href = `/home/editsurvey/${code}`
+  }
 
 
   const deleteSurvey = () => {
@@ -328,6 +329,7 @@ function Scard(props) {
               <NavDropdown id="collasible-nav-dropdown" bsPrefix="dropdown-button">
                 <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
+                <NavDropdown.Item onClick={editSurvey}>수정하기</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
