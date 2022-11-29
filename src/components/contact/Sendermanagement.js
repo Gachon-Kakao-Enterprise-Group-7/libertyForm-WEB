@@ -203,7 +203,7 @@ function Sendermanagement() {
   const [inputs, setInputs] = useState({
     email: '',
     name: '',
-    relationship: '',
+    relationship: '기본',
   })
 
   const [users, setUsers] = useState([]);
@@ -391,7 +391,7 @@ function Sendermanagement() {
       <SectionWrapper>
         <div style={{ display: 'inline', marginBottom: '40px' }}>
           <Title>주소록</Title>
-          <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
+          <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>​
           <SearchWrapper>
             <SearchSvg style={{ marginRight: '10px', width: '30px', height: '30px' }} />
             <Search
@@ -517,7 +517,7 @@ function Sendermanagement() {
           </div>
           <div>
             <Label>관계</Label>
-            <input name='relationship' onChange={changeInputs} />
+            <input name='relationship' onChange={changeInputs}  placeholder="기본"/>
           </div>
         </ModalDescription>
         <ModalButton onClick={sendToServer}>추가</ModalButton>

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useSelector } from 'react-redux'
-import styled from '@emotion/styled';
 
+import styled from '@emotion/styled';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,12 +14,43 @@ import Paper from '@mui/material/Paper';
 
 import { ReactComponent as Add } from "svg/add.svg"
 import { ReactComponent as Check } from "svg/checkmark.svg"
+import { ReactComponent as UserAddSvg } from "svg/adduser.svg"
 
 const AddBtn = styled.button`
-    border: 0px;
-    color:white;
-    background: #ffcd00;
-    border-radius: 30px;
+  display : flex;
+  justify-content: center;
+  background: white;
+  width: 150px;
+  height: 50px;
+  color:#ffcd00;
+  font-weight: bold;
+  font-size: 20px;
+  border : 1px solid #ffcd00 ;
+  border-radius: 5px;
+  margin-left: 10px;
+  padding: 10px;
+
+  &:hover{
+    background-color : #ffcd00;
+    color: white;
+    fill: white;
+  }
+
+  @media (max-width:1000px) {
+    >p{
+      display : none;
+    }
+  }
+
+`
+const UserAddSvgW = styled(UserAddSvg)`
+  margin-right: 10px; 
+  width: 25px;
+  height: 25px;
+  fill: #ffcd00;  
+  :hover{
+    fill: white; 
+  }
 `
 
 const StyledAdd = styled(Add)`
@@ -28,6 +59,14 @@ const StyledAdd = styled(Add)`
     border-radius: 10px;
   }
 `
+
+const GroupControll = styled.span`
+  display : flex;
+  justify-content : flex-start;
+  align-items: center;
+  margin-bottom : 20px;
+`
+
 const Title = styled.span`
   font-size: 24px;
   text-align: left;
@@ -55,7 +94,8 @@ function Groupcontrol(props) {
 
   return (
     <div>
-      <Title><div>그룹에서 선택</div><div>{groupValue !== null && <AddBtn onClick={addAlluser}>전체 추가하기</AddBtn>}</div></Title>
+      <Title>그룹에서 선택</Title>
+      <GroupControll>
       <Autocomplete // 그룹 선택하는 콤보 박스
         value={groupValue}
         onChange={(event, newGroupValue) => {
@@ -63,9 +103,12 @@ function Groupcontrol(props) {
         }}
         id="controllable-states-demo"
         options={options}
-        sx={{ width: 300, m: 3 }}
+        sx={{ width: '50%', m: 3 }}
         renderInput={(params) => <TextField {...params} label="그룹을 선택하세요" />}
       />
+      {groupValue !== null && 
+        <AddBtn onClick={addAlluser}><UserAddSvgW/><p>유저 추가</p></AddBtn>}
+      </GroupControll>
       {groupValue != null &&
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 350, }} aria-label="simple table">
