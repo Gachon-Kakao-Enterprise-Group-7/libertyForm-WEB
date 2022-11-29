@@ -23,7 +23,6 @@ import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-
 const DragSvgWrapper = styled(DragSvg)`
     margin-right: 5px;
     width:20px;
@@ -42,7 +41,6 @@ const UploadSvgWrapper = styled(UploadSvg)`
 const MainWrapper = styled(motion.div)`
 
 `
-
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -55,7 +53,6 @@ const ModalDelete = styled.button`
   outline: none;
   cursor: pointer;
 `
-
 const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
     width:30px;
@@ -107,7 +104,6 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
-
 const Surveybutton = styled.button`
     font-weight: bold;
     width: 220px;
@@ -122,8 +118,6 @@ const Surveybutton = styled.button`
     border-radius: 10px;
     margin-top: 80px;
 `
-
-
 const BlockDiv = styled.div`
     background-color: white;
     margin: auto;
@@ -163,7 +157,6 @@ const MainItemDiv = styled.div`
     margin-bottom:5px;
     padding-bottom: 4px; 
 `
-
 const FuncDiv = styled.div`
     width: 100%;
     margin: 3vw auto;
@@ -230,7 +223,6 @@ const StyledDatePicker = styled(DatePicker)`
     border-radius: 4px;
     font-size: 12px;
 `
-
 const TextInput = styled.input`
   position: relative;
   border: none;
@@ -245,7 +237,6 @@ const TextInput = styled.input`
   border-bottom: 3px solid #ffcd23;
   }
 `
-
 const ImageInput = styled.div`
   label {
     padding-top: 7px ;
@@ -287,7 +278,6 @@ const ImageUpload = styled.div`
     width:50%;
     height : 50vh;
 `
-
 const TextUpload = styled.div` 
     display: flex;
     justify-content: space-between ;
@@ -298,7 +288,6 @@ const TextUpload = styled.div`
     height : 50vh;
     background-color : transparent;
 `
-
 const PreviewImg = styled.div`
     background: #e1e1e1;
     background-image: url(${(props) => props.imgFileSrc});
@@ -323,7 +312,6 @@ const Triangle = styled.div`
     bottom: 20px;
     z-index: 0;
 `
-
 const PreviewCard = styled.div`
     background-color: #ffffffe0;
     border-radius: 10px;
@@ -371,8 +359,18 @@ function Mksurvey() { // Make Survey
     const [convertedDate, setConvertedDate] = useState(null) // 백엔드에 보내지는 만료날짜
     const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
-    const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
     const [imgFileSrc, setImgFileSrc] = useState('')
+
+    const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
+    const [imgs, setImgs] = useState([])
+
+    useEffect(() => {
+        console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
+    }, [imgs])
+
+    useEffect(() => {
+        console.log(imgFile, '썸네일 가지고 있는 state변화함!')
+    }, [imgFile])
 
     const openModal = () => {
         setModalOpen(true);
@@ -500,9 +498,30 @@ function Mksurvey() { // Make Survey
     }
 
 
-    const onLoadFile = (e) => {
-        console.log(e.target.files)
+    const onLoadThumnail = (e) => {
         setImgFile(e.target.files)
+    }
+
+    const onLoadQuestionFile = (e) => {
+
+        const questionNumber = e.target.name // 질문 번호
+        const fileExtension = e.target.files[0].name.split('.')[1] // 업로드한 파일의 확장자
+
+        const oldFile = e.target.files[0] // 업로드한 파일
+        let newFile = null // newFile 선언
+        switch (fileExtension) {
+            case 'jpg': //jpg일 경우
+                newFile = new File([oldFile], `${questionNumber}.jpg`, { type: oldFile.type }) // File생성자를 이용해서 oldFile의 이름을 바꿔준다
+                setImgs((prev) => [...prev, newFile]) // 저장
+                break;
+            case 'png':
+                newFile = new File([oldFile], `${questionNumber}.png`, { type: oldFile.type })
+                setImgs((prev) => [...prev, newFile])
+                break;
+            default:
+                alert('지원하지 않는 파일 형식입니다.')
+                break
+        }
     }
 
 
@@ -526,17 +545,11 @@ function Mksurvey() { // Make Survey
         window.scrollTo(0, scrollRef.current.scrollHeight)
     }, [survey.length]) //survey에 새로운 질문이 추가되었을때(==survey.length변화) 스크롤을 가장 아래로 내린다.
 
-    useEffect(() => {
-        console.log(state)
-    }, [state]) // state가 바뀔때마다 확인하려고 만든 임시 useEffect
-
-    useEffect(() => {
-        console.log(postData, 'pd')
-    }, [postData])
 
     useDidMountEffect(() => {
-        encodeFileToBase64(imgFile[0])
+        encodeFileToBase64(imgFile[0], 'encodedfile')
     }, [imgFile])
+
 
     const saveData = () => {
         setPostData((
@@ -626,12 +639,16 @@ function Mksurvey() { // Make Survey
         }
     }
 
+
     const sendToServer = async () => {
 
         const formData = new FormData() // FormData 객체 사용
 
         formData.append("thumbnailImg", imgFile[0]) //imgFile[0] === upload file (썸네일 이미지)
-
+        imgs.forEach((item) => (
+            formData.append("questionImgs", item)
+        ))
+        console.log(imgs)
         const jwt = localStorage.getItem('jwt')
         const blob = new Blob([JSON.stringify(postData)], { type: "application/json" })// type을 지정해주고 저장
         formData.append("surveyReqDto", blob)//formData는 특수 개체라 특정한 조작으로만 조작 가능!
@@ -639,7 +656,9 @@ function Mksurvey() { // Make Survey
             method: "POST",
             url: `${process.env.REACT_APP_DB_HOST}/survey/create`,
             headers: {
+                "Content-Type": "multipart/form-data",
                 Authorization: 'Bearer ' + jwt,
+
             },
             data: formData,
         })
@@ -674,12 +693,10 @@ function Mksurvey() { // Make Survey
         });
     };
 
+
     return (
 
         <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
-
-            {console.log(survey)}
-            {console.log(multiChoiceItem)}
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
                 <MainItemDiv>
@@ -740,7 +757,7 @@ function Mksurvey() { // Make Survey
                                 <UploadSvgWrapper />
                                 <a style={{ paddingTop: '5px' }}>파일 선택</a>
                             </label>
-                            <input type="file" id="ex_file" onChange={onLoadFile}></input>
+                            <input type="file" id="ex_file" onChange={onLoadThumnail}></input>
                         </ImageInput>
                     </ImageUpload>
                     <TextUpload>
@@ -775,6 +792,21 @@ function Mksurvey() { // Make Survey
 
                     <ItemDiv>
                         <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
+                        <form
+                            name="photo"
+                            encType="multipart/form-data"
+                        >
+                            <input
+                                type="file"
+                                name={index + 1}
+                                accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
+                                onChange={(e) => { onLoadQuestionFile(e) }}
+                                onClick={() => {
+                                    const tempArr = imgs
+                                    setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
+                                }}
+                            />
+                        </form>
                         <FormControl>
                             <RadioGroup
                                 row
