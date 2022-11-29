@@ -360,6 +360,14 @@ const OptionContainer = styled.div`
   }
 `
 
+const ImgDiv = styled.div`
+  
+  width: ${props => props.imgUrl ? '300px' : '0px'};
+  height: ${props => props.imgUrl ? '200px' : '0px'};
+  background: url(${props => props.imgUrl});
+  background-size: cover;
+`
+
 
 function Dosurvey() {
 
@@ -399,7 +407,7 @@ function Dosurvey() {
   useEffect(() => {
     setLoading(true)
     const jwt = localStorage.getItem('jwt')
-    axios.get(`${process.env.REACT_APP_DB_HOST}/survey/${params.surveyCode}`, {
+    axios.get(`${process.env.REACT_APP_DB_HOST} /survey/${params.surveyCode} `, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
@@ -540,7 +548,7 @@ function Dosurvey() {
   const sendToServer = async () => {
     const jsondata = JSON.stringify(postData)
     console.log(jsondata)
-    await axios.post(`${process.env.REACT_APP_DB_HOST}/response/create`, jsondata, { headers: { 'Content-Type': 'application/json' } })
+    await axios.post(`${process.env.REACT_APP_DB_HOST} /response/create`, jsondata, { headers: { 'Content-Type': 'application/json' } })
       .then(res => {
         console.log(res)
         switch (res.data.code) {
@@ -757,6 +765,7 @@ function Dosurvey() {
         {showSurveyNumber >= 1 //1번 문제부터 보여주기
           &&
           <>
+            <ImgDiv imgUrl={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}></ImgDiv>
             <ProgressBarDiv><ProgressBar completed={Math.round((result.length / sortedSurveyDetail.questions.length) * 100)} bgColor="#ff7800" labelColor="#f6f6f6" /></ProgressBarDiv>
             <SurveyCard>
               <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`} {sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired && <span style={{ color: 'red', paddingLeft: '0.25em' }} aria-hidden="true">*</span>}</QuestionTitle>
@@ -857,8 +866,8 @@ function Dosurvey() {
               {console.log(result)}
               {/* <hr />
               <div>개발자 참고 공간 ↓</div>
-              <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
-              <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div> */}
+              <div>{`question타입: ${ sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId } `}</div>
+              <div>{`필수답변여부: ${ sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired } `}</div> */}
 
               <br />
               {showSurveyNumber === sortedSurveyDetail.questions.length // 설문의 마지막 문항일때 조건
