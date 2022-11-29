@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Preview from './Preview';
+import SenderHistory from './SenderHistory';
 
 import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
@@ -227,6 +228,7 @@ function Scard(props) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [linkModalOpen, setLinkModalOpen] = useState(false)
   const [previewModalOpen, setPreviewModalOpen] = useState(false)
+  const [SenderHistoryModalOpen, setSenderHistoryModalOpen] = useState(false)
 
   const surveylink = `localhost:3000/dosurvey/${code}`
 
@@ -243,7 +245,10 @@ function Scard(props) {
   const openLinkModal = () => {
     setLinkModalOpen(true)
   }
-
+  const openSenderHistoryModal = () => {
+    setSenderHistoryModalOpen(true)
+    document.body.style.overflow = "hidden";
+  }
   const closeLinkModal = () => {
     setLinkModalOpen(false)
   }
@@ -255,8 +260,10 @@ function Scard(props) {
   const closePreviewModal = () => {
     setPreviewModalOpen(false)
   }
-
-
+  const closeSenderHistoryModal = () => {
+    setSenderHistoryModalOpen(false)
+    document.body.style.overflow = "unset";
+  }
   const copySurveyLink = async () => {
     await navigator.clipboard.writeText(surveylink)
     Swal.fire({
@@ -328,6 +335,7 @@ function Scard(props) {
               <NavDropdown id="collasible-nav-dropdown" bsPrefix="dropdown-button">
                 <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openSenderHistoryModal}>발송자 관리</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
@@ -454,9 +462,45 @@ function Scard(props) {
         </ModalHeader>
         <Preview code={code} />
       </Modal>
+
+      <Modal isOpen={SenderHistoryModalOpen} style={{ //설문 발송자 관리에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70%',
+          height: '80%',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={closeSenderHistoryModal}><CloseModalSvg /></ModalDelete>
+        </ModalHeader>
+        <SenderHistory code={code} />
+      </Modal>
     </div>
   );
 }
+
+
+
 
 Scard.defaltProps = {
   title: '제목 없음'
