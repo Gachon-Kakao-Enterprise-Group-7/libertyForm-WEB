@@ -2,8 +2,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
 
 // mui import
@@ -18,7 +16,6 @@ import { ReactComponent as UploadSvg } from "svg/upload.svg"
 import { ReactComponent as DragSvg } from "svg/drag.svg"
 import useDidMountEffect from 'hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
-import { motion } from "framer-motion" // 애니메이션 효과
 
 import DatePicker from "react-datepicker";//리액트 캘린더 라이브러리
 import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
@@ -37,15 +34,6 @@ const DragSvgWrapper = styled(DragSvg)`
     /* &:hover {
       fill: #ff7800;
     } */
-`
-const UploadSvgWrapper = styled(UploadSvg)`
-    width:30px;
-    height:30px;
-    padding-bottom:5px;
-    fill: #ffbc00;
-`
-const MainWrapper = styled(motion.div)`
-
 `
 
 const ModalHeader = styled.div`
@@ -251,36 +239,6 @@ const TextInput = styled.input`
   }
 `
 
-const ImageInput = styled.div`
-  label {
-    padding-top: 7px ;
-    display: inline-flex;
-    justify-content: space-evenly;
-    font-size: inherit;
-    line-height: normal;
-    vertical-align: middle;
-    cursor: pointer;
-    background: white;
-	border: 1px solid #ffbc00;
-    font-weight: bold;
-    width: 15vh;
-    height: 5vh;
-    color: #ffbc00;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
-
-`
 const ImageUpload = styled.div`
     padding: 1rem;
     display: inline-flex;
@@ -369,7 +327,8 @@ function EditSurvey() {
     const [loading, setLoading] = useState(false);
     const [surveyDetail, setSurveyDetail] = useState(false)
     const surveyCode = useParams().surveyCode;
-
+    
+    const [surveyId, setSurveyId] = useState('')
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
     const [description, setDescription] = useState('')
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
@@ -377,15 +336,15 @@ function EditSurvey() {
     const [convertedDate, setConvertedDate] = useState(null) // 백엔드에 보내지는 만료날짜
     const [survey, setSurvey] = useState() // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
-    const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
     const [imgFileSrc, setImgFileSrc] = useState('')
     const id = useRef(0)
+    const [qLength, setQlength] = useState(0)
     const [postData, setPostData] = useState({
         survey: {
             name: "", // 설문 이름
             description: "", // 설문 추가 설명
             expirationDate: '', //설문 마감 날짜
-            surveyId:'37' // 지금은 임의로 바꿔줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+            surveyId:''
         },
         questions: [
             // { //이 부분은 계속 누적하는 부분이라 기본값이 있으면 안된다.
@@ -420,13 +379,6 @@ function EditSurvey() {
 
     })
 
-    useEffect(()=>{
-        console.log(survey)
-    },[survey])
-
-    // 변화 감지 useEffect 세트 -> 필요한거 가져다 쓰면 됨
-
-
 
     useEffect(() => { // 처음에 서버에서 받아오는 설문 상세 정보!
         setLoading(true)
@@ -448,10 +400,14 @@ function EditSurvey() {
                         survey:res.data.result.survey,
                         questions:[...res.data.result.questions, ...choiceQuestions].sort(function (a, b) {return a.number - b.number}) // res.data에 있는 객관식과 주관식을 하나의 배열로 합치고, 문제 번호순으로 정렬
                     }))
+                    
                     setTitle(res.data.result.survey.name)
                     setDescription(res.data.result.survey.description)
                     setExpireDate(new Date(res.data.result.survey.expirationDate))
-
+                    setConvertedDate(res.data.result.survey.expirationDate)
+                    setImgFileSrc(res.data.result.survey.thumbnailImgUrl)
+                    setSurveyId(res.data.result.survey.surveyId)
+                    setQlength(res.data.result.choiceQuestions.length + res.data.result.questions.length)
                     setLoading(false)
                     break;
                 default:
@@ -465,6 +421,10 @@ function EditSurvey() {
       }, [])
 
 
+    useEffect(()=>{
+        console.log(survey)
+    },[survey])
+
     useDidMountEffect(()=>{ // server to react 데이터로 변환
        console.log('처음에 실행되고 또 실행되면 대참사')
        id.current = surveyDetail.questions.length +1
@@ -472,15 +432,17 @@ function EditSurvey() {
         question.questionTypeId === 3 || question.questionTypeId ===4
         ?{
             id:question.number,
+            questionId : question.questionId,
             q:question.name,
             type:question.questionTypeId,
             required:question.answerRequired,
             mcitem:question.choices.map((item)=>(
-                item.name
+                {name : item.name, choiceId: item.choiceId}
             ))
         }
         :{
             id:question.number,
+            questionId : question.questionId,
             q:question.name,
             type:question.questionTypeId,
             required:question.answerRequired,
@@ -520,6 +482,7 @@ function EditSurvey() {
                     name: title,
                     description: description,
                     expirationDate: convertedDate,
+                    surveyId:surveyId
                 },
                 choiceQuestions: [
                     ...postData.choiceQuestions,
@@ -528,15 +491,17 @@ function EditSurvey() {
                             choices:
                                 item.mcitem.map((mcitem, index) => (
                                     {
-                                        name: mcitem,
-                                        number: index+1
+                                        name: mcitem.name,
+                                        number: index+1,
+                                        choiceId : mcitem.choiceId
                                     }
                                 ))
                             ,
                             question: {
                                 questionTypeId: item.type,
+                                questionId : item.questionId,
                                 name: item.q,
-                                number: String(item.id), // 여기수정마지막
+                                number : String(item.id),
                                 answerRequired: item.required
                             }
                         }
@@ -547,9 +512,10 @@ function EditSurvey() {
                     ...survey.filter((item) => (item.type != '3' && item.type != '4')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
                         {
                             questionTypeId: item.type,
+                            questionId : item.questionId,
                             name: item.q,
                             description: item.description,
-                            number: String(item.id), // 여기수정마지막
+                            number : String(item.id),
                             answerRequired: item.required
                         }
 
@@ -561,23 +527,6 @@ function EditSurvey() {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const onChange = (e) => {
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
         const q = e.target.value //사용자가 input태그에 입력한 값
@@ -586,17 +535,16 @@ function EditSurvey() {
     const onChangeDescription = (e) => { //설문 질문에 대한 description
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
         const description = e.target.value //사용자가 input태그에 입력한 값
-        setSurvey(survey.map((item) => item.id === targetId ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+        setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
 
 
     const addMcItem = (e) => {
         
         const targetId = parseInt(e.target.dataset.id)
-        console.log(targetId)
         const mcitem = multiChoiceItem
         if (mcitem.length > 0) {
-            setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
+            setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, mcitem: [...item.mcitem, {name:mcitem, choiceId:-1}] } : item))
             setMultiChoiceItem('')
         }
         else {
@@ -616,7 +564,7 @@ function EditSurvey() {
             const targetId = parseInt(e.target.dataset.id)
             const mcitem = multiChoiceItem
             if (mcitem.length > 0) {
-                setSurvey(survey.map((item) => item.id === targetId ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
+                setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, mcitem: [...item.mcitem, {name:mcitem, choiceId:-1}] } : item))
                 setMultiChoiceItem('')
             }
             else {
@@ -643,16 +591,11 @@ function EditSurvey() {
         const temp = survey[index].mcitem
         temp.splice(mcitemIndex, 1)
 
-        setSurvey(survey.map((item) => item.id === index ? { ...item, mcitem: temp } : item))
+        setSurvey(survey.map((item) => item.id === index+1 ? { ...item, mcitem: temp } : item))
     }
 
 
-    const onLoadFile = (e) => {
-        console.log(e.target.files)
-        setImgFile(e.target.files)
-    }
 
-    
     const requestSubmit = () => {
         if (title.length < 1) { // 설문 제목의 길이가 0일때
             Swal.fire({
@@ -697,22 +640,24 @@ function EditSurvey() {
     const sendToServer = async () => {
 
         const jwt = localStorage.getItem('jwt')
-
-        await axios({
-            method: "PATCH",
-            url: `${process.env.REACT_APP_DB_HOST}/survey/modify`,
-            headers: {
-                Authorization: 'Bearer ' + jwt,
-            },
-            postData
-        })
+        
+        await axios.patch(`${process.env.REACT_APP_DB_HOST}/survey/modify`, postData, { headers: { Authorization: 'Bearer ' + jwt } })
             .then((res) => {
                 console.log(res.data.code)
                 switch (res.data.code) {
-                    case 1000:
+                    case 2500:
                         document.location.href = '/home/dashboard'
                         break;
-                    case 4001: //질문유형이 없을경우
+                    case 2010:
+                    case 2011:
+                    case 2012:
+                    case 2013:
+                    case 2014:
+                    case 2015:
+                    case 2019:
+                    case 4001:
+                    case 4002:
+                        console.log('오류입니다. 자세한 정보는 스웨거 확인')
                         break;
                     default:
                         console.log(res.data.code)
@@ -726,25 +671,6 @@ function EditSurvey() {
         setModalOpen(false)
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   if(loading)return(<div>로딩중</div>)
   if(!surveyDetail)return(<div>데이터안받아와짐</div>)
   if(!survey)return(<div>데이터안받아짐2</div>)
@@ -823,10 +749,6 @@ function EditSurvey() {
             </MainItemDiv>
         </BlockDiv>
 
-
-
-
-        {console.log(survey)}
         {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
         
                 <BlockDiv key={index}>
@@ -880,7 +802,7 @@ function EditSurvey() {
                                 <McitemAddBtn onClick={addMcItem} data-id={index}>추가</McitemAddBtn>
                                 <StyledOl>
 
-                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
+                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem.name}</StyledLi>)}
                                 </StyledOl><hr />
 
                                 <FormControlLabel
@@ -901,7 +823,7 @@ function EditSurvey() {
                                 <McitemAddBtn onClick={addMcItem} data-id={index}>추가</McitemAddBtn>
                                 <StyledOl>
 
-                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
+                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem.name}</StyledLi>)}
                                 </StyledOl><hr />
 
                                 <FormControlLabel
@@ -918,7 +840,7 @@ function EditSurvey() {
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input placeholder='' data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
-                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
+                                <input placeholder='' data-id={index} value={survey[index].description} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -931,7 +853,7 @@ function EditSurvey() {
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
-                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
+                                <input placeholder='' data-id={index} value={survey[index].description} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -969,7 +891,7 @@ function EditSurvey() {
                 <Surveybutton style={{ marginRight: '0.5rem', marginBottom: '1rem', backgroundColor: "#ffcd00" }}
                     variant="contained"
                     onClick={() => {
-                        setSurvey([...survey, { id: id.current, q: '', type: '', required: false }]);
+                        setSurvey([...survey, { id: id.current, questionId:-1, q: '', type: '', required: false }]);
                         id.current += 1;
                     }}>
                     질문 추가</Surveybutton>
