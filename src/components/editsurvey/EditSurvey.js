@@ -2,8 +2,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
 
 // mui import
@@ -37,15 +35,6 @@ const DragSvgWrapper = styled(DragSvg)`
     /* &:hover {
       fill: #ff7800;
     } */
-`
-const UploadSvgWrapper = styled(UploadSvg)`
-    width:30px;
-    height:30px;
-    padding-bottom:5px;
-    fill: #ffbc00;
-`
-const MainWrapper = styled(motion.div)`
-
 `
 
 const ModalHeader = styled.div`
@@ -251,36 +240,6 @@ const TextInput = styled.input`
   }
 `
 
-const ImageInput = styled.div`
-  label {
-    padding-top: 7px ;
-    display: inline-flex;
-    justify-content: space-evenly;
-    font-size: inherit;
-    line-height: normal;
-    vertical-align: middle;
-    cursor: pointer;
-    background: white;
-	border: 1px solid #ffbc00;
-    font-weight: bold;
-    width: 15vh;
-    height: 5vh;
-    color: #ffbc00;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
-
-`
 const ImageUpload = styled.div`
     padding: 1rem;
     display: inline-flex;
@@ -377,7 +336,6 @@ function EditSurvey() {
     const [convertedDate, setConvertedDate] = useState(null) // 백엔드에 보내지는 만료날짜
     const [survey, setSurvey] = useState() // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
-    const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
     const [imgFileSrc, setImgFileSrc] = useState('')
     const id = useRef(0)
     const [postData, setPostData] = useState({
@@ -421,8 +379,8 @@ function EditSurvey() {
     })
 
     useEffect(()=>{
-        console.log(survey)
-    },[survey])
+        console.log(surveyDetail.survey)
+    },[surveyDetail])
 
     // 변화 감지 useEffect 세트 -> 필요한거 가져다 쓰면 됨
 
@@ -451,6 +409,8 @@ function EditSurvey() {
                     setTitle(res.data.result.survey.name)
                     setDescription(res.data.result.survey.description)
                     setExpireDate(new Date(res.data.result.survey.expirationDate))
+                    setImgFileSrc(res.data.result.survey.thumbnailImgUrl)
+                    
 
                     setLoading(false)
                     break;
@@ -561,23 +521,6 @@ function EditSurvey() {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const onChange = (e) => {
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
         const q = e.target.value //사용자가 input태그에 입력한 값
@@ -647,12 +590,7 @@ function EditSurvey() {
     }
 
 
-    const onLoadFile = (e) => {
-        console.log(e.target.files)
-        setImgFile(e.target.files)
-    }
 
-    
     const requestSubmit = () => {
         if (title.length < 1) { // 설문 제목의 길이가 0일때
             Swal.fire({
@@ -726,25 +664,6 @@ function EditSurvey() {
         setModalOpen(false)
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   if(loading)return(<div>로딩중</div>)
   if(!surveyDetail)return(<div>데이터안받아와짐</div>)
   if(!survey)return(<div>데이터안받아짐2</div>)
@@ -823,10 +742,6 @@ function EditSurvey() {
             </MainItemDiv>
         </BlockDiv>
 
-
-
-
-        {console.log(survey)}
         {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
         
                 <BlockDiv key={index}>
