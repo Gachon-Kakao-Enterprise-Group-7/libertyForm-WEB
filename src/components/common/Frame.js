@@ -7,6 +7,8 @@ import Dashboard from '../dashboard/Dashboard';
 import Mksurvey from '../makesurvey/Mksurvey';
 import Surveysend from '../sendsurvey/Surveysend';
 import Sendermanagement from '../contact/Sendermanagement';
+import EditSurvey from 'components/editsurvey/EditSurvey';
+import Ansurvey from '../ansurvey/Ansurvey';
 
 const Wrapper = styled.section`
   display: flex;
@@ -40,6 +42,8 @@ const Frame = () => {
             <Route path='mksurvey' element={<Mksurvey />} />
             <Route path='surveysend' element={<Surveysend />} />
             <Route path='sendermanagement' element={<Sendermanagement />} />
+            <Route path='editsurvey/:surveyCode' element={<EditSurvey />} />
+            <Route path='ansurvey' element={<Ansurvey />} />
           </Routes>
         </Wrapper>
       </MainWrapper>
