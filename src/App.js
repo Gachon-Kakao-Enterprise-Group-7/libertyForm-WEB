@@ -17,6 +17,7 @@ import { GlobalStyle } from './globalstyle'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 기능 사용
 import { AnimatePresence } from "framer-motion"; //애니메이션 라이브러리
+import AlreadyAnswered from 'components/dosurvey/AlreadyAnswered';
 
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
           <Route path="/login" element={<><Login /></>}></Route>
           <Route path="/kakaologin" element={<><Kakaologin /></>}></Route>
           <Route path="/dosurvey/:surveyCode" element={<Dosurvey />}></Route>
+          <Route path="/doprivatesurvey/:privateSurveyCode" element={<Dosurvey />}></Route>
+          <Route path="/alreadyanswered" element={<AlreadyAnswered />}></Route>
           <Route path="/surveyend" element={<Surveyend />}></Route>
           <Route path="/adminpage" element={<Adminpage />}></Route>
           <Route path="/onboarding" element={<Onboarding />}></Route>

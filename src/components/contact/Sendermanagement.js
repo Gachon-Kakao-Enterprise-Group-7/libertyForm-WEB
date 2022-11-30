@@ -240,7 +240,7 @@ function Sendermanagement() {
     })
       .then((res) => {
         switch (res.data.code) {
-          case 2500:
+          case 2502:
             console.log('삭제 되었습니다.')
             Swal.fire({
               title: 'Success!',
@@ -252,7 +252,7 @@ function Sendermanagement() {
             })
             break;
           default:
-            console.log('정의되지 않은 오류입니다.')
+            console.log(res.data.code)
             break;
 
         }
@@ -391,7 +391,7 @@ function Sendermanagement() {
       <SectionWrapper>
         <div style={{ display: 'inline', marginBottom: '40px' }}>
           <Title>주소록</Title>
-          <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>​
+          <AddUserBtn onClick={() => { setAddUserModal(true) }}><UserAddSvg style={{ marginRight: '10px', width: '25px', height: '25px', fill: '#ffcd00' }} />유저 추가</AddUserBtn>
           <SearchWrapper>
             <SearchSvg style={{ marginRight: '10px', width: '30px', height: '30px' }} />
             <Search
@@ -517,7 +517,7 @@ function Sendermanagement() {
           </div>
           <div>
             <Label>관계</Label>
-            <input name='relationship' onChange={changeInputs}  placeholder="기본"/>
+            <input name='relationship' onChange={changeInputs} placeholder="기본" />
           </div>
         </ModalDescription>
         <ModalButton onClick={sendToServer}>추가</ModalButton>
