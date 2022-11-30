@@ -39,8 +39,6 @@ const SurveyFooter = styled.div`
   margin-top: auto;
   border-radius: 20px;
 `
-
-
 const SurveyNextButton = styled.button`
   background-color: white;
   outline: none;
@@ -58,7 +56,6 @@ const SurveyNextButton = styled.button`
 		border-color:rgba(0,0,0,0.25);
 	}
 `
-
 const SurveyFinalButton = styled.button`
   background-color: #ffcd00;
   outline: none;
@@ -177,7 +174,6 @@ const EmotionSlider = styled(Slider)({
     },
   },
 });
-
 const EmotionText = styled.div`
   display: flex;
   align-items: center;
@@ -214,7 +210,6 @@ const EmotionText = styled.div`
 
 }
 `
-
 const StartSurveyBtn = styled.button`
   position: absolute;
   margin: 50px auto;  
@@ -233,8 +228,6 @@ const StartSurveyBtn = styled.button`
   }
   transition:all 200ms linear;
 `
-
-
 const AnswerInput = styled.input`
   background: rgba(255, 255, 255, 0.2);
   position: relative;
@@ -260,7 +253,6 @@ const ProgressBarDiv = styled.div`
   width: 95%;
   margin: auto;
 `
-
 const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
     width:30px;
@@ -280,8 +272,6 @@ const ModalDelete = styled.button`
   border: none;
   outline: none;
 `
-
-
 const ModalDescription = styled.div`
   display: flex;
   flex-direction: column;
@@ -308,7 +298,6 @@ const ModalTitle = styled.div`
     font-weight: bold;
   }
 `
-
 const ModalButton = styled.button`
   display: flex;
   justify-content: center;
@@ -328,15 +317,12 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
-
-
 const OptionWrapper = styled.div`
   height: 100%;
   width: 100%;
   margin-top: 12px;
   flex-grow: 1;
   `
-
 const OptionContainer = styled.div`
   border-radius: 10px;
   margin: 0 18px;
@@ -359,7 +345,6 @@ const OptionContainer = styled.div`
     background-color: white;
   }
 `
-
 const ImgDiv = styled.div`
   
   width: ${props => props.imgUrl ? '300px' : '0px'};
@@ -368,10 +353,11 @@ const ImgDiv = styled.div`
   background-size: cover;
 `
 
-
 function Dosurvey() {
 
   const params = useParams();
+
+
   const [surveyDetail, setSurveyDetail] = useState(null) //axios를 통해 받아오는 설문 상세 정보 state [1차 데이터]
   const [newSurveyDetail, setNewSurveyDetail] = useState(null) // 객관+주관 합친 데이터 [2차 데이터]
   const [sortedSurveyDetail, setSortedSurveyDetail] = useState(null) // 문제 순서(number)에 따라 정렬된 데이터 [3차 데이터, 실제 설문에 쓰일 데이터]
@@ -395,35 +381,56 @@ function Dosurvey() {
 
   const [openSubmitModal, setOpenSubmitModal] = useState(false)
 
-  // const now = new Date()
-  // const expirationDate = new Date(surveyDetail.survey.expirationDate)
-
-  // console.log(now, '지금')
-  // console.log(expirationDate, '만료기간')
-  // console.log(expirationDate - now - 32400000)
-
-
+  console.log(Boolean(params.surveyCode))
+  console.log(Boolean(params.privateSurveyCode))
 
   useEffect(() => {
-    setLoading(true)
-    const jwt = localStorage.getItem('jwt')
-    axios.get(`${process.env.REACT_APP_DB_HOST} /survey/${params.surveyCode} `, {
-      headers: {
-        Authorization: 'Bearer ' + jwt
-      }
-    })
-      .then((res) => {
-        console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
-
-        setSurveyDetail(res.data.result)
-        setNewSurveyDetail(res.data.result)
-        setResult([]) // result 배열의 공간을 만들어준다.
-        setChoiceQuestions(res.data.result.choiceQuestions)
-
+    if (params.surveyCode) { // 그냥 설문을 실시 할때
+      setLoading(true)
+      const jwt = localStorage.getItem('jwt')
+      axios.get(`${process.env.REACT_APP_DB_HOST} /survey/${params.surveyCode} `, {
+        headers: {
+          Authorization: 'Bearer ' + jwt
+        }
       })
-      .catch((Error) => {
-        setError(Error)
+        .then((res) => {
+          console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
+
+          setSurveyDetail(res.data.result)
+          setNewSurveyDetail(res.data.result)
+          setResult([]) // result 배열의 공간을 만들어준다.
+          setChoiceQuestions(res.data.result.choiceQuestions)
+
+        })
+        .catch((Error) => {
+          setError(Error)
+        })
+    }
+    else if (params.privateSurveyCode) { // 사용자 식별 번호가 있는 설문을 실시 할 때
+      setLoading(true)
+      const jwt = localStorage.getItem('jwt')
+      axios.get(`${process.env.REACT_APP_DB_HOST}/manage/read/${params.privateSurveyCode} `, {
+        headers: {
+          Authorization: 'Bearer ' + jwt
+        }
       })
+        .then((res) => {
+          console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
+          console.log(res)
+          if (res.data.code === 2020) { //이미 설문에 응답한 경우
+            document.location.href = "/alreadyanswered"
+          }
+
+          setSurveyDetail(res.data.result)
+          setNewSurveyDetail(res.data.result)
+          setResult([]) // result 배열의 공간을 만들어준다.
+          setChoiceQuestions(res.data.result.choiceQuestions)
+
+        })
+        .catch((Error) => {
+          setError(Error)
+        })
+    }
   }, [])
 
 
@@ -553,6 +560,21 @@ function Dosurvey() {
         console.log(res)
         switch (res.data.code) {
           case 1000:
+            console.log('만약 privateSurvey라면 설문 제출을 했다는 코드를 보내줘야한다.')
+            if (params.privateSurveyCode) {
+              axios.get(`${process.env.REACT_APP_DB_HOST}/manage/submit/${params.privateSurveyCode}`, {
+                headers: {
+                  Authorization: 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjo0fSwiaWF0IjoxNjY4OTk4MjI5LCJleHAiOjE2NzA3NzYyOTR9.ZVGf5i48rXOpl1hIkraKRcYGDozlTcsKirHVS4MeAww'
+                }
+              })
+                .then((res) => {
+                  console.log(res.data.code)
+
+                })
+                .catch((Error) => {
+                  console.log(Error, 'privateSurvey코드 백엔드에 전송하는 과정에서 생긴 오류')
+                })
+            }
             Swal.fire({
               title: 'Success!',
               text: '요청에 성공하였습니다',
