@@ -176,7 +176,6 @@ function Surveysend() {
   const [userInput, setUserInput] = useState('') // input에 입력한 정보를 가지고 있는 state
   const [users, setUsers] = useState([]) // 설문을 발송하고자 하는 유저 정보를 가진 배열 state
   const [mailSendModal, setMailSendModal] = useState(false)
-  const [postData, setPostData] = useState({})
   const [postManageData, setPostManageData] = useState({})
 
 
@@ -211,15 +210,6 @@ function Surveysend() {
 
   }
 
-  const convertPostData = () => {
-
-    const cvusers = users.map((user) => ({ email: user }))
-
-    setPostData((prev) => ({
-      surveyId: selectSurvey,
-      receivers: cvusers,
-    }))
-  }
   const sendManageToServer = async () => {
     const jwt = localStorage.getItem('jwt')
     await axios.post(`${process.env.REACT_APP_DB_HOST}/manage/create`, postManageData, {
@@ -227,44 +217,24 @@ function Surveysend() {
         Authorization: 'Bearer ' + jwt
       }
     })
-      .then(res => {
-        console.log(res.data.code)
-        .then((result) => {
-          if (result.isConfirmed) {
-            document.location.href = '/home/dashboard'
-          }
-        })
+    .then(res => {
+      console.log()
+      Swal.fire({
+        title: 'Success!',
+        text: '발송했습니다!',
+        icon: 'success',
+        confirmButtonText: '확인'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.location.href = '/home/dashboard'
+        }
+      })
 
-      }
-      )
-      .catch((Error) => { console.log(Error) })
+    }
+    )
+    .catch((Error) => { console.log(Error) })
   }
 
-  const sendToServer = async () => {
-    const jwt = localStorage.getItem('jwt')
-    await axios.post(`${process.env.REACT_APP_DB_HOST}/send/email`, postData, {
-      headers: {
-        Authorization: 'Bearer ' + jwt
-      }
-    })
-
-      .then(res => {
-        console.log()
-        Swal.fire({
-          title: 'Success!',
-          text: '발송했습니다!',
-          icon: 'success',
-          confirmButtonText: '확인'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            document.location.href = '/home/dashboard'
-          }
-        })
-
-      }
-      )
-      .catch((Error) => { console.log(Error) })
-  }
  
   const verifyData = () => {
     if (selectSurvey === null) {
@@ -283,7 +253,6 @@ function Surveysend() {
     }
     else {
       setMailSendModal(true);
-      convertPostData();
       convertPostManageData();
     }
   }
@@ -404,7 +373,7 @@ function Surveysend() {
         </ModalHeader>
         <ModalTitle><h4>메일발송</h4></ModalTitle>
         <ModalDescription>정말로 발송하시겠습니까?</ModalDescription>
-        <ModalButton onClick={()=>{sendToServer();sendManageToServer()}}>발송하기</ModalButton>
+        <ModalButton onClick={sendManageToServer}>발송하기</ModalButton>
 
       </Modal>
     </>
