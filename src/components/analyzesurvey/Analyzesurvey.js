@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Emotionquestion from './Emotionquestion';
 
 import Linearquestion from './Linearquestion';
+import Objectivequestion from './Objectivequestion';
 
 const HeaderContent = styled.div`
   display: flex;
@@ -30,86 +31,147 @@ const Text2 = styled.span`
 
 function Analyzesurvey() {
 
-    
+
     const backendData = {
-        questions:[
+        questions: [
             {
-                number:1,
-                questionType:6,
-                title:'이 상품이 당신에게 얼마나 도움이 되었나요?',
-                result:[
+                number: 1,
+                questionType: 6,
+                title: '이 상품이 당신에게 얼마나 도움이 되었나요?',
+                result: [
                     {
-                        type:'verybad',
-                        value:15
+                        type: 'verybad',
+                        value: 15
                     },
                     {
-                        type:'bad',
-                        value:32
+                        type: 'bad',
+                        value: 32
                     },
                     {
-                        type:'good',
-                        value:21
-                    },{
-                        type:'verygood',
-                        value:50
+                        type: 'good',
+                        value: 21
+                    },
+                    {
+                        type: 'verygood',
+                        value: 50
                     }
 
-                ]            
+                ]
             },
             {
-                number:2,
-                questionType:6,
-                title:'이 교육과정이 당신에게 얼마나 도움이 되었나요?',
-                result:[
+                number: 2,
+                questionType: 6,
+                title: '이 교육과정이 당신에게 얼마나 도움이 되었나요?',
+                result: [
                     {
-                        type:'verybad',
-                        value:123
+                        type: 'verybad',
+                        value: 123
                     },
                     {
-                        type:'bad',
-                        value:32
+                        type: 'bad',
+                        value: 32
                     },
                     {
-                        type:'good',
-                        value:211
-                    },{
-                        type:'verygood',
-                        value:504
+                        type: 'good',
+                        value: 211
+                    },
+                    {
+                        type: 'verygood',
+                        value: 504
                     }
 
-                ]            
+                ]
             },
             {
-                number:3,
-                questionType:5,
-                title:'이 교육과정이 당신에게 얼마나 도움이 되었나요?',
-                result:[
+                number: 3,
+                questionType: 5,
+                title: '이 교육과정을 듣고 어떤 기분이 드셨나요?',
+                result: [
                     {
-                        type:'매우나쁨😫',
-                        value:123
+                        type: '매우나쁨😫',
+                        value: 123
                     },
                     {
-                        type:'나쁨😑',
-                        value:32
+                        type: '나쁨😑',
+                        value: 32
                     },
                     {
-                        type:'보통😶',
-                        value:122
+                        type: '보통😶',
+                        value: 122
                     },
                     {
-                        type:'좋음😊',
-                        value:211
-                    },{
-                        type:'매우좋음😍',
-                        value:504
+                        type: '좋음😊',
+                        value: 211
+                    },
+                    {
+                        type: '매우좋음😍',
+                        value: 504
                     }
 
-                ]            
+                ]
             },
+            {
+                number: 4,
+                questionType: 3,
+                title: '좋아하는 과일을 하나만 선택해주세요',
+                result: [
+                    {
+                        choice: '사과',
+                        value: 120
+                    },
+                    {
+                        choice: '배',
+                        value: 312
+                    },
+                    {
+                        choice: '귤',
+                        value: 122
+                    },
+                    {
+                        choice: '감',
+                        value: 211
+                    },
+                    {
+                        choice: '복숭아',
+                        value: 504
+                    }
+                ]
+            },
+            {
+                number: 5,
+                questionType: 4,
+                title: '좋아하는 자동차 제조사를 선택해주세요(중복가능)',
+                result: [
+                    {
+                        choice: 'Mercedes-Benz',
+                        value: 123
+                    },
+                    {
+                        choice: 'Pagani',
+                        value: 352
+                    },
+                    {
+                        choice: 'Koenigsegg',
+                        value: 222
+                    },
+                    {
+                        choice: 'Bugatti',
+                        value: 411
+                    },
+                    {
+                        choice: 'Lotus',
+                        value: 204
+                    },
+                    {
+                        choice: 'BMW',
+                        value: 233
+                    }
+                ]
+            }
         ]
     }
     console.log(JSON.stringify(backendData))
-//question.questionType === 6 && <Linearquestion question={question}></Linearquestion>
+    //question.questionType === 6 && <Linearquestion question={question}></Linearquestion>
     return (
         <>
             <HeaderContent>
@@ -119,18 +181,21 @@ function Analyzesurvey() {
                 </div>
             </HeaderContent>
             {backendData.questions.map((question) => {
-                switch(question.questionType){
+                switch (question.questionType) {
+                    case 3:
+                    case 4:
+                        return (<Objectivequestion question={question}></Objectivequestion>)
                     case 6:
-                        return(<Linearquestion question={question}></Linearquestion>)
+                        return (<Linearquestion question={question}></Linearquestion>)
                     case 5:
-                        return(<Emotionquestion question={question}></Emotionquestion>)
+                        return (<Emotionquestion question={question}></Emotionquestion>)
                     default:
                         break;
                 }
             }
             )}
             <br />
-            
+
         </>
     );
 }
