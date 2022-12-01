@@ -13,6 +13,7 @@ const DashboardLayoutRoot = styled.div`
     max-width: 100%;
     padding-top: 64;
     padding-left: 200;
+    margin: 10px;
 `
 
 function Objectivequestion(props) {
