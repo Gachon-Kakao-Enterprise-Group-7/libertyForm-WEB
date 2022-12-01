@@ -60,7 +60,7 @@ function SenderHistory(props) {
     useEffect(() => {
         setLoading(true)
         const jwt = localStorage.getItem('jwt')
-        axios.get(`${process.env.REACT_APP_DB_HOST}/survey/${code}`, {
+        axios.get(`${process.env.REACT_APP_DB_HOST}/manage/load`, {
             headers: {
                 Authorization: 'Bearer ' + jwt
             }
@@ -74,7 +74,6 @@ function SenderHistory(props) {
                 setError(Error)
             })
     }, [])
-
 
 
     useDidMountEffect(() => {
