@@ -11,7 +11,7 @@ import Dosurvey from './components/dosurvey/Dosurvey';
 import Surveyend from './components/dosurvey/Surveyend'
 import Adminpage from './components/common/Adminpage';
 import Onboarding from './components/onboarding/Onboarding';
-import Ansurvey from './components/ansurvey/Ansurvey';
+import Analyzesurvey from './components/analyzesurvey/Analyzesurvey';
 
 import { GlobalStyle } from './globalstyle'
 
@@ -38,7 +38,7 @@ function App() {
           <Route path="/surveyend" element={<Surveyend />}></Route>
           <Route path="/adminpage" element={<Adminpage />}></Route>
           <Route path="/onboarding" element={<Onboarding />}></Route>
-          <Route path="/ansurvey" element={<Ansurvey />}></Route>
+          <Route path="/analyzesurvey" element={<Analyzesurvey />}></Route>
           <Route path="*" element={<Notfound />}></Route>
           {/* 예외처리로 Notfound페이지 이동시킨다. */}
         </Routes>

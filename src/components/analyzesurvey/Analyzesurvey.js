@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, Button, Card, CardContent, CardHeader, Divider, Typography, useTheme } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Divider, } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
@@ -41,9 +41,7 @@ const DashboardLayoutRoot = styled.div`
     padding-left: 200;
 `
 
-function Ansurvey() {
-
-    const theme = useTheme();
+function Analyzesurvey() {
 
     useEffect(() => {
         const root = am5.Root.new("chartdiv");
@@ -281,18 +279,8 @@ function Ansurvey() {
                             </Box>
                         </CardContent>
                         <Divider />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                p: 2
-                            }}
-                        >
-                            <Button
-                                color="primary"
-                                endIcon={<ArrowRightIcon fontSize="small" />}
-                                size="small"
-                            >
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
+                            <Button color="primary" endIcon={<ArrowRightIcon fontSize="small" />} size="small">
                                 Overview
                             </Button>
                         </Box>
@@ -301,21 +289,8 @@ function Ansurvey() {
                         <CardHeader title="Traffic by Device" />
                         <Divider />
                         <CardContent>
-                            <Box
-                                sx={{
-                                    height: 300,
-                                    position: 'relative'
-                                }}
-                            >
-                            </Box>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    pt: 2
-                                }}
-                            >
-                            </Box>
+                            <Box sx={{ height: 300, position: 'relative' }}></Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}></Box>
                         </CardContent>
                     </Card>
                 </Box>
@@ -324,4 +299,4 @@ function Ansurvey() {
     );
 }
 
-export default Ansurvey;
+export default Analyzesurvey;
