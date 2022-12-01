@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Preview from './Preview';
-import SenderHistory from './SenderHistory';
+import SenderHistory from "components/sendsurvey/SenderHistory";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
@@ -15,9 +15,6 @@ import { ReactComponent as CloseModal } from "svg/close.svg"
 import { ReactComponent as LinkIcon } from 'svg/link.svg'
 import { ReactComponent as AlamIcon } from 'svg/alam.svg'
 import defaultImg from 'img/default-thumbnail.jpg'
-
-
-
 
 
 const ScoreLine = styled.div`
@@ -245,7 +242,7 @@ function Scard(props) {
   const openLinkModal = () => {
     setLinkModalOpen(true)
   }
-  const openSenderHistoryModal = () => {
+  const openResponseConfirmationModal = () => {
     setSenderHistoryModalOpen(true)
     document.body.style.overflow = "hidden";
   }
@@ -260,7 +257,7 @@ function Scard(props) {
   const closePreviewModal = () => {
     setPreviewModalOpen(false)
   }
-  const closeSenderHistoryModal = () => {
+  const closeResponseConfirmationModal = () => {
     setSenderHistoryModalOpen(false)
     document.body.style.overflow = "unset";
   }
@@ -337,6 +334,7 @@ function Scard(props) {
                 <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item disabled={end} onClick={editSurvey}>수정하기</NavDropdown.Item>
                 <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openResponseConfirmationModal}>이력관리</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
@@ -492,9 +490,9 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closeSenderHistoryModal}><CloseModalSvg /></ModalDelete>
+          <ModalDelete onClick={closeResponseConfirmationModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <SenderHistory code={code} />
+        <SenderHistory surveyId={surveyId} />
       </Modal>
     </div>
   );
