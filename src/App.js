@@ -11,7 +11,6 @@ import Dosurvey from './components/dosurvey/Dosurvey';
 import Surveyend from './components/dosurvey/Surveyend'
 import Adminpage from './components/common/Adminpage';
 import Onboarding from './components/onboarding/Onboarding';
-import Analyzesurvey from './components/analyzesurvey/Analyzesurvey';
 
 import { GlobalStyle } from './globalstyle'
 
