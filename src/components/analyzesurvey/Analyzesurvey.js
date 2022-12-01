@@ -140,7 +140,7 @@ function Analyzesurvey() {
             },
             {
 
-                number:4,
+                number:5,
                 questionType:5,
                 title:'이 음식을 먹었을때 기분이 어떤가요?',
                 result:[
@@ -167,7 +167,7 @@ function Analyzesurvey() {
                 ]            
             },
             {
-                number:5,
+                number:6,
                 questionType:2,
                 title:'당신이 좋아하는 캐릭터는 무엇인가요?',
                 result:['춘식', '어피치','죠르디','라이언','네오','제이지','프로도'
@@ -178,10 +178,8 @@ function Analyzesurvey() {
                         ,'죠르디','라이언','네오','제이지','춘식', '어피치','죠르디' ,'춘식','춘식','춘식','춘식','춘식','춘식','춘식','춘식'
                     ]            
             },
-        ]
-    }
-
-                number: 6,
+            {
+                number: 7,
                 questionType: 4,
                 title: '좋아하는 자동차 제조사를 선택해주세요(중복가능)',
                 result: [
@@ -213,9 +211,9 @@ function Analyzesurvey() {
             }
         ]
     }
-    console.log(JSON.stringify(backendData))
-    //question.questionType === 6 && <Linearquestion question={question}></Linearquestion>
 
+                
+        
     return (
         <>
             <HeaderContent>
@@ -227,6 +225,7 @@ function Analyzesurvey() {
 
             {backendData.questions.map((question, index) => {
                 switch(question.questionType){
+                    case 1:
                     case 2:
                         return(<Subjectivequestion key={index+1} question={question}></Subjectivequestion>)
                     case 3:
