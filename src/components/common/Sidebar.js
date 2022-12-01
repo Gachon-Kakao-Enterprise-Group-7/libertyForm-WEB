@@ -216,7 +216,7 @@ function Sidebar() {
     {
       name: '설문결과 분석',
       icon: IconTasks(),
-      link: '/home/ansurvey'
+      link: '/home/analyzesurvey'
     },
     {
       name: '설문 이메일 발송',

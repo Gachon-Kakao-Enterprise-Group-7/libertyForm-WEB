@@ -12,6 +12,7 @@ import Surveyend from './components/dosurvey/Surveyend'
 import Adminpage from './components/common/Adminpage';
 import Ansurvey from './components/ansurvey/Ansurvey';
 
+
 import { GlobalStyle } from './globalstyle'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // 리액트 라우터 기능 사용
