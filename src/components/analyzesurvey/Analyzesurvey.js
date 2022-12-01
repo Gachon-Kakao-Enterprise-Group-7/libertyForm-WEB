@@ -1,9 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components' ;
 import Emotionquestion from './Emotionquestion';
 
 import Linearquestion from './Linearquestion';
+import Subjectivequestion from './Subjectivequestion';
 import Objectivequestion from './Objectivequestion';
+
 
 const HeaderContent = styled.div`
   display: flex;
@@ -30,7 +32,6 @@ const Text2 = styled.span`
 
 
 function Analyzesurvey() {
-
 
     const backendData = {
         questions: [
@@ -83,10 +84,10 @@ function Analyzesurvey() {
                 ]
             },
             {
-                number: 3,
-                questionType: 5,
-                title: '이 교육과정을 듣고 어떤 기분이 드셨나요?',
-                result: [
+                number:3,
+                questionType:5,
+                title:'오늘 기분은 어때요??',
+                result:[
                     {
                         type: '매우나쁨😫',
                         value: 123
@@ -138,7 +139,49 @@ function Analyzesurvey() {
                 ]
             },
             {
-                number: 5,
+
+                number:4,
+                questionType:5,
+                title:'이 음식을 먹었을때 기분이 어떤가요?',
+                result:[
+                    {
+                        type:'매우나쁨😫',
+                        value:12
+                    },
+                    {
+                        type:'나쁨😑',
+                        value:32
+                    },
+                    {
+                        type:'보통😶',
+                        value:12
+                    },
+                    {
+                        type:'좋음😊',
+                        value:411
+                    },{
+                        type:'매우좋음😍',
+                        value:504
+                    }
+
+                ]            
+            },
+            {
+                number:5,
+                questionType:2,
+                title:'당신이 좋아하는 캐릭터는 무엇인가요?',
+                result:['춘식', '어피치','죠르디','라이언','네오','제이지','프로도'
+                        ,'튜브','무지','콘','라이언','네오','제이지','프로도','튜브','무지','콘', '어피치','죠르디','라이언'
+                        ,'네오','제이지', '어피치','죠르디','라이언','네오','제이지','춘식', '어피치','죠르디','라이언','네오'
+                        ,'제이지', '어피치','죠르디','라이언','네오','제이지','춘식', '어피치','죠르디','라이언','네오','제이지'
+                        , '어피치','죠르디','라이언','네오','제이지','춘식', '어피치','죠르디','라이언','네오','제이지', '어피치'
+                        ,'죠르디','라이언','네오','제이지','춘식', '어피치','죠르디' ,'춘식','춘식','춘식','춘식','춘식','춘식','춘식','춘식'
+                    ]            
+            },
+        ]
+    }
+
+                number: 6,
                 questionType: 4,
                 title: '좋아하는 자동차 제조사를 선택해주세요(중복가능)',
                 result: [
@@ -172,6 +215,7 @@ function Analyzesurvey() {
     }
     console.log(JSON.stringify(backendData))
     //question.questionType === 6 && <Linearquestion question={question}></Linearquestion>
+
     return (
         <>
             <HeaderContent>
@@ -180,15 +224,20 @@ function Analyzesurvey() {
                     <Text2>설문 결과 분석 페이지입니다.</Text2>
                 </div>
             </HeaderContent>
-            {backendData.questions.map((question) => {
-                switch (question.questionType) {
+
+            {backendData.questions.map((question, index) => {
+                switch(question.questionType){
+                    case 2:
+                        return(<Subjectivequestion key={index+1} question={question}></Subjectivequestion>)
                     case 3:
                     case 4:
-                        return (<Objectivequestion question={question}></Objectivequestion>)
-                    case 6:
-                        return (<Linearquestion question={question}></Linearquestion>)
+                        return (<Objectivequestion key={index+1} question={question}></Objectivequestion>)
                     case 5:
-                        return (<Emotionquestion question={question}></Emotionquestion>)
+                        return(<Emotionquestion key={index+1} question={question}></Emotionquestion>)
+                    case 6:
+                        return(<Linearquestion key={index+1} question={question}></Linearquestion>)
+                    
+
                     default:
                         break;
                 }

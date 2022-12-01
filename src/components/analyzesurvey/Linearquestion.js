@@ -13,18 +13,17 @@ const DashboardLayoutRoot = styled.div`
     max-width: 100%;
     padding-top: 64;
     padding-left: 200;
+    margin: 10px;
 `
 
 function Linearquestion(props) {
 
     let question = props.question
     let sum = 0;
-    console.log(question.result)
     question.result.forEach((item)=>(sum += item.value)) // sum값을 구하려고 하는 반복문
     question = question.result.map((item)=>(
         { ...item, percentage : (item.value/sum)*100 }
     ))
-    console.log(question)
     
 
     useEffect(() => {
