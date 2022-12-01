@@ -38,7 +38,6 @@ function App() {
           <Route path="/surveyend" element={<Surveyend />}></Route>
           <Route path="/adminpage" element={<Adminpage />}></Route>
           <Route path="/onboarding" element={<Onboarding />}></Route>
-          <Route path="/analyzesurvey" element={<Analyzesurvey />}></Route>
           <Route path="*" element={<Notfound />}></Route>
           {/* 예외처리로 Notfound페이지 이동시킨다. */}
         </Routes>
