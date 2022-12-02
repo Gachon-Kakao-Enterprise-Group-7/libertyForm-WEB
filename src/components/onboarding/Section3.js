@@ -5,6 +5,7 @@ import {Link} from 'react-scroll'
 
 import Img1 from 'img/sender.png'
 import Img2 from 'img/sender2.png'
+import Img3 from 'img/sender3.png'
 
 
 export const InfoContainer = styled.div`
@@ -18,7 +19,7 @@ export const InfoContainer = styled.div`
 
 export const InfoWrapper = styled.div`
   display: grid;
-  z-index: 1;
+  z-index: -1;
   height: 100vh;
   width: 100% auto;
   max-width: 1100px;
@@ -142,7 +143,7 @@ const Mainbutton = styled.button`
 
 const Section3 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const TOTAL_SLIDES = 1; //슬라이드 갯수
+  const TOTAL_SLIDES = 2; //슬라이드 갯수
   const slideRef = useRef(null);
 
   useEffect(() => {
@@ -189,6 +190,7 @@ const Section3 = () => {
               <ImgWrap ref={slideRef} currentSlide={currentSlide}>
                 <Img src={Img1}/>
                 <Img src={Img2}/>
+                <Img src={Img3}/>
               </ImgWrap>
               </ImgSlide>
             </Column2>

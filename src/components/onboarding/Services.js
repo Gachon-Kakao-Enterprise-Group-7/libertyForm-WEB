@@ -6,7 +6,7 @@ import Icon3 from 'img/function3.png'
 
 
 export const ServicesContainer = styled.div`
-  height: 90vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
