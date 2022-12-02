@@ -292,8 +292,7 @@ function Analyzesurvey() {
                         // console.log('5번타입문제입니다.')       
                         break;
                     case 6:
-                        // console.log('6번타입문제입니다.')     
-                        break;    
+                        return(<Linearquestion key={index+1} question={question}></Linearquestion>)      
                     default:
                         break;
                 }

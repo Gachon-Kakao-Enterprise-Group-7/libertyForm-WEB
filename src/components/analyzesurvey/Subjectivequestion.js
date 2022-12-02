@@ -50,7 +50,6 @@ function Subjectivequestion(props) {
     let text = ''
     props.question.responses.forEach((item)=>(text += ' ' +item))
     let question = {...props.question, text:text}
-    console.log(question)
 
 
     const [page, setPage] = React.useState(0);
