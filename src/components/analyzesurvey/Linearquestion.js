@@ -59,10 +59,6 @@ function Linearquestion(props) {
 
 
 
-    console.log(sum)
-    console.log(question)
-
-
 
     // let question = props.question
     // let sum = 0;

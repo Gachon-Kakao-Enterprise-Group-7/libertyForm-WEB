@@ -289,10 +289,9 @@ function Analyzesurvey() {
                     case 4:
                         return (<Objectivequestion key={index+1} question={question}></Objectivequestion>) //객관식
                     case 5:
-                        // console.log('5번타입문제입니다.')       
-                        break;
+                        return(<Emotionquestion key={index+1} question={question}></Emotionquestion>) //감정바
                     case 6:
-                        return(<Linearquestion key={index+1} question={question}></Linearquestion>)      
+                        return(<Linearquestion key={index+1} question={question}></Linearquestion>)//선형배율
                     default:
                         break;
                 }
