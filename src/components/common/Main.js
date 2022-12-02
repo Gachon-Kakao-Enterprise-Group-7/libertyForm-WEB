@@ -24,7 +24,6 @@ const MainSection= styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: -1; 
 `
 
 
@@ -217,44 +216,36 @@ function Main() {
     }, [vantaEffect]);
 
     return (
+        
         <ReactFullpage
         navigation
         sectionSelector={SECTION_SEL}
+        fixedElements= '.navbar-fixed-top'
         render={(comp) => (
           <ReactFullpage.Wrapper>
-            
+            <Navbar className='navbar'/>
             <div className={SEL}>
-              <div className="slide">
-              <Navbar/>
-              <MainSection ref={vantaRef}>
-              
-            <Spacingdiv></Spacingdiv>
-
-            <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
-                <h1>LIBERTY FORM</h1>
-            </Bodydiv>
-            <Bodydiv >
-                <Mainbutton onClick={isLogin}>
-                    시작하기
-                </Mainbutton>
-            </Bodydiv>
-            <Bodydiv>
-                <DownarrowSvg></DownarrowSvg>
-            </Bodydiv>
-        </MainSection>
-              </div>
+            <MainSection ref={vantaRef}>
+                <Spacingdiv/>
+                <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
+                    <h1>LIBERTY FORM</h1>
+                </Bodydiv>
+                <Bodydiv >
+                    <Mainbutton onClick={isLogin}>
+                        시작하기
+                    </Mainbutton>
+                </Bodydiv>
+                <Bodydiv>
+                    <DownarrowSvg></DownarrowSvg>
+                </Bodydiv>
+            </MainSection>
             </div>
-
             <div className={SEL}>
-              <div className="slide">
                 <Services/>
-              </div>
             </div>
 
             <div className={SEL}>
-              <div className="slide">
               <Section3/>
-              </div>
             </div>
 
             {/* <Services/>
