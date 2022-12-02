@@ -284,7 +284,7 @@ function Analyzesurvey() {
                 switch(question.question.questionTypeId){
                     case 1:
                     case 2:
-                        return(<Subjectivequestion key={index+1} question={question}></Subjectivequestion>)  
+                        return(<Subjectivequestion key={index+1} question={question}></Subjectivequestion>) //주관식
                     case 3:
                     case 4:
                         return (<Objectivequestion key={index+1} question={question}></Objectivequestion>) //객관식
