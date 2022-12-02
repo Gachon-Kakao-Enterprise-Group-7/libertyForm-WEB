@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components' ;
 import Emotionquestion from './Emotionquestion';
+import axios from 'axios';
 
 import Linearquestion from './Linearquestion';
 import Subjectivequestion from './Subjectivequestion';
@@ -32,6 +33,42 @@ const Text2 = styled.span`
 
 
 function Analyzesurvey() {
+
+    const [result, setResult] = useState(null)
+
+    useEffect(()=>{
+        axios.get(`${process.env.REACT_APP_DB_HOST}/analysis/load/${177}`, {
+            headers: {
+                Authorization: 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjo4fSwiaWF0IjoxNjY5OTQ4NjQzLCJleHAiOjE2NzE3MjY3MDh9.cNlm-qfKx_9CgPd8w5cD2GCtmiRJca8vhQ-pbmsE9Lg'
+            }
+        })
+            .then((res) => {
+                switch(res.data.code){
+                    case 1000:
+                        setResult({
+                            ...res.data.result, 
+                            questions:[
+                                ...res.data.result.choiceResponses, // 객관식설문
+                                ...res.data.result.numericResponses, //감정바, 선형배율 설문
+                                ...res.data.result.textResponses //주관식설문
+                            ].sort(function (a, b) {return a.question.number - b.question.number}) // 질문번호를 기준으로 정렬
+                        })
+                        break;
+                    default:
+                        console.log('디폴트값')
+                        break;
+                }
+
+            })
+            .catch((Error) => {
+                console.log(Error)
+            })
+    },[])
+
+    // useEffect(()=>{
+    //     console.log(result)
+    // },[result])
+
 
     const backendData = {
         questions: [
@@ -212,7 +249,8 @@ function Analyzesurvey() {
         ]
     }
 
-                
+
+    if(!result)return(<div>result값 수신중</div>)
         
     return (
         <>
@@ -223,25 +261,43 @@ function Analyzesurvey() {
                 </div>
             </HeaderContent>
 
-            {backendData.questions.map((question, index) => {
+            {/* {backendData.questions.map((question, index) => {
                 switch(question.questionType){
                     case 1:
                     case 2:
                         return(<Subjectivequestion key={index+1} question={question}></Subjectivequestion>)
+                        
                     case 3:
                     case 4:
-                        return (<Objectivequestion key={index+1} question={question}></Objectivequestion>)
+                        // return (<Objectivequestion key={index+1} question={question}></Objectivequestion>) //객관식
+                        break;
                     case 5:
                         return(<Emotionquestion key={index+1} question={question}></Emotionquestion>)
                     case 6:
-                        return(<Linearquestion key={index+1} question={question}></Linearquestion>)
-                    
-
+                        return(<Linearquestion key={index+1} question={question}></Linearquestion>)             
                     default:
                         break;
                 }
             }
-            )}
+            )} */}
+            {result.questions.map((question, index) => {
+                switch(question.question.questionTypeId){
+                    case 1:
+                    case 2:
+                        return(<Subjectivequestion key={index+1} question={question}></Subjectivequestion>)  
+                    case 3:
+                    case 4:
+                        return (<Objectivequestion key={index+1} question={question}></Objectivequestion>) //객관식
+                    case 5:
+                        // console.log('5번타입문제입니다.')       
+                        break;
+                    case 6:
+                        // console.log('6번타입문제입니다.')     
+                        break;    
+                    default:
+                        break;
+                }
+            })}
             <br />
 
         </>

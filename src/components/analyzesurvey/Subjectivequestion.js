@@ -53,7 +53,6 @@ function Subjectivequestion(props) {
     const [show, setShow] = useState(false)
 
     const question = props.question
-    const key = props.key
     let text = ''
     question.result.forEach((item)=>( // result값을 하나의 text로 합쳐주는 작업
         text += ' ' +item
