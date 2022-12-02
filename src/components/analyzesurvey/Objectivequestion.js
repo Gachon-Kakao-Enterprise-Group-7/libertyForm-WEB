@@ -19,9 +19,8 @@ const DashboardLayoutRoot = styled.div`
 function Objectivequestion(props) {
 
     let question = props.question
-    console.log(question.result)
     question = question.result
-    console.log(question)
+    console.log(question,'qs')
 
 
     useEffect(() => {
@@ -41,22 +40,30 @@ function Objectivequestion(props) {
             })
         );
 
-        const data = [{
-            value: question[0].value,
-            choice: question[0].choice
-        }, {
-            value: question[1].value,
-            choice: question[1].choice
-        }, {
-            value: question[2].value,
-            choice: question[2].choice
-        }, {
-            value: question[3].value,
-            choice: question[3].choice
-        }, {
-            value: question[4].value,
-            choice: question[4].choice
-        }];
+        // const data = [{
+        //     value: question[0].count,
+        //     choice: question[0].choice
+        // }, {
+        //     value: question[1].count,
+        //     choice: question[1].choice
+        // }, {
+        //     value: question[2].count,
+        //     choice: question[2].choice
+        // }, {
+        //     value: question[3].count,
+        //     choice: question[3].choice
+        // }, {
+        //     value: question[4].count,
+        //     choice: question[4].choice
+        // }];
+
+        const data = question.map((item)=>(
+            {
+                value:item.count,
+                choice:item.choice
+            }
+        ))
+
 
         const yAxis = chart.yAxes.push(
             am5xy.CategoryAxis.new(root, {

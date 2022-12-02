@@ -118,23 +118,23 @@ function Analyzesurvey() {
                 result: [
                     {
                         choice: '사과',
-                        value: 120
+                        count: 120
                     },
                     {
                         choice: '배',
-                        value: 312
+                        count: 312
                     },
                     {
                         choice: '귤',
-                        value: 122
+                        count: 122
                     },
                     {
                         choice: '감',
-                        value: 211
+                        count: 211
                     },
                     {
                         choice: '복숭아',
-                        value: 504
+                        count: 504
                     }
                 ]
             },
@@ -185,27 +185,27 @@ function Analyzesurvey() {
                 result: [
                     {
                         choice: 'Mercedes-Benz',
-                        value: 123
+                        count: 123
                     },
                     {
                         choice: 'Pagani',
-                        value: 352
+                        count: 352
                     },
                     {
                         choice: 'Koenigsegg',
-                        value: 222
+                        count: 222
                     },
                     {
                         choice: 'Bugatti',
-                        value: 411
+                        count: 411
                     },
                     {
                         choice: 'Lotus',
-                        value: 204
+                        count: 204
                     },
                     {
                         choice: 'BMW',
-                        value: 233
+                        count: 233
                     }
                 ]
             }
