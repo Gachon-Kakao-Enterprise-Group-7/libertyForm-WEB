@@ -18,16 +18,60 @@ const DashboardLayoutRoot = styled.div`
 
 function Linearquestion(props) {
 
-    let question = props.question
-    let sum = 0;
-    question.result.forEach((item)=>(sum += item.value)) // sum값을 구하려고 하는 반복문
-    question = question.result.map((item)=>(
-        { ...item, percentage : (item.value/sum)*100 }
+    const question = {
+        ...props.question,
+        result:[
+            {
+                type:'verybad',
+                count:0,
+                percentage:0
+            },
+            {
+                type:'bad',
+                count:0,
+                percentage:0
+            },
+            {
+                type:'soso',
+                count:0,
+                percentage:0
+            },
+            {
+                type:'good',
+                count:0,
+                percentage:0
+            },
+            {
+                type:'verygood',
+                count:0,
+                percentage:0
+            }
+        ]
+    }
+    question.responses.forEach((response)=>(
+        question.result[response-1].count +=1
+    )) // 질문 결과 누적 카운트
+    const sum = question.result[0].count + question.result[1].count + question.result[3].count + question.result[4].count //sum값을 구하는 과정
+
+    question.result.forEach((item, index)=>(
+        question.result[index].percentage = (question.result[index].count / sum) * 100
     ))
+
+
+
+
+    // let question = props.question
+    // let sum = 0;
+    // question.result.forEach((item)=>(sum += item.value)) // sum값을 구하려고 하는 반복문
+    // question = question.result.map((item)=>(
+    //     { ...item, percentage : (item.value/sum)*100 }
+    // ))
     
 
+
+
     useEffect(() => {
-        const root = am5.Root.new(`chartdiv${props.question.number}`);
+        const root = am5.Root.new(`chartdiv${question.question.number}`);
 
         root.setThemes([
             am5themes_Animated.new(root)
@@ -55,10 +99,10 @@ function Linearquestion(props) {
 
         const data = [{
             category: "",
-            negative1: -question[0].percentage,
-            negative2: -question[1].percentage,
-            positive1: question[2].percentage,
-            positive2: question[3].percentage
+            negative1: -question.result[0].percentage,
+            negative2: -question.result[1].percentage,
+            positive1: question.result[3].percentage,
+            positive2: question.result[4].percentage
         }];
 
         const yAxis = chart.yAxes.push(
@@ -173,7 +217,7 @@ function Linearquestion(props) {
             }}
         >
             <Card>
-                <CardHeader title={props.question.title} />
+                <CardHeader title={question.question.name} />
                 <Divider />
                 <CardContent>
                     <Box
@@ -182,7 +226,7 @@ function Linearquestion(props) {
                             position: 'relative'
                         }}
                     >
-                        <div id={`chartdiv${props.question.number}`} style={{ width: "100%", height: "150px" }}></div>
+                        <div id={`chartdiv${question.question.number}`} style={{ width: "100%", height: "150px" }}></div>
                     </Box>
                 </CardContent>
             </Card>

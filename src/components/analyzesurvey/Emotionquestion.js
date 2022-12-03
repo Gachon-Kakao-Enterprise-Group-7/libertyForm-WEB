@@ -18,10 +18,32 @@ const DashboardLayoutRoot = styled.div`
 
 function Emotionquestion(props) {
     let question = props.question
-    question = question.result
+    let result = [0, 0, 0, 0, 0]
+    question.responses.forEach((response)=>{
+        if(response>=0 && response<21){
+            result[0] +=1
+        }
+        else if(response>=21 && response<41){
+            result[1] +=1
+        }
+        else if(response>=41 && response<61){
+            result[2] +=1
+        }
+        else if(response>=61 && response<81){
+            result[3] +=1
+        }
+        else{
+            result[4] +=1
+        }
+    })
+
+    console.log(result)
+
+
+
 
     useEffect(() => {
-        const root = am5.Root.new(`chartdiv${props.question.number}`);
+        const root = am5.Root.new(`chartdiv${question.question.number}`);
 
         root.setThemes([
         am5themes_Animated.new(root)
@@ -58,20 +80,20 @@ function Emotionquestion(props) {
         });
 
         series.data.setAll([{
-        value: question[0].value,
-        category: question[0].type
+        value: result[0],
+        category: '매우나쁨😫'
         }, {
-        value: question[1].value,
-        category: question[1].type
+        value: result[1],
+        category: '나쁨😑'
         }, {
-        value: question[2].value,
-        category: question[2].type
+        value: result[2],
+        category: '보통😶'
         }, {
-        value: question[3].value,
-        category: question[3].type
+        value: result[3],
+        category: '좋음😊'
         }, {
-        value: question[4].value,
-        category: question[4].type
+        value: result[4],
+        category: '매우좋음😍'
         }]);
 
         let legend = chart.children.push(am5.Legend.new(root, {
@@ -100,7 +122,7 @@ function Emotionquestion(props) {
             }}
         >
             <Card>
-                <CardHeader title={props.question.title} />
+                <CardHeader title={question.question.name} />
                 <Divider />
                 <CardContent>
                     <Box
@@ -109,7 +131,7 @@ function Emotionquestion(props) {
                             position: 'relative'
                         }}
                     >
-                        <div id={`chartdiv${props.question.number}`} style={{ width: "100%", height: "500px" }}></div>
+                        <div id={`chartdiv${question.question.number}`} style={{ width: "100%", height: "500px" }}></div>
                     </Box>
                 </CardContent>
             </Card>
