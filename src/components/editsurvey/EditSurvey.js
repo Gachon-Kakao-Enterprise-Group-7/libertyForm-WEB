@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
 
 // mui import
@@ -15,13 +16,15 @@ import { ReactComponent as UploadSvg } from "svg/upload.svg"
 import { ReactComponent as DragSvg } from "svg/drag.svg"
 import useDidMountEffect from 'hooks/useDidMountEffect'; // 처음 렌더링을 막아주는 커스텀 훅
 
-import { motion } from "framer-motion" // 애니메이션 효과
 
 import DatePicker from "react-datepicker";//리액트 캘린더 라이브러리
 import "react-datepicker/dist/react-datepicker.css"; //캘린더 css
 import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
-import axios from 'axios';
 import Swal from 'sweetalert2';
+
+
+
+
 
 const DragSvgWrapper = styled(DragSvg)`
     margin-right: 5px;
@@ -32,15 +35,7 @@ const DragSvgWrapper = styled(DragSvg)`
       fill: #ff7800;
     } */
 `
-const UploadSvgWrapper = styled(UploadSvg)`
-    width:30px;
-    height:30px;
-    padding-bottom:5px;
-    fill: #ffbc00;
-`
-const MainWrapper = styled(motion.div)`
 
-`
 const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -53,6 +48,7 @@ const ModalDelete = styled.button`
   outline: none;
   cursor: pointer;
 `
+
 const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
     width:30px;
@@ -104,6 +100,7 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
+
 const Surveybutton = styled.button`
     font-weight: bold;
     width: 220px;
@@ -118,6 +115,8 @@ const Surveybutton = styled.button`
     border-radius: 10px;
     margin-top: 80px;
 `
+
+
 const BlockDiv = styled.div`
     background-color: white;
     margin: auto;
@@ -157,6 +156,7 @@ const MainItemDiv = styled.div`
     margin-bottom:5px;
     padding-bottom: 4px; 
 `
+
 const FuncDiv = styled.div`
     width: 100%;
     margin: 3vw auto;
@@ -223,6 +223,7 @@ const StyledDatePicker = styled(DatePicker)`
     border-radius: 4px;
     font-size: 12px;
 `
+
 const TextInput = styled.input`
   position: relative;
   border: none;
@@ -237,36 +238,7 @@ const TextInput = styled.input`
   border-bottom: 3px solid #ffcd23;
   }
 `
-const ImageInput = styled.div`
-  label {
-    padding-top: 7px ;
-    display: inline-flex;
-    justify-content: space-evenly;
-    font-size: inherit;
-    line-height: normal;
-    vertical-align: middle;
-    cursor: pointer;
-    background: white;
-	border: 1px solid #ffbc00;
-    font-weight: bold;
-    width: 15vh;
-    height: 5vh;
-    color: #ffbc00;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
 
-`
 const ImageUpload = styled.div`
     padding: 1rem;
     display: inline-flex;
@@ -278,6 +250,7 @@ const ImageUpload = styled.div`
     width:50%;
     height : 50vh;
 `
+
 const TextUpload = styled.div` 
     display: flex;
     justify-content: space-between ;
@@ -288,6 +261,7 @@ const TextUpload = styled.div`
     height : 50vh;
     background-color : transparent;
 `
+
 const PreviewImg = styled.div`
     background: #e1e1e1;
     background-image: url(${(props) => props.imgFileSrc});
@@ -312,6 +286,7 @@ const Triangle = styled.div`
     bottom: 20px;
     z-index: 0;
 `
+
 const PreviewCard = styled.div`
     background-color: #ffffffe0;
     border-radius: 10px;
@@ -347,46 +322,29 @@ const PreviewButton = styled.button`
     background-color: #e1e1e1;
 `
 
+function EditSurvey() {
 
-Modal.setAppElement("#root");
-
-function Mksurvey() { // Make Survey
-
+    const [loading, setLoading] = useState(false);
+    const [surveyDetail, setSurveyDetail] = useState(false)
+    const surveyCode = useParams().surveyCode;
+    
+    const [surveyId, setSurveyId] = useState('')
     const [title, setTitle] = useState('') // 설문 이름에 대한 useState
     const [description, setDescription] = useState('')
     const [multiChoiceItem, setMultiChoiceItem] = useState('') // 객관식 항목추가할때 항목 하나하나를 임시로 가지고 있는 State
     const [expireDate, setExpireDate] = useState('') // 만료 날짜를 설정하는 State
     const [convertedDate, setConvertedDate] = useState(null) // 백엔드에 보내지는 만료날짜
-    const [survey, setSurvey] = useState([{ id: 0, q: '', type: '', required: false }]) // 현재 만들고 있는 survey에 대한 정보를 담고있음
+    const [survey, setSurvey] = useState() // 현재 만들고 있는 survey에 대한 정보를 담고있음
     const [modalOpen, setModalOpen] = useState(false)
     const [imgFileSrc, setImgFileSrc] = useState('')
-
-    const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
-    const [imgs, setImgs] = useState([])
-
-    useEffect(() => {
-        console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
-    }, [imgs])
-
-    useEffect(() => {
-        console.log(imgFile, '썸네일 가지고 있는 state변화함!')
-    }, [imgFile])
-
-    const openModal = () => {
-        setModalOpen(true);
-        document.body.style.overflow = "hidden";
-    };
-
-    const closeModal = () => {
-        setModalOpen(false);
-        document.body.style.overflow = "unset";
-    };
-
+    const id = useRef(0)
+    const [qLength, setQlength] = useState(0)
     const [postData, setPostData] = useState({
         survey: {
             name: "", // 설문 이름
             description: "", // 설문 추가 설명
             expirationDate: '', //설문 마감 날짜
+            surveyId:''
         },
         questions: [
             // { //이 부분은 계속 누적하는 부분이라 기본값이 있으면 안된다.
@@ -422,33 +380,171 @@ function Mksurvey() { // Make Survey
     })
 
 
-    // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
-    //console.log(survey) // 사용자의 입력을 받은 survey 양식
+    useEffect(() => { // 처음에 서버에서 받아오는 설문 상세 정보!
+        setLoading(true)
+        const jwt = localStorage.getItem('jwt')
+        axios.get(`${process.env.REACT_APP_DB_HOST}/survey/${surveyCode}`, {
+          headers: {
+            Authorization: 'Bearer ' + jwt
+          }
+        }) 
+          .then((res) => {
+            switch(res.data.code){
+                case 1000:
+                    const choiceQuestions = res.data.result.choiceQuestions.map((item)=>( // choiceQuestions 데이터 전처리 과정
+                        {
+                            ...item.question, choices:item.choices
+                        }
+                    ))
+                    setSurveyDetail((prev)=>({
+                        survey:res.data.result.survey,
+                        questions:[...res.data.result.questions, ...choiceQuestions].sort(function (a, b) {return a.number - b.number}) // res.data에 있는 객관식과 주관식을 하나의 배열로 합치고, 문제 번호순으로 정렬
+                    }))
+                    
+                    setTitle(res.data.result.survey.name)
+                    setDescription(res.data.result.survey.description)
+                    setExpireDate(new Date(res.data.result.survey.expirationDate))
+                    setConvertedDate(res.data.result.survey.expirationDate)
+                    setImgFileSrc(res.data.result.survey.thumbnailImgUrl)
+                    setSurveyId(res.data.result.survey.surveyId)
+                    setQlength(res.data.result.choiceQuestions.length + res.data.result.questions.length)
+                    setLoading(false)
+                    break;
+                default:
+                    console.log(res.data)
+                    break;
+            }
+          })
+          .catch((Error) => {
+            console.log(Error)
+          })
+      }, [])
 
-    const id = useRef(1) // servey 문제마다 id값을 주기 위함
-    const scrollRef = useRef() // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
-    const state = useSelector((state) => state.survey)
 
-    const dispatch = useDispatch()
+    useEffect(()=>{
+        console.log(survey)
+    },[survey])
+
+    useDidMountEffect(()=>{ // server to react 데이터로 변환
+       console.log('처음에 실행되고 또 실행되면 대참사')
+       id.current = surveyDetail.questions.length +1
+       setSurvey(surveyDetail.questions.map((question, index)=>(
+        question.questionTypeId === 3 || question.questionTypeId ===4
+        ?{
+            id:question.number,
+            questionId : question.questionId,
+            q:question.name,
+            type:question.questionTypeId,
+            required:question.answerRequired,
+            mcitem:question.choices.map((item)=>(
+                {name : item.name, choiceId: item.choiceId}
+            ))
+        }
+        :{
+            id:question.number,
+            questionId : question.questionId,
+            q:question.name,
+            type:question.questionTypeId,
+            required:question.answerRequired,
+            description: question.description? question.description:null 
+        }
+        
+    ))) 
+
+      },[surveyDetail])
+    const changeDate = (date) => { // 날짜 형식을 백엔드에 보내줘야 할 양식으로 변환하는 함수
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+        setExpireDate(date) // 사용자 화면에 보여지기 위한 Date State
+        setConvertedDate(date.getFullYear() + '-' + month + '-' + day) // 백엔드에 보내기 위한 Date
+    }
+
+    const openModal = () => {
+        setModalOpen(true);
+        document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        document.body.style.overflow = "unset";
+    };
+    
+
+    const saveData = () => {
+        console.log('saveData함수 실행됨')
+        setPostData((
+            {
+                ...postData,
+                survey: {
+                    ...postData.survey,
+                    name: title,
+                    description: description,
+                    expirationDate: convertedDate,
+                    surveyId:surveyId
+                },
+                choiceQuestions: [
+                    ...postData.choiceQuestions,
+                    ...survey.filter((item) => (item.type == '3' || item.type == '4')).map((item, index) => ( //여기 괄호 안이 한질문임!
+                        {
+                            choices:
+                                item.mcitem.map((mcitem, index) => (
+                                    {
+                                        name: mcitem.name,
+                                        number: index+1,
+                                        choiceId : mcitem.choiceId
+                                    }
+                                ))
+                            ,
+                            question: {
+                                questionTypeId: item.type,
+                                questionId : item.questionId,
+                                name: item.q,
+                                number : String(item.id),
+                                answerRequired: item.required
+                            }
+                        }
+                    ))
+                ],
+                questions: [
+                    ...postData.questions,
+                    ...survey.filter((item) => (item.type != '3' && item.type != '4')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
+                        {
+                            questionTypeId: item.type,
+                            questionId : item.questionId,
+                            name: item.q,
+                            description: item.description,
+                            number : String(item.id),
+                            answerRequired: item.required
+                        }
+
+                    ))
+                ]
+            }
+        ))
+
+    }
 
 
     const onChange = (e) => {
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
         const q = e.target.value //사용자가 input태그에 입력한 값
-        setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+        setSurvey(survey.map((item) => item.id === targetId +1 ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
     const onChangeDescription = (e) => { //설문 질문에 대한 description
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
         const description = e.target.value //사용자가 input태그에 입력한 값
-        setSurvey(survey.map((item) => item.id === targetId ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+        setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
 
 
     const addMcItem = (e) => {
+        
         const targetId = parseInt(e.target.dataset.id)
         const mcitem = multiChoiceItem
         if (mcitem.length > 0) {
-            setSurvey(survey.map((item) => item.id === targetId ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
+            setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, mcitem: [...item.mcitem, {name:mcitem, choiceId:-1}] } : item))
             setMultiChoiceItem('')
         }
         else {
@@ -463,11 +559,12 @@ function Mksurvey() { // Make Survey
     }
 
     const handleOnKeyPress = (e) => {
-        if (e.key === 'Enter') { // Enter 입력이 되면 클릭 이벤트 실행
+        if (e.key === 'Enter') { // Enter 입력이 되면 클릭 이벤트 실행?
+
             const targetId = parseInt(e.target.dataset.id)
             const mcitem = multiChoiceItem
             if (mcitem.length > 0) {
-                setSurvey(survey.map((item) => item.id === targetId ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
+                setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, mcitem: [...item.mcitem, {name:mcitem, choiceId:-1}] } : item))
                 setMultiChoiceItem('')
             }
             else {
@@ -484,7 +581,7 @@ function Mksurvey() { // Make Survey
 
     const onToggle = (e) => {
         const targetId = parseInt(e.target.name)
-        setSurvey(survey.map((item) => item.id === targetId ? { ...item, required: !item.required } : item))
+        setSurvey(survey.map((item) => item.id === targetId+1 ? { ...item, required: !item.required } : item))
     }
 
 
@@ -494,111 +591,10 @@ function Mksurvey() { // Make Survey
         const temp = survey[index].mcitem
         temp.splice(mcitemIndex, 1)
 
-        setSurvey(survey.map((item) => item.id === index ? { ...item, mcitem: temp } : item))
+        setSurvey(survey.map((item) => item.id === index+1 ? { ...item, mcitem: temp } : item))
     }
 
 
-    const onLoadThumnail = (e) => {
-        setImgFile(e.target.files)
-    }
-
-    const onLoadQuestionFile = (e) => {
-
-        const questionNumber = e.target.name // 질문 번호
-        const fileExtension = e.target.files[0].name.split('.')[1] // 업로드한 파일의 확장자
-
-        const oldFile = e.target.files[0] // 업로드한 파일
-        let newFile = null // newFile 선언
-        switch (fileExtension) {
-            case 'jpg': //jpg일 경우
-                newFile = new File([oldFile], `${questionNumber}.jpg`, { type: oldFile.type }) // File생성자를 이용해서 oldFile의 이름을 바꿔준다
-                setImgs((prev) => [...prev, newFile]) // 저장
-                break;
-            case 'png':
-                newFile = new File([oldFile], `${questionNumber}.png`, { type: oldFile.type })
-                setImgs((prev) => [...prev, newFile])
-                break;
-            default:
-                alert('지원하지 않는 파일 형식입니다.')
-                break
-        }
-    }
-
-
-    const changeDate = (date) => { // 날짜 형식을 백엔드에 보내줘야 할 양식으로 변환하는 함수
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        month = month >= 10 ? month : '0' + month;
-        day = day >= 10 ? day : '0' + day;
-        setExpireDate(date) // 사용자 화면에 보여지기 위한 Date State
-        setConvertedDate(date.getFullYear() + '-' + month + '-' + day) // 백엔드에 보내기 위한 Date
-    }
-
-    useDidMountEffect(() => {
-        dispatch({ type: 'ADDSURVEY', data: postData })
-        console.log('useEffect 실행')
-
-    }, [postData]);
-
-
-    useDidMountEffect(() => {
-        window.scrollTo(0, scrollRef.current.scrollHeight)
-    }, [survey.length]) //survey에 새로운 질문이 추가되었을때(==survey.length변화) 스크롤을 가장 아래로 내린다.
-
-
-    useDidMountEffect(() => {
-        encodeFileToBase64(imgFile[0], 'encodedfile')
-    }, [imgFile])
-
-
-    const saveData = () => {
-        setPostData((
-            {
-                ...postData,
-                survey: {
-                    ...postData.survey,
-                    name: title,
-                    description: description,
-                    expirationDate: convertedDate,
-                },
-                choiceQuestions: [
-                    ...postData.choiceQuestions,
-                    ...survey.filter((item) => (item.type === '3' || item.type === '4')).map((item, index) => ( //여기 괄호 안이 한질문임!
-                        {
-                            choices:
-                                item.mcitem.map((mcitem, index) => (
-                                    {
-                                        name: mcitem,
-                                        number: index + 1
-                                    }
-                                ))
-                            ,
-                            question: {
-                                questionTypeId: item.type,
-                                name: item.q,
-                                number: String(item.id + 1),
-                                answerRequired: item.required
-                            }
-                        }
-                    ))
-                ],
-                questions: [
-                    ...postData.questions,
-                    ...survey.filter((item) => (item.type !== '3' && item.type !== '4')).map((item, index) => ( // 필터로 객관식 아닌 질문들만 걸러서 questions에 넣어준다.
-                        {
-                            questionTypeId: item.type,
-                            name: item.q,
-                            description: item.description,
-                            number: String(item.id + 1),
-                            answerRequired: item.required
-                        }
-
-                    ))
-                ]
-            }
-        ))
-
-    }
 
     const requestSubmit = () => {
         if (title.length < 1) { // 설문 제목의 길이가 0일때
@@ -640,35 +636,28 @@ function Mksurvey() { // Make Survey
     }
 
 
+
     const sendToServer = async () => {
 
-        const formData = new FormData() // FormData 객체 사용
-
-        formData.append("thumbnailImg", imgFile[0]) //imgFile[0] === upload file (썸네일 이미지)
-        imgs.forEach((item) => (
-            formData.append("questionImgs", item)
-        ))
-        console.log(imgs)
         const jwt = localStorage.getItem('jwt')
-        const blob = new Blob([JSON.stringify(postData)], { type: "application/json" })// type을 지정해주고 저장
-        formData.append("surveyReqDto", blob)//formData는 특수 개체라 특정한 조작으로만 조작 가능!
-        await axios({
-            method: "POST",
-            url: `${process.env.REACT_APP_DB_HOST}/survey/create`,
-            headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: 'Bearer ' + jwt,
-
-            },
-            data: formData,
-        })
+        
+        await axios.patch(`${process.env.REACT_APP_DB_HOST}/survey/modify`, postData, { headers: { Authorization: 'Bearer ' + jwt } })
             .then((res) => {
                 console.log(res.data.code)
                 switch (res.data.code) {
-                    case 1000:
+                    case 2500:
                         document.location.href = '/home/dashboard'
                         break;
-                    case 4001: //질문유형이 없을경우
+                    case 2010:
+                    case 2011:
+                    case 2012:
+                    case 2013:
+                    case 2014:
+                    case 2015:
+                    case 2019:
+                    case 4001:
+                    case 4002:
+                        console.log('오류입니다. 자세한 정보는 스웨거 확인')
                         break;
                     default:
                         console.log(res.data.code)
@@ -682,103 +671,86 @@ function Mksurvey() { // Make Survey
         setModalOpen(false)
     }
 
-    const encodeFileToBase64 = (file) => { // 파일을 읽어서 
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        return new Promise((resolve) => {
-            reader.onload = () => {
-                setImgFileSrc(reader.result);
-                resolve();
-            };
-        });
-    };
+  if(loading)return(<div>로딩중</div>)
+  if(!surveyDetail)return(<div>데이터안받아와짐</div>)
+  if(!survey)return(<div>데이터안받아짐2</div>)
+  
+  return (
+    <div>
+        {console.log()}
+        <BlockDiv>
+            <MainItemDiv>
+                <ImageUpload>
+                    <div style={{ fontSize: '1.3rem', marginTop: '20px', marginBottom: '20px', fontWeight: 'bold' }}>수정</div>
+                    <PreviewImg imgFileSrc={imgFileSrc}>
+                        {title.length > 0
+                            ?
+                            <PreviewCard>
+                                <PreviewText style={{ marginTop: '10px' }}>{title.length > 0 && `${title}에 관한 설문입니다.`}</PreviewText>
+                                <PreviewText>{description}</PreviewText>
+                                {/* <PreviewText style={{ marginTop: '10px' }}>설문 문항은 총 {survey.length}문항입니다</PreviewText> */}
 
-
-    return (
-
-        <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
-            {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
-            <BlockDiv>
-                <MainItemDiv>
-                    <ImageUpload>
-                        <div style={{ fontSize: '1.3rem', marginTop: '20px', marginBottom: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
-
-                        <PreviewImg imgFileSrc={imgFileSrc}>
-                            {title.length > 0
-                                ?
-                                <PreviewCard>
-                                    <PreviewText style={{ marginTop: '10px' }}>{title.length > 0 && `${title}에 관한 설문입니다.`}</PreviewText>
-                                    <PreviewText>{description}</PreviewText>
-                                    <PreviewText style={{ marginTop: '10px' }}>설문 문항은 총 {survey.length}문항입니다</PreviewText>
-
-                                    <PreviewButton onClick={() => {
-                                        Swal.fire({
-                                            title: 'Submit your Github username',
-                                            input: 'text',
-                                            inputAttributes: {
-                                                autocapitalize: 'off'
-                                            },
-                                            showCancelButton: true,
-                                            confirmButtonText: 'Look up',
-                                            showLoaderOnConfirm: true,
-                                            preConfirm: (login) => {
-                                                return fetch(`//api.github.com/users/${login}`)
-                                                    .then(response => {
-                                                        if (!response.ok) {
-                                                            throw new Error(response.statusText)
-                                                        }
-                                                        return response.json()
-                                                    })
-                                                    .catch(error => {
-                                                        Swal.showValidationMessage(
-                                                            `Request failed: ${error}`
-                                                        )
-                                                    })
-                                            },
-                                            allowOutsideClick: () => !Swal.isLoading()
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                Swal.fire({
-                                                    title: `${result.value.login}'s avatar`,
-                                                    imageUrl: result.value.avatar_url
+                                <PreviewButton onClick={() => {
+                                    Swal.fire({
+                                        title: 'Submit your Github username',
+                                        input: 'text',
+                                        inputAttributes: {
+                                            autocapitalize: 'off'
+                                        },
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Look up',
+                                        showLoaderOnConfirm: true,
+                                        preConfirm: (login) => {
+                                            return fetch(`//api.github.com/users/${login}`)
+                                                .then(response => {
+                                                    if (!response.ok) {
+                                                        throw new Error(response.statusText)
+                                                    }
+                                                    return response.json()
                                                 })
-                                            }
-                                        })
-                                    }}>시작하기</PreviewButton>
-                                </PreviewCard>
-                                : <PreviewCardDefault>미리보기</PreviewCardDefault>
-                            }
-                        </PreviewImg>
+                                                .catch(error => {
+                                                    Swal.showValidationMessage(
+                                                        `Request failed: ${error}`
+                                                    )
+                                                })
+                                        },
+                                        allowOutsideClick: () => !Swal.isLoading()
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            Swal.fire({
+                                                title: `${result.value.login}'s avatar`,
+                                                imageUrl: result.value.avatar_url
+                                            })
+                                        }
+                                    })
+                                }}>시작하기</PreviewButton>
+                            </PreviewCard>
+                            : <PreviewCardDefault>미리보기</PreviewCardDefault>
+                        }
+                    </PreviewImg>
 
-                        <Triangle></Triangle>
+                    <Triangle></Triangle>
 
-                        <ImageInput>
-                            <label htmlFor="ex_file">
-                                <UploadSvgWrapper />
-                                <a style={{ paddingTop: '5px' }}>파일 선택</a>
-                            </label>
-                            <input type="file" id="ex_file" onChange={onLoadThumnail}></input>
-                        </ImageInput>
-                    </ImageUpload>
-                    <TextUpload>
-                        <div>
-                            <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 제목을 입력해 주세요</a>
-                            <TextInput onChange={(e) => { setTitle(e.target.value) }}></TextInput>
-                        </div>
-                        <div>
-                            <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</a>
-                            <TextInput onChange={(e) => { setDescription(e.target.value) }}></TextInput>
-                        </div>
-                        <div>
-                            <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</a>
-                            <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
-                        </div>
-                    </TextUpload>
-                </MainItemDiv>
-            </BlockDiv>
+                </ImageUpload>
+                <TextUpload>
+                    <div>
+                        <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 제목을 입력해 주세요</a>
+                        <TextInput value={title} onChange={(e) => { setTitle(e.target.value) }}></TextInput>
+                    </div>
+                    <div>
+                        <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문의 상세정보를 입력해 주세요</a>
+                        <TextInput value={description} onChange={(e) => { setDescription(e.target.value) }}></TextInput>
+                    </div>
+                    <div>
+                        <a style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '20px' }}>설문 마감일을 설정해주세요.</a>
+                        <StyledDatePicker minDate={new Date()} selected={expireDate} placeholderText={"마감기한을 설정해주세요."} locale={ko} dateFormat='yyyy년 MM월 dd일' onChange={changeDate} />
+                    </div>
+                </TextUpload>
+            </MainItemDiv>
+        </BlockDiv>
 
-            {/* 설문 항목 부분 */}
-            {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
+        {survey.map((item, index) => ( // survey의 개수에 따라 ItemDiv를 보여준다.
+        
                 <BlockDiv key={index}>
                     <ItemDiv>
                         <NumberingDiv>
@@ -792,51 +764,36 @@ function Mksurvey() { // Make Survey
 
                     <ItemDiv>
                         <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
-                        <form
-                            name="photo"
-                            encType="multipart/form-data"
-                        >
-                            <input
-                                type="file"
-                                name={index + 1}
-                                accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
-                                onChange={(e) => { onLoadQuestionFile(e) }}
-                                onClick={() => {
-                                    const tempArr = imgs
-                                    setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
-                                }}
-                            />
-                        </form>
                         <FormControl>
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                 name="row-radio-buttons-group"
                             >
-                                <FormControlLabel value="3" control={<Radio />} label="객관식(단일)" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '3', mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel checked={item.type==3} value='3' control={<Radio />} label="객관식(단일)" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index+1 ? { ...item, type: 3, mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="4" control={<Radio />} label="객관식(복수)" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '4', mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel checked={item.type==4} value="4" control={<Radio />} label="객관식(복수)" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index+1 ? { ...item, type: 4, mcitem: [] } : item)) // 객관식 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="2" control={<Radio />} label="단답형" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '2' } : item)) // 단답형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel checked={item.type==2} value="2" control={<Radio />} label="단답형" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index+1 ? { ...item, type: 2 } : item)) // 단답형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="1" control={<Radio />} label="장문형" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '1' } : item)) // 장문형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel checked={item.type==1} value="1" control={<Radio />} label="장문형" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index+1 ? { ...item, type: 1 } : item)) // 장문형 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="5" control={<Radio />} label="감정바" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '5' } : item)) // 감정바 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel checked={item.type==5} value="5" control={<Radio />} label="감정바" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index+1 ? { ...item, type: 5 } : item)) // 감정바 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
-                                <FormControlLabel value="6" control={<Radio />} label="선형표현" onClick={(e) => {
-                                    setSurvey(survey.map((item) => item.id === index ? { ...item, type: '6' } : item)) // 선형표현 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
+                                <FormControlLabel checked={item.type==6}  value="6" control={<Radio />} label="선형표현" onClick={(e) => {
+                                    setSurvey(survey.map((item) => item.id === index+1 ? { ...item, type: 6 } : item)) // 선형표현 버튼을 눌렀을때 setsurvey를 통해 survey의 type을 변경한다
                                 }} />
                             </RadioGroup>
                         </FormControl>
                     </ItemDiv>
                     <ItemDiv>
                         {/* 객관식, 주관식, 감정바, 선형표현를 선택함에 따라 다른 정보를 수집 */}
-                        {survey[index].type === '3' &&
+                        {survey[index].type == '3' && // 객관식 단일
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -845,7 +802,7 @@ function Mksurvey() { // Make Survey
                                 <McitemAddBtn onClick={addMcItem} data-id={index}>추가</McitemAddBtn>
                                 <StyledOl>
 
-                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
+                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem.name}</StyledLi>)}
                                 </StyledOl><hr />
 
                                 <FormControlLabel
@@ -857,7 +814,7 @@ function Mksurvey() { // Make Survey
 
                             </>
                         }
-                        {survey[index].type === '4' &&
+                        {survey[index].type == '4' && // 객관식 복수
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -866,7 +823,7 @@ function Mksurvey() { // Make Survey
                                 <McitemAddBtn onClick={addMcItem} data-id={index}>추가</McitemAddBtn>
                                 <StyledOl>
 
-                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem}</StyledLi>)}
+                                    {survey[index].mcitem.map((mcitem, mcitemIndex) => <StyledLi value={mcitemIndex} data-id={index} onClick={delMcItem}>{mcitem.name}</StyledLi>)}
                                 </StyledOl><hr />
 
                                 <FormControlLabel
@@ -878,12 +835,12 @@ function Mksurvey() { // Make Survey
 
                             </>
                         }
-                        {survey[index].type === '2' &&
+                        {survey[index].type == '2' &&  //단답형
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input placeholder='' data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
-                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
+                                <input placeholder='' data-id={index} value={survey[index].description} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -891,12 +848,12 @@ function Mksurvey() { // Make Survey
                                     label="필수답변"
                                 />
                             </>}
-                        {survey[index].type === '1' &&
+                        {survey[index].type == '1' && //장문형
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
                                 <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설명을 추가하세요</div>
-                                <input placeholder='' data-id={index} value={survey[index].discription} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
+                                <input placeholder='' data-id={index} value={survey[index].description} style={{ width: '100%' }} onChange={onChangeDescription}></input><hr />
                                 <FormControlLabel
                                     control={
                                         <Switch onClick={onToggle} checked={survey[index].required} name={index} />
@@ -904,7 +861,7 @@ function Mksurvey() { // Make Survey
                                     label="필수답변"
                                 />
                             </>}
-                        {survey[index].type === '5' &&
+                        {survey[index].type == '5' && //감정바
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -915,7 +872,7 @@ function Mksurvey() { // Make Survey
                                     label="필수답변"
                                 />
                             </>}
-                        {survey[index].type === '6' &&
+                        {survey[index].type == '6' && //선형표현
                             <>
                                 <hr /><div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>질문을 입력하세요</div>
                                 <input data-id={index} value={survey[index].q} style={{ width: '100%' }} onChange={onChange}></input><hr />
@@ -930,23 +887,21 @@ function Mksurvey() { // Make Survey
                 </BlockDiv>
             ))
             }
-
-            {/* 설문 등록 및 설문 기능 핸들링 부분 */}
             <FuncDiv>
                 <Surveybutton style={{ marginRight: '0.5rem', marginBottom: '1rem', backgroundColor: "#ffcd00" }}
                     variant="contained"
                     onClick={() => {
-                        setSurvey([...survey, { id: id.current, q: '', type: '', required: false }])
-                        id.current += 1
+                        setSurvey([...survey, { id: id.current, questionId:-1, q: '', type: '', required: false }]);
+                        id.current += 1;
                     }}>
                     질문 추가</Surveybutton>
                 {/* 버튼을 누르면 setSurvey 함수를 통해서 질문을 추가해준다 */}
-                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={requestSubmit}>설문 등록하기</Surveybutton>
+                <Surveybutton style={{ marginRight: '0.5rem' }} onClick={requestSubmit}>설문 수정하기</Surveybutton>
                 <hr />
-                {/* <button onClick={() => {
+                <button onClick={() => {
                     const jsondata = JSON.stringify(postData)
                     console.log(jsondata)
-                }}>JSON타입으로 뽑아내기 <br /> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button> */}
+                }}>JSON타입으로 뽑아내기 <br /> 버튼 클릭 후 콘솔에서 확인하세요.작동안될 시 모달창 열었다가 닫기</button>
             </FuncDiv>
             <Modal isOpen={modalOpen} style={{
                 overlay: {
@@ -992,13 +947,16 @@ function Mksurvey() { // Make Survey
                         })
                     }}><CloseModalSvg /></ModalDelete>
                 </ModalHeader>
-                <ModalTitle><h4>설문등록</h4></ModalTitle>
-                <ModalDescription>설문을 정말로 등록하시겠습니까?</ModalDescription>
-                <ModalButton onClick={() => { closeModal(); sendToServer() }}>등록하기</ModalButton>
+                <ModalTitle><h4>설문수정</h4></ModalTitle>
+                <ModalDescription>설문을 정말로 수정하시겠습니까?</ModalDescription>
+                {console.log(JSON.stringify(postData))}
+                <ModalButton onClick={() => { closeModal(); sendToServer() }}>수정하기</ModalButton>
 
             </Modal>
-        </MainWrapper >
-    );
+    </div>
+  );
 }
 
-export default Mksurvey;
+export default EditSurvey;
+
+

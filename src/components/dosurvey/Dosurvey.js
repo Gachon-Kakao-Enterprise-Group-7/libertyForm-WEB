@@ -39,8 +39,6 @@ const SurveyFooter = styled.div`
   margin-top: auto;
   border-radius: 20px;
 `
-
-
 const SurveyNextButton = styled.button`
   background-color: white;
   outline: none;
@@ -58,7 +56,6 @@ const SurveyNextButton = styled.button`
 		border-color:rgba(0,0,0,0.25);
 	}
 `
-
 const SurveyFinalButton = styled.button`
   background-color: #ffcd00;
   outline: none;
@@ -177,7 +174,6 @@ const EmotionSlider = styled(Slider)({
     },
   },
 });
-
 const EmotionText = styled.div`
   display: flex;
   align-items: center;
@@ -214,7 +210,6 @@ const EmotionText = styled.div`
 
 }
 `
-
 const StartSurveyBtn = styled.button`
   position: absolute;
   margin: 50px auto;  
@@ -233,10 +228,8 @@ const StartSurveyBtn = styled.button`
   }
   transition:all 200ms linear;
 `
-
-
 const AnswerInput = styled.input`
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   position: relative;
   margin: auto 3%; //top left
   padding: 0px 0px 10px;
@@ -260,7 +253,6 @@ const ProgressBarDiv = styled.div`
   width: 95%;
   margin: auto;
 `
-
 const CloseModalSvg = styled(CloseModal)`
     fill: #92929d;
     width:30px;
@@ -280,8 +272,6 @@ const ModalDelete = styled.button`
   border: none;
   outline: none;
 `
-
-
 const ModalDescription = styled.div`
   display: flex;
   flex-direction: column;
@@ -308,7 +298,6 @@ const ModalTitle = styled.div`
     font-weight: bold;
   }
 `
-
 const ModalButton = styled.button`
   display: flex;
   justify-content: center;
@@ -328,18 +317,15 @@ const ModalButton = styled.button`
     background-color: white;
   }
 `
-
-
 const OptionWrapper = styled.div`
   height: 100%;
   width: 100%;
   margin-top: 12px;
   flex-grow: 1;
   `
-
 const OptionContainer = styled.div`
   border-radius: 10px;
-  margin: 0 18px;
+  margin: 0 3%;
   margin-bottom: 12px;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.05);
@@ -359,11 +345,24 @@ const OptionContainer = styled.div`
     background-color: white;
   }
 `
+const ImageWrap = styled.div`
+  width: ${props => props.imgUrl ? '400px' : '0px'};
+  height: ${props => props.imgUrl ? '300px' : '0px'};
+  margin: 0px 3% 20px;
+  overflow: auto;
+`
 
+const ImgDiv = styled.img`
+  max-width: 100%;
+  height: auto;
+
+`
 
 function Dosurvey() {
 
   const params = useParams();
+
+
   const [surveyDetail, setSurveyDetail] = useState(null) //axios를 통해 받아오는 설문 상세 정보 state [1차 데이터]
   const [newSurveyDetail, setNewSurveyDetail] = useState(null) // 객관+주관 합친 데이터 [2차 데이터]
   const [sortedSurveyDetail, setSortedSurveyDetail] = useState(null) // 문제 순서(number)에 따라 정렬된 데이터 [3차 데이터, 실제 설문에 쓰일 데이터]
@@ -387,35 +386,56 @@ function Dosurvey() {
 
   const [openSubmitModal, setOpenSubmitModal] = useState(false)
 
-  // const now = new Date()
-  // const expirationDate = new Date(surveyDetail.survey.expirationDate)
-
-  // console.log(now, '지금')
-  // console.log(expirationDate, '만료기간')
-  // console.log(expirationDate - now - 32400000)
-
-
+  console.log(Boolean(params.surveyCode))
+  console.log(Boolean(params.privateSurveyCode))
 
   useEffect(() => {
-    setLoading(true)
-    const jwt = localStorage.getItem('jwt')
-    axios.get(`${process.env.REACT_APP_DB_HOST}/survey/${params.surveyCode}`, {
-      headers: {
-        Authorization: 'Bearer ' + jwt
-      }
-    })
-      .then((res) => {
-        console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
-
-        setSurveyDetail(res.data.result)
-        setNewSurveyDetail(res.data.result)
-        setResult([]) // result 배열의 공간을 만들어준다.
-        setChoiceQuestions(res.data.result.choiceQuestions)
-
+    if (params.surveyCode) { // 그냥 설문을 실시 할때
+      setLoading(true)
+      const jwt = localStorage.getItem('jwt')
+      axios.get(`${process.env.REACT_APP_DB_HOST} /survey/${params.surveyCode} `, {
+        headers: {
+          Authorization: 'Bearer ' + jwt
+        }
       })
-      .catch((Error) => {
-        setError(Error)
+        .then((res) => {
+          console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
+
+          setSurveyDetail(res.data.result)
+          setNewSurveyDetail(res.data.result)
+          setResult([]) // result 배열의 공간을 만들어준다.
+          setChoiceQuestions(res.data.result.choiceQuestions)
+
+        })
+        .catch((Error) => {
+          setError(Error)
+        })
+    }
+    else if (params.privateSurveyCode) { // 사용자 식별 번호가 있는 설문을 실시 할 때
+      setLoading(true)
+      const jwt = localStorage.getItem('jwt')
+      axios.get(`${process.env.REACT_APP_DB_HOST}/manage/read/${params.privateSurveyCode} `, {
+        headers: {
+          Authorization: 'Bearer ' + jwt
+        }
       })
+        .then((res) => {
+          console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
+          console.log(res)
+          if (res.data.code === 2020) { //이미 설문에 응답한 경우
+            document.location.href = "/alreadyanswered"
+          }
+
+          setSurveyDetail(res.data.result)
+          setNewSurveyDetail(res.data.result)
+          setResult([]) // result 배열의 공간을 만들어준다.
+          setChoiceQuestions(res.data.result.choiceQuestions)
+
+        })
+        .catch((Error) => {
+          setError(Error)
+        })
+    }
   }, [])
 
 
@@ -540,11 +560,26 @@ function Dosurvey() {
   const sendToServer = async () => {
     const jsondata = JSON.stringify(postData)
     console.log(jsondata)
-    await axios.post(`${process.env.REACT_APP_DB_HOST}/response/create`, jsondata, { headers: { 'Content-Type': 'application/json' } })
+    await axios.post(`${process.env.REACT_APP_DB_HOST} /response/create`, jsondata, { headers: { 'Content-Type': 'application/json' } })
       .then(res => {
         console.log(res)
         switch (res.data.code) {
           case 1000:
+            console.log('만약 privateSurvey라면 설문 제출을 했다는 코드를 보내줘야한다.')
+            if (params.privateSurveyCode) {
+              axios.get(`${process.env.REACT_APP_DB_HOST}/manage/submit/${params.privateSurveyCode}`, {
+                headers: {
+                  Authorization: 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjo0fSwiaWF0IjoxNjY4OTk4MjI5LCJleHAiOjE2NzA3NzYyOTR9.ZVGf5i48rXOpl1hIkraKRcYGDozlTcsKirHVS4MeAww'
+                }
+              })
+                .then((res) => {
+                  console.log(res.data.code)
+
+                })
+                .catch((Error) => {
+                  console.log(Error, 'privateSurvey코드 백엔드에 전송하는 과정에서 생긴 오류')
+                })
+            }
             Swal.fire({
               title: 'Success!',
               text: '요청에 성공하였습니다',
@@ -759,59 +794,77 @@ function Dosurvey() {
           <>
             <ProgressBarDiv><ProgressBar completed={Math.round((result.length / sortedSurveyDetail.questions.length) * 100)} bgColor="#ff7800" labelColor="#f6f6f6" /></ProgressBarDiv>
             <SurveyCard>
-              <QuestionTitle>{`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`} {sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired && <span style={{ color: 'red', paddingLeft: '0.25em' }} aria-hidden="true">*</span>}</QuestionTitle>
+              <QuestionTitle>
+                {`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name}`} 
+                {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 4 && <span style={{ color: 'grey', paddingLeft: '0.3em',fontSize:'20px' }} aria-hidden="true">[복수선택]</span>}
+                {sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired && <span style={{ color: 'red', paddingLeft: '0.25em' ,fontSize:'40px' }} aria-hidden="true">*</span>}
+              </QuestionTitle>
               <br />
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 1 && //1번 타입의 문항(장문) 경우 아래의 식을 수행
-
-                <AnswerInput placeholder={sortedSurveyDetail.questions[showSurveyNumber - 1].description} style={{ width: '90%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
-
+                <div>
+                  <ImageWrap imgUrl={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}>
+                    <ImgDiv src={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}></ImgDiv>
+                  </ImageWrap>
+                  <AnswerInput placeholder={sortedSurveyDetail.questions[showSurveyNumber - 1].description} style={{ width: '90%', type: 'textarea' }} name={showSurveyNumber} onChange={onChangeType1} value={inputs}></AnswerInput>
+                </div>
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 2 && //2번 타입의 문항(단문) 경우 아래의 식을 수행
+              <div>
+                <ImageWrap imgUrl={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}>
+                    <ImgDiv src={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}></ImgDiv>
+                </ImageWrap>
                 <AnswerInput placeholder={sortedSurveyDetail.questions[showSurveyNumber - 1].description} style={{ width: '60%' }} name={showSurveyNumber} onChange={onChangeType2} value={inputs}></AnswerInput>
+                </div>
               }
 
-
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 3 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
+              <div>
+                <ImageWrap imgUrl={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}>
+                    <ImgDiv src={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}></ImgDiv>
+                </ImageWrap>
                 <FormControl>
                   <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
                     {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
                       <OptionWrapper onClick={onChangeType3}>
-                        <OptionContainer>
+                        <OptionContainer style={{width:'90%'}}>
                           <FormControlLabel sx={{ width: 800, p: 1 }} checked={(index + 1) === Number(result[showSurveyNumber - 1])} value={index + 1} control={<Radio />} label={item} onClick={onChangeType3} />
                         </OptionContainer>
                       </OptionWrapper>
                     ))}
                   </RadioGroup>
                 </FormControl>
+                </div>
               }
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 4 && // 3번 타입의 객관식 문항 경우 아래의 식을 수행
                 <>
-
-                  <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                    <FormGroup>
-                      <>복수선택</>
-                      {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
-                        <OptionWrapper onChange={onChangeType4}>
-                          <OptionContainer>
-                            <FormControlLabel
-                              control={
-                                <Checkbox checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} />
-                              }
-                              label={item}
-                              sx={{ width: 800, pl: 1 }}
-                            />
-                          </OptionContainer>
-                        </OptionWrapper>
-                      ))}
-
-
-                    </FormGroup>
-                  </FormControl>
+                <ImageWrap imgUrl={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}>
+                    <ImgDiv src={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}></ImgDiv>
+                </ImageWrap>
+                <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+                  <FormGroup>
+                    {sortedSurveyDetail.questions[showSurveyNumber - 1].mcitem.map((item, index) => (
+                      <OptionWrapper style={{marginTop : '0px'}} onChange={onChangeType4}>
+                        <OptionContainer>
+                          <FormControlLabel
+                            control={
+                              <Checkbox checked={inputs && inputs.includes(String(index + 1))} onChange={onChangeType4} name={index + 1} />
+                            }
+                            label={item}
+                            sx={{ width: 800, pl: 1 }}
+                          />
+                        </OptionContainer>
+                      </OptionWrapper>
+                    ))}
+                  </FormGroup>
+                </FormControl>
                 </>
               }
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 5 && //5번 타입의 문항(감정바) 경우 아래의 식을 수행
-
+                <>
+                <ImageWrap style={{ margin: 'auto' ,marginBottom:'20px'}} imgUrl={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}>
+                      <ImgDiv src={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}></ImgDiv>
+                </ImageWrap>
                 <div style={{ width: '60vh', margin: 'auto' }}>
                   <EmotionText>
                     <strong>감정을 직접 표현해보세요</strong>
@@ -839,11 +892,16 @@ function Dosurvey() {
                   </EmotionText>
                   <EmotionSlider onChange={onChangeType5} valueLabelDisplay="auto" value={inputs} />
                 </div>
+              </>
               }
 
 
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId === 6 && //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
+              <>
+              <ImageWrap style={{ margin: 'auto' ,marginBottom:'20px'}} imgUrl={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}>
+                    <ImgDiv src={sortedSurveyDetail.questions[showSurveyNumber - 1].questionImgUrl}></ImgDiv>
+              </ImageWrap>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <LinerBtn checked={inputs === '1' ? true : false} name='1' onClick={onChangeType6} >1<br /><span style={{ fontSize: '11px' }}>매우 그렇지 않다</span></LinerBtn>
                   <LinerBtn checked={inputs === '2' ? true : false} name='2' onClick={onChangeType6}>2<br /><span style={{ fontSize: '11px' }}>그렇지 않다</span> </LinerBtn>
@@ -851,14 +909,14 @@ function Dosurvey() {
                   <LinerBtn checked={inputs === '4' ? true : false} name='4' onClick={onChangeType6}>4<br /><span style={{ fontSize: '11px' }}>약간 그렇다</span></LinerBtn>
                   <LinerBtn checked={inputs === '5' ? true : false} name='5' onClick={onChangeType6}>5<br /><span style={{ fontSize: '11px' }}>매우 그렇다</span> </LinerBtn>
                 </div>
-
+              </>
               }
               <br />
               {console.log(result)}
               {/* <hr />
               <div>개발자 참고 공간 ↓</div>
-              <div>{`question타입 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId}`}</div>
-              <div>{`필수답변여부 : ${sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired}`}</div> */}
+              <div>{`question타입: ${ sortedSurveyDetail.questions[showSurveyNumber - 1].questionTypeId } `}</div>
+              <div>{`필수답변여부: ${ sortedSurveyDetail.questions[showSurveyNumber - 1].answerRequired } `}</div> */}
 
               <br />
               {showSurveyNumber === sortedSurveyDetail.questions.length // 설문의 마지막 문항일때 조건

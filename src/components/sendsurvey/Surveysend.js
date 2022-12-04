@@ -171,11 +171,12 @@ function Surveysend() {
   const surveys = useSelector((state) => state.survey.previewsurvey)
 
   const [loading, setLoading] = useState(false)
-  const [selectSurvey, setSelectSurvey] = useState(null) // 선택한 설문에 대한 정보를 가진 state
+  const [selectSurvey, setSelectSurvey] = useState(null) 
+  const [selectSurveyEday, setSelectSurveyEday] = useState(null)
   const [userInput, setUserInput] = useState('') // input에 입력한 정보를 가지고 있는 state
   const [users, setUsers] = useState([]) // 설문을 발송하고자 하는 유저 정보를 가진 배열 state
   const [mailSendModal, setMailSendModal] = useState(false)
-  const [postData, setPostData] = useState({})
+  const [postManageData, setPostManageData] = useState({})
 
 
   const addUser = () => {
@@ -199,42 +200,42 @@ function Surveysend() {
     setUsers(users.filter((user, index) => (userIndex !== index)))
   }
 
-
-  const convertPostData = () => {
-
-    const cvusers = users.map((user) => ({ email: user }))
-
-    setPostData((prev) => ({
+  const convertPostManageData = () => {
+    const cvusers = users.map((user) => user)
+    setPostManageData((prev) => ({
+      expiredDate: selectSurveyEday,
       surveyId: selectSurvey,
-      receivers: cvusers,
+      emails: cvusers
     }))
 
   }
 
-  const sendToServer = async () => {
+  const sendManageToServer = async () => {
     const jwt = localStorage.getItem('jwt')
-    await axios.post(`${process.env.REACT_APP_DB_HOST}/send/email`, postData, {
+    await axios.post(`${process.env.REACT_APP_DB_HOST}/manage/create`, postManageData, {
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
-      .then(res => {
-        Swal.fire({
-          title: 'Success!',
-          text: '발송했습니다!',
-          icon: 'success',
-          confirmButtonText: '확인'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            document.location.href = '/home/dashboard'
-          }
-        })
+    .then(res => {
+      console.log()
+      Swal.fire({
+        title: 'Success!',
+        text: '발송했습니다!',
+        icon: 'success',
+        confirmButtonText: '확인'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.location.href = '/home/dashboard'
+        }
+      })
 
-      }
-      )
-      .catch((Error) => { console.log(Error) })
+    }
+    )
+    .catch((Error) => { console.log(Error) })
   }
 
+ 
   const verifyData = () => {
     if (selectSurvey === null) {
       Swal.fire({
@@ -252,9 +253,10 @@ function Surveysend() {
     }
     else {
       setMailSendModal(true);
-      convertPostData();
+      convertPostManageData();
     }
   }
+
 
   useEffect(() => { // 서버에 등록되어 있는 연락처 정보 받아오기
     setLoading(true)
@@ -308,8 +310,8 @@ function Surveysend() {
                     <TableBody key={index}>
                       <TableCell align='center' padding='none' >
                         <FormControlLabel
-                          disabled={new Date(survey.expirationDate) - new Date() + 54000000 < 0}
-                          onClick={(e) => { setSelectSurvey(e.target.value) }}
+                          disabled={new Date(survey.expirationDate) - new Date()  < 0}
+                          onClick={(e) => { setSelectSurvey(e.target.value);setSelectSurveyEday(survey.expirationDate) }}
                           value={survey.surveyId}
                           control={<Radio />} />
                       </TableCell>
@@ -329,14 +331,6 @@ function Surveysend() {
       <SectionWrapper>
         <Groupcontrol setUsers={setUsers} users={users}></Groupcontrol>
         {/* 그룹컨트롤 컴포넌트 가져오기, 부모 요소의 setter함수를 자식한테 보내줘서 사용 할 수 있게 한다. */}
-      </SectionWrapper>
-      <SectionWrapper>
-        <Title>사용자 직접 추가</Title>
-        <br />
-        <UserSelectDiv>
-          <UserAddInput value={userInput} onChange={(e) => { setUserInput(e.target.value) }} />
-          <UserAddBtn onClick={addUser}>추가</UserAddBtn>
-        </UserSelectDiv>
       </SectionWrapper>
       <SectionWrapper>
         <Title>발송 리스트 {users.length}명</Title>
@@ -379,7 +373,7 @@ function Surveysend() {
         </ModalHeader>
         <ModalTitle><h4>메일발송</h4></ModalTitle>
         <ModalDescription>정말로 발송하시겠습니까?</ModalDescription>
-        <ModalButton onClick={sendToServer}>발송하기</ModalButton>
+        <ModalButton onClick={sendManageToServer}>발송하기</ModalButton>
 
       </Modal>
     </>
