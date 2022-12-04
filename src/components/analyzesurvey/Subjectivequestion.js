@@ -47,17 +47,22 @@ const FlexDiv = styled.div`
 `
 
 function Subjectivequestion(props) {
+    let text = ''
+    props.question.responses.forEach((item)=>(text += ' ' +item))
+    let question = {...props.question, text:text}
+
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [show, setShow] = useState(false)
 
-    const question = props.question
-    const key = props.key
-    let text = ''
-    question.result.forEach((item)=>( // result값을 하나의 text로 합쳐주는 작업
-        text += ' ' +item
-    ))
+    // const question = props.question
+    // let text = ''
+    // question.result.forEach((item)=>( // result값을 하나의 text로 합쳐주는 작업
+    //     text += ' ' +item
+    // ))
+
+
 
     const columns = [
     { id: 'index', label: '보기', minWidth: 10  },
@@ -68,9 +73,13 @@ function Subjectivequestion(props) {
     return { index, response};
   }
   
-  const rows = question.result.map((item, index)=>( // 데이터 매핑 여기다가 하면됨!
+  const rows = question.responses.map((item, index)=>( // 데이터 매핑 여기다가 하면됨!
     createData(`${index+1}`,`${item}`)
 ))
+
+
+
+
 
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -85,7 +94,7 @@ function Subjectivequestion(props) {
     
 
     useEffect(()=>{
-        let root = am5.Root.new(`chartdiv${props.question.number}`);
+        let root = am5.Root.new(`chartdiv${question.question.number}`);
 
         root.setThemes([
         am5themes_Animated.new(root)
@@ -136,7 +145,7 @@ function Subjectivequestion(props) {
         >
             <Card>
                 <FlexDiv>
-                    <CardHeader title={`${props.question.title}`} />
+                    <CardHeader title={`${question.question.name}`} />
                     <ShowBtn show={show} onClick={()=>{setShow(!show)}}>{`원본데이터 ${show?`닫기`:`보기`}`}</ShowBtn>
                 </FlexDiv>
                 
@@ -148,7 +157,7 @@ function Subjectivequestion(props) {
                             position: 'relative'
                         }}
                     >
-                        <div id={`chartdiv${props.question.number}`} style={{ width: "100%", height: "150px" }}></div>
+                        <div id={`chartdiv${question.question.number}`} style={{ width: "100%", height: "150px" }}></div>
                     </Box>
                 </CardContent>
                 {show === true
