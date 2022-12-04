@@ -231,7 +231,7 @@ function Main() {
         render={(comp) => (
           <ReactFullpage.Wrapper>
             <div className={SEL}>
-                <>
+            <>
             <Navbar_on/>
             <MainSection ref={vantaRef}>
                 <Spacingdiv/>
@@ -252,9 +252,11 @@ function Main() {
             <div className={SEL}>
                 <Services/>
             </div>
-
             <div className={SEL}>
-              <Section3/>
+              <Section1/>
+            </div>
+            <div className={SEL}>
+            <Section2/>
             </div>
 
             {/* <Services/>

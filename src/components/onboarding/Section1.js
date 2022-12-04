@@ -179,7 +179,7 @@ const Section1 = () => {
               <TextWrapper>
                 <TopLine>설문생성</TopLine>
                 <Heading lightText={false}>설문 자유 생성</Heading>
-                <Subtitle darkText={true}>원하는 설문을 자유롭게 생성하고 커스텀하세요</Subtitle>
+                <Subtitle darkText={true}>슬라이드 형식으로 보여지는 설문을<br/> 자유롭게 생성하고 커스텀하세요</Subtitle>
                 <BtnWrap>
                 <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>

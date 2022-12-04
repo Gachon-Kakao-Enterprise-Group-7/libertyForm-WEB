@@ -9,7 +9,7 @@ import Img3 from 'img/sender3.png'
 
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#010606')};
+  background: ${({lightBg}) => (lightBg ? '#ffbc00' : '#010606')};
 
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
@@ -51,7 +51,7 @@ export const Column2 = styled.div`
   grid-area: col2;
 `
 export const TextWrapper = styled.div`
-  max-width: 540px;
+  width: 800px;
   padding-top: 0;
   padding-bottom: 60px;
 `
@@ -68,7 +68,7 @@ export const TopLine = styled.p`
 
 export const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 48px;
+  font-size: 45px;
   line-height: 1.1;
   font-weight: bold;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#010606')};
@@ -89,7 +89,7 @@ export const BtnWrap = styled.div`
   justify-content: flex-start;
 `;
 const ImgSlide = styled.div`
-  width: 100%;
+  width : 800px;
   display: flex;
   position: relative;
   justify-content: center;
@@ -98,8 +98,8 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  max-width: 555px;
   display: flex;
+  max-width: 100%;
 `;
 export const Img = styled.img`
   max-width: 100%;
@@ -174,12 +174,12 @@ const Section3 = () => {
     <>
       <InfoContainer lightBg={true}>
         <InfoWrapper>
-          <InfoRow imgStart={false}>
+          <InfoRow imgStart={true}>
             <Column1>
               <TextWrapper>
                 <TopLine>설문 발송</TopLine>
-                <Heading lightText={false}>발송자 관리, 설문 발송</Heading>
-                <Subtitle darkText={true}>원하는 설문을 발송하고 발송자의 상태를 관리해보세요</Subtitle>
+                <Heading lightText={false}>발송자 관리,설문 메일 발송</Heading>
+                <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br/> 발송자의 상태를 관리해보세요</Subtitle>
                 <BtnWrap>
                 <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>
