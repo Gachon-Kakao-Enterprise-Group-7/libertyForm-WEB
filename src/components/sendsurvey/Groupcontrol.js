@@ -81,7 +81,7 @@ function Groupcontrol(props) {
   const state = useSelector((state) => (state.contact.contacts))
   const [groupValue, setGroupValue] = useState(null);
   let options = [...new Set(state && state.map((contact) => (contact.relationship)))] // 사용자의 연락처에서 릴레이션쉽으로 옵션 배열을 만들어 준다
-
+  console.log(options)
 
   const addAlluser = (e) => {
     const temp = state.filter((contact) => (contact.relationship === groupValue)).map((contact) => (contact.email))
@@ -96,18 +96,18 @@ function Groupcontrol(props) {
     <div>
       <Title>그룹에서 선택</Title>
       <GroupControll>
-      <Autocomplete // 그룹 선택하는 콤보 박스
-        value={groupValue}
-        onChange={(event, newGroupValue) => {
-          setGroupValue(newGroupValue);
-        }}
-        id="controllable-states-demo"
-        options={options}
-        sx={{ width: '50%', m: 3 }}
-        renderInput={(params) => <TextField {...params} label="그룹을 선택하세요" />}
-      />
-      {groupValue !== null && 
-        <AddBtn onClick={addAlluser}><UserAddSvgW/><p>유저 추가</p></AddBtn>}
+        <Autocomplete // 그룹 선택하는 콤보 박스
+          value={groupValue}
+          onChange={(event, newGroupValue) => {
+            setGroupValue(newGroupValue);
+          }}
+          id="controllable-states-demo"
+          options={options}
+          sx={{ width: '50%', m: 3 }}
+          renderInput={(params) => <TextField {...params} label="그룹을 선택하세요" />}
+        />
+        {groupValue !== null &&
+          <AddBtn onClick={addAlluser}><UserAddSvgW /><p>유저 추가</p></AddBtn>}
       </GroupControll>
       {groupValue != null &&
         <TableContainer component={Paper}>
