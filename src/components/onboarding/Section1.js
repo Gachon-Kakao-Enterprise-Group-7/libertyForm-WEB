@@ -4,17 +4,15 @@ import styled from 'styled-components';
 import {Link} from 'react-scroll'
 
 import Img1 from 'ss/svg-6.png'
-import Img2 from 'ss/svg-4.svg'
-import Img3 from 'ss/svg-3.svg'
+import Img2 from 'img/create2.png'
+import Img3 from 'img/create.png'
 
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#010606')};
-
+  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
-  border-bottom:1px solid #dfdfdf;
 `
 
 export const InfoWrapper = styled.div`
@@ -98,7 +96,7 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  max-width: 555px;
+  width: 555px;
   display: flex;
 `;
 export const Img = styled.img`
@@ -177,9 +175,9 @@ const Section1 = () => {
           <InfoRow imgStart={false}>
             <Column1>
               <TextWrapper>
-                <TopLine>설문생성</TopLine>
-                <Heading lightText={false}>설문 자유 생성</Heading>
-                <Subtitle darkText={true}>슬라이드 형식으로 보여지는 설문을<br/> 자유롭게 생성하고 커스텀하세요</Subtitle>
+                {/* <TopLine>설문생성</TopLine> */}
+                <Heading lightText={false}>설문 생성</Heading>
+                <Subtitle darkText={true}>슬라이드 형식으로 보여지는 설문을<br/> 다양한 질문방식과 이미 선택하여 설문을 자유롭게 생성하고 슬라이드 형식으로 보여줍니다</Subtitle>
                 <BtnWrap>
                 <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>

@@ -3,7 +3,9 @@ import {React,useState,useEffect,useRef} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-scroll'
 
-import Img1 from 'img/dashboard2.png'
+import Img1 from 'img/see.png'
+import Img2 from 'img/see2.png'
+// import Img3 from 'img/sender3.png'
 
 
 export const InfoContainer = styled.div`
@@ -137,9 +139,9 @@ const Mainbutton = styled.button`
 
 `
 
-const Section2 = () => {
+const Section4 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const TOTAL_SLIDES = 0; //슬라이드 갯수
+  const TOTAL_SLIDES = 1; //슬라이드 갯수
   const slideRef = useRef(null);
 
   useEffect(() => {
@@ -173,11 +175,11 @@ const Section2 = () => {
           <InfoRow imgStart={true}>
             <Column1>
               <TextWrapper>
-                {/* <TopLine>대시보드</TopLine> */}
-                <Heading lightText={false}>대시보드 관리</Heading>
-                <Subtitle darkText={true}>진행중 설문과 완료된 설문을 관리해보세요</Subtitle>
+                {/* <TopLine>분석</TopLine> */}
+                <Heading lightText={false}>설문결과 분석</Heading>
+                <Subtitle darkText={true}>설문을 발송 후,<br/>다양한 시각화 방식으로 표현된 분석 결과를 통해 설문 결과를 확인하세요</Subtitle>
                 <BtnWrap>
-                <Mainbutton to='home'>시작하기</Mainbutton>
+                <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>
               </TextWrapper>
             </Column1>
@@ -185,6 +187,7 @@ const Section2 = () => {
             <ImgSlide>
               <ImgWrap ref={slideRef} currentSlide={currentSlide}>
                 <Img src={Img1}/>
+                <Img src={Img2}/>
               </ImgWrap>
               </ImgSlide>
             </Column2>
@@ -195,4 +198,4 @@ const Section2 = () => {
   )
 }
 
-export default Section2
+export default Section4

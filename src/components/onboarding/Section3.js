@@ -9,17 +9,15 @@ import Img3 from 'img/sender3.png'
 
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#ffbc00' : '#010606')};
-
+  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
-  border-bottom:1px solid #dfdfdf;
 `
 
 export const InfoWrapper = styled.div`
   display: grid;
-  z-index: -1;
+  z-index: 1;
   height: 100vh;
   width: 100% auto;
   max-width: 1100px;
@@ -51,13 +49,13 @@ export const Column2 = styled.div`
   grid-area: col2;
 `
 export const TextWrapper = styled.div`
-  width: 800px;
+  max-width: 540px;
   padding-top: 0;
   padding-bottom: 60px;
 `
 
 export const TopLine = styled.p`
-  color: #ffbc00;
+  color: #ff7800;
   font-size: 16px;
   line-height: 16px;
   font-weight: bold;
@@ -68,7 +66,7 @@ export const TopLine = styled.p`
 
 export const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 45px;
+  font-size: 48px;
   line-height: 1.1;
   font-weight: bold;
   color: ${({lightText}) => (lightText ? '#f7f8fa' : '#010606')};
@@ -89,7 +87,7 @@ export const BtnWrap = styled.div`
   justify-content: flex-start;
 `;
 const ImgSlide = styled.div`
-  width : 800px;
+  width: 100%;
   display: flex;
   position: relative;
   justify-content: center;
@@ -98,8 +96,8 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
+  max-width: 555px;
   display: flex;
-  max-width: 100%;
 `;
 export const Img = styled.img`
   max-width: 100%;
@@ -174,11 +172,11 @@ const Section3 = () => {
     <>
       <InfoContainer lightBg={true}>
         <InfoWrapper>
-          <InfoRow imgStart={true}>
+          <InfoRow imgStart={false}>
             <Column1>
               <TextWrapper>
-                <TopLine>설문 발송</TopLine>
-                <Heading lightText={false}>발송자 관리,설문 메일 발송</Heading>
+                {/* <TopLine>설문 발송</TopLine> */}
+                <Heading lightText={false}>발송자 관리</Heading>
                 <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br/> 발송자의 상태를 관리해보세요</Subtitle>
                 <BtnWrap>
                 <Mainbutton>시작하기</Mainbutton>

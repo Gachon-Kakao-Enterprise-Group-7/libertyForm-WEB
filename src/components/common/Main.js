@@ -12,6 +12,7 @@ import Services from 'components/onboarding/Services';
 import Section1 from 'components/onboarding/Section1';
 import Section2 from 'components/onboarding/Section2';
 import Section3 from 'components/onboarding/Section3';
+import Section4 from 'components/onboarding/Section4';
 import { ReactComponent as downarrow } from "svg/downarrow.svg";
 
 
@@ -250,7 +251,7 @@ function Main() {
             </>
             </div>
             <div className={SEL}>
-                <Services/>
+            <Services/>
             </div>
             <div className={SEL}>
               <Section1/>
@@ -258,11 +259,12 @@ function Main() {
             <div className={SEL}>
             <Section2/>
             </div>
-
-            {/* <Services/>
-        <Section1/>
-        <Section2/>
-        <Section3/> */}
+            <div className={SEL}>
+            <Section3/>
+            </div>
+            <div className={SEL}>
+            <Section4/>
+            </div>
           </ReactFullpage.Wrapper>
     )}
     />
