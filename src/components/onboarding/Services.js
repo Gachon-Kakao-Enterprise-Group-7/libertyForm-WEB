@@ -6,12 +6,12 @@ import Icon3 from 'img/function3.png'
 
 
 export const ServicesContainer = styled.div`
-  height: 90vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #ffbc00;
+  background: #f9f9f9;
 
   @media screen and (max-width: 768px) {
     height: 1100px;
@@ -72,8 +72,9 @@ export const ServicesP = styled.p`
 
 export const ServicesH1 = styled.h1`
   font-size: 7rem;
-  color: #fff;
+  color: #020715;
   margin-bottom: 100px;
+
 
   @media screen and (max-width: 480px) {
     font-size: 2rem;

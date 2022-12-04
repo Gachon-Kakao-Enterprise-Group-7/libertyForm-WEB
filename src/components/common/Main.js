@@ -7,19 +7,28 @@ import axios from 'axios';
 import ReactFullpage from "@fullpage/react-fullpage";
 
 
-import Navbar from 'components/common/Navs';
+import Navbar_on from 'components/onboarding/Navbar_on';
 import Services from 'components/onboarding/Services';
 import Section1 from 'components/onboarding/Section1';
 import Section2 from 'components/onboarding/Section2';
 import Section3 from 'components/onboarding/Section3';
+import Section4 from 'components/onboarding/Section4';
 import { ReactComponent as downarrow } from "svg/downarrow.svg";
 
 
-const MainSection= styled.div`
-    height: 92vh;
+const Navbartest= styled.div`
+    height: 10vh;
     width: 100%;
-    /* position: relative;
-    top: 0px; */
+    background-color:black;
+    color:black;
+    position : block;
+    top:0px;
+`
+
+const MainSection= styled.div`
+    height: 100vh;
+    width: 100%;
+    position: relative;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -220,11 +229,11 @@ function Main() {
         <ReactFullpage
         navigation
         sectionSelector={SECTION_SEL}
-        fixedElements= '.navbar-fixed-top'
         render={(comp) => (
           <ReactFullpage.Wrapper>
-            <Navbar className='navbar'/>
             <div className={SEL}>
+            <>
+            <Navbar_on/>
             <MainSection ref={vantaRef}>
                 <Spacingdiv/>
                 <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
@@ -239,19 +248,23 @@ function Main() {
                     <DownarrowSvg></DownarrowSvg>
                 </Bodydiv>
             </MainSection>
+            </>
             </div>
             <div className={SEL}>
-                <Services/>
+            <Services/>
             </div>
-
             <div className={SEL}>
-              <Section3/>
+              <Section1/>
             </div>
-
-            {/* <Services/>
-        <Section1/>
-        <Section2/>
-        <Section3/> */}
+            <div className={SEL}>
+            <Section2/>
+            </div>
+            <div className={SEL}>
+            <Section3/>
+            </div>
+            <div className={SEL}>
+            <Section4/>
+            </div>
           </ReactFullpage.Wrapper>
     )}
     />

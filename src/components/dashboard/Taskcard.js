@@ -23,12 +23,27 @@ const ScoreLine = styled.div`
   border-radius: 2.5px;
   background-color: #f5c525;
 `
-const CustomCardMedia = styled(CardMedia)`
-transition: transform 400ms ;
-&:hover{
-  transform: scale(1.1);
-}
 
+const CustomCard = styled(Card)`
+  margin: 10px;
+  width: 30vmin;
+  &.MuiCard-root{
+    border-radius: 20px;
+    overflow :visible;
+  }
+`
+const CustomCardMediaW = styled.div`
+  width: 30vmin;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow :hidden;
+`
+const CustomCardMedia = styled(CardMedia)`
+  padding-top: 56.25%;
+  transition: transform 400ms ;
+  &:hover{
+    transform: scale(1.2);
+  }
 `
 const LinkIconSvg = styled(LinkIcon)`
     width:30px;
@@ -45,12 +60,6 @@ const TypographyTitle = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
-const TWrapper = styled.div`
-  margin: 10px;
-  width: 30vmin;
-  color : transparent;
-  border-radius: 20px;
 `
 const NavDropStyle = styled.div`
   display: flex;
@@ -170,18 +179,9 @@ const CopyWrapper = styled.div`
 `
 
 const styles = (muiBaseTheme) => ({
-  card: {
-    transition: "0.3s",
-    borderRadius: "20px",
-    border: "1px dashed white",
-  },
-  media: { //사진
-    paddingTop: "56.25%",
-    width: "100%",
-  },
   content: {
     textAlign: "left",
-    padding: muiBaseTheme.spacing.unit * 3
+    padding: muiBaseTheme.spacing.unit * 3,
   },
   heading: {
     fontWeight: "bold"
@@ -313,12 +313,13 @@ function Scard(props) {
 
   return (
     <div>
-      <TWrapper>
-        <Card className={classes.card}>
+      
+        <CustomCard>
+        <CustomCardMediaW>
           <CustomCardMedia
-            className={classes.media}
             image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}>
           </CustomCardMedia>
+          </CustomCardMediaW>
           <CardContent className={classes.content}>
             <NavDropStyle>
               <Typography
@@ -348,8 +349,7 @@ function Scard(props) {
             </ShowLeftDate>
             {RemainDayCount >= 0 && <><ScoreLine Dayratio={Dayratio} /></>}
           </CardContent>
-        </Card>
-      </TWrapper>
+        </CustomCard>
 
       <Modal isOpen={deleteModalOpen} style={{ // 설문 삭제에 관한 모달
         overlay: {

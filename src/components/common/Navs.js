@@ -38,7 +38,6 @@ function Navs() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse   id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/onboarding">온보딩 페이지 test</Nav.Link>
                         {/* <Nav.Link href="/SideBar">Sidebar</Nav.Link>
                         <NavDropdown title="null" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
