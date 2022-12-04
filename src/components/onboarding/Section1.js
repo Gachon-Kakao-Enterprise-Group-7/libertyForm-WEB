@@ -3,9 +3,10 @@ import {React,useState,useEffect,useRef} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-scroll'
 
-import Img1 from 'ss/svg-6.png'
+import Img1 from 'img/create4.png'
 import Img2 from 'img/create2.png'
 import Img3 from 'img/create.png'
+import Img4 from 'img/create3.png'
 
 
 export const InfoContainer = styled.div`
@@ -141,7 +142,7 @@ const Mainbutton = styled.button`
 
 const Section1 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const TOTAL_SLIDES = 2; //슬라이드 갯수
+  const TOTAL_SLIDES = 3; //슬라이드 갯수
   const slideRef = useRef(null);
 
   useEffect(() => {
@@ -189,6 +190,7 @@ const Section1 = () => {
                 <Img src={Img1}/>
                 <Img src={Img2}/>
                 <Img src={Img3}/>
+                <Img src={Img4}/>
               </ImgWrap>
               </ImgSlide>
             </Column2>
