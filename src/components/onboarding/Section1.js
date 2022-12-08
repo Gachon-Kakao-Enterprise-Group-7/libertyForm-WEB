@@ -56,7 +56,7 @@ export const TextWrapper = styled.div`
 `
 
 export const TopLine = styled.p`
-  color: #ffbc00;
+  color: #ffcd00;
   font-size: 16px;
   line-height: 16px;
   font-weight: bold;
@@ -98,6 +98,7 @@ const ImgSlide = styled.div`
 `
 export const ImgWrap = styled.div`
   width: 555px;
+  height : 1b55px;
   display: flex;
 `;
 export const Img = styled.img`
