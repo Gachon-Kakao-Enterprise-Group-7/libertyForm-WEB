@@ -96,8 +96,7 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  width: 555px;
-  height : 1b55px;
+  width: 600px;
   display: flex;
 `;
 export const Img = styled.img`

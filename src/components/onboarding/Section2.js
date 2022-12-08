@@ -1,13 +1,12 @@
-import {React,useState,useEffect,useRef} from 'react'
+import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import {Link} from 'react-scroll'
+import { Link } from 'react-scroll'
 
-import Img1 from 'img/dashboard2.png'
-
+import Img2_1 from 'img/section2-1.png'
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffcd00')};
+  background: ${({ lightBg }) => (lightBg ? '#f9f9f9' : '#ffcd00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
@@ -18,7 +17,7 @@ export const InfoWrapper = styled.div`
   z-index: 1;
   height: 100vh;
   width: 100% auto;
-  max-width: 1100px;
+  max-width: 1300px;
   margin-right: auto;
   margin-left: auto;
   padding: 0 24px;
@@ -29,10 +28,10 @@ export const InfoRow = styled.div`
   display: grid;
   grid-auto-columns: minmax(auto, 1fr);
   align-items: center;
-  grid-template-areas: ${({imgStart}) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
+  grid-template-areas: ${({ imgStart }) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
 
   @media screen and (max-width: 768px) {
-    grid-template-areas: ${({imgStart}) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
+    grid-template-areas: ${({ imgStart }) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
   }
 `
 
@@ -67,18 +66,18 @@ export const Heading = styled.h1`
   font-size: 48px;
   line-height: 1.1;
   font-weight: bold;
-  color: ${({lightText}) => (lightText ? '#f7f8fa' : '#010606')};
+  color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
 
   @media screen and (max-width: 480px) {
     font-size: 32px;
   }
 `
-export const Subtitle  = styled.p`
+export const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
   font-size: 18px;
   line-height: 24px;
-  color: ${({darkText}) => (darkText ? '#010606' : '#fff')};
+  color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
 `
 export const BtnWrap = styled.div`
   display:flex;
@@ -94,13 +93,15 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  max-width: 555px;
+  width: 650px;
   display: flex;
+  border : 5px solid #f6972f;
+  border-radius: 10px;
 `;
 export const Img = styled.img`
   max-width: 100%;
   height: auto;
-  margin: 0 0 10px 0;
+  margin: 0 0 0 0;
   padding-right: 0;
   
 `;
@@ -144,7 +145,7 @@ const Section2 = () => {
 
   useEffect(() => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-}, [currentSlide]);
+  }, [currentSlide]);
 
 
 
@@ -164,8 +165,8 @@ const Section2 = () => {
     };
   }, [currentSlide]);
 
-  
-  
+
+
   return (
     <>
       <InfoContainer lightBg={false}>
@@ -181,10 +182,10 @@ const Section2 = () => {
               </TextWrapper>
             </Column1>
             <Column2>
-            <ImgSlide>
-              <ImgWrap ref={slideRef} currentSlide={currentSlide}>
-                <Img src={Img1}/>
-              </ImgWrap>
+              <ImgSlide>
+                <ImgWrap ref={slideRef} currentSlide={currentSlide}>
+                  <Img src={Img2_1} />
+                </ImgWrap>
               </ImgSlide>
             </Column2>
           </InfoRow>
