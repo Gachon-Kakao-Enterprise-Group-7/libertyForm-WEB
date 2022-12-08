@@ -101,8 +101,8 @@ function Preview(props) {
             {console.log(newSurveyDetail)}
             <PreviewTitle><h4>설문 미리보기</h4></PreviewTitle>
             <PreviewContent>설문 이름 : {newSurveyDetail.survey.name}</PreviewContent>
-            <PreviewContent>설문 설명 : {newSurveyDetail.survey.description}</PreviewContent>
-            <PreviewContent>설문 기간 : {newSurveyDetail.survey.createdAt} ~ {newSurveyDetail.survey.expirationDate}</PreviewContent>
+            <PreviewContent>설문 설명 : {surveyDetail.survey.description}</PreviewContent>
+            <PreviewContent>설문 기간 : {surveyDetail.survey.createdAt} ~ {surveyDetail.survey.expirationDate}</PreviewContent>
             {/* <PreviewContent>설문 만료일 : {newSurveyDetail.survey.expirationDate}</PreviewContent> */}
             <hr />
             <TableContainer component={Paper}>

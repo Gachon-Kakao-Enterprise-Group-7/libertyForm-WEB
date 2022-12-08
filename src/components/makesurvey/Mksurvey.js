@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
 
-import UploadButton from 'components/UploadButton'
 
 // mui import
 import Radio from '@mui/material/Radio';

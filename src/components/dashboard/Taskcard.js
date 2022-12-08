@@ -15,6 +15,7 @@ import { ReactComponent as CloseModal } from "svg/close.svg"
 import { ReactComponent as LinkIcon } from 'svg/link.svg'
 import { ReactComponent as AlamIcon } from 'svg/alam.svg'
 import defaultImg from 'img/default-thumbnail.jpg'
+import Surveysend from 'components/sendsurvey/Surveysend'
 
 
 const ScoreLine = styled.div`
@@ -418,7 +419,7 @@ function Scard(props) {
         </ModalHeader>
         <ModalTitle><h4>설문 링크</h4></ModalTitle>
         <ModalDescription>발송자 지정 공유</ModalDescription>
-        <ModalButton onClick={copySurveyLink} style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "10px" }}>지정하기</ModalButton>
+        <ModalButton  onClick={()=>{document.location.href="/home/surveysend"}} style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "10px" }}>지정하기</ModalButton>
         <ModalDescription>링크 복사하기</ModalDescription>
         <CopyWrapper>
           <LinkIconSvg></LinkIconSvg>
@@ -492,7 +493,7 @@ function Scard(props) {
         <ModalHeader>
           <ModalDelete onClick={closeResponseConfirmationModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <SenderHistory surveyId={surveyId} />
+        <SenderHistory surveyId={surveyId}  code={code}/>
       </Modal>
     </div>
   );
