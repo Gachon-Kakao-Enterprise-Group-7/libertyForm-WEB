@@ -7,7 +7,7 @@ import Img1 from 'img/dashboard2.png'
 
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
+  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffcd00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
@@ -177,7 +177,6 @@ const Section2 = () => {
                 <Heading lightText={false}>대시보드 관리</Heading>
                 <Subtitle darkText={true}>진행중 설문과 완료된 설문을 관리해보세요</Subtitle>
                 <BtnWrap>
-                <Mainbutton to='home'>시작하기</Mainbutton>
                 </BtnWrap>
               </TextWrapper>
             </Column1>

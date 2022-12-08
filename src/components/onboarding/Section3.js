@@ -179,7 +179,6 @@ const Section3 = () => {
                 <Heading lightText={false}>발송자 관리</Heading>
                 <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br/> 발송자의 상태를 관리해보세요</Subtitle>
                 <BtnWrap>
-                <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>
               </TextWrapper>
             </Column1>

@@ -71,7 +71,7 @@ export const ServicesP = styled.p`
 `
 
 export const ServicesH1 = styled.h1`
-  font-size: 7rem;
+  font-size: 5vw;
   color: #020715;
   margin-bottom: 100px;
 
