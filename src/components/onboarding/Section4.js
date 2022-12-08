@@ -9,7 +9,7 @@ import Img2 from 'img/see2.png'
 
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
+  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffcd00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
