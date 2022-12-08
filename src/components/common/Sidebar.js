@@ -227,12 +227,7 @@ function Sidebar() {
       name: '발송자 관리',
       icon: IconSettings(),
       link: '/home/sendermanagement'
-    },
-    {
-      name: 'Activity',
-      icon: IconActivity(),
-      link: '/default'
-    },
+    }
   ]
 
   const state = useSelector(state => state.survey.previewsurvey)
