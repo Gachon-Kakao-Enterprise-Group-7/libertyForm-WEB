@@ -3,10 +3,9 @@ import {React,useState,useEffect,useRef} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-scroll'
 
-import Img1 from 'img/create4.png'
-import Img2 from 'img/create2.png'
-import Img3 from 'img/create.png'
-import Img4 from 'img/create3.png'
+import Img1 from 'img/see.png'
+import Img2 from 'img/see2.png'
+// import Img3 from 'img/sender3.png'
 
 
 export const InfoContainer = styled.div`
@@ -56,7 +55,7 @@ export const TextWrapper = styled.div`
 `
 
 export const TopLine = styled.p`
-  color: #ffbc00;
+  color: #ff7800;
   font-size: 16px;
   line-height: 16px;
   font-weight: bold;
@@ -97,7 +96,7 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  width: 555px;
+  max-width: 555px;
   display: flex;
 `;
 export const Img = styled.img`
@@ -140,9 +139,9 @@ const Mainbutton = styled.button`
 
 `
 
-const Section1 = () => {
+const Section4 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const TOTAL_SLIDES = 3; //슬라이드 갯수
+  const TOTAL_SLIDES = 1; //슬라이드 갯수
   const slideRef = useRef(null);
 
   useEffect(() => {
@@ -171,14 +170,14 @@ const Section1 = () => {
   
   return (
     <>
-      <InfoContainer lightBg={true}>
+      <InfoContainer lightBg={false}>
         <InfoWrapper>
-          <InfoRow imgStart={false}>
+          <InfoRow imgStart={true}>
             <Column1>
               <TextWrapper>
-                {/* <TopLine>설문생성</TopLine> */}
-                <Heading lightText={false}>설문 생성</Heading>
-                <Subtitle darkText={true}>슬라이드 형식으로 보여지는 설문을<br/> 다양한 질문방식과 이미 선택하여 설문을 자유롭게 생성하고 슬라이드 형식으로 보여줍니다</Subtitle>
+                {/* <TopLine>분석</TopLine> */}
+                <Heading lightText={false}>설문결과 분석</Heading>
+                <Subtitle darkText={true}>설문을 발송 후,<br/>다양한 시각화 방식으로 표현된 분석 결과를 통해 설문 결과를 확인하세요</Subtitle>
                 <BtnWrap>
                 <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>
@@ -189,8 +188,6 @@ const Section1 = () => {
               <ImgWrap ref={slideRef} currentSlide={currentSlide}>
                 <Img src={Img1}/>
                 <Img src={Img2}/>
-                <Img src={Img3}/>
-                <Img src={Img4}/>
               </ImgWrap>
               </ImgSlide>
             </Column2>
@@ -201,5 +198,4 @@ const Section1 = () => {
   )
 }
 
-export default Section1
-
+export default Section4

@@ -18,14 +18,16 @@ const DashboardLayoutRoot = styled.div`
 
 function Objectivequestion(props) {
 
-    let question = props.question
-    console.log(question.result)
-    question = question.result
-    console.log(question)
-
+    let question = {...props.question, choices:props.question.choices.map((item)=>({...item, count:0}))}
+    // console.log(question)
+    
+    question.responses.forEach((response)=>( // 객관식 선택항목을 응답에 따라 카운팅해준다.
+        question.choices[response-1].count +=1
+    ))
+    
 
     useEffect(() => {
-        const root = am5.Root.new(`chartdiv${props.question.number}`);
+        const root = am5.Root.new(`chartdiv${question.question.number}`);
 
         root.setThemes([
             am5themes_Animated.new(root)
@@ -41,22 +43,14 @@ function Objectivequestion(props) {
             })
         );
 
-        const data = [{
-            value: question[0].value,
-            choice: question[0].choice
-        }, {
-            value: question[1].value,
-            choice: question[1].choice
-        }, {
-            value: question[2].value,
-            choice: question[2].choice
-        }, {
-            value: question[3].value,
-            choice: question[3].choice
-        }, {
-            value: question[4].value,
-            choice: question[4].choice
-        }];
+
+        const data = question.choices.map((item)=>(
+            {
+                value:item.count,
+                choice:item.name
+            }
+        ))
+
 
         const yAxis = chart.yAxes.push(
             am5xy.CategoryAxis.new(root, {
@@ -122,7 +116,7 @@ function Objectivequestion(props) {
                 }}
             >
                 <Card>
-                    <CardHeader title={props.question.title} />
+                    <CardHeader title={question.question.name} />
                     <Divider />
                     <CardContent>
                         <Box
@@ -131,7 +125,7 @@ function Objectivequestion(props) {
                                 position: 'relative'
                             }}
                         >
-                            <div id={`chartdiv${props.question.number}`} style={{ width: "100%", height: "500px" }}></div>
+                            <div id={`chartdiv${question.question.number}`} style={{ width: "100%", height: "500px" }}></div>
                         </Box>
                     </CardContent>
                 </Card>

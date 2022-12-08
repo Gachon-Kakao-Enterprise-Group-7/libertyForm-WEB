@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Preview from './Preview';
-import SenderHistory from './SenderHistory';
+import SenderHistory from "components/sendsurvey/SenderHistory";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Divider, Typography } from "@material-ui/core";
@@ -17,21 +17,33 @@ import { ReactComponent as AlamIcon } from 'svg/alam.svg'
 import defaultImg from 'img/default-thumbnail.jpg'
 
 
-
-
-
 const ScoreLine = styled.div`
   width: ${(props) => props.Dayratio}%;
   height: 3px;
   border-radius: 2.5px;
   background-color: #f5c525;
 `
-const CustomCardMedia = styled(CardMedia)`
-transition: transform 400ms ;
-&:hover{
-  transform: scale(1.1);
-}
 
+const CustomCard = styled(Card)`
+  margin: 10px;
+  width: 30vmin;
+  &.MuiCard-root{
+    border-radius: 20px;
+    overflow :visible;
+  }
+`
+const CustomCardMediaW = styled.div`
+  width: 30vmin;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow :hidden;
+`
+const CustomCardMedia = styled(CardMedia)`
+  padding-top: 56.25%;
+  transition: transform 400ms ;
+  &:hover{
+    transform: scale(1.2);
+  }
 `
 const LinkIconSvg = styled(LinkIcon)`
     width:30px;
@@ -48,12 +60,6 @@ const TypographyTitle = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
-const TWrapper = styled.div`
-  margin: 10px;
-  width: 30vmin;
-  color : transparent;
-  border-radius: 20px;
 `
 const NavDropStyle = styled.div`
   display: flex;
@@ -173,18 +179,9 @@ const CopyWrapper = styled.div`
 `
 
 const styles = (muiBaseTheme) => ({
-  card: {
-    transition: "0.3s",
-    borderRadius: "20px",
-    border: "1px dashed white",
-  },
-  media: { //사진
-    paddingTop: "56.25%",
-    width: "100%",
-  },
   content: {
     textAlign: "left",
-    padding: muiBaseTheme.spacing.unit * 3
+    padding: muiBaseTheme.spacing.unit * 3,
   },
   heading: {
     fontWeight: "bold"
@@ -245,7 +242,7 @@ function Scard(props) {
   const openLinkModal = () => {
     setLinkModalOpen(true)
   }
-  const openSenderHistoryModal = () => {
+  const openResponseConfirmationModal = () => {
     setSenderHistoryModalOpen(true)
     document.body.style.overflow = "hidden";
   }
@@ -260,7 +257,7 @@ function Scard(props) {
   const closePreviewModal = () => {
     setPreviewModalOpen(false)
   }
-  const closeSenderHistoryModal = () => {
+  const closeResponseConfirmationModal = () => {
     setSenderHistoryModalOpen(false)
     document.body.style.overflow = "unset";
   }
@@ -316,12 +313,13 @@ function Scard(props) {
 
   return (
     <div>
-      <TWrapper>
-        <Card className={classes.card}>
+      
+        <CustomCard>
+        <CustomCardMediaW>
           <CustomCardMedia
-            className={classes.media}
             image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}>
           </CustomCardMedia>
+          </CustomCardMediaW>
           <CardContent className={classes.content}>
             <NavDropStyle>
               <Typography
@@ -337,6 +335,7 @@ function Scard(props) {
                 <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
                 <NavDropdown.Item disabled={end} onClick={editSurvey}>수정하기</NavDropdown.Item>
                 <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openResponseConfirmationModal}>이력관리</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
               </NavDropdown>
@@ -350,8 +349,7 @@ function Scard(props) {
             </ShowLeftDate>
             {RemainDayCount >= 0 && <><ScoreLine Dayratio={Dayratio} /></>}
           </CardContent>
-        </Card>
-      </TWrapper>
+        </CustomCard>
 
       <Modal isOpen={deleteModalOpen} style={{ // 설문 삭제에 관한 모달
         overlay: {
@@ -492,9 +490,9 @@ function Scard(props) {
       }}>
 
         <ModalHeader>
-          <ModalDelete onClick={closeSenderHistoryModal}><CloseModalSvg /></ModalDelete>
+          <ModalDelete onClick={closeResponseConfirmationModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <SenderHistory code={code} />
+        <SenderHistory surveyId={surveyId} />
       </Modal>
     </div>
   );

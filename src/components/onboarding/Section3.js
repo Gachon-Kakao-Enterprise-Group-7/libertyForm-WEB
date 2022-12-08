@@ -5,15 +5,14 @@ import {Link} from 'react-scroll'
 
 import Img1 from 'img/sender.png'
 import Img2 from 'img/sender2.png'
+import Img3 from 'img/sender3.png'
 
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#010606')};
-
+  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
-  border-bottom:1px solid #dfdfdf;
 `
 
 export const InfoWrapper = styled.div`
@@ -56,7 +55,7 @@ export const TextWrapper = styled.div`
 `
 
 export const TopLine = styled.p`
-  color: #ffbc00;
+  color: #ff7800;
   font-size: 16px;
   line-height: 16px;
   font-weight: bold;
@@ -142,7 +141,7 @@ const Mainbutton = styled.button`
 
 const Section3 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const TOTAL_SLIDES = 1; //슬라이드 갯수
+  const TOTAL_SLIDES = 2; //슬라이드 갯수
   const slideRef = useRef(null);
 
   useEffect(() => {
@@ -176,9 +175,9 @@ const Section3 = () => {
           <InfoRow imgStart={false}>
             <Column1>
               <TextWrapper>
-                <TopLine>설문 발송</TopLine>
-                <Heading lightText={false}>발송자 관리, 설문 발송</Heading>
-                <Subtitle darkText={true}>원하는 설문을 발송하고 발송자의 상태를 관리해보세요</Subtitle>
+                {/* <TopLine>설문 발송</TopLine> */}
+                <Heading lightText={false}>발송자 관리</Heading>
+                <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br/> 발송자의 상태를 관리해보세요</Subtitle>
                 <BtnWrap>
                 <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>
@@ -189,6 +188,7 @@ const Section3 = () => {
               <ImgWrap ref={slideRef} currentSlide={currentSlide}>
                 <Img src={Img1}/>
                 <Img src={Img2}/>
+                <Img src={Img3}/>
               </ImgWrap>
               </ImgSlide>
             </Column2>
