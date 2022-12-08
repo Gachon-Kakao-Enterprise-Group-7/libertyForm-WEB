@@ -91,30 +91,28 @@ export const NavBtn = styled.nav`
     display: none;
   }
 `
-export const NavBtnLink = styled(LinkR)`
-  border-radius: 20px;
-  background:  #ffcd00;
-  white-space: nowrap;
-  padding: 7px 15px;
-  margin-top : 15px;
-  color: #fff;
-  font-size: 16px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
+// export const NavBtnLink = styled(LinkR)`
+//   border-radius: 20px;
+//   background:  #ffcd00;
+//   white-space: nowrap;
+//   padding: 7px 15px;
+//   margin-top : 15px;
+//   color: #fff;
+//   font-size: 16px;
+//   outline: none;
+//   border: none;
+//   cursor: pointer;
+//   transition: all 0.2s ease-in-out;
+//   text-decoration: none;
 
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #010606;
-  }
-`
+//   &:hover {
+//     transition: all 0.2s ease-in-out;
+//     background: #fff;
+//     color: #010606;
+//   }
+// `
 
 const NavDropStyle = styled.div`
-  /* display: flex;
-  justify-content: center; */
   padding-top :10px;
   height : 60px;
   .dropdown-button {
@@ -149,7 +147,7 @@ const Navbar_on = ({ toggle }) => {
     <>
       <Nav>
         <NavbarContainer>
-          <NavLogo to="/">LIBERTY FORM</NavLogo>
+          <NavLogo to="/" style={{fontFamily: "Montserrat"}}>LIBERTY FORM</NavLogo>
           {localStorage.getItem('email') ? <>
           <NavDropStyle>
           <NavDropdown styled={{color:'black',paddingTop:'15px'}} title={`반갑습니다! ${localStorage.getItem('name')}님`} id="collasible-nav-dropdown">
@@ -169,9 +167,9 @@ const Navbar_on = ({ toggle }) => {
                              <NavItem>
                               <NavLinks to='/login'smooth={true} duration={500} spy={true} exact='true' offset={-60}>로그인</NavLinks>
                             </NavItem>
-                            <NavBtn>
-                              <NavBtnLink to='/Signin'>회원가입</NavBtnLink>
-                            </NavBtn>
+                            <NavItem>
+                              <NavLinks to='/Signin'>회원가입</NavLinks>
+                            </NavItem>
                             </NavMenu>
                             </>
                         }
