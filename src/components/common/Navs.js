@@ -12,9 +12,26 @@ import { useLocation } from 'react-router-dom';
 const StyledNavbar = styled(Navbar)`
     background-color : ${props => props.pathname === '/' || props.pathname === '/login' || props.pathname === '/Signin' ? 'rgb(37 37 37 / 5%)' : 'white'};
     display : ${props => props.pathname === '/' ? 'none' : ''};
+    height: 60px;
+    width :100%;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1rem;
+    position: sticky;
 `
 
-
+export const NavLogo = styled(Navbar.Brand) `
+  color: #fff;
+  justify-self: flex-start;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  margin-left: -80px;
+  font-weight: bold;
+  text-decoration: none;
+`
 function Navs() {
 
     const pathname = useLocation().pathname
@@ -59,7 +76,7 @@ function Navs() {
                                 <Nav.Link href="/Signin" >회원가입</Nav.Link>
                             </>
                         }
-
+                
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -1,11 +1,16 @@
 import React, {useState, useEffect} from 'react'
 // import { FaBars } from 'react-icons/fa'
 import styled from 'styled-components'
+import Navbar from 'react-bootstrap/Navbar';
 import { Link as LinkR } from 'react-router-dom'
 import { animateScroll as scroll } from 'react-scroll';
 
+import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-export const Nav = styled.nav`
+import { useLocation } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+
+export const NavS = styled(Navbar)`
   background: rgb(37 37 37 / 5%);
   height: 60px;
   width :100%;
@@ -21,6 +26,7 @@ export const Nav = styled.nav`
   @media screen and (max-width: 960px) {
     transition: 0.8s all ease;
   }
+
 `
 export const NavbarContainer = styled.div`
   display: flex;
@@ -31,7 +37,7 @@ export const NavbarContainer = styled.div`
   padding: 0 24px;
   max-width: 1100px;
 `
-export const NavLogo = styled(LinkR) `
+export const NavLogo = styled(Navbar.Brand) `
   color:#fff;
   justify-self: flex-start;
   cursor: pointer;
@@ -91,26 +97,6 @@ export const NavBtn = styled.nav`
     display: none;
   }
 `
-// export const NavBtnLink = styled(LinkR)`
-//   border-radius: 20px;
-//   background:  #ffcd00;
-//   white-space: nowrap;
-//   padding: 7px 15px;
-//   margin-top : 15px;
-//   color: #fff;
-//   font-size: 16px;
-//   outline: none;
-//   border: none;
-//   cursor: pointer;
-//   transition: all 0.2s ease-in-out;
-//   text-decoration: none;
-
-//   &:hover {
-//     transition: all 0.2s ease-in-out;
-//     background: #fff;
-//     color: #010606;
-//   }
-// `
 
 const NavDropStyle = styled.div`
   padding-top :10px;
@@ -145,12 +131,17 @@ const Navbar_on = ({ toggle }) => {
 
   return (
     <>
-      <Nav>
-        <NavbarContainer>
-          <NavLogo to="/" style={{fontFamily: "Montserrat"}}>LIBERTY FORM</NavLogo>
-          {localStorage.getItem('email') ? <>
-          <NavDropStyle>
-          <NavDropdown styled={{color:'black',paddingTop:'15px'}} title={`반갑습니다! ${localStorage.getItem('name')}님`} id="collasible-nav-dropdown">
+      <NavS variant='dark'>
+      <Container>
+                <Navbar.Brand href="/" style={{fontFamily: "Montserrat"}}>LIBERTY FORM</Navbar.Brand >
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse   id="responsive-navbar-nav">
+                    <Nav className="me-auto">
+                    </Nav>
+                    <Nav >
+                        {/*localStorage의 값을 확인해서 존재하면 실행시킴  */}
+                        {localStorage.getItem('email') ? <>
+                            <NavDropdown styled={{color:'black !important'}} title={`반갑습니다! ${localStorage.getItem('name')}님`} id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="/null1">Action1</NavDropdown.Item>
                                 <NavDropdown.Item href="/null2">Action2</NavDropdown.Item>
                                 <NavDropdown.Item href="/null3">Action3</NavDropdown.Item>
@@ -160,21 +151,17 @@ const Navbar_on = ({ toggle }) => {
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="/" onClick={onLogout}>로그아웃</NavDropdown.Item>
                             </NavDropdown>
-                            </NavDropStyle>
                         </> :
                             <>{/*localStorage의 값을 확인해서 로그인이 되어있으면 회원가입이랑 로그인은 안보이게함  */}
-                            <NavMenu>
-                             <NavItem>
-                              <NavLinks to='/login'smooth={true} duration={500} spy={true} exact='true' offset={-60}>로그인</NavLinks>
-                            </NavItem>
-                            <NavItem>
-                              <NavLinks to='/Signin'>회원가입</NavLinks>
-                            </NavItem>
-                            </NavMenu>
+                                <Nav.Link eventKey={2} href="/login">로그인</Nav.Link>
+                                <Nav.Link href="/Signin" >회원가입</Nav.Link>
                             </>
                         }
-        </NavbarContainer>
-      </Nav>
+                
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+      </NavS>
     </>
   )
 }

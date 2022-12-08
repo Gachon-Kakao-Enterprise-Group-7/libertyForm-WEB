@@ -180,7 +180,6 @@ const Section1 = () => {
                 <Heading lightText={false}>설문 생성</Heading>
                 <Subtitle darkText={true}>슬라이드 형식으로 보여지는 설문을<br/> 다양한 질문방식과 이미 선택하여 설문을 자유롭게 생성하고 슬라이드 형식으로 보여줍니다</Subtitle>
                 <BtnWrap>
-                <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>
               </TextWrapper>
             </Column1>
