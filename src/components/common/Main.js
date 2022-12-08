@@ -27,7 +27,7 @@ const Navbartest= styled.div`
 
 const MainSection= styled.div`
     height: 100vh;
-    width: 100%;
+    width: 100% auto;
     position: relative;
     align-items: center;
     display: flex;
@@ -44,11 +44,8 @@ const Spacingdiv = styled.div`
 `
 
 const Bodydiv = styled(motion.div)`
-    width: 100%;
     text-align: center;
     align-items: center;
-    margin: auto;
-
     & h1 {
     font-family: "Montserrat";
     font-size: 7vw;
@@ -232,7 +229,8 @@ function Main() {
         render={(comp) => (
           <ReactFullpage.Wrapper>
             <div className={SEL}>
-            <>
+                
+            <div style ={{width :'100% auto'}}>
             <Navbar_on/>
             <MainSection ref={vantaRef}>
                 <Spacingdiv/>
@@ -248,7 +246,7 @@ function Main() {
                     <DownarrowSvg></DownarrowSvg>
                 </Bodydiv>
             </MainSection>
-            </>
+            </div>
             </div>
             <div className={SEL}>
             <Services/>
