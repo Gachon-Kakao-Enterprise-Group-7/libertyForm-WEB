@@ -5,7 +5,7 @@ import FOG from "vanta/dist/vanta.fog.min";
 import { motion } from "framer-motion"
 import axios from 'axios';
 import ReactFullpage from "@fullpage/react-fullpage";
-
+import { useDispatch } from 'react-redux';
 
 import Navbar_on from 'components/onboarding/Navbar_on';
 import Services from 'components/onboarding/Services';
@@ -15,8 +15,7 @@ import Section3 from 'components/onboarding/Section3';
 import Section4 from 'components/onboarding/Section4';
 import { ReactComponent as downarrow } from "svg/downarrow.svg";
 
-
-const Navbartest= styled.div`
+const Navbartest = styled.div`
     height: 10vh;
     width: 100%;
     background-color:black;
@@ -25,7 +24,7 @@ const Navbartest= styled.div`
     top:0px;
 `
 
-const MainSection= styled.div`
+const MainSection = styled.div`
     height: 100vh;
     width: 100% auto;
     position: relative;
@@ -128,7 +127,7 @@ const Mainbutton = styled.button`
         100% { background-position: 0 0; }
     }
 `
-const DownarrowSvg= styled(downarrow)`
+const DownarrowSvg = styled(downarrow)`
     margin-top : 20vh;
     margin-bottom : 10vh;
     width:50px;
@@ -159,35 +158,39 @@ function Main() {
 
     const [vantaEffect, setVantaEffect] = useState(0);
     const vantaRef = useRef(null);
+    const dispatch = useDispatch()
+
 
     const moveSection = (e) => {
         if (!window.scrollY) return;
         // 현재 위치가 이미 최상단일 경우 return
-      
+
         window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
+            top: 0,
+            behavior: 'smooth'
         });
-      
-      };
+
+    };
 
     console.log(process.env.REACT_APP_DB_HOST)
     //axios 테스트하기 위해서 작성한 임시 axios 코드입니다. 
     // 리버티폼 메인페이지에서 콘솔찍어보면 api통신이 되는지 안되는지 바로 볼 수 있습니다!
     useEffect(() => {
-
-        axios.get(`${process.env.REACT_APP_DB_HOST}/survey`, {
-            headers: {
-                Authorization: 'Bearer eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJqd3RJbmZvIjp7Im1lbWJlcklkIjo0fSwiaWF0IjoxNjY4OTk4MjI5LCJleHAiOjE2NzA3NzYyOTR9.ZVGf5i48rXOpl1hIkraKRcYGDozlTcsKirHVS4MeAww'
-            }
-        })
-            .then((res) => {
-                console.log(res)
-
+        if (localStorage.getItem('jwt')) {
+            const jwt = localStorage.getItem('jwt')
+            axios.get(`${process.env.REACT_APP_DB_HOST}/survey`, {
+                headers: {
+                    Authorization: 'Bearer' + jwt
+                }
             })
-            .catch((Error) => {
-                console.log(Error)
-            })
+                .then((res) => {
+                    dispatch({ type: 'ADDPREVIEWSURVEY', data: res.data.result.surveys })
+
+                })
+                .catch((Error) => {
+                    console.log(Error)
+                })
+        }
     }, [])
 
     //여기까지 axios 테스트 코드
@@ -222,7 +225,7 @@ function Main() {
     }, [vantaEffect]);
 
     return (
-        
+
         <ReactFullpage
         navigation
         sectionSelector={SECTION_SEL}
