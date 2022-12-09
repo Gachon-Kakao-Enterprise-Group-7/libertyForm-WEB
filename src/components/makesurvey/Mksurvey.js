@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
 
-
 // mui import
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -24,27 +23,6 @@ import { ko } from 'date-fns/esm/locale'; // 캘린더 라이브러리 한글화
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-
-const ImageInputQusetion = styled.div`
-  button {
-    display: flex;
-    justify-content: center;
-    align-items :center;
-    font-size: inherit;
-    cursor: pointer;
-    background: ${(props) => props.uploadedFileName ? '#ffcd00' : 'white'}; ;
-	border: 1px solid #ffcd00;
-    font-weight: bold;
-    /* width: ${(props) => props.uploadedFileName ? '20vh' : '15vh'}; */
-    min-width : 10vh;
-    height: 5vh;
-    color: ${(props) => props.uploadedFileName ? 'white' : '#ffcd00'};
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-`
-
 const DragSvgWrapper = styled(DragSvg)`
     margin-right: 5px;
     width:20px;
@@ -58,10 +36,9 @@ const UploadSvgWrapper = styled(UploadSvg)`
     width:30px;
     height:30px;
     padding-bottom:5px;
-    fill: #ffcd00;
+    fill: #ffbc00;
 `
 const MainWrapper = styled(motion.div)`
-
 `
 const ModalHeader = styled.div`
   display: flex;
@@ -93,7 +70,6 @@ const ModalTitle = styled.div`
   margin-left: 10px;
   border-bottom: 1px solid #e2e2ea;
   height: 50px;
-
   & h4 {
     padding-bottom: 10px;
     font-weight: bold;
@@ -153,7 +129,6 @@ const BlockDiv = styled.div`
 	height:auto;
     border-top : 20px solid #fff9df;
     transition:all 200ms linear;
-
     :hover{
         background-color: #f7f7f7;
     }
@@ -163,11 +138,6 @@ const ItemDiv = styled.div`
 	height:auto;
     padding: 0vw 1vw;
     margin-top: 0.5vw;
-`
-
-const ItemHeader = styled.div`
-    display : flex;
-    justify-content: space-between;
 `
 const MainItemDiv = styled.div`
     overflow:hidden; // overflow, height : div안의 컨텐츠의 크기에 따라 height를 조절
@@ -223,7 +193,6 @@ const StyledOl = styled.ol`
     counter-reset: item;
     padding-left: 0px;
     margin-top: 0.5rem;
-
 `
 const McitemAddBtn = styled.button`
     width:10%;
@@ -266,19 +235,19 @@ const TextInput = styled.input`
 `
 const ImageInput = styled.div`
   label {
+    padding-top: 7px ;
     display: inline-flex;
-    align-items :center;
     justify-content: space-evenly;
     font-size: inherit;
     line-height: normal;
     vertical-align: middle;
     cursor: pointer;
     background: white;
-	border: 1px solid #ffcd00;
+	border: 1px solid #ffbc00;
     font-weight: bold;
     width: 15vh;
     height: 5vh;
-    color: #ffcd00;
+    color: #ffbc00;
     cursor: pointer;
     border-radius: 5px;
   }
@@ -292,7 +261,6 @@ const ImageInput = styled.div`
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
-
 `
 const ImageUpload = styled.div`
     padding: 1rem;
@@ -390,24 +358,6 @@ function Mksurvey() { // Make Survey
 
     const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
     const [imgs, setImgs] = useState([])
-
-    const [uploadedFileName, setUploadedFileName] = useState(new Array(100).fill(0));
-    console.log(uploadedFileName)
-    const inputRef = useRef(null);
-    const handleUpload = () => {
-        inputRef.current?.click();
-    };
-    const handleDisplayFileDetails = (index) => {
-        if (inputRef.current?.files) {
-            console.log(index, 'index입니다!')
-            let temparr = uploadedFileName
-            temparr[index] = inputRef.current.files[0].name
-            setUploadedFileName(temparr);
-        }
-
-
-    };
-
 
     useEffect(() => {
         console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
@@ -563,26 +513,10 @@ function Mksurvey() { // Make Survey
                 newFile = new File([oldFile], `${questionNumber}.png`, { type: oldFile.type })
                 setImgs((prev) => [...prev, newFile])
                 break;
-            case 'PNG':
-                newFile = new File([oldFile], `${questionNumber}.PNG`, { type: oldFile.type })
-                setImgs((prev) => [...prev, newFile])
-                break;
-            case 'JPG':
-                newFile = new File([oldFile], `${questionNumber}.JPG`, { type: oldFile.type })
-                setImgs((prev) => [...prev, newFile])
-                break;
             default:
                 alert('지원하지 않는 파일 형식입니다.')
                 break
         }
-
-        console.log(questionNumber)
-        if (inputRef.current?.files) {
-            let temparr = uploadedFileName
-            temparr[questionNumber] = inputRef.current.files[0].name
-            setUploadedFileName(temparr);
-        }
-
     }
 
 
@@ -816,7 +750,7 @@ function Mksurvey() { // Make Survey
                         <ImageInput>
                             <label htmlFor="ex_file">
                                 <UploadSvgWrapper />
-                                <a style={{ paddingTop: '5px' }}>사진 선택</a>
+                                <a style={{ paddingTop: '5px' }}>파일 선택</a>
                             </label>
                             <input type="file" id="ex_file" onChange={onLoadThumnail}></input>
                         </ImageInput>
@@ -852,28 +786,22 @@ function Mksurvey() { // Make Survey
 
 
                     <ItemDiv>
-                        <ItemHeader>
-                            <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
-                            <ImageInputQusetion uploadedFileName={uploadedFileName}>
-                                <input
-                                    type="file"
-                                    className="d-none"
-                                    ref={inputRef}
-                                    name={index + 1}
-                                    accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
-                                    onChange={(e) => { onLoadQuestionFile(e) }}
-                                    onClick={() => {
-                                        const tempArr = imgs
-                                        setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
-                                    }}
-                                />
-                                <button
-                                    onClick={handleUpload}
-                                >
-                                    {uploadedFileName[index] !== 0 ? uploadedFileName[index] : "사진선택"}
-                                </button>
-                            </ImageInputQusetion>
-                        </ItemHeader>
+                        <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
+                        <form
+                            name="photo"
+                            encType="multipart/form-data"
+                        >
+                            <input
+                                type="file"
+                                name={index + 1}
+                                accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
+                                onChange={(e) => { onLoadQuestionFile(e) }}
+                                onClick={() => {
+                                    const tempArr = imgs
+                                    setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
+                                }}
+                            />
+                        </form>
                         <FormControl>
                             <RadioGroup
                                 row

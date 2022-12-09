@@ -173,8 +173,7 @@ function Main() {
     };
 
     console.log(process.env.REACT_APP_DB_HOST)
-    //axios 테스트하기 위해서 작성한 임시 axios 코드입니다. 
-    // 리버티폼 메인페이지에서 콘솔찍어보면 api통신이 되는지 안되는지 바로 볼 수 있습니다!
+
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
             const jwt = localStorage.getItem('jwt')
@@ -227,49 +226,49 @@ function Main() {
     return (
 
         <ReactFullpage
-        navigation
-        sectionSelector={SECTION_SEL}
-        render={(comp) => (
-          <ReactFullpage.Wrapper>
-            <div className={SEL}>
-                
-            <div style ={{width :'100% auto'}}>
-            <Navbar_on/>
-            <MainSection ref={vantaRef}>
-                <Spacingdiv/>
-                <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
-                    <h1>LIBERTY FORM</h1>
-                </Bodydiv>
-                <Bodydiv >
-                    <Mainbutton onClick={isLogin}>
-                        시작하기
-                    </Mainbutton>
-                </Bodydiv>
-                <Bodydiv>
-                    <DownarrowSvg></DownarrowSvg>
-                </Bodydiv>
-            </MainSection>
-            </div>
-            </div>
-            <div className={SEL}>
-            <Services/>
-            </div>
-            <div className={SEL}>
-              <Section1/>
-            </div>
-            <div className={SEL}>
-            <Section2/>
-            </div>
-            <div className={SEL}>
-            <Section3/>
-            </div>
-            <div className={SEL}>
-            <Section4/>
-            </div>
-          </ReactFullpage.Wrapper>
-    )}
-    />
-  );
+            navigation
+            sectionSelector={SECTION_SEL}
+            render={(comp) => (
+                <ReactFullpage.Wrapper>
+                    <div className={SEL}>
+
+                        <div style={{ width: '100% auto' }}>
+                            <Navbar_on />
+                            <MainSection ref={vantaRef}>
+                                <Spacingdiv />
+                                <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
+                                    <h1>LIBERTY FORM</h1>
+                                </Bodydiv>
+                                <Bodydiv >
+                                    <Mainbutton onClick={isLogin}>
+                                        시작하기
+                                    </Mainbutton>
+                                </Bodydiv>
+                                <Bodydiv>
+                                    <DownarrowSvg></DownarrowSvg>
+                                </Bodydiv>
+                            </MainSection>
+                        </div>
+                    </div>
+                    <div className={SEL}>
+                        <Services />
+                    </div>
+                    <div className={SEL}>
+                        <Section1 />
+                    </div>
+                    <div className={SEL}>
+                        <Section2 />
+                    </div>
+                    <div className={SEL}>
+                        <Section3 />
+                    </div>
+                    <div className={SEL}>
+                        <Section4 />
+                    </div>
+                </ReactFullpage.Wrapper>
+            )}
+        />
+    );
 }
 
 export default Main;
