@@ -786,10 +786,12 @@ function Mksurvey() { // Make Survey
 
 
                     <ItemDiv>
+                        <div style={{display:'flex' }}>
                         <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
                         <form
                             name="photo"
                             encType="multipart/form-data"
+                            style={{marginLeft:'20px' }}
                         >
                             <input
                                 type="file"
@@ -802,6 +804,7 @@ function Mksurvey() { // Make Survey
                                 }}
                             />
                         </form>
+                        </div>
                         <FormControl>
                             <RadioGroup
                                 row
