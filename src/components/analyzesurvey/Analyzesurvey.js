@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
+import Surveyinfo from './Surveyinfo';
 import Linearquestion from './Linearquestion';
 import Subjectivequestion from './Subjectivequestion';
 import Objectivequestion from './Objectivequestion';
@@ -104,6 +105,8 @@ function Analyzesurvey() {
                     renderInput={(params) => <TextField {...params} label="설문을 선택하세요" />}
                 />
             </GroupControll>
+
+            {result ? <Surveyinfo result={result}></Surveyinfo> : null}
 
             {result && result.questions.map((question, index) => {
                 switch (question.question.questionTypeId) {
