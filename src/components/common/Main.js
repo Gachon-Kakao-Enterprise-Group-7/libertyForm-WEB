@@ -158,109 +158,103 @@ const DownarrowSvg = styled(downarrow)`
 `;
 
 function Main() {
-  const SEL = "custom-section";
-  const SECTION_SEL = `.${SEL}`;
+    const SEL = "custom-section";
+    const SECTION_SEL = `.${SEL}`;
 
-  const [vantaEffect, setVantaEffect] = useState(0);
-  const vantaRef = useRef(null);
-  const dispatch = useDispatch();
+    const [vantaEffect, setVantaEffect] = useState(0);
+    const vantaRef = useRef(null);
+    const dispatch = useDispatch()
 
-  console.log(process.env.REACT_APP_DB_HOST);
+    const moveSection = (e) => {
+        if (!window.scrollY) return;
+        // 현재 위치가 이미 최상단일 경우 return
 
-  useEffect(() => {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
-      axios
-        .get(`${process.env.REACT_APP_DB_HOST}/survey`, {
-          headers: {
-            Authorization: "Bearer" + jwt,
-          },
-        })
-        .then((res) => {
-          dispatch({ type: "ADDPREVIEWSURVEY", data: res.data.result.surveys });
-        })
-        .catch((Error) => {
-          console.log(Error);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
+
+    };
+
+
+    console.log(process.env.REACT_APP_DB_HOST)
+
+    useEffect(() => {
+        if (localStorage.getItem('jwt')) {
+            const jwt = localStorage.getItem('jwt')
+            axios.get(`${process.env.REACT_APP_DB_HOST}/survey`, {
+                headers: {
+                    Authorization: 'Bearer' + jwt
+                }
+            })
+                .then((res) => {
+                    dispatch({ type: 'ADDPREVIEWSURVEY', data: res.data.result.surveys })
+
+                })
+                .catch((Error) => {
+                    console.log(Error)
+                })
+        }
+    }, [])
+
+    //여기까지 axios 테스트 코드
+
+    const isLogin = () => {
+        if (localStorage.getItem('email')) {
+            document.location.href = '/home/dashboard'
+        }
+        else {
+            document.location.href = '/login'
+        }
     }
   }, []);
 
   //여기까지 axios 테스트 코드
 
-  const isLogin = () => {
-    if (localStorage.getItem("email")) {
-      document.location.href = "/home/dashboard";
-    } else {
-      document.location.href = "/login";
-    }
-  };
+        <ReactFullpage
+            navigation
+            sectionSelector={SECTION_SEL}
+            render={(comp) => (
+                <ReactFullpage.Wrapper>
+                    <div className={SEL}>
 
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(
-        FOG({
-          el: vantaRef.current,
-          THREE: THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-        })
-      );
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy();
-    };
-  }, [vantaEffect]);
-
-  return (
-    <ReactFullpage
-      navigation
-      sectionSelector={SECTION_SEL}
-      render={(comp) => (
-        <ReactFullpage.Wrapper>
-          <div className={SEL}>
-            <div style={{ width: "100% auto" }}>
-              <Navbar_on />
-              <MainSection ref={vantaRef}>
-                <Spacingdiv />
-                <Bodydiv
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <h1>LIBERTY FORM</h1>
-                </Bodydiv>
-                <Bodydiv>
-                  <Mainbutton onClick={isLogin}>시작하기</Mainbutton>
-                </Bodydiv>
-                <Bodydiv>
-                  <DownarrowSvg></DownarrowSvg>
-                </Bodydiv>
-              </MainSection>
-            </div>
-          </div>
-          <div className={SEL}>
-            <Services />
-          </div>
-          <div className={SEL}>
-            <Section1 />
-          </div>
-          <div className={SEL}>
-            <Section2 />
-          </div>
-          <div className={SEL}>
-            <Section3 />
-          </div>
-          <div className={SEL}>
-            <Section4 />
-          </div>
-        </ReactFullpage.Wrapper>
-      )}
-    />
-  );
+                        <div style={{ width: '100% auto' }}>
+                            <Navbar_on />
+                            <MainSection ref={vantaRef}>
+                                <Spacingdiv />
+                                <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
+                                    <h1>LIBERTY FORM</h1>
+                                </Bodydiv>
+                                <Bodydiv >
+                                    <Mainbutton onClick={isLogin}>
+                                        시작하기
+                                    </Mainbutton>
+                                </Bodydiv>
+                                <Bodydiv>
+                                    <DownarrowSvg></DownarrowSvg>
+                                </Bodydiv>
+                            </MainSection>
+                        </div>
+                    </div>
+                    <div className={SEL}>
+                        <Services />
+                    </div>
+                    <div className={SEL}>
+                        <Section2 />
+                    </div>
+                    <div className={SEL}>
+                        <Section1 />
+                    </div>
+                    <div className={SEL}>
+                        <Section3 />
+                    </div>
+                    <div className={SEL}>
+                        <Section4 />
+                    </div>
+                </ReactFullpage.Wrapper>
+            )}
+        />
+    );
 }
 
 export default Main;
