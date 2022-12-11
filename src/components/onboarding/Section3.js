@@ -183,7 +183,7 @@ const Section3 = () => {
               <TextWrapper>
                 {/* <TopLine>설문 발송</TopLine> */}
                 <Heading lightText={false}>발송자 관리</Heading>
-                <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br /> 발송자의 상태를 관리해보세요</Subtitle>
+                <Subtitle darkText={true}>원하는 그룹별로 발송자를 등록한 후 <br/>발송자에게 설문을 메일로 발송하고, 발송자의 응답상태를 관리해보세요</Subtitle>
                 <BtnWrap>
                 </BtnWrap>
               </TextWrapper>

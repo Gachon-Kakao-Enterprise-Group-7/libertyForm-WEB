@@ -175,9 +175,8 @@ const Section2 = () => {
           <InfoRow imgStart={true}>
             <Column1>
               <TextWrapper>
-                {/* <TopLine>대시보드</TopLine> */}
                 <Heading lightText={false}>대시보드 관리</Heading>
-                <Subtitle darkText={true}>진행중 설문과 완료된 설문을 관리해보세요</Subtitle>
+                <Subtitle darkText={true}>링크생성, 수정하기, 미리보기, 이력관리와 같은 다양한 기능을 통해 진행중 설문과 완료된 설문을 관리해보세요</Subtitle>
                 <BtnWrap>
                 </BtnWrap>
               </TextWrapper>
