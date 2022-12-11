@@ -359,13 +359,17 @@ function Mksurvey() { // Make Survey
     const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
     const [imgs, setImgs] = useState([])
 
-    useEffect(() => {
-        console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
-    }, [imgs])
+    // useEffect(() => {
+    //     console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
+    // }, [imgs])
+
+    // useEffect(() => {
+    //     console.log(imgFile, '썸네일 가지고 있는 state변화함!')
+    // }, [imgFile])
 
     useEffect(() => {
-        console.log(imgFile, '썸네일 가지고 있는 state변화함!')
-    }, [imgFile])
+        console.log(survey.length)
+    }, [survey])
 
     const openModal = () => {
         setModalOpen(true);
@@ -636,6 +640,28 @@ function Mksurvey() { // Make Survey
 
 
     const sendToServer = async () => {
+        let timerInterval
+        Swal.fire({
+            title: '설문 등록중!',
+            html: `<b></b>초 이내에 등록됩니다.`,
+            timer: (survey.length * 300),
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+                console.log('I was closed by the timer')
+            }
+        })
 
         const formData = new FormData() // FormData 객체 사용
 
@@ -786,24 +812,24 @@ function Mksurvey() { // Make Survey
 
 
                     <ItemDiv>
-                        <div style={{display:'flex' }}>
-                        <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
-                        <form
-                            name="photo"
-                            encType="multipart/form-data"
-                            style={{marginLeft:'20px' }}
-                        >
-                            <input
-                                type="file"
-                                name={index + 1}
-                                accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
-                                onChange={(e) => { onLoadQuestionFile(e) }}
-                                onClick={() => {
-                                    const tempArr = imgs
-                                    setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
-                                }}
-                            />
-                        </form>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
+                            <form
+                                name="photo"
+                                encType="multipart/form-data"
+                                style={{ marginLeft: '20px' }}
+                            >
+                                <input
+                                    type="file"
+                                    name={index + 1}
+                                    accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
+                                    onChange={(e) => { onLoadQuestionFile(e) }}
+                                    onClick={() => {
+                                        const tempArr = imgs
+                                        setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
+                                    }}
+                                />
+                            </form>
                         </div>
                         <FormControl>
                             <RadioGroup
