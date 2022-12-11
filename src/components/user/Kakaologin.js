@@ -6,6 +6,20 @@ import styled from 'styled-components';
 // import RotateLoader from "react-spinners/RotateLoader";
 import loadingimage from "img/loading.gif"
 
+import background from "svg/register_background.svg"
+
+export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
+  position: absolute;
+  top: 0px;
+  z-index:-1;
+  width:100vw;
+  height:100vh;
+  background-image: url(${background});
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: grid;
+  place-items: center;  
+`;
 
 const MainDiv = styled.div`
     width: 50vw;
@@ -99,13 +113,15 @@ function Kakaologin() {
 
 
     return (
-        <MainDiv>
-            <LoadingDiv>
-                {/* <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50}/> */}
-                <img alt='' src={loadingimage}></img>
-            </LoadingDiv>
-            <h3 style={{ fontSize: '2em', fontWeight: 'bold' }}>로그인 중입니다...</h3>
-        </MainDiv>
+        <Backgrounddiv>
+            <MainDiv>
+                <LoadingDiv>
+                    {/* <RotateLoader color="rgba(255, 237, 4, 1)" margin={50} size={50}/> */}
+                    <img style={{ width: '1000px' }} alt='' src={loadingimage}></img>
+                </LoadingDiv>
+                <h3 style={{ fontSize: '2em', fontWeight: 'bold' }}>로그인 중입니다...</h3>
+            </MainDiv>
+        </Backgrounddiv>
     );
 }
 

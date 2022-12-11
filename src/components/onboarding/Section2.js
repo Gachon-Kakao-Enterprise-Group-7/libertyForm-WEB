@@ -1,13 +1,12 @@
-import {React,useState,useEffect,useRef} from 'react'
+import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import {Link} from 'react-scroll'
+import { Link } from 'react-scroll'
 
-import Img1 from 'img/dashboard2.png'
-
+import Img2_1 from 'img/section2-1.png'
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
+  background: ${({ lightBg }) => (lightBg ? '#f9f9f9' : '#ffcd00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
@@ -18,7 +17,7 @@ export const InfoWrapper = styled.div`
   z-index: 1;
   height: 100vh;
   width: 100% auto;
-  max-width: 1100px;
+  max-width: 1300px;
   margin-right: auto;
   margin-left: auto;
   padding: 0 24px;
@@ -29,10 +28,10 @@ export const InfoRow = styled.div`
   display: grid;
   grid-auto-columns: minmax(auto, 1fr);
   align-items: center;
-  grid-template-areas: ${({imgStart}) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
+  grid-template-areas: ${({ imgStart }) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
 
   @media screen and (max-width: 768px) {
-    grid-template-areas: ${({imgStart}) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
+    grid-template-areas: ${({ imgStart }) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
   }
 `
 
@@ -64,21 +63,22 @@ export const TopLine = styled.p`
 
 export const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 48px;
+  font-size: 4vw;
   line-height: 1.1;
   font-weight: bold;
-  color: ${({lightText}) => (lightText ? '#f7f8fa' : '#010606')};
+  color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
 
   @media screen and (max-width: 480px) {
     font-size: 32px;
   }
 `
-export const Subtitle  = styled.p`
+export const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
-  font-size: 18px;
+  font-size: 22px;
   line-height: 24px;
-  color: ${({darkText}) => (darkText ? '#010606' : '#fff')};
+  color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
+  letter-spacing: 0.5px;
 `
 export const BtnWrap = styled.div`
   display:flex;
@@ -94,14 +94,17 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  max-width: 555px;
+  width: 650px;
   display: flex;
+  border-radius: 25px;
+  border: 5px solid #f8bb06;
 `;
 export const Img = styled.img`
   max-width: 100%;
   height: auto;
-  margin: 0 0 10px 0;
+  margin: 0 0 0 0;
   padding-right: 0;
+  border-radius: 20px;
   
 `;
 const Mainbutton = styled.button`
@@ -144,7 +147,7 @@ const Section2 = () => {
 
   useEffect(() => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-}, [currentSlide]);
+  }, [currentSlide]);
 
 
 
@@ -164,8 +167,8 @@ const Section2 = () => {
     };
   }, [currentSlide]);
 
-  
-  
+
+
   return (
     <>
       <InfoContainer lightBg={false}>
@@ -174,18 +177,17 @@ const Section2 = () => {
             <Column1>
               <TextWrapper>
                 {/* <TopLine>대시보드</TopLine> */}
-                <Heading lightText={false}>대시보드 관리</Heading>
-                <Subtitle darkText={true}>진행중 설문과 완료된 설문을 관리해보세요</Subtitle>
+                <Heading lightText={false}>대시보드</Heading>
+                <Subtitle darkText={true}>한눈에 볼 수 있는 설문 현황, 자유로운 기능 <br /> 리버티폼의 대시보드로부터 시작됩니다</Subtitle>
                 <BtnWrap>
-                <Mainbutton to='home'>시작하기</Mainbutton>
                 </BtnWrap>
               </TextWrapper>
             </Column1>
             <Column2>
-            <ImgSlide>
-              <ImgWrap ref={slideRef} currentSlide={currentSlide}>
-                <Img src={Img1}/>
-              </ImgWrap>
+              <ImgSlide>
+                <ImgWrap ref={slideRef} currentSlide={currentSlide}>
+                  <Img src={Img2_1} />
+                </ImgWrap>
               </ImgSlide>
             </Column2>
           </InfoRow>

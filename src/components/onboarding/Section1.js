@@ -1,16 +1,14 @@
-import {React,useState,useEffect,useRef} from 'react'
+import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import {Link} from 'react-scroll'
 
-import Img1 from 'img/create4.png'
-import Img2 from 'img/create2.png'
-import Img3 from 'img/create.png'
-import Img4 from 'img/create3.png'
+import Img1_1 from 'img/section1-1.JPG'
+import Img1_2 from 'img/section1-2.JPG'
+import Img1_3 from 'img/section1-3.JPG'
 
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
+  background: ${({ lightBg }) => (lightBg ? '#f9f9f9' : '#ffbc00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
@@ -21,7 +19,7 @@ export const InfoWrapper = styled.div`
   z-index: 1;
   height: 100vh;
   width: 100% auto;
-  max-width: 1100px;
+  max-width: 1200px;
   margin-right: auto;
   margin-left: auto;
   padding: 0 24px;
@@ -32,10 +30,10 @@ export const InfoRow = styled.div`
   display: grid;
   grid-auto-columns: minmax(auto, 1fr);
   align-items: center;
-  grid-template-areas: ${({imgStart}) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
+  grid-template-areas: ${({ imgStart }) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
 
   @media screen and (max-width: 768px) {
-    grid-template-areas: ${({imgStart}) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
+    grid-template-areas: ${({ imgStart }) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
   }
 `
 
@@ -56,7 +54,7 @@ export const TextWrapper = styled.div`
 `
 
 export const TopLine = styled.p`
-  color: #ffbc00;
+  color: #ffcd00;
   font-size: 16px;
   line-height: 16px;
   font-weight: bold;
@@ -67,21 +65,22 @@ export const TopLine = styled.p`
 
 export const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 48px;
+  font-size: 4vw;
   line-height: 1.1;
   font-weight: bold;
-  color: ${({lightText}) => (lightText ? '#f7f8fa' : '#010606')};
+  color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
 
   @media screen and (max-width: 480px) {
     font-size: 32px;
   }
 `
-export const Subtitle  = styled.p`
+export const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 24px;
-  color: ${({darkText}) => (darkText ? '#010606' : '#fff')};
+  letter-spacing: 0.3px;
+  color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
 `
 export const BtnWrap = styled.div`
   display:flex;
@@ -97,7 +96,7 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  width: 555px;
+  width: 600px;
   display: flex;
 `;
 export const Img = styled.img`
@@ -105,7 +104,8 @@ export const Img = styled.img`
   height: auto;
   margin: 0 0 10px 0;
   padding-right: 0;
-  
+  border: 5px solid #ebebeb;
+  border-radius: 10px;
 `;
 const Mainbutton = styled.button`
     font-weight: bold;
@@ -142,12 +142,12 @@ const Mainbutton = styled.button`
 
 const Section1 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const TOTAL_SLIDES = 3; //슬라이드 갯수
+  const TOTAL_SLIDES = 2; //슬라이드 갯수
   const slideRef = useRef(null);
 
   useEffect(() => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-}, [currentSlide]);
+  }, [currentSlide]);
 
 
 
@@ -167,8 +167,8 @@ const Section1 = () => {
     };
   }, [currentSlide]);
 
-  
-  
+
+
   return (
     <>
       <InfoContainer lightBg={true}>
@@ -177,21 +177,18 @@ const Section1 = () => {
             <Column1>
               <TextWrapper>
                 {/* <TopLine>설문생성</TopLine> */}
-                <Heading lightText={false}>설문 생성</Heading>
-                <Subtitle darkText={true}>슬라이드 형식으로 보여지는 설문을<br/> 다양한 질문방식과 이미 선택하여 설문을 자유롭게 생성하고 슬라이드 형식으로 보여줍니다</Subtitle>
-                <BtnWrap>
-                <Mainbutton>시작하기</Mainbutton>
-                </BtnWrap>
+                <Heading lightText={false}>설문생성</Heading>
+                <Subtitle darkText={true}>다양한 질문방식을 선택하여 자유롭게 생성하고 <br /> 슬라이드 형식으로 보여지는 자유롭고 직관적인 설문</Subtitle>
+
               </TextWrapper>
             </Column1>
             <Column2>
-            <ImgSlide>
-              <ImgWrap ref={slideRef} currentSlide={currentSlide}>
-                <Img src={Img1}/>
-                <Img src={Img2}/>
-                <Img src={Img3}/>
-                <Img src={Img4}/>
-              </ImgWrap>
+              <ImgSlide>
+                <ImgWrap ref={slideRef} currentSlide={currentSlide}>
+                  <Img src={Img1_1} />
+                  <Img src={Img1_2} />
+                  <Img src={Img1_3} />
+                </ImgWrap>
               </ImgSlide>
             </Column2>
           </InfoRow>

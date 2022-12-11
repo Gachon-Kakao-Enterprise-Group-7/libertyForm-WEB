@@ -28,7 +28,7 @@ const StyledTableCell = styled(TableCell) ({
     },
   });
 
-const PreviewTitle = styled.div`
+  const PreviewTitle = styled.div`
   display: flex;
   align-items: center;
   color: #171725;
@@ -42,6 +42,10 @@ const PreviewTitle = styled.div`
     font-weight: bold;
   }
 `
+const PreviewContent = styled.div`
+margin-bottom: 3px;
+`
+
 
 function SenderHistory(props) {
 
@@ -62,6 +66,7 @@ function SenderHistory(props) {
             .then((res) => {
                 setConfirmResult(res.data.result.surveyManagements)
                 setLoading(false)
+                console.log(res.data.result)
             })
             .catch((Error) => {
                 setError(Error)
@@ -86,6 +91,11 @@ function SenderHistory(props) {
         return(<div>설문이 발송되지 않았습니다!</div>)
     }
     return (
+        <>
+        <PreviewTitle><h4>설문 이력관리</h4></PreviewTitle>
+        {/* <PreviewContent>설문 이름 : {newSurveyDetail.survey.name}</PreviewContent>
+        <PreviewContent>설문 설명 : {newSurveyDetail.survey.description}</PreviewContent>
+        <PreviewContent>설문 기간 : {newSurveyDetail.survey.createdAt} ~ {newSurveyDetail.survey.expirationDate}</PreviewContent> */}
         <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 350, }} aria-label="simple table">
                     <TableHead>
@@ -108,11 +118,10 @@ function SenderHistory(props) {
                             </TableCell>
                         </TableBody>
                     ))}
-                        
-
 
                 </Table>
             </TableContainer>
+            </>
     );
 }
 

@@ -23,7 +23,7 @@ function App() {
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Navs />
+      {window.location.pathname !== '/' && <Navs />}
       <AnimatePresence>
         <Routes>
           <Route path="/" element={<><Main /></>}></Route>

@@ -1,15 +1,15 @@
-import {React,useState,useEffect,useRef} from 'react'
+import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import {Link} from 'react-scroll'
+import { Link } from 'react-router-dom'
 
-import Img1 from 'img/see.png'
-import Img2 from 'img/see2.png'
-// import Img3 from 'img/sender3.png'
 
+import Img4_1 from 'img/section4-1.JPG'
+import Img4_2 from 'img/section4-2.JPG'
+import Img4_3 from 'img/section4-3.JPG'
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
+  background: ${({ lightBg }) => (lightBg ? '#f9f9f9' : '#ffcd00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
@@ -20,7 +20,7 @@ export const InfoWrapper = styled.div`
   z-index: 1;
   height: 100vh;
   width: 100% auto;
-  max-width: 1100px;
+  max-width: 1200px;
   margin-right: auto;
   margin-left: auto;
   padding: 0 24px;
@@ -31,10 +31,10 @@ export const InfoRow = styled.div`
   display: grid;
   grid-auto-columns: minmax(auto, 1fr);
   align-items: center;
-  grid-template-areas: ${({imgStart}) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
+  grid-template-areas: ${({ imgStart }) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
 
   @media screen and (max-width: 768px) {
-    grid-template-areas: ${({imgStart}) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
+    grid-template-areas: ${({ imgStart }) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
   }
 `
 
@@ -69,18 +69,18 @@ export const Heading = styled.h1`
   font-size: 48px;
   line-height: 1.1;
   font-weight: bold;
-  color: ${({lightText}) => (lightText ? '#f7f8fa' : '#010606')};
+  color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
 
   @media screen and (max-width: 480px) {
     font-size: 32px;
   }
 `
-export const Subtitle  = styled.p`
+export const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
   font-size: 18px;
   line-height: 24px;
-  color: ${({darkText}) => (darkText ? '#010606' : '#fff')};
+  color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
 `
 export const BtnWrap = styled.div`
   display:flex;
@@ -96,15 +96,17 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  max-width: 555px;
+  width: 650px;
   display: flex;
+  border-radius: 25px;
 `;
 export const Img = styled.img`
   max-width: 100%;
   height: auto;
-  margin: 0 0 10px 0;
+  margin: 0 0 0 0;
   padding-right: 0;
-  
+  border-radius: 20px;
+  border: 5px solid #f8bb06;
 `;
 const Mainbutton = styled.button`
     font-weight: bold;
@@ -120,22 +122,14 @@ const Mainbutton = styled.button`
     z-index: 0;
     border-radius: 10px;
 
-    &:hover:before {
-        opacity: 0.6;
-    }
 
-    &:after {
-        z-index: -1;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #ff7800;
-        left: 0;
-        top: 0;
-        border-radius: 10px;
-        opacity: 0.8;
-    }
+  &:hover{
+    background-color: #ff973a;
+  }
+
+  &:active{
+    background-color: #ff7800;
+  }
 
 `
 
@@ -146,7 +140,7 @@ const Section4 = () => {
 
   useEffect(() => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-}, [currentSlide]);
+  }, [currentSlide]);
 
 
 
@@ -166,8 +160,8 @@ const Section4 = () => {
     };
   }, [currentSlide]);
 
-  
-  
+
+
   return (
     <>
       <InfoContainer lightBg={false}>
@@ -176,19 +170,24 @@ const Section4 = () => {
             <Column1>
               <TextWrapper>
                 {/* <TopLine>분석</TopLine> */}
-                <Heading lightText={false}>설문결과 분석</Heading>
-                <Subtitle darkText={true}>설문을 발송 후,<br/>다양한 시각화 방식으로 표현된 분석 결과를 통해 설문 결과를 확인하세요</Subtitle>
+
+                <Heading lightText={false}>설문분석</Heading>
+                <Subtitle darkText={true}>리버티폼에서 제공하는 다양한 시각화로 <br />당신의 설문을 유연하고 직관적으로 확인하세요</Subtitle>
+                <Subtitle darkText={true}> ◦워드클라우드 <br /> ◦감정분석<br />◦파이차트<br />◦막대차트</Subtitle>
                 <BtnWrap>
-                <Mainbutton>시작하기</Mainbutton>
+                  <Link to='/home/dashboard'>
+                    <Mainbutton>시작하기</Mainbutton>
+                  </Link>
                 </BtnWrap>
               </TextWrapper>
             </Column1>
             <Column2>
-            <ImgSlide>
-              <ImgWrap ref={slideRef} currentSlide={currentSlide}>
-                <Img src={Img1}/>
-                <Img src={Img2}/>
-              </ImgWrap>
+              <ImgSlide>
+                <ImgWrap ref={slideRef} currentSlide={currentSlide}>
+                  <Img src={Img4_1} />
+                  <Img src={Img4_2} />
+                  <Img src={Img4_3} />
+                </ImgWrap>
               </ImgSlide>
             </Column2>
           </InfoRow>

@@ -107,7 +107,7 @@ function Groupcontrol(props) {
           renderInput={(params) => <TextField {...params} label="그룹을 선택하세요" />}
         />
         {groupValue !== null &&
-          <AddBtn onClick={addAlluser}><UserAddSvgW /><p>유저 추가</p></AddBtn>}
+          <AddBtn onClick={addAlluser}><UserAddSvgW /><p>전체 추가</p></AddBtn>}
       </GroupControll>
       {groupValue != null &&
         <TableContainer component={Paper}>

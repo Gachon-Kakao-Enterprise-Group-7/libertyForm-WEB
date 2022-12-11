@@ -400,7 +400,6 @@ function Dosurvey() {
       })
         .then((res) => {
           console.log('처음에 데이터 불러오고 그다음에는 실행되면 안되는 useEffect')
-
           setSurveyDetail(res.data.result)
           setNewSurveyDetail(res.data.result)
           setResult([]) // result 배열의 공간을 만들어준다.
@@ -474,22 +473,6 @@ function Dosurvey() {
   useEffect(() => { //postData가 바뀔때마다 알려줄것!
     console.log(postData, 'postData')
   }, [postData])
-
-
-  if (loading) return (
-    <div class="tenor-gif-embed" data-postid="24452916" data-share-method="host" data-aspect-ratio="1.06312" data-width="100%"><a href="https://tenor.com/view/%EC%B6%98%EC%8B%9D%EC%9D%B4-%EC%B6%98%EC%8B%9D-chunsik-gif-24452916">춘식이 Chunsik GIF</a>from <a href="https://tenor.com/search/%EC%B6%98%EC%8B%9D%EC%9D%B4-gifs">춘식이 GIFs</a></div>
-  )
-  // axios response가 오기 전에 랜더링이 일어나면 오류가 발생한다. 
-  //따라서 loading state로 밑에 본문이 랜더링이 되는것을 막고 loading이 false가 되면 위에 문장이 실행안되고
-  // 아래에 본문return이 실행 될 것이다.s
-  if (error) return (
-    <div>에러 발생..{error}</div>
-  )
-  //에러가 있다면 에러 핸들링
-  if (!surveyDetail) return (
-    null
-  )
-  //surveyDetail 이 null이라면 아무것도 반환하지 않는다.
 
 
   const mkNewSurveyDetail = async () => {
@@ -765,6 +748,22 @@ function Dosurvey() {
     tempArr[showSurveyNumber - 1] = e.target.name
     setInputs(e.target.name)
   }
+
+
+  if (loading) return (
+    <>로딩중입니다. 너무 오래걸리면 AXIOS 오류가 있는것</>
+  )
+  // axios response가 오기 전에 랜더링이 일어나면 오류가 발생한다. 
+  //따라서 loading state로 밑에 본문이 랜더링이 되는것을 막고 loading이 false가 되면 위에 문장이 실행안되고
+  // 아래에 본문return이 실행 될 것이다.s
+  if (error) return (
+    <div>에러 발생..{error}</div>
+  )
+  //에러가 있다면 에러 핸들링
+  if (!surveyDetail) return (
+    null
+  )
+  //surveyDetail 이 null이라면 아무것도 반환하지 않는다.
 
   return (
     <BackgroundDiv thumbnailImgUrl={sortedSurveyDetail.survey.thumbnailImgUrl}>

@@ -39,7 +39,6 @@ const UploadSvgWrapper = styled(UploadSvg)`
     fill: #ffbc00;
 `
 const MainWrapper = styled(motion.div)`
-
 `
 const ModalHeader = styled.div`
   display: flex;
@@ -71,7 +70,6 @@ const ModalTitle = styled.div`
   margin-left: 10px;
   border-bottom: 1px solid #e2e2ea;
   height: 50px;
-
   & h4 {
     padding-bottom: 10px;
     font-weight: bold;
@@ -131,7 +129,6 @@ const BlockDiv = styled.div`
 	height:auto;
     border-top : 20px solid #fff9df;
     transition:all 200ms linear;
-
     :hover{
         background-color: #f7f7f7;
     }
@@ -196,7 +193,6 @@ const StyledOl = styled.ol`
     counter-reset: item;
     padding-left: 0px;
     margin-top: 0.5rem;
-
 `
 const McitemAddBtn = styled.button`
     width:10%;
@@ -265,7 +261,6 @@ const ImageInput = styled.div`
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
-
 `
 const ImageUpload = styled.div`
     padding: 1rem;
@@ -364,13 +359,17 @@ function Mksurvey() { // Make Survey
     const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
     const [imgs, setImgs] = useState([])
 
-    useEffect(() => {
-        console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
-    }, [imgs])
+    // useEffect(() => {
+    //     console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
+    // }, [imgs])
+
+    // useEffect(() => {
+    //     console.log(imgFile, '썸네일 가지고 있는 state변화함!')
+    // }, [imgFile])
 
     useEffect(() => {
-        console.log(imgFile, '썸네일 가지고 있는 state변화함!')
-    }, [imgFile])
+        console.log(survey.length)
+    }, [survey])
 
     const openModal = () => {
         setModalOpen(true);
@@ -641,6 +640,28 @@ function Mksurvey() { // Make Survey
 
 
     const sendToServer = async () => {
+        let timerInterval
+        Swal.fire({
+            title: '설문 등록중!',
+            html: `<b></b>초 이내에 등록됩니다.`,
+            timer: (survey.length * 300),
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+                console.log('I was closed by the timer')
+            }
+        })
 
         const formData = new FormData() // FormData 객체 사용
 
@@ -755,7 +776,7 @@ function Mksurvey() { // Make Survey
                         <ImageInput>
                             <label htmlFor="ex_file">
                                 <UploadSvgWrapper />
-                                <a style={{ paddingTop: '5px' }}>파일 선택</a>
+                                <a style={{ paddingTop: '5px' }}> 선택</a>
                             </label>
                             <input type="file" id="ex_file" onChange={onLoadThumnail}></input>
                         </ImageInput>
@@ -791,22 +812,25 @@ function Mksurvey() { // Make Survey
 
 
                     <ItemDiv>
-                        <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
-                        <form
-                            name="photo"
-                            encType="multipart/form-data"
-                        >
-                            <input
-                                type="file"
-                                name={index + 1}
-                                accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
-                                onChange={(e) => { onLoadQuestionFile(e) }}
-                                onClick={() => {
-                                    const tempArr = imgs
-                                    setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
-                                }}
-                            />
-                        </form>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>설문 유형을 선택하세요</div>
+                            <form
+                                name="photo"
+                                encType="multipart/form-data"
+                                style={{ marginLeft: '20px' }}
+                            >
+                                <input
+                                    type="file"
+                                    name={index + 1}
+                                    accept="image/*,audio/*,video/mp4,video/x-m4v,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.csv"
+                                    onChange={(e) => { onLoadQuestionFile(e) }}
+                                    onClick={() => {
+                                        const tempArr = imgs
+                                        setImgs(tempArr.filter((img) => (img.name != `${index + 1}.jpg` && img.name != `${index + 1}.png`)))
+                                    }}
+                                />
+                            </form>
+                        </div>
                         <FormControl>
                             <RadioGroup
                                 row
