@@ -13,4 +13,4 @@ RUN mkdir ./build
 COPY ./build ./build
 
 # 실행 명령어
-ENTRYPOINT ["serve", "-l", "80", "-s", "build"]
+ENTRYPOINT ["serve", "-s", "build"]
