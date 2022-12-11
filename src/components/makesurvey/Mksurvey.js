@@ -750,7 +750,7 @@ function Mksurvey() { // Make Survey
                         <ImageInput>
                             <label htmlFor="ex_file">
                                 <UploadSvgWrapper />
-                                <a style={{ paddingTop: '5px' }}>파일 선택</a>
+                                <a style={{ paddingTop: '5px' }}> 선택</a>
                             </label>
                             <input type="file" id="ex_file" onChange={onLoadThumnail}></input>
                         </ImageInput>

@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 
 
 const StyledNavbar = styled(Navbar)`
-    background-color : ${props => props.pathname === '/' || props.pathname === '/login' || props.pathname === '/Signin' ? 'rgb(37 37 37 / 5%)' : 'white'};
+    background-color : ${props => props.pathname === '/' || props.pathname === '/login' || props.pathname === '/Signin' || props.pathname === '/kakaologin' ? 'rgb(37 37 37 / 5%)' : 'white'};
     height: 60px;
     width :100%;
     display:flex;

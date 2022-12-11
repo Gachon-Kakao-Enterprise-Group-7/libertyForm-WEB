@@ -1,7 +1,6 @@
 import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import { Link } from 'react-scroll'
 
 import Img1_1 from 'img/section1-1.JPG'
 import Img1_2 from 'img/section1-2.JPG'
@@ -104,7 +103,7 @@ export const Img = styled.img`
   height: auto;
   margin: 0 0 10px 0;
   padding-right: 0;
-  border: 5px solid #d3d3d3;
+  border: 5px solid #ebebeb;
   border-radius: 10px;
 `;
 const Mainbutton = styled.button`

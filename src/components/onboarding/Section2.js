@@ -95,14 +95,15 @@ const ImgSlide = styled.div`
 export const ImgWrap = styled.div`
   width: 650px;
   display: flex;
-  border : 5px solid #f6972f;
-  border-radius: 10px;
+  border-radius: 25px;
+  border: 5px solid #f8bb06;
 `;
 export const Img = styled.img`
   max-width: 100%;
   height: auto;
   margin: 0 0 0 0;
   padding-right: 0;
+  border-radius: 20px;
   
 `;
 const Mainbutton = styled.button`

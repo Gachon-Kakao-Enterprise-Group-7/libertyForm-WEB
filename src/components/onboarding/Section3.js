@@ -1,15 +1,19 @@
-import {React,useState,useEffect,useRef} from 'react'
+import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import {Link} from 'react-scroll'
+import { Link } from 'react-scroll'
 
 import Img1 from 'img/sender.png'
 import Img2 from 'img/sender2.png'
 import Img3 from 'img/sender3.png'
 
+import Img3_1 from 'img/section3-1.JPG'
+import Img3_2 from 'img/section3-2.JPG'
+import Img3_3 from 'img/section3-3.JPG'
+
 
 export const InfoContainer = styled.div`
-  background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '#ffbc00')};
+  background: ${({ lightBg }) => (lightBg ? '#f9f9f9' : '#ffbc00')};
   @media screen and  (max-width: 768px) {
     padding: 100px 0;
   }
@@ -31,10 +35,10 @@ export const InfoRow = styled.div`
   display: grid;
   grid-auto-columns: minmax(auto, 1fr);
   align-items: center;
-  grid-template-areas: ${({imgStart}) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
+  grid-template-areas: ${({ imgStart }) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
 
   @media screen and (max-width: 768px) {
-    grid-template-areas: ${({imgStart}) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
+    grid-template-areas: ${({ imgStart }) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
   }
 `
 
@@ -69,18 +73,18 @@ export const Heading = styled.h1`
   font-size: 48px;
   line-height: 1.1;
   font-weight: bold;
-  color: ${({lightText}) => (lightText ? '#f7f8fa' : '#010606')};
+  color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
 
   @media screen and (max-width: 480px) {
     font-size: 32px;
   }
 `
-export const Subtitle  = styled.p`
+export const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
   font-size: 18px;
   line-height: 24px;
-  color: ${({darkText}) => (darkText ? '#010606' : '#fff')};
+  color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
 `
 export const BtnWrap = styled.div`
   display:flex;
@@ -96,7 +100,7 @@ const ImgSlide = styled.div`
   /* background-color: antiquewhite; */
 `
 export const ImgWrap = styled.div`
-  max-width: 555px;
+  width: 600px;
   display: flex;
 `;
 export const Img = styled.img`
@@ -104,8 +108,10 @@ export const Img = styled.img`
   height: auto;
   margin: 0 0 10px 0;
   padding-right: 0;
-  
+  border: 5px solid #ebebeb;
+  border-radius: 10px;
 `;
+
 const Mainbutton = styled.button`
     font-weight: bold;
     font-size : 20px;
@@ -146,7 +152,7 @@ const Section3 = () => {
 
   useEffect(() => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-}, [currentSlide]);
+  }, [currentSlide]);
 
 
 
@@ -166,8 +172,8 @@ const Section3 = () => {
     };
   }, [currentSlide]);
 
-  
-  
+
+
   return (
     <>
       <InfoContainer lightBg={true}>
@@ -177,18 +183,18 @@ const Section3 = () => {
               <TextWrapper>
                 {/* <TopLine>설문 발송</TopLine> */}
                 <Heading lightText={false}>발송자 관리</Heading>
-                <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br/> 발송자의 상태를 관리해보세요</Subtitle>
+                <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br /> 발송자의 상태를 관리해보세요</Subtitle>
                 <BtnWrap>
                 </BtnWrap>
               </TextWrapper>
             </Column1>
             <Column2>
-            <ImgSlide>
-              <ImgWrap ref={slideRef} currentSlide={currentSlide}>
-                <Img src={Img1}/>
-                <Img src={Img2}/>
-                <Img src={Img3}/>
-              </ImgWrap>
+              <ImgSlide>
+                <ImgWrap ref={slideRef} currentSlide={currentSlide}>
+                  <Img src={Img3_1} />
+                  <Img src={Img3_2} />
+                  <Img src={Img3_3} />
+                </ImgWrap>
               </ImgSlide>
             </Column2>
           </InfoRow>
