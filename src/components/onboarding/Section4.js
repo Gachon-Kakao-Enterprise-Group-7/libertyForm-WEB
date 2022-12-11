@@ -1,11 +1,8 @@
 import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import { Link } from 'react-scroll'
+import { Link } from 'react-router-dom'
 
-import Img1 from 'img/see.png'
-import Img2 from 'img/see2.png'
-// import Img3 from 'img/sender3.png'
 import Img4_1 from 'img/section4-1.JPG'
 import Img4_2 from 'img/section4-2.JPG'
 import Img4_3 from 'img/section4-3.JPG'
@@ -176,7 +173,9 @@ const Section4 = () => {
                 <Subtitle darkText={true}>리버티폼에서 제공하는 다양한 시각화로 <br />당신의 설문을 유연하고 직관적으로 확인하세요</Subtitle>
                 <Subtitle darkText={true}> ◦워드클라우드 <br /> ◦감정분석<br />◦파이차트<br />◦막대차트</Subtitle>
                 <BtnWrap>
-                  <Mainbutton>시작하기</Mainbutton>
+                  <Link to='/home/dashboard'>
+                    <Mainbutton>시작하기</Mainbutton>
+                  </Link>
                 </BtnWrap>
               </TextWrapper>
             </Column1>
