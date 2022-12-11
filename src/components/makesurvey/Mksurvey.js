@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-modal";
 
-// mui import
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -28,9 +27,6 @@ const DragSvgWrapper = styled(DragSvg)`
     width:20px;
     height:20px;
     float:right;
-    /* &:hover {
-      fill: #ff7800;
-    } */
 `
 const UploadSvgWrapper = styled(UploadSvg)`
     width:30px;
@@ -227,7 +223,6 @@ const TextInput = styled.input`
   width: 100%; 
   margin-bottom: 5px;
   font-size: 20px;
-  /* white-space:pre-line; */
   background-color: transparent;
    :focus{
   border-bottom: 3px solid #ffcd23;
@@ -342,7 +337,6 @@ const PreviewButton = styled.button`
     background-color: #e1e1e1;
 `
 
-
 Modal.setAppElement("#root");
 
 function Mksurvey() { // Make Survey
@@ -358,14 +352,6 @@ function Mksurvey() { // Make Survey
 
     const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
     const [imgs, setImgs] = useState([])
-
-    // useEffect(() => {
-    //     console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
-    // }, [imgs])
-
-    // useEffect(() => {
-    //     console.log(imgFile, '썸네일 가지고 있는 state변화함!')
-    // }, [imgFile])
 
     useEffect(() => {
         console.log(survey.length)
@@ -420,16 +406,10 @@ function Mksurvey() { // Make Survey
 
     })
 
-
-    // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
-    //console.log(survey) // 사용자의 입력을 받은 survey 양식
-
     const id = useRef(1) // servey 문제마다 id값을 주기 위함
     const scrollRef = useRef() // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
-    const state = useSelector((state) => state.survey)
 
     const dispatch = useDispatch()
-
 
     const onChange = (e) => {
         const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
@@ -441,7 +421,6 @@ function Mksurvey() { // Make Survey
         const description = e.target.value //사용자가 input태그에 입력한 값
         setSurvey(survey.map((item) => item.id === targetId ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
     }
-
 
     const addMcItem = (e) => {
         const targetId = parseInt(e.target.dataset.id)
@@ -716,7 +695,6 @@ function Mksurvey() { // Make Survey
 
 
     return (
-
         <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
             {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
             <BlockDiv>
