@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Container from 'react-bootstrap/Container';
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Container from "react-bootstrap/Container";
 
 export const NavS = styled(Navbar)`
   background: rgb(37 37 37 / 5%);

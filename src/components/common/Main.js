@@ -7,7 +7,7 @@ import axios from 'axios';
 import ReactFullpage from "@fullpage/react-fullpage";
 import { useDispatch } from 'react-redux';
 
-import Navbar_on from 'components/onboarding/Navbar_on';
+import NavbarOn from 'components/onboarding/NavbarOn';
 import Services from 'components/onboarding/Services';
 import Section1 from 'components/onboarding/Section1';
 import Section2 from 'components/onboarding/Section2';
@@ -151,18 +151,6 @@ function Main() {
     const vantaRef = useRef(null);
     const dispatch = useDispatch()
 
-    const moveSection = (e) => {
-        if (!window.scrollY) return;
-        // 현재 위치가 이미 최상단일 경우 return
-
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-
-    };
-
-
 
     console.log(process.env.REACT_APP_DB_HOST)
 
@@ -224,7 +212,7 @@ function Main() {
                     <div className={SEL}>
 
                         <div style={{ width: '100% auto' }}>
-                            <Navbar_on />
+                            <NavbarOn />
                             <MainSection ref={vantaRef}>
                                 <Spacingdiv />
                                 <Bodydiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>
