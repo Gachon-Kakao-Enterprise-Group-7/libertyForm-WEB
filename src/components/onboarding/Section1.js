@@ -177,7 +177,7 @@ const Section1 = () => {
               <TextWrapper>
                 {/* <TopLine>설문생성</TopLine> */}
                 <Heading lightText={false}>설문 생성</Heading>
-                <Subtitle darkText={true}>슬라이드 형식으로 보여지는 설문을<br /> 다양한 질문방식과 이미 선택하여 설문을 자유롭게 생성하고 슬라이드 형식으로 보여줍니다</Subtitle>
+                <Subtitle darkText={true}>감정바, 선형대수 등 다양한 질문방식을 선택하여 설문을 자유롭게 생성하고 슬라이드 형식으로 보여줍니다</Subtitle>
                 <BtnWrap>
                   <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>

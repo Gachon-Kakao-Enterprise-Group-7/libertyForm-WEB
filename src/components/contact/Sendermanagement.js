@@ -3,12 +3,13 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux' // react-redux사용
 import Modal from "react-modal";
+import Swal from 'sweetalert2';
+
 import { ReactComponent as UserAddSvg } from "svg/adduser.svg"
 import { ReactComponent as CloseModal } from "svg/close.svg"
 import { ReactComponent as Check } from "svg/checkmark.svg"
 import { ReactComponent as Delete } from "svg/delete.svg"
 import { ReactComponent as SearchSvg } from "svg/search.svg"
-import Swal from 'sweetalert2';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -45,9 +46,6 @@ const Text1 = styled.span`
   text-align: left;
   letter-spacing: 0.1px;
   color: #171725;
-  /* @media (max-width: 450px) {
-    display: none;
-  } */
 `
 
 const Text2 = styled.span`

@@ -1,11 +1,7 @@
 import { React, useState, useEffect, useRef } from 'react'
 // import { Button } from '../ButtonElements'
 import styled from 'styled-components';
-import { Link } from 'react-scroll'
 
-import Img1 from 'img/see.png'
-import Img2 from 'img/see2.png'
-// import Img3 from 'img/sender3.png'
 import Img4_1 from 'img/section4-1.JPG'
 import Img4_2 from 'img/section4-2.JPG'
 import Img4_3 from 'img/section4-3.JPG'
@@ -181,7 +177,7 @@ const Section4 = () => {
               <TextWrapper>
                 {/* <TopLine>분석</TopLine> */}
                 <Heading lightText={false}>설문결과 분석</Heading>
-                <Subtitle darkText={true}>설문을 발송 후,<br />다양한 시각화 방식으로 표현된 분석 결과를 통해 설문 결과를 확인하세요</Subtitle>
+                <Subtitle darkText={true}>설문을 발송 후, 다양한 시각화 방식으로 표현된 설문 결과를 확인하세요</Subtitle>
                 <BtnWrap>
                   <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>
