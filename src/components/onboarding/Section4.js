@@ -22,7 +22,7 @@ export const InfoWrapper = styled.div`
   z-index: 1;
   height: 100vh;
   width: 100% auto;
-  max-width: 1100px;
+  max-width: 1200px;
   margin-right: auto;
   margin-left: auto;
   padding: 0 24px;
@@ -124,22 +124,14 @@ const Mainbutton = styled.button`
     z-index: 0;
     border-radius: 10px;
 
-    &:hover:before {
-        opacity: 0.6;
-    }
 
-    &:after {
-        z-index: -1;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #ff7800;
-        left: 0;
-        top: 0;
-        border-radius: 10px;
-        opacity: 0.8;
-    }
+  &:hover{
+    background-color: #ff973a;
+  }
+
+  &:active{
+    background-color: #ff7800;
+  }
 
 `
 
@@ -180,8 +172,9 @@ const Section4 = () => {
             <Column1>
               <TextWrapper>
                 {/* <TopLine>분석</TopLine> */}
-                <Heading lightText={false}>설문결과 분석</Heading>
-                <Subtitle darkText={true}>설문을 발송 후,<br />다양한 시각화 방식으로 표현된 분석 결과를 통해 설문 결과를 확인하세요</Subtitle>
+                <Heading lightText={false}>설문분석</Heading>
+                <Subtitle darkText={true}>리버티폼에서 제공하는 다양한 시각화로 <br />당신의 설문을 유연하고 직관적으로 확인하세요</Subtitle>
+                <Subtitle darkText={true}> ◦워드클라우드 <br /> ◦감정분석<br />◦파이차트<br />◦막대차트</Subtitle>
                 <BtnWrap>
                   <Mainbutton>시작하기</Mainbutton>
                 </BtnWrap>

@@ -72,8 +72,9 @@ export const ServicesP = styled.p`
 
 export const ServicesH1 = styled.h1`
   font-size: 5vw;
-  color: #020715;
+  color: #2f2f2f;
   margin-bottom: 100px;
+  font-weight: bold;
 
 
   @media screen and (max-width: 480px) {
@@ -87,8 +88,10 @@ export const ServicesH1 = styled.h1`
 // `
 
 export const CardTitle = styled.h2`
-  font-size: 1rem;
+  font-size: 1.2rem;
+  margin-top: 10px;
   margin-bottom: 10px;
+  font-weight: bold;
 `
 
 
@@ -100,19 +103,19 @@ function Services() {
       {/* <ServicesH2></ServicesH2> */}
       <ServicesWrapper>
         <ServicesCard>
-          <ServicesIcon src={Icon1}/>
+          <ServicesIcon src={Icon1} />
           <CardTitle>편의성</CardTitle>
           <ServicesP>설문조사를 보다 편하게 진행하기 위한 UI 및 기능 구축</ServicesP>
         </ServicesCard>
         <ServicesCard>
-        <ServicesIcon src={Icon2}/>
+          <ServicesIcon src={Icon2} />
           <CardTitle>유연성</CardTitle>
-          <ServicesP>사용자의 사용목적에 맞는 <br/> 다양한 시각화 방식</ServicesP>
+          <ServicesP>사용자의 사용목적에 맞는 <br /> 다양한 시각화 방식</ServicesP>
         </ServicesCard>
         <ServicesCard>
-          <ServicesIcon src={Icon3}/>
+          <ServicesIcon src={Icon3} />
           <CardTitle>직관성</CardTitle>
-          <ServicesP>사용자가 원하는 결과와 정보를<br/>쉽게 이해하고 사용</ServicesP>
+          <ServicesP>사용자가 원하는 결과와 정보를<br />쉽게 이해하고 사용</ServicesP>
         </ServicesCard>
       </ServicesWrapper>
     </ServicesContainer>

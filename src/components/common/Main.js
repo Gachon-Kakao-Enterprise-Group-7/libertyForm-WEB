@@ -160,7 +160,6 @@ function Main() {
     const vantaRef = useRef(null);
     const dispatch = useDispatch()
 
-
     const moveSection = (e) => {
         if (!window.scrollY) return;
         // 현재 위치가 이미 최상단일 경우 return
@@ -171,6 +170,7 @@ function Main() {
         });
 
     };
+
 
     console.log(process.env.REACT_APP_DB_HOST)
 
@@ -193,7 +193,6 @@ function Main() {
     }, [])
 
     //여기까지 axios 테스트 코드
-
 
     const isLogin = () => {
         if (localStorage.getItem('email')) {
@@ -254,10 +253,10 @@ function Main() {
                         <Services />
                     </div>
                     <div className={SEL}>
-                        <Section1 />
+                        <Section2 />
                     </div>
                     <div className={SEL}>
-                        <Section2 />
+                        <Section1 />
                     </div>
                     <div className={SEL}>
                         <Section3 />

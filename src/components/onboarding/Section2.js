@@ -63,7 +63,7 @@ export const TopLine = styled.p`
 
 export const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 48px;
+  font-size: 4vw;
   line-height: 1.1;
   font-weight: bold;
   color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
@@ -75,9 +75,10 @@ export const Heading = styled.h1`
 export const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
-  font-size: 18px;
+  font-size: 22px;
   line-height: 24px;
   color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
+  letter-spacing: 0.5px;
 `
 export const BtnWrap = styled.div`
   display:flex;
@@ -176,8 +177,8 @@ const Section2 = () => {
             <Column1>
               <TextWrapper>
                 {/* <TopLine>대시보드</TopLine> */}
-                <Heading lightText={false}>대시보드 관리</Heading>
-                <Subtitle darkText={true}>진행중 설문과 완료된 설문을 관리해보세요</Subtitle>
+                <Heading lightText={false}>대시보드</Heading>
+                <Subtitle darkText={true}>한눈에 볼 수 있는 설문 현황, 자유로운 기능 <br /> 리버티폼의 대시보드로부터 시작됩니다</Subtitle>
                 <BtnWrap>
                 </BtnWrap>
               </TextWrapper>

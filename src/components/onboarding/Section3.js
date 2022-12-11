@@ -70,7 +70,7 @@ export const TopLine = styled.p`
 
 export const Heading = styled.h1`
   margin-bottom: 24px;
-  font-size: 48px;
+  font-size: 4vw;
   line-height: 1.1;
   font-weight: bold;
   color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
@@ -82,8 +82,9 @@ export const Heading = styled.h1`
 export const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 24px;
+  letter-spacing: 1px;
   color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
 `
 export const BtnWrap = styled.div`
@@ -182,8 +183,8 @@ const Section3 = () => {
             <Column1>
               <TextWrapper>
                 {/* <TopLine>설문 발송</TopLine> */}
-                <Heading lightText={false}>발송자 관리</Heading>
-                <Subtitle darkText={true}>발송자를 등록한 후 원하는 설문을 메일로 발송하고,<br /> 발송자의 상태를 관리해보세요</Subtitle>
+                <Heading lightText={false}>발송관리</Heading>
+                <Subtitle darkText={true}>대상을 지정해서 설문을 발송하고<br />설문 응답 여부을 추적할 수 있습니다</Subtitle>
                 <BtnWrap>
                 </BtnWrap>
               </TextWrapper>
