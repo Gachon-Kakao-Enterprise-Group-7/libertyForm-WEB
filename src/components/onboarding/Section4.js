@@ -3,6 +3,7 @@ import { React, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom'
 
+
 import Img4_1 from 'img/section4-1.JPG'
 import Img4_2 from 'img/section4-2.JPG'
 import Img4_3 from 'img/section4-3.JPG'
@@ -169,6 +170,7 @@ const Section4 = () => {
             <Column1>
               <TextWrapper>
                 {/* <TopLine>분석</TopLine> */}
+
                 <Heading lightText={false}>설문분석</Heading>
                 <Subtitle darkText={true}>리버티폼에서 제공하는 다양한 시각화로 <br />당신의 설문을 유연하고 직관적으로 확인하세요</Subtitle>
                 <Subtitle darkText={true}> ◦워드클라우드 <br /> ◦감정분석<br />◦파이차트<br />◦막대차트</Subtitle>

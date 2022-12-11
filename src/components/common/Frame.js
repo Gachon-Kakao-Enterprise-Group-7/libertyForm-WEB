@@ -1,14 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import Sidebar from './Sidebar'
+import React from "react";
+import styled from "styled-components";
 import { Route, Routes } from "react-router-dom";
 
-import Dashboard from '../dashboard/Dashboard';
-import Mksurvey from '../makesurvey/Mksurvey';
-import Surveysend from '../sendsurvey/Surveysend';
-import Sendermanagement from '../contact/Sendermanagement';
-import EditSurvey from 'components/editsurvey/EditSurvey';
-import Analyzesurvey from '../analyzesurvey/Analyzesurvey';
+import Dashboard from "../dashboard/Dashboard";
+import Sidebar from "./Sidebar";
+import Mksurvey from "../makesurvey/Mksurvey";
+import Surveysend from "../sendsurvey/Surveysend";
+import Sendermanagement from "../contact/Sendermanagement";
+import EditSurvey from "components/editsurvey/EditSurvey";
+import Analyzesurvey from "../analyzesurvey/Analyzesurvey";
 
 const Wrapper = styled.section`
   display: flex;
@@ -20,35 +20,36 @@ const Wrapper = styled.section`
   @media (max-width: 450px) {
     padding: 10px;
   }
-
-`
+`;
 const MainWrapper = styled.div`
   display: flex;
   max-width: 1600px;
   margin: 0 auto;
-`
+`;
 
-const Frame = () => { //     
+const Frame = () => {
+  //
   return (
     <>
       <MainWrapper>
         <Sidebar />
         <Wrapper>
           <Routes>
-            {localStorage.getItem('email') //로그인된 여부에 따라 경로를 다르게 설정함
-              ? <Route path='dashboard' element={< Dashboard />} />
-              : document.location.href = "/login"
-            }
-            <Route path='mksurvey' element={<Mksurvey />} />
-            <Route path='surveysend' element={<Surveysend />} />
-            <Route path='sendermanagement' element={<Sendermanagement />} />
-            <Route path='editsurvey/:surveyCode' element={<EditSurvey />} />
-            <Route path='analyzesurvey' element={<Analyzesurvey />} />
+            {localStorage.getItem("email") ? ( //로그인된 여부에 따라 경로를 다르게 설정함
+              <Route path="dashboard" element={<Dashboard />} />
+            ) : (
+              (document.location.href = "/login")
+            )}
+            <Route path="mksurvey" element={<Mksurvey />} />
+            <Route path="surveysend" element={<Surveysend />} />
+            <Route path="sendermanagement" element={<Sendermanagement />} />
+            <Route path="editsurvey/:surveyCode" element={<EditSurvey />} />
+            <Route path="analyzesurvey" element={<Analyzesurvey />} />
           </Routes>
         </Wrapper>
       </MainWrapper>
     </>
-  )
-}
+  );
+};
 
-export default Frame
+export default Frame;
