@@ -24,14 +24,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const DragSvgWrapper = styled(DragSvg)`
-    margin-right: 5px;
-    width:20px;
-    height:20px;
-    float:right;
-    /* &:hover {
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  float: right;
+  /* &:hover {
       fill: #ff7800;
     } */
-`
+`;
 const UploadSvgWrapper = styled(UploadSvg)`
   width: 30px;
   height: 30px;
@@ -226,6 +226,7 @@ const TextInput = styled.input`
   width: 100%;
   margin-bottom: 5px;
   font-size: 20px;
+  /* white-space:pre-line; */
   background-color: transparent;
   :focus {
     border-bottom: 3px solid #ffcd23;
@@ -330,14 +331,13 @@ const PreviewText = styled.div`
   font-weight: bold;
 `;
 const PreviewButton = styled.button`
-    font-size: 0.5rem;
-    border: 0px;
-    border-radius: 5px;
-    margin: auto;
-    margin-top: 20px;
-    background-color: #e1e1e1;
-`
-
+  font-size: 0.5rem;
+  border: 0px;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 20px;
+  background-color: #e1e1e1;
+`;
 
 Modal.setAppElement("#root");
 
@@ -355,8 +355,8 @@ function Mksurvey() {
   const [modalOpen, setModalOpen] = useState(false);
   const [imgFileSrc, setImgFileSrc] = useState("");
 
-  const [imgFile, setImgFile] = useState([null,]) //이미지 파일 정보를 가지고 있는 State
-  const [imgs, setImgs] = useState([])
+  const [imgFile, setImgFile] = useState([null]); //이미지 파일 정보를 가지고 있는 State
+  const [imgs, setImgs] = useState([]);
 
   // useEffect(() => {
   //     console.log(imgs, '질문 이미지 가지고 있는 배열 변화함!')
@@ -418,46 +418,54 @@ function Mksurvey() {
     ],
   });
 
-})
+  // console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
+  //console.log(survey) // 사용자의 입력을 받은 survey 양식
 
+  const id = useRef(1); // servey 문제마다 id값을 주기 위함
+  const scrollRef = useRef(); // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
+  const state = useSelector((state) => state.survey);
 
-// console.log(postData) // 백엔드에 보내줄 JSON데이터 형식
-//console.log(survey) // 사용자의 입력을 받은 survey 양식
+  const dispatch = useDispatch();
 
-const id = useRef(1) // servey 문제마다 id값을 주기 위함
-const scrollRef = useRef() // 질문 추가를 할때마다 스크롤이 가장 아래로 갈 수 있도록 세팅
-const state = useSelector((state) => state.survey)
+  const onChange = (e) => {
+    const targetId = parseInt(e.target.dataset.id); //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
+    const q = e.target.value; //사용자가 input태그에 입력한 값
+    setSurvey(
+      survey.map((item) => (item.id === targetId ? { ...item, q: q } : item))
+    ); // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+  };
+  const onChangeDescription = (e) => {
+    //설문 질문에 대한 description
+    const targetId = parseInt(e.target.dataset.id); //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
+    const description = e.target.value; //사용자가 input태그에 입력한 값
+    setSurvey(
+      survey.map((item) =>
+        item.id === targetId ? { ...item, description: description } : item
+      )
+    ); // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
+  };
 
-const dispatch = useDispatch()
-
-
-const onChange = (e) => {
-  const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
-  const q = e.target.value //사용자가 input태그에 입력한 값
-  setSurvey(survey.map((item) => item.id === targetId ? { ...item, q: q } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
-}
-const onChangeDescription = (e) => { //설문 질문에 대한 description
-  const targetId = parseInt(e.target.dataset.id) //dataset.id를 통해서 밑에 input태그의 data-id의 값을 가져온다. //https://codechasseur.tistory.com/75
-  const description = e.target.value //사용자가 input태그에 입력한 값
-  setSurvey(survey.map((item) => item.id === targetId ? { ...item, description: description } : item)) // 사용자가 값을 입력하게되면 onChange함수 실행되고 setSurvey함수를 통해 survey를 map해서 item의 id와 targetid가 같으면 q를 input태그에 입력한 값으로 한다.
-}
-
-
-const addMcItem = (e) => {
-  const targetId = parseInt(e.target.dataset.id)
-  const mcitem = multiChoiceItem
-  if (mcitem.length > 0) {
-    setSurvey(survey.map((item) => item.id === targetId ? { ...item, mcitem: [...item.mcitem, mcitem] } : item))
-    setMultiChoiceItem('')
-  }
-  else {
-    Swal.fire({
-      title: 'Error!',
-      text: '1글자 이상 입력하세요',
-      icon: 'error',
-      confirmButtonText: '확인'
-    })
-  }
+  const addMcItem = (e) => {
+    const targetId = parseInt(e.target.dataset.id);
+    const mcitem = multiChoiceItem;
+    if (mcitem.length > 0) {
+      setSurvey(
+        survey.map((item) =>
+          item.id === targetId
+            ? { ...item, mcitem: [...item.mcitem, mcitem] }
+            : item
+        )
+      );
+      setMultiChoiceItem("");
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "1글자 이상 입력하세요",
+        icon: "error",
+        confirmButtonText: "확인",
+      });
+    }
+  };
 
   const handleOnKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -723,13 +731,25 @@ const addMcItem = (e) => {
   };
 
   return (
-
-    <MainWrapper ref={scrollRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} >
+    <MainWrapper
+      ref={scrollRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       {/* 설문 상단에서 설문 이름 및 기본 정보 작성 부분 */}
       <BlockDiv>
         <MainItemDiv>
           <ImageUpload>
-            <div style={{ fontSize: '1.3rem', marginTop: '20px', marginBottom: '20px', fontWeight: 'bold' }}>설문에 사용할 배경을 업로드해 주세요</div>
+            <div
+              style={{
+                fontSize: "1.3rem",
+                marginTop: "20px",
+                marginBottom: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              설문에 사용할 배경을 업로드해 주세요
+            </div>
 
             <PreviewImg imgFileSrc={imgFileSrc}>
               {title.length > 0 ? (
