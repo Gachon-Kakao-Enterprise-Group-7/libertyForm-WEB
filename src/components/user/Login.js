@@ -1,26 +1,27 @@
-import styled from "styled-components"
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { REST_API_KEY, REDIRECT_URI } from './OAuth';
+import styled from "styled-components";
+import React, { useState } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { REST_API_KEY, REDIRECT_URI } from "./OAuth";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 
-import background from "svg/register_background.svg"
-import kakaobtn from "img/kakao_login_large_wide.png"
-import kakaobtn2 from "img/kakao_login_large_narrow.png"
+import background from "svg/register_background.svg";
+import kakaobtn from "img/kakao_login_large_wide.png";
+import kakaobtn2 from "img/kakao_login_large_narrow.png";
 
-export const Backgrounddiv = styled.div` // styled components를 사용하여 div를 만듬
+export const Backgrounddiv = styled.div`
+  // styled components를 사용하여 div를 만듬
   position: absolute;
   top: 0px;
-  z-index:-1;
-  width:100vw;
-  height:100vh;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
   background-image: url(${background});
   background-repeat: no-repeat;
   background-size: cover;
   display: grid;
-  place-items: center;  
+  place-items: center;
 `;
 
 export const CardWrapper = styled(motion.div)`
@@ -31,7 +32,7 @@ export const CardWrapper = styled(motion.div)`
   width: 50vmin;
   max-height: 80vmin;
   border-radius: 16px;
-  color : black;
+  color: black;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
   transition: all 0.1s ease-out;
 `;
@@ -98,9 +99,7 @@ export const CardOptionsNote = styled.small`
   font-size: 12px;
   text-align: center;
   text-transform: uppercase;
-
 `;
-
 
 export const CardButton = styled.button`
   width: 100%;
@@ -125,7 +124,7 @@ export const CardButton = styled.button`
 export const KaKaoBtn = styled.button`
   background-image: url(${kakaobtn});
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
   width: 100%;
   border: none;
   border-radius: 16px;
@@ -158,68 +157,59 @@ export const CardLink = styled.a`
   }
 
   @media (max-width: 620px) {
-    display : none;
+    display: none;
   }
 `;
 
-
-
-
 function Login() {
-
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const onKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
-  }
+  };
 
   const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
-  })
+    email: "",
+    password: "",
+  });
 
   const onChange = (e) => {
     setInputs({
       ...inputs,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  const { email, password } = inputs // 구조분해할당
-
+  const { email, password } = inputs; // 구조분해할당
 
   const dispatch = useDispatch();
 
   const saveSurveyData = () => {
-    const jwt = localStorage.getItem('jwt')
-    axios.get(`${process.env.REACT_APP_DB_HOST}/survey`, {
-      headers: {
-        Authorization: 'Bearer ' + jwt
-      }
-    })
+    const jwt = localStorage.getItem("jwt");
+    axios
+      .get(`${process.env.REACT_APP_DB_HOST}/survey`, {
+        headers: {
+          Authorization: "Bearer " + jwt,
+        },
+      })
       .then((res) => {
-        dispatch({ type: 'ADDPREVIEWSURVEY', data: res.data.result.surveys })
-
+        dispatch({ type: "ADDPREVIEWSURVEY", data: res.data.result.surveys });
       })
       .catch((Error) => {
-        console.log(Error)
-      })
-  }
-
+        console.log(Error);
+      });
+  };
 
   const goHomePage = () => {
     setTimeout(() => {
-      document.location.href = '/' // 작업 완료 되면 페이지 이동(새로고침)
-    }, 1000)
-
-  }
-
+      document.location.href = "/"; // 작업 완료 되면 페이지 이동(새로고침)
+    }, 1000);
+  };
 
   const onLogin = async () => {
-
-    await axios.post(`${process.env.REACT_APP_DB_HOST}/login`, inputs)
-      .then(res => {
-
+    await axios
+      .post(`${process.env.REACT_APP_DB_HOST}/login`, inputs)
+      .then((res) => {
         // { test id
         //     "email": "forceTlight@gmail.com",
         //     "password": "1q2w3e4r!"
@@ -228,31 +218,33 @@ function Login() {
         switch (res.data.code) {
           case 2007:
             Swal.fire({
-              title: 'Error!',
-              text: '아이디, 비밀번호가 일치하지 않습니다',
-              icon: 'error',
-              confirmButtonText: '확인'
-            })
+              title: "Error!",
+              text: "아이디, 비밀번호가 일치하지 않습니다",
+              icon: "error",
+              confirmButtonText: "확인",
+            });
             break;
           case 1000:
-            console.log('======================', '로그인 성공', res.data.code)
-            localStorage.setItem('email', res.data.result.email);
-            localStorage.setItem('name', res.data.result.name);
-            localStorage.setItem('jwt', res.data.result.jwt);
+            console.log("======================", "로그인 성공", res.data.code);
+            localStorage.setItem("email", res.data.result.email);
+            localStorage.setItem("name", res.data.result.name);
+            localStorage.setItem("jwt", res.data.result.jwt);
             break;
           default:
-            console.log(res.data.code)
-            console.log('정의되지 않은 오류입니다....')
+            console.log(res.data.code);
+            console.log("정의되지 않은 오류입니다....");
             break;
         }
       })
-      .catch((Error) => { console.log(Error) })
+      .catch((Error) => {
+        console.log(Error);
+      });
 
     await saveSurveyData();
-    if (localStorage.getItem('email')) {
+    if (localStorage.getItem("email")) {
       goHomePage();
     }
-  }
+  };
 
   return (
     <Backgrounddiv>
@@ -268,7 +260,8 @@ function Login() {
               onChange={onChange}
               name="email"
               value={email}
-              required />
+              required
+            />
           </CardFieldset>
           <CardFieldset>
             <CardInput
@@ -277,10 +270,18 @@ function Login() {
               onChange={onChange}
               name="password"
               value={password}
-              required />
+              required
+            />
           </CardFieldset>
           <CardFieldset>
-            <CardButton type="button" onClick={() => { onLogin() }}>로그인</CardButton>
+            <CardButton
+              type="button"
+              onClick={() => {
+                onLogin();
+              }}
+            >
+              로그인
+            </CardButton>
           </CardFieldset>
           <CardFieldset>
             <CardOptionsNote>또는</CardOptionsNote>
