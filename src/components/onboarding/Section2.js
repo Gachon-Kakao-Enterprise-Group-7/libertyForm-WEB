@@ -1,18 +1,17 @@
-import { React, useState, useEffect, useRef } from 'react'
+import { React, useState, useEffect, useRef } from "react";
 // import { Button } from '../ButtonElements'
-import styled from 'styled-components';
-import { Link } from 'react-scroll'
+import styled from "styled-components";
 
-import Img2_1 from 'img/section2-1.png'
+import Img2_1 from "img/section2-1.png";
 
-export const InfoContainer = styled.div`
-  background: ${({ lightBg }) => (lightBg ? '#f9f9f9' : '#ffcd00')};
-  @media screen and  (max-width: 768px) {
+const InfoContainer = styled.div`
+  background: ${({ lightBg }) => (lightBg ? "#f9f9f9" : "#ffcd00")};
+  @media screen and (max-width: 768px) {
     padding: 100px 0;
   }
-`
+`;
 
-export const InfoWrapper = styled.div`
+const InfoWrapper = styled.div`
   display: grid;
   z-index: 1;
   height: 100vh;
@@ -22,66 +21,57 @@ export const InfoWrapper = styled.div`
   margin-left: auto;
   padding: 0 24px;
   justify-content: center;
-`
+`;
 
-export const InfoRow = styled.div`
+const InfoRow = styled.div`
   display: grid;
   grid-auto-columns: minmax(auto, 1fr);
   align-items: center;
-  grid-template-areas: ${({ imgStart }) => (imgStart ? `'col2 col1'` : `'col1 col2'`)};
+  grid-template-areas: ${({ imgStart }) =>
+    imgStart ? `'col2 col1'` : `'col1 col2'`};
 
   @media screen and (max-width: 768px) {
-    grid-template-areas: ${({ imgStart }) => (imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`)}
+    grid-template-areas: ${({ imgStart }) =>
+      imgStart ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`};
   }
-`
+`;
 
-export const Column1 = styled.div`
+const Column1 = styled.div`
   margin-bottom: 15px;
   padding: 0 15px;
   grid-area: col1;
-`
-export const Column2 = styled.div`
+`;
+const Column2 = styled.div`
   margin-bottom: 15px;
   padding: 0 15px;
   grid-area: col2;
-`
-export const TextWrapper = styled.div`
+`;
+const TextWrapper = styled.div`
   max-width: 540px;
   padding-top: 0;
   padding-bottom: 60px;
-`
-
-export const TopLine = styled.p`
-  color: #ff7800;
-  font-size: 16px;
-  line-height: 16px;
-  font-weight: bold;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-`
-
-export const Heading = styled.h1`
+`;
+const Heading = styled.h1`
   margin-bottom: 24px;
   font-size: 4vw;
   line-height: 1.1;
   font-weight: bold;
-  color: ${({ lightText }) => (lightText ? '#f7f8fa' : '#010606')};
+  color: ${({ lightText }) => (lightText ? "#f7f8fa" : "#010606")};
 
   @media screen and (max-width: 480px) {
     font-size: 32px;
   }
-`
-export const Subtitle = styled.p`
+`;
+const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
   font-size: 22px;
   line-height: 24px;
-  color: ${({ darkText }) => (darkText ? '#010606' : '#fff')};
+  color: ${({ darkText }) => (darkText ? "#010606" : "#fff")};
   letter-spacing: 0.5px;
-`
-export const BtnWrap = styled.div`
-  display:flex;
+`;
+const BtnWrap = styled.div`
+  display: flex;
   justify-content: flex-start;
 `;
 const ImgSlide = styled.div`
@@ -92,53 +82,20 @@ const ImgSlide = styled.div`
   align-items: center;
   overflow: hidden;
   /* background-color: antiquewhite; */
-`
-export const ImgWrap = styled.div`
+`;
+const ImgWrap = styled.div`
   width: 650px;
   display: flex;
   border-radius: 25px;
   border: 5px solid #f8bb06;
 `;
-export const Img = styled.img`
+const Img = styled.img`
   max-width: 100%;
   height: auto;
   margin: 0 0 0 0;
   padding-right: 0;
   border-radius: 20px;
-  
 `;
-const Mainbutton = styled.button`
-    font-weight: bold;
-    font-size : 20px;
-    width: 200px;
-    height: 50px;
-    border: none;
-    outline: none;
-    color: #fff;
-    background: #ff7800;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 10px;
-
-    &:hover:before {
-        opacity: 0.6;
-    }
-
-    &:after {
-        z-index: -1;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #ff7800;
-        left: 0;
-        top: 0;
-        border-radius: 10px;
-        opacity: 0.8;
-    }
-
-`
 
 const Section2 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -149,25 +106,19 @@ const Section2 = () => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
   }, [currentSlide]);
 
-
-
   useEffect(() => {
-    const timer = setInterval(
-      () => {
-        if (currentSlide <= TOTAL_SLIDES - 1) {
-          setCurrentSlide(prev => prev + 1);
-        } else {
-          setCurrentSlide(0);
-        }
-      }, 2500
-    );
+    const timer = setInterval(() => {
+      if (currentSlide <= TOTAL_SLIDES - 1) {
+        setCurrentSlide((prev) => prev + 1);
+      } else {
+        setCurrentSlide(0);
+      }
+    }, 2500);
 
     return () => {
       clearInterval(timer);
     };
   }, [currentSlide]);
-
-
 
   return (
     <>
@@ -176,11 +127,12 @@ const Section2 = () => {
           <InfoRow imgStart={true}>
             <Column1>
               <TextWrapper>
-                {/* <TopLine>대시보드</TopLine> */}
                 <Heading lightText={false}>대시보드</Heading>
-                <Subtitle darkText={true}>한눈에 볼 수 있는 설문 현황, 자유로운 기능 <br /> 리버티폼의 대시보드로부터 시작됩니다</Subtitle>
-                <BtnWrap>
-                </BtnWrap>
+                <Subtitle darkText={true}>
+                  한눈에 볼 수 있는 설문 현황, 자유로운 기능 <br /> 리버티폼의
+                  대시보드로부터 시작됩니다
+                </Subtitle>
+                <BtnWrap></BtnWrap>
               </TextWrapper>
             </Column1>
             <Column2>
@@ -194,7 +146,7 @@ const Section2 = () => {
         </InfoWrapper>
       </InfoContainer>
     </>
-  )
-}
+  );
+};
 
-export default Section2
+export default Section2;
