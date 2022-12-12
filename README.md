@@ -1,7 +1,7 @@
 
 <h1 align="center"> LIBERTY FORM </h1>
  <img src="./src/img/README/main.png"/>
-D:\leega2\kakaoenter\fornt\libertyForm-WEB-develop\src\img\README
+![main](https://user-images.githubusercontent.com/63089026/207022039-7bee2469-9c0f-4506-a97f-ff38ca4dc0be.png)
 ![20221212_191942](https://user-images.githubusercontent.com/63089026/207021100-7c809a32-73dc-4b7c-bfbb-438c0657ca36.png)
 
 <p align="center">Spring Boot & Vue를 이용한 Restful 웹 프로젝트</p>
