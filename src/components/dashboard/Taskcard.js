@@ -214,7 +214,6 @@ function Scard(props) {
 
   const DayCount = Math.ceil((expireDate - startDate) / (1000 * 60 * 60 * 24)); // 전체 날짜
   const RemainDayCount = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24)); // 남은 날짜
-
   let Dayratio = Math.ceil(100 - (RemainDayCount / DayCount) * 100);
   if (Dayratio === 0) {
     Dayratio = 3;
@@ -229,6 +228,7 @@ function Scard(props) {
   const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [SenderHistoryModalOpen, setSenderHistoryModalOpen] = useState(false);
+  const [expireModalOpen, setExpireModalOpen] = useState(false)
 
   const surveylink = `${process.env.REACT_APP_DOSURVEY_HOST}/survey/${code}`;
 
@@ -239,6 +239,16 @@ function Scard(props) {
 
   const closeDeleteModal = () => {
     setDeleteModalOpen(false);
+    document.body.style.overflow = "unset";
+  };
+
+  const openExpireModal = () => {
+    setExpireModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeExpireModal = () => {
+    setExpireModalOpen(false);
     document.body.style.overflow = "unset";
   };
 
@@ -319,45 +329,72 @@ function Scard(props) {
       });
   };
 
+  const expireSurvey = () => {
+    const jwt = localStorage.getItem("jwt");
+    axios.get(`${process.env.REACT_APP_DB_HOST}/survey/close/${surveyId}`, {
+      headers: {
+        Authorization: 'Bearer ' + jwt
+      }
+    })
+      .then((res) => {
+        switch (res.data.code) {
+          case 2505:
+            Swal.fire({
+              title: "Success!",
+              text: "설문 만료 처리되었습니다.",
+              icon: "success",
+              confirmButtonText: "확인",
+            }).then((result) => {
+              window.location.reload();
+            });
+            break;
+          default:
+            alert("정의되지 않는 코드입니다.");
+            break;
+        }
+      })
+      .catch((Error) => { console.log(Error) })
+  };
+
   return (
     <div>
-      
-        <CustomCard>
+      <CustomCard>
         <CustomCardMediaW>
           <CustomCardMedia
             image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}>
           </CustomCardMedia>
-          </CustomCardMediaW>
-          <CardContent className={classes.content}>
-            <NavDropStyle>
-              <Typography
-                className={classes.text}
-                variant={"h6"}
-                gutterBottom>
-                {DayCount < 0
-                  ? <TypographyTitle style={{ fontWeight: '400', textDecoration: 'line-through' }}>{props.title}</TypographyTitle>
-                  : <TypographyTitle style={{ fontWeight: '400' }}>{props.title}</TypographyTitle>
-                }
-              </Typography>
-              <NavDropdown id="collasible-nav-dropdown" bsPrefix="dropdown-button">
-                <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
-                <NavDropdown.Item disabled={end} onClick={editSurvey}>수정하기</NavDropdown.Item>
-                <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
-                <NavDropdown.Item onClick={openResponseConfirmationModal}>이력관리</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
-              </NavDropdown>
-            </NavDropStyle>
-            <Divider light />
-            <ShowLeftDate>
-              <AlamIconSvg />
-              {RemainDayCount >= 1 && <> {RemainDayCount} Days Left</>}
-              {RemainDayCount === 0 && <>Today is deadline</>}
-              {RemainDayCount < 0 && <>Expired</>}
-            </ShowLeftDate>
-            {RemainDayCount >= 0 && <><ScoreLine Dayratio={Dayratio} /></>}
-          </CardContent>
-        </CustomCard>
+        </CustomCardMediaW>
+        <CardContent className={classes.content}>
+          <NavDropStyle>
+            <Typography
+              className={classes.text}
+              variant={"h6"}
+              gutterBottom>
+              {DayCount < 0
+                ? <TypographyTitle style={{ fontWeight: '400', textDecoration: 'line-through' }}>{props.title}</TypographyTitle>
+                : <TypographyTitle style={{ fontWeight: '400' }}>{props.title}</TypographyTitle>
+              }
+            </Typography>
+            <NavDropdown id="collasible-nav-dropdown" bsPrefix="dropdown-button">
+              <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
+              <NavDropdown.Item disabled={end} onClick={editSurvey}>수정하기</NavDropdown.Item>
+              <NavDropdown.Item disabled={end} onClick={openExpireModal}>마감하기</NavDropdown.Item>
+              <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
+              <NavDropdown.Item onClick={openResponseConfirmationModal}>이력관리</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
+            </NavDropdown>
+          </NavDropStyle>
+          <Divider light />
+          <ShowLeftDate>
+            <AlamIconSvg />
+            {RemainDayCount >= 1 && !end && <> {RemainDayCount} Days Left</>}
+            {RemainDayCount === 0 && !end && <>Today is deadline</>}
+            {end && <>Expired</>}
+          </ShowLeftDate>
+          {RemainDayCount >= 0 && !end && <><ScoreLine Dayratio={Dayratio} /></>}
+        </CardContent>
+      </CustomCard>
 
       <Modal isOpen={deleteModalOpen} style={{ // 설문 삭제에 관한 모달
         overlay: {
@@ -394,6 +431,41 @@ function Scard(props) {
 
       </Modal>
 
+      <Modal isOpen={expireModalOpen} style={{ // 설문 삭제에 관한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '30%',
+          height: '300px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'hidden',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
+        <ModalHeader>
+          <ModalDelete onClick={closeExpireModal}><CloseModalSvg /></ModalDelete>
+        </ModalHeader>
+        <ModalTitle><h4>설문 마감</h4></ModalTitle>
+        <ModalDescription>정말로 설문을 마감하시겠습니까?</ModalDescription>
+        <ModalButton onClick={expireSurvey}>마감하기</ModalButton>
+
+      </Modal>
+
       <Modal isOpen={linkModalOpen} style={{ //설문 링크 생성에 대한 모달
         overlay: {
           position: 'fixed',
@@ -426,7 +498,7 @@ function Scard(props) {
         </ModalHeader>
         <ModalTitle><h4>설문 링크</h4></ModalTitle>
         <ModalDescription>발송자 지정 공유</ModalDescription>
-        <ModalButton  onClick={()=>{document.location.href="/home/surveysend"}} style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "10px" }}>지정하기</ModalButton>
+        <ModalButton onClick={() => { document.location.href = "/home/surveysend" }} style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "10px" }}>지정하기</ModalButton>
         <ModalDescription>링크 복사하기</ModalDescription>
         <CopyWrapper>
           <LinkIconSvg></LinkIconSvg>
@@ -500,7 +572,7 @@ function Scard(props) {
         <ModalHeader>
           <ModalDelete onClick={closeResponseConfirmationModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <SenderHistory surveyId={surveyId}  code={code}/>
+        <SenderHistory surveyId={surveyId} code={code} />
       </Modal>
     </div>
   );
