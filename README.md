@@ -72,43 +72,32 @@ npm start
 
 <br>
 
-## Usage example
+### 프로젝트
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+>  Github과 가장 긴밀하게 연결되는 새로운 솔루션, **LOCKER**
+>
+>  - '개발자가 만든 개발자 블로그'를 모토로
+>  - 개발자로서 가장 불편한 지점에 대한 문제의식에서 시작했습니다
+>  - 개발자, 일단 넌 LOCKER에 다 때려 넣어봐. 정리는 우리가 할게 :)
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
+<br>
 
-## Development setup
+1. 블로그의 기본 기능은 물론
+2. 깃헙의 **`레포지토리 별로 포스트를 관리하는`** 기능
+3. 포스팅 욕구를 자극하는 세련된 UI까지!
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
+<br>
 
-```sh
-make install
-npm test
-```
 
-## Release History
+<p align="center"> <img src="./img/로그인_전_메인페이지.gif" width="65%"/> </p>
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
+<br>
 
-## Meta
+<br>
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+<h2 align="center"> 서비스 ⭐️ </h2>
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
-
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+## 핵심 기능
 
 ## Contributing
 
