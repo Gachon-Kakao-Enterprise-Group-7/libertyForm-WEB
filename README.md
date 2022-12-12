@@ -1,6 +1,7 @@
 
 <h1 align="center"> LIBERTY FORM </h1>
-<p align="center"><a href=""></a><img src="https://img.shields.io/badge/copyright-gachonkakaoenter-yellow" alt="copyright"/></a> <a href=""><img src="https://img.shields.io/badge/java-8-green" alt="java"/></a> <a href=""><img src="https://img.shields.io/badge/npm%20package-6.14.4-brightgreen" alt="npm"/></a> <a href=""><img src="https://img.shields.io/badge/node-13.6-brightgreen" alt="node"/></a> <a href="https://meeting.ssafy.com/s03p21a06/channels/locker"><img src="https://img.shields.io/badge/chat-on%20mattermost-yellowgreen" alt="chat on notion"/></a> <a href="https://www.notion.so/LOCKER-23e10fa8c4cb42d29c3f6719823be559"><img src="https://img.shields.io/badge/chat-on%20notion-red" alt="chat on notion"/></a> <a href=""><img src="https://img.shields.io/badge/release-v1.0.1-blue" alt="release"/></a> <a href=""><img src="https://img.shields.io/badge/License-MIT%20-orange" alt="MIT License"/></a></p>
+<p align="center"><a href=""></a><img src="https://img.shields.io/badge/copyright-gachonkakaoenter-yellow" alt="copyright"/></a>
+<a href=""><img src="https://img.shields.io/badge/npm-8.19.1-green" alt="npm"/></a> <a href=""><img src="https://img.shields.io/badge/node-13.6-brightgreen" alt="npm"/>
 
 <img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207022445-f45ebd93-4933-4a78-abab-db99da125f5d.png">
 <p align="center">Spring Boot & React.js(Styled Components)를 이용한 설문조사 웹 프로젝트</p>
