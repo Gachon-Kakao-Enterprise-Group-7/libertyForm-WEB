@@ -1,4 +1,6 @@
 {
+  "start": "NODE_PATH=src react-scripts start",
+  "build": "NODE_PATH=src react-scripts build",
   "name": "libertyform",
   "version": "0.1.0",
   "private": true,
