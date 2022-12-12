@@ -230,7 +230,7 @@ function Scard(props) {
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [SenderHistoryModalOpen, setSenderHistoryModalOpen] = useState(false);
 
-  const surveylink = `localhost:3000/dosurvey/${code}`;
+  const surveylink = `${process.env.REACT_APP_DOSURVEY_HOST}/dosurvey/${code}`;
 
   const openDeleteModal = () => {
     setDeleteModalOpen(true);
