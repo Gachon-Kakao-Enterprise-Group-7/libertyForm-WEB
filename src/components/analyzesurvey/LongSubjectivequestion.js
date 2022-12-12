@@ -46,6 +46,12 @@ const FlexDiv = styled.div`
     align-items: center;
 `
 
+const WordCloudWarp = styled.div`
+    margin: 30px;
+    text-align: center;
+`
+
+
 function Subjectivequestion(props) {
     let text = ''
     props.question.responses.forEach((item) => (text += ' ' + item))
@@ -73,10 +79,6 @@ function Subjectivequestion(props) {
         createData(`${index + 1}`, `${item}`, `${emotions[index]}`)
     ))
 
-
-
-
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -85,46 +87,6 @@ function Subjectivequestion(props) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
-
-
-
-    useEffect(() => {
-        let root = am5.Root.new(`chartdiv${question.question.number}`);
-
-        root.setThemes([
-            am5themes_Animated.new(root)
-        ]);
-
-        let series = root.container.children.push(am5wc.WordCloud.new(root, {
-            maxCount: 100,
-            minWordLength: 2,
-            minFontSize: am5.percent(8),
-            maxFontSize: am5.percent(25),
-            randomness: 0,
-            text: text, // 위에서 문자열을 하나의 text로 합쳐준다
-            colors: am5.ColorSet.new(root, {
-                colors: [
-                    am5.color(0x095256),
-                    am5.color(0x087f8c),
-                    am5.color(0x5aaa95),
-                    am5.color(0x86a873),
-                    am5.color(0xbb9f06),
-                ]
-            })
-
-        }));
-
-        series.labels.template.setAll({
-            paddingTop: 5,
-            paddingBottom: 5,
-            paddingLeft: 5,
-            paddingRight: 5,
-            fontFamily: "Courier New"
-        });
-    }, []
-    )
-
 
 
 
@@ -146,17 +108,8 @@ function Subjectivequestion(props) {
                     </FlexDiv>
 
                     <Divider />
-                    <CardContent>
-                        <Box
-                            sx={{
-                                height: 150,
-                                position: 'relative'
-                            }}
-                        >
-                            <div id={`chartdiv${question.question.number}`} style={{ width: "100%", height: "150px" }}></div>
-                        </Box>
-                    </CardContent>
-                    <img src={question.wordCloudImgUrl} width="100px"></img>
+                    <WordCloudWarp><img src={question.wordCloudImgUrl} width="300px"></img></WordCloudWarp>
+
                     {show === true
                         ? <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
