@@ -6,14 +6,6 @@
 <img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207022445-f45ebd93-4933-4a78-abab-db99da125f5d.png">
 <p align="center">Spring Boot & React.js를 이용한 설문조사 웹 프로젝트</p>
 
-
-### Front-End
-|JavaScript|React|Styled <br/> Components|
-| :--: | :--: | :--: |
-| <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://styled-components.com/logo.png" alt="icon" width="65" height="65" /> 
-  
- ### Back-End
-
 ### Common
 
 - common : <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/>
