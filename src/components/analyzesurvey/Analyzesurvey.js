@@ -9,7 +9,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 import Surveyinfo from './Surveyinfo';
 import Linearquestion from './Linearquestion';
-import Subjectivequestion from './Subjectivequestion';
+import LongSubjectivequestion from './LongSubjectivequestion'
+import ShortSubjectivequestion from './ShortSubjectivequestion'
 import Objectivequestion from './Objectivequestion';
 
 import useDidMountEffect from 'hooks/useDidMountEffect';
@@ -111,8 +112,9 @@ function Analyzesurvey() {
             {result && result.questions.map((question, index) => {
                 switch (question.question.questionTypeId) {
                     case 1:
+                        return (<LongSubjectivequestion key={index + 1} question={question}></LongSubjectivequestion>) //주관식(장문형)
                     case 2:
-                        return (<Subjectivequestion key={index + 1} question={question}></Subjectivequestion>) //주관식
+                        return (<ShortSubjectivequestion key={index + 1} question={question}></ShortSubjectivequestion>) //주관식(단문형)
                     case 3:
                     case 4:
                         return (<Objectivequestion key={index + 1} question={question}></Objectivequestion>) //객관식
