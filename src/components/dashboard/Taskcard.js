@@ -321,251 +321,198 @@ function Scard(props) {
 
   return (
     <div>
-      <CustomCard>
+      
+        <CustomCard>
         <CustomCardMediaW>
           <CustomCardMedia
-            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}
-          ></CustomCardMedia>
-        </CustomCardMediaW>
-        <CardContent className={classes.content}>
-          <NavDropStyle>
-            <Typography className={classes.text} variant={"h6"} gutterBottom>
-              {DayCount < 0 ? (
-                <TypographyTitle
-                  style={{ fontWeight: "400", textDecoration: "line-through" }}
-                >
-                  {props.title}
-                </TypographyTitle>
-              ) : (
-                <TypographyTitle style={{ fontWeight: "400" }}>
-                  {props.title}
-                </TypographyTitle>
-              )}
-            </Typography>
-            <NavDropdown
-              id="collasible-nav-dropdown"
-              bsPrefix="dropdown-button"
-            >
-              <NavDropdown.Item disabled={end} onClick={openLinkModal}>
-                링크생성
-              </NavDropdown.Item>
-              <NavDropdown.Item disabled={end} onClick={editSurvey}>
-                수정하기
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={openPreviewModal}>
-                미리보기
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={openResponseConfirmationModal}>
-                이력관리
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={openDeleteModal}>
-                삭제하기
-              </NavDropdown.Item>
-            </NavDropdown>
-          </NavDropStyle>
-          <Divider light />
-          <ShowLeftDate>
-            <AlamIconSvg />
-            {RemainDayCount >= 1 && <> {RemainDayCount} Days Left</>}
-            {RemainDayCount === 0 && <>Today is deadline</>}
-            {RemainDayCount < 0 && <>Expired</>}
-          </ShowLeftDate>
-          {RemainDayCount >= 0 && (
-            <>
-              <ScoreLine Dayratio={Dayratio} />
-            </>
-          )}
-        </CardContent>
-      </CustomCard>
+            image={thumbnailImgUrl ? thumbnailImgUrl : defaultImg}>
+          </CustomCardMedia>
+          </CustomCardMediaW>
+          <CardContent className={classes.content}>
+            <NavDropStyle>
+              <Typography
+                className={classes.text}
+                variant={"h6"}
+                gutterBottom>
+                {DayCount < 0
+                  ? <TypographyTitle style={{ fontWeight: '400', textDecoration: 'line-through' }}>{props.title}</TypographyTitle>
+                  : <TypographyTitle style={{ fontWeight: '400' }}>{props.title}</TypographyTitle>
+                }
+              </Typography>
+              <NavDropdown id="collasible-nav-dropdown" bsPrefix="dropdown-button">
+                <NavDropdown.Item disabled={end} onClick={openLinkModal}>링크생성</NavDropdown.Item>
+                <NavDropdown.Item disabled={end} onClick={editSurvey}>수정하기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openPreviewModal}>미리보기</NavDropdown.Item>
+                <NavDropdown.Item onClick={openResponseConfirmationModal}>이력관리</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={openDeleteModal}>삭제하기</NavDropdown.Item>
+              </NavDropdown>
+            </NavDropStyle>
+            <Divider light />
+            <ShowLeftDate>
+              <AlamIconSvg />
+              {RemainDayCount >= 1 && <> {RemainDayCount} Days Left</>}
+              {RemainDayCount === 0 && <>Today is deadline</>}
+              {RemainDayCount < 0 && <>Expired</>}
+            </ShowLeftDate>
+            {RemainDayCount >= 0 && <><ScoreLine Dayratio={Dayratio} /></>}
+          </CardContent>
+        </CustomCard>
 
-      <Modal
-        isOpen={deleteModalOpen}
-        style={{
-          // 설문 삭제에 관한 모달
-          overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "30%",
-            height: "300px",
-            border: "1px solid #ccc",
-            background: "#fff",
-            overflow: "hidden",
-            outline: "none",
-            borderRadius: "20px",
-            padding: "20px 25px",
-          },
-        }}
-      >
+      <Modal isOpen={deleteModalOpen} style={{ // 설문 삭제에 관한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '30%',
+          height: '300px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'hidden',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
         <ModalHeader>
-          <ModalDelete onClick={closeDeleteModal}>
-            <CloseModalSvg />
-          </ModalDelete>
+          <ModalDelete onClick={closeDeleteModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <h4>설문 삭제</h4>
-        </ModalTitle>
+        <ModalTitle><h4>설문 삭제</h4></ModalTitle>
         <ModalDescription>정말 삭제하시겠습니까?</ModalDescription>
         <ModalButton onClick={deleteSurvey}>삭제하기</ModalButton>
+
       </Modal>
 
-      <Modal
-        isOpen={linkModalOpen}
-        style={{
-          //설문 링크 생성에 대한 모달
-          overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "35%",
-            height: "400px",
-            border: "1px solid #ccc",
-            background: "#fff",
-            overflow: "auto",
-            WebkitOverflowScrolling: "touch",
-            outline: "none",
-            borderRadius: "20px",
-            padding: "20px 25px",
-          },
-        }}
-      >
+      <Modal isOpen={linkModalOpen} style={{ //설문 링크 생성에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '35%',
+          height: '400px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
         <ModalHeader>
-          <ModalDelete onClick={closeLinkModal}>
-            <CloseModalSvg />
-          </ModalDelete>
+          <ModalDelete onClick={closeLinkModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <h4>설문 링크</h4>
-        </ModalTitle>
+        <ModalTitle><h4>설문 링크</h4></ModalTitle>
         <ModalDescription>발송자 지정 공유</ModalDescription>
-        <ModalButton
-          onClick={() => {
-            document.location.href = "/home/surveysend";
-          }}
-          style={{
-            marginTop: "10px",
-            marginBottom: "20px",
-            borderRadius: "10px",
-          }}
-        >
-          지정하기
-        </ModalButton>
+        <ModalButton  onClick={()=>{document.location.href="/home/surveysend"}} style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "10px" }}>지정하기</ModalButton>
         <ModalDescription>링크 복사하기</ModalDescription>
         <CopyWrapper>
           <LinkIconSvg></LinkIconSvg>
-          <input
-            style={{
-              border: "none",
-              outline: "none",
-              height: "100%",
-              margin: "10px",
-              width: "100%",
-            }}
-            value={surveylink}
-          ></input>
+          <input style={{ border: "none", outline: "none", height: '100%', margin: '10px', width: '100%' }} value={surveylink}></input>
           <ModalCopyButton onClick={copySurveyLink}>복사</ModalCopyButton>
         </CopyWrapper>
+
+
       </Modal>
 
-      <Modal
-        isOpen={previewModalOpen}
-        style={{
-          //설문 미리보기에 대한 모달
-          overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "70%",
-            height: "80%",
-            border: "1px solid #ccc",
-            background: "#fff",
-            overflow: "auto",
-            WebkitOverflowScrolling: "touch",
-            outline: "none",
-            borderRadius: "20px",
-            padding: "20px 25px",
-          },
-        }}
-      >
+      <Modal isOpen={previewModalOpen} style={{ //설문 미리보기에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70%',
+          height: '80%',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
         <ModalHeader>
-          <ModalDelete onClick={closePreviewModal}>
-            <CloseModalSvg />
-          </ModalDelete>
+          <ModalDelete onClick={closePreviewModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
         <Preview code={code} />
       </Modal>
 
-      <Modal
-        isOpen={SenderHistoryModalOpen}
-        style={{
-          //설문 발송자 관리에 대한 모달
-          overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "70%",
-            height: "80%",
-            border: "1px solid #ccc",
-            background: "#fff",
-            overflow: "auto",
-            WebkitOverflowScrolling: "touch",
-            outline: "none",
-            borderRadius: "20px",
-            padding: "20px 25px",
-          },
-        }}
-      >
+      <Modal isOpen={SenderHistoryModalOpen} style={{ //설문 발송자 관리에 대한 모달
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70%',
+          height: '80%',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
         <ModalHeader>
-          <ModalDelete onClick={closeResponseConfirmationModal}>
-            <CloseModalSvg />
-          </ModalDelete>
+          <ModalDelete onClick={closeResponseConfirmationModal}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <SenderHistory surveyId={surveyId} code={code} />
+        <SenderHistory surveyId={surveyId}  code={code}/>
       </Modal>
     </div>
   );
 }
 
+
+
+
 Scard.defaltProps = {
-  title: "제목 없음",
-};
+  title: '제목 없음'
+}
+
 
 const Taskcard = withStyles(styles)(Scard);
 export default Taskcard;
