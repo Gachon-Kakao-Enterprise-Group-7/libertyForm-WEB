@@ -5,14 +5,6 @@
 <img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207022445-f45ebd93-4933-4a78-abab-db99da125f5d.png">
 <p align="center">Node.js & React.js(Styled Components)를 이용한 설문조사 웹 프로젝트</p>
 
-## 설치
-
-OS X & Linux:
-
-```sh
-npm install --force
-npm start
-```
 
 ### LIBERTYFORM
 
@@ -27,6 +19,15 @@ npm start
 - 팀원 : 백우진, 이가영, 이상협, 한만규
 
 - 프로젝트 기간 : 2020.9.1 ~ 2020.12.13 (16주)
+
+### 실행
+
+OS X & Linux:
+
+```sh
+npm install --force
+npm start
+```
 
 <br>
 
