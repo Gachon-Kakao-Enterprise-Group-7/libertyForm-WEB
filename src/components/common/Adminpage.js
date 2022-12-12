@@ -32,11 +32,7 @@ function Adminpage() {
     return (
       <Container>
         <Prohibition width="300px" />
-        <div style={{ margin: "20px" }}>
-          접근 권한이 없습니다
-          <br />
-          관리자에게 문의하세요
-        </div>
+        <div style={{ margin: "20px" }}>접근 권한이 없습니다<br />관리자에게 문의하세요</div>
         <Link to="/">
           <HomeBtn>홈으로 돌아가기</HomeBtn>
         </Link>

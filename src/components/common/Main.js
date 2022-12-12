@@ -210,7 +210,6 @@ function Main() {
             render={(comp) => (
                 <ReactFullpage.Wrapper>
                     <div className={SEL}>
-
                         <div style={{ width: '100% auto' }}>
                             <NavbarOn />
                             <MainSection ref={vantaRef}>
