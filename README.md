@@ -91,7 +91,7 @@ npm start
 <br>
 
 
-<p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207036792-bb8c15bb-6d0c-4bf0-b488-311d0c4e2eb8.gif" width="65%"/> </p>
+<p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207046938-36ca43e1-300c-4bf6-8b0a-2c50956b9574.gif" width="65%"/> </p>
 
 <br>
 
