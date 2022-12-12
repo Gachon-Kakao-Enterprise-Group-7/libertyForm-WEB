@@ -14,6 +14,31 @@ npm install --force
 npm start
 ```
 
+### LIBERTYFORM
+
+> [LIBERTYFORM 바로가기](https://liberty-form.shop/)
+>
+> [스크럼 기록 바로가기]()
+
+- 팀명 & 서비스 이름 : LIBERTYFORM
+
+- 팀장 : 김형준
+
+- 팀원 : 백우진, 이가영, 이상협, 한만규
+
+- 프로젝트 기간 : 2020.9.1 ~ 2020.12.13 (16주)
+
+<br>
+
+### 멤버 👋
+
+| 이름                                                  | 역할             | 내용                                                         |
+| ----------------------------------------------------- | ---------------- | ------------------------------------------------------------ |
+| [김형준](https://github.com/YNNJN) [Front Carry]      | BE, PM | 포스트/댓글 CRUD(FE), github 데이터 연동(FE), 마크다운파서 구현 |
+| [백우진](https://github.com/junhok82) [프로 일꾼]     | ML | 회원관리(BE), 소셜로그인(BE), github 데이터 연동(BE), 인프라 구축 |
+| [이가영](https://github.com/YNNJN) [Front Carry]      | FE, 디자인  | 포스트/댓글 CRUD(FE), github 데이터 연동(FE), 마크다운파서 구현 |
+| [이상협](https://github.com/beaverbae2) [풀스택 팀장] | FE, 디자인             | 포스트/댓글 CRUD(BE), 검색/태그/좋아요/사진등록(BE&FE)       |
+| [한만규](https://github.com/jane399) [개발천재]       | FE, 디자인         | 회원관리(FE), 소셜로그인(FE), 레포지토리 추가/삭제(FE), 영상 제작 |
 ## Usage example
 
 A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
