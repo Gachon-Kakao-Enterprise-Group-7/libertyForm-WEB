@@ -31,8 +31,8 @@ function App() {
           <Route path="/signin" element={<><Signin /></>}></Route>
           <Route path="/login" element={<><Login /></>}></Route>
           <Route path="/kakaologin" element={<><Kakaologin /></>}></Route>
-          <Route path="/dosurvey/:surveyCode" element={<Dosurvey />}></Route>
-          <Route path="/doprivatesurvey/:privateSurveyCode" element={<Dosurvey />}></Route>
+          <Route path="/survey/:surveyCode" element={<Dosurvey />}></Route>
+          <Route path="/psurvey/:privateSurveyCode" element={<Dosurvey />}></Route>
           <Route path="/alreadyanswered" element={<AlreadyAnswered />}></Route>
           <Route path="/surveyend" element={<Surveyend />}></Route>
           <Route path="/adminpage" element={<Adminpage />}></Route>
