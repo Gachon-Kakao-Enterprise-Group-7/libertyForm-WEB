@@ -384,7 +384,7 @@ function Dosurvey() {
     if (params.surveyCode) { // 그냥 설문을 실시 할때
       setLoading(true)
       const jwt = localStorage.getItem('jwt')
-      axios.get(`${process.env.REACT_APP_DB_HOST} /survey/${params.surveyCode} `, {
+      axios.get(`${process.env.REACT_APP_DB_HOST}/survey/${params.surveyCode} `, {
         headers: {
           Authorization: 'Bearer ' + jwt
         }
