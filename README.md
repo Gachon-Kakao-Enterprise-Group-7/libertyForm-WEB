@@ -6,6 +6,36 @@
 <p align="center">Node.js & React.js(Styled Components)를 이용한 설문조사 웹 프로젝트</p>
 
 
+<br>
+
+<h2 align="center"> 목차 📜 </h2>
+
+### ✔︎ 소개
+  - [X] 멤버
+  - [X] 프로젝트
+### ✔︎ 서비스
+  - [X] 레포지토리 소개
+  - [X] 로그인
+  - [X] 마이페이지
+  - [X] 메인페이지
+  - [X] 포스팅
+  - [X] 검색기능
+### ✔︎ 회고
+  - [X] SSAFY 2학기 공통프로젝트 회고
+    - [X] 우리는 이렇게 협업한다
+    - [X] 코드에 대한 고찰 | TMI 주의 ⚠️
+  - [ ] 마주했던 이슈들
+    - [ ] JPA 도입 계기
+    - [ ] 우리가 도커를 사용한 이유
+    - [ ] 로그인 기능을 구현하며 마주한 이슈
+      - [X] 소셜 로그인은 왜 할까 ❓ (feat. OAuth2)
+
+<br>
+
+<br>
+
+<h2 align="center"> 소개 🏷 </h2>
+
 ### LIBERTYFORM
 
 > [LIBERTYFORM 바로가기](https://liberty-form.shop/)
@@ -40,6 +70,14 @@ npm start
 | [이가영](https://github.com/YNNJN) [FE 새싹]      | FE, 디자인 |  |
 | [이상협](https://github.com/beaverbae2) [ML 천재] | FE, 디자인 | |
 | [한만규](https://github.com/jane399) [FE 천재]    | FE, 디자인 |  |
+
+
+### 로드맵
+
+<img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207028438-fb8a41e2-fe45-4162-bf7c-3200e9a57332.png">
+
+
+
 ## Usage example
 
 A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
