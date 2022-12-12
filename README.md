@@ -1,6 +1,6 @@
 
 <h1 align="center"> LIBERTY FORM </h1>
-<p align="center"><a href=""></a><img src="https://img.shields.io/badge/copyright-KAKAO_ENTERPRISE-yellow" alt="copyright"/></a>
+<p align="center"><a href=""></a><img src="https://img.shields.io/badge/copyright-GACHON & KAKAO_ENTERPRISE-yellow" alt="copyright"/></a>
 <a href=""><img src="https://img.shields.io/badge/npm-8.19.1-green" alt="npm"/></a> <a href=""><img src="https://img.shields.io/badge/react-18.2.0-skyblue" alt="npm"/>
 
 <img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207022445-f45ebd93-4933-4a78-abab-db99da125f5d.png">
