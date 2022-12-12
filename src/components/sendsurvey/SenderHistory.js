@@ -83,46 +83,37 @@ function SenderHistory(props) {
   }
   return (
     <>
-      <PreviewTitle>
-        <h4>설문 이력관리</h4>
-      </PreviewTitle>
-      {/* <PreviewContent>설문 이름 : {newSurveyDetail.survey.name}</PreviewContent>
-        <PreviewContent>설문 설명 : {newSurveyDetail.survey.description}</PreviewContent>
-        <PreviewContent>설문 기간 : {newSurveyDetail.survey.createdAt} ~ {newSurveyDetail.survey.expirationDate}</PreviewContent> */}
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 350 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center" style={{ fontWeight: "bold" }}>
-                목록
-              </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: "bold" }}>
-                이름
-              </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: "bold" }}>
-                이메일
-              </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: "bold" }}>
-                상태
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          {confirmResult.map((person, index) => (
-            <TableBody>
-              <TableCell align="center">{index + 1}</TableCell>
-              <TableCell align="center">{person.contactName}</TableCell>
-              <TableCell align="center">{person.email}</TableCell>
-              <TableCell align="center">
-                {person.responseStatus === "PENDING" && "읽지않음"}
-                {person.responseStatus === "CONFIRM" && "읽음"}
-                {person.responseStatus === "SUBMIT" && "제출완료"}
-              </TableCell>
-            </TableBody>
-          ))}
-        </Table>
-      </TableContainer>
-    </>
-  );
+    <PreviewTitle><h4>설문 이력관리</h4></PreviewTitle>
+    {/* <PreviewContent>설문 이름 : {newSurveyDetail.survey.name}</PreviewContent>
+    <PreviewContent>설문 설명 : {newSurveyDetail.survey.description}</PreviewContent>
+    <PreviewContent>설문 기간 : {newSurveyDetail.survey.createdAt} ~ {newSurveyDetail.survey.expirationDate}</PreviewContent> */}
+    <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 350, }} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell align='center' style={{ fontWeight: 'bold' }}>목록</StyledTableCell>
+                        <StyledTableCell align='center' style={{ fontWeight: 'bold' }}>이름</StyledTableCell>
+                        <StyledTableCell align='center' style={{ fontWeight: 'bold' }}>이메일</StyledTableCell>
+                        <StyledTableCell align='center' style={{ fontWeight: 'bold' }}>상태</StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                {confirmResult.map((person, index)=>(
+                    <TableBody >
+                        <TableCell align='center' >{index+1}</TableCell>
+                        <TableCell align='center' >{person.contactName}</TableCell>
+                        <TableCell align='center' >{person.email}</TableCell>
+                        <TableCell align='center' >
+                            {person.responseStatus === 'PENDING' && '읽지않음'}
+                            {person.responseStatus === 'CONFIRM' && '읽음'}
+                            {person.responseStatus === 'SUBMIT' && '제출완료'}
+                        </TableCell>
+                    </TableBody>
+                ))}
+
+            </Table>
+        </TableContainer>
+        </>
+);
 }
 
 export default SenderHistory;

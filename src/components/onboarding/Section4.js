@@ -154,17 +154,10 @@ const Section4 = () => {
                 {/* <TopLine>분석</TopLine> */}
 
                 <Heading lightText={false}>설문분석</Heading>
-                <Subtitle darkText={true}>
-                  리버티폼에서 제공하는 다양한 시각화로 <br />
-                  당신의 설문을 유연하고 직관적으로 확인하세요
+                <Subtitle darkText={true}> 리버티폼에서 제공하는 다양한 시각화로 <br />당신의 설문을 유연하고 직관적으로 확인하세요
                 </Subtitle>
                 <Subtitle darkText={true}>
-                  {" "}
-                  ◦워드클라우드 <br /> ◦감정분석
-                  <br />
-                  ◦파이차트
-                  <br />
-                  ◦막대차트
+                  {" "}◦워드클라우드<br />◦감정분석<br />◦파이차트<br />◦막대차트
                 </Subtitle>
                 <BtnWrap>
                   <Link to="/home/dashboard">

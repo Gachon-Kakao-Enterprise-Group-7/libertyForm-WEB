@@ -254,34 +254,13 @@ function Login() {
         </CardHeader>
         <CardBody>
           <CardFieldset>
-            <CardInput
-              placeholder="E-mail"
-              type="text"
-              onChange={onChange}
-              name="email"
-              value={email}
-              required
-            />
+            <CardInput placeholder="E-mail" type="text" onChange={onChange} name="email" value={email} required/>
           </CardFieldset>
           <CardFieldset>
-            <CardInput
-              placeholder="Password"
-              type="password"
-              onChange={onChange}
-              name="password"
-              value={password}
-              required
-            />
+            <CardInput placeholder="Password" type="password" onChange={onChange} name="password" value={password} required/>
           </CardFieldset>
           <CardFieldset>
-            <CardButton
-              type="button"
-              onClick={() => {
-                onLogin();
-              }}
-            >
-              로그인
-            </CardButton>
+            <CardButton type="button" onClick={() => {onLogin();}}>로그인</CardButton>
           </CardFieldset>
           <CardFieldset>
             <CardOptionsNote>또는</CardOptionsNote>

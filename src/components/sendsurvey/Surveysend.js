@@ -255,82 +255,38 @@ function Surveysend() {
       <br />
       <SectionWrapper>
         <Title>설문 선택</Title>
-        {surveys.length !== 0 ? (
+        {surveys.length !== 0 ?
           <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <TableContainer
-                sx={{ minWidth: 350, maxWidth: 1000 }}
-                component={Paper}
-              >
+            <RadioGroup aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
+              <TableContainer sx={{ minWidth: 350, maxWidth: 1000 }} component={Paper}>
                 <Table aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell
-                        size="small"
-                        align="center"
-                        style={{ fontWeight: "bold" }}
-                      >
-                        선택
-                      </TableCell>
-                      <TableCell align="center" style={{ fontWeight: "bold" }}>
-                        설문이름
-                      </TableCell>
-                      <TableCell align="center" style={{ fontWeight: "bold" }}>
-                        만료일
-                      </TableCell>
+                      <TableCell size='small' align='center' style={{ fontWeight: 'bold' }}>선택</TableCell>
+                      <TableCell align='center' style={{ fontWeight: 'bold' }}>설문이름</TableCell>
+                      <TableCell align='center' style={{ fontWeight: 'bold' }}>만료일</TableCell>
                     </TableRow>
                   </TableHead>
-                  {surveys
-                    .sort(
-                      (a, b) =>
-                        new Date(b.expirationDate) - new Date(a.expirationDate)
-                    )
-                    .map((survey, index) => (
-                      <TableBody key={index}>
-                        <TableCell align="center" padding="none">
-                          <FormControlLabel
-                            disabled={
-                              new Date(survey.expirationDate) - new Date() < 0
-                            }
-                            onClick={(e) => {
-                              setSelectSurvey(e.target.value);
-                              setSelectSurveyEday(survey.expirationDate);
-                            }}
-                            value={survey.surveyId}
-                            control={<Radio />}
-                          />
-                        </TableCell>
-                        <TableCell
-                          style={{
-                            textDecoration:
-                              new Date(survey.expirationDate) -
-                                new Date() +
-                                54000000 <
-                              0
-                                ? "line-through"
-                                : "none",
-                          }}
-                          align="center"
-                          padding="none"
-                        >
-                          {survey.name}
-                        </TableCell>
-                        <TableCell align="center" padding="none">
-                          {survey.expirationDate}
-                        </TableCell>
-                      </TableBody>
-                    ))}
+                  {surveys.sort((a, b) => new Date(b.expirationDate) - new Date(a.expirationDate)).map((survey, index) => (
+                    <TableBody key={index}>
+                      <TableCell align='center' padding='none' >
+                        <FormControlLabel
+                          disabled={new Date(survey.expirationDate) - new Date()  < 0}
+                          onClick={(e) => { setSelectSurvey(e.target.value);setSelectSurveyEday(survey.expirationDate) }}
+                          value={survey.surveyId}
+                          control={<Radio />} />
+                      </TableCell>
+                      <TableCell style={{ textDecoration: new Date(survey.expirationDate) - new Date() + 54000000 < 0 ? 'line-through' : 'none' }} align='center' padding='none'>{survey.name}</TableCell>
+                      <TableCell align='center' padding='none' >{survey.expirationDate}</TableCell>
+                    </TableBody>
+                  ))}
                 </Table>
               </TableContainer>
             </RadioGroup>
           </FormControl>
-        ) : (
+          :
           <div>발송할 수 있는 설문이 없습니다.</div>
-        )}
+        }
       </SectionWrapper>
 
       <SectionWrapper>
@@ -340,62 +296,46 @@ function Surveysend() {
       <SectionWrapper>
         <Title>발송 리스트 {users.length}명</Title>
         {users.map((user, index) => (
-          <Email onClick={delUser} data-id={index} key={index}>
-            {user}
-          </Email>
+          <Email onClick={delUser} data-id={index} key={index} >{user}</Email>
         ))}
       </SectionWrapper>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          paddingTop: "50px",
-        }}
-      >
+      <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '50px' }}>
         <Surveybutton onClick={verifyData}>메일 발송하기</Surveybutton>
       </div>
-      <Modal
-        isOpen={mailSendModal}
-        style={{
-          overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "30%",
-            height: "300px",
-            border: "1px solid #ccc",
-            background: "#fff",
-            overflow: "hidden",
-            WebkitOverflowScrolling: "touch",
-            outline: "none",
-            borderRadius: "20px",
-            padding: "20px 25px",
-          },
-        }}
-      >
+      <Modal isOpen={mailSendModal} style={{
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)'
+
+        },
+        content: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '30%',
+          height: '300px',
+          border: '1px solid #ccc',
+          background: '#fff',
+          overflow: "hidden",
+          WebkitOverflowScrolling: 'touch',
+          outline: 'none',
+          borderRadius: '20px',
+          padding: '20px 25px'
+        }
+      }}>
+
         <ModalHeader>
-          <ModalDelete
-            onClick={() => {
-              setMailSendModal(false);
-            }}
-          >
-            <CloseModalSvg />
-          </ModalDelete>
+          <ModalDelete onClick={() => { setMailSendModal(false) }}><CloseModalSvg /></ModalDelete>
         </ModalHeader>
-        <ModalTitle>
-          <h4>메일발송</h4>
-        </ModalTitle>
+        <ModalTitle><h4>메일발송</h4></ModalTitle>
         <ModalDescription>정말로 발송하시겠습니까?</ModalDescription>
         <ModalButton onClick={sendManageToServer}>발송하기</ModalButton>
+
       </Modal>
     </>
   );

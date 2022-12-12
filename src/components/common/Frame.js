@@ -35,11 +35,9 @@ const Frame = () => {
         <Sidebar />
         <Wrapper>
           <Routes>
-            {localStorage.getItem("email") ? ( //로그인된 여부에 따라 경로를 다르게 설정함
-              <Route path="dashboard" element={<Dashboard />} />
-            ) : (
-              (document.location.href = "/login")
-            )}
+            {localStorage.getItem("email") //로그인된 여부에 따라 경로를 다르게 설정함
+              ? (<Route path="dashboard" element={<Dashboard />} />)
+              : ((document.location.href = "/login"))}
             <Route path="mksurvey" element={<Mksurvey />} />
             <Route path="surveysend" element={<Surveysend />} />
             <Route path="sendermanagement" element={<Sendermanagement />} />

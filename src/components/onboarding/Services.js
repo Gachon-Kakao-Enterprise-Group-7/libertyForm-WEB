@@ -109,9 +109,7 @@ function Services() {
           <ServicesIcon src={Icon3} />
           <CardTitle>직관성</CardTitle>
           <ServicesP>
-            사용자가 원하는 결과와 정보를
-            <br />
-            쉽게 이해하고 사용
+            사용자가 원하는 결과와 정보를 <br />쉽게 이해하고 사용
           </ServicesP>
         </ServicesCard>
       </ServicesWrapper>
