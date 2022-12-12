@@ -344,7 +344,6 @@ const ImageWrap = styled.div`
   margin: 0px 3% 20px;
   overflow: auto;
 `;
-
 const ImgDiv = styled.img`
   max-width: 100%;
   height: auto;
@@ -385,7 +384,7 @@ function Dosurvey() {
       setLoading(true);
       const jwt = localStorage.getItem("jwt");
       axios
-        .get(`${process.env.REACT_APP_DB_HOST} /survey/${params.surveyCode} `, {
+        .get(`${process.env.REACT_APP_DB_HOST}/survey/${params.surveyCode} `, {
           headers: {
             Authorization: "Bearer " + jwt,
           },
@@ -511,7 +510,7 @@ function Dosurvey() {
     })); //surveyID postData에 저장!
     sortedSurveyDetail.questions.forEach((survey, index) => {
       switch (
-        survey.questionTypeId // switch문의 조건에 맞게 응답들을 postData에 저장!
+      survey.questionTypeId // switch문의 조건에 맞게 응답들을 postData에 저장!
       ) {
         case 1: // 장문형
           setPostData((prev) => ({
@@ -601,7 +600,7 @@ function Dosurvey() {
     const jsondata = JSON.stringify(postData);
     console.log(jsondata);
     await axios
-      .post(`${process.env.REACT_APP_DB_HOST} /response/create`, jsondata, {
+      .post(`${process.env.REACT_APP_DB_HOST}/response/create`, jsondata, {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
@@ -871,309 +870,308 @@ function Dosurvey() {
             </ProgressBarDiv>
             <SurveyCard>
               <QuestionTitle>
-                {`${showSurveyNumber}. ${
-                  sortedSurveyDetail.questions[showSurveyNumber - 1].name
-                }`}
+                {`${showSurveyNumber}. ${sortedSurveyDetail.questions[showSurveyNumber - 1].name
+                  }`}
                 {sortedSurveyDetail.questions[showSurveyNumber - 1]
                   .questionTypeId === 4 && (
-                  <span
-                    style={{
-                      color: "grey",
-                      paddingLeft: "0.3em",
-                      fontSize: "20px",
-                    }}
-                    aria-hidden="true"
-                  >
-                    [복수선택]
-                  </span>
-                )}
+                    <span
+                      style={{
+                        color: "grey",
+                        paddingLeft: "0.3em",
+                        fontSize: "20px",
+                      }}
+                      aria-hidden="true"
+                    >
+                      [복수선택]
+                    </span>
+                  )}
                 {sortedSurveyDetail.questions[showSurveyNumber - 1]
                   .answerRequired && (
-                  <span
-                    style={{
-                      color: "red",
-                      paddingLeft: "0.25em",
-                      fontSize: "40px",
-                    }}
-                    aria-hidden="true"
-                  >
-                    *
-                  </span>
-                )}
+                    <span
+                      style={{
+                        color: "red",
+                        paddingLeft: "0.25em",
+                        fontSize: "40px",
+                      }}
+                      aria-hidden="true"
+                    >
+                      *
+                    </span>
+                  )}
               </QuestionTitle>
               <br />
               {sortedSurveyDetail.questions[showSurveyNumber - 1]
                 .questionTypeId === 1 && ( //1번 타입의 문항(장문) 경우 아래의 식을 수행
-                <div>
-                  <ImageWrap
-                    imgUrl={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .questionImgUrl
-                    }
-                  >
-                    <ImgDiv
-                      src={
+                  <div>
+                    <ImageWrap
+                      imgUrl={
                         sortedSurveyDetail.questions[showSurveyNumber - 1]
                           .questionImgUrl
                       }
-                    ></ImgDiv>
-                  </ImageWrap>
-                  <AnswerInput
-                    placeholder={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .description
-                    }
-                    style={{ width: "90%", type: "textarea" }}
-                    name={showSurveyNumber}
-                    onChange={onChangeType1}
-                    value={inputs}
-                  ></AnswerInput>
-                </div>
-              )}
+                    >
+                      <ImgDiv
+                        src={
+                          sortedSurveyDetail.questions[showSurveyNumber - 1]
+                            .questionImgUrl
+                        }
+                      ></ImgDiv>
+                    </ImageWrap>
+                    <AnswerInput
+                      placeholder={
+                        sortedSurveyDetail.questions[showSurveyNumber - 1]
+                          .description
+                      }
+                      style={{ width: "90%", type: "textarea" }}
+                      name={showSurveyNumber}
+                      onChange={onChangeType1}
+                      value={inputs}
+                    ></AnswerInput>
+                  </div>
+                )}
               {sortedSurveyDetail.questions[showSurveyNumber - 1]
                 .questionTypeId === 2 && ( //2번 타입의 문항(단문) 경우 아래의 식을 수행
-                <div>
-                  <ImageWrap
-                    imgUrl={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .questionImgUrl
-                    }
-                  >
-                    <ImgDiv
-                      src={
+                  <div>
+                    <ImageWrap
+                      imgUrl={
                         sortedSurveyDetail.questions[showSurveyNumber - 1]
                           .questionImgUrl
                       }
-                    ></ImgDiv>
-                  </ImageWrap>
-                  <AnswerInput
-                    placeholder={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .description
-                    }
-                    style={{ width: "60%" }}
-                    name={showSurveyNumber}
-                    onChange={onChangeType2}
-                    value={inputs}
-                  ></AnswerInput>
-                </div>
-              )}
+                    >
+                      <ImgDiv
+                        src={
+                          sortedSurveyDetail.questions[showSurveyNumber - 1]
+                            .questionImgUrl
+                        }
+                      ></ImgDiv>
+                    </ImageWrap>
+                    <AnswerInput
+                      placeholder={
+                        sortedSurveyDetail.questions[showSurveyNumber - 1]
+                          .description
+                      }
+                      style={{ width: "60%" }}
+                      name={showSurveyNumber}
+                      onChange={onChangeType2}
+                      value={inputs}
+                    ></AnswerInput>
+                  </div>
+                )}
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1]
                 .questionTypeId === 3 && ( // 3번 타입의 객관식 문항 경우 아래의 식을 수행
-                <div>
-                  <ImageWrap
-                    imgUrl={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .questionImgUrl
-                    }
-                  >
-                    <ImgDiv
-                      src={
+                  <div>
+                    <ImageWrap
+                      imgUrl={
                         sortedSurveyDetail.questions[showSurveyNumber - 1]
                           .questionImgUrl
                       }
-                    ></ImgDiv>
-                  </ImageWrap>
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
                     >
-                      {sortedSurveyDetail.questions[
-                        showSurveyNumber - 1
-                      ].mcitem.map((item, index) => (
-                        <OptionWrapper onClick={onChangeType3}>
-                          <OptionContainer style={{ width: "90%" }}>
-                            <FormControlLabel
-                              sx={{ width: 800, p: 1 }}
-                              checked={
-                                index + 1 ===
-                                Number(result[showSurveyNumber - 1])
-                              }
-                              value={index + 1}
-                              control={<Radio />}
-                              label={item}
-                              onClick={onChangeType3}
-                            />
-                          </OptionContainer>
-                        </OptionWrapper>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                </div>
-              )}
+                      <ImgDiv
+                        src={
+                          sortedSurveyDetail.questions[showSurveyNumber - 1]
+                            .questionImgUrl
+                        }
+                      ></ImgDiv>
+                    </ImageWrap>
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                      >
+                        {sortedSurveyDetail.questions[
+                          showSurveyNumber - 1
+                        ].mcitem.map((item, index) => (
+                          <OptionWrapper onClick={onChangeType3}>
+                            <OptionContainer style={{ width: "90%" }}>
+                              <FormControlLabel
+                                sx={{ width: 800, p: 1 }}
+                                checked={
+                                  index + 1 ===
+                                  Number(result[showSurveyNumber - 1])
+                                }
+                                value={index + 1}
+                                control={<Radio />}
+                                label={item}
+                                onClick={onChangeType3}
+                              />
+                            </OptionContainer>
+                          </OptionWrapper>
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
+                )}
               {sortedSurveyDetail.questions[showSurveyNumber - 1]
                 .questionTypeId === 4 && ( // 3번 타입의 객관식 문항 경우 아래의 식을 수행
-                <>
-                  <ImageWrap
-                    imgUrl={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .questionImgUrl
-                    }
-                  >
-                    <ImgDiv
-                      src={
+                  <>
+                    <ImageWrap
+                      imgUrl={
                         sortedSurveyDetail.questions[showSurveyNumber - 1]
                           .questionImgUrl
                       }
-                    ></ImgDiv>
-                  </ImageWrap>
-                  <FormControl
-                    sx={{ m: 3 }}
-                    component="fieldset"
-                    variant="standard"
-                  >
-                    <FormGroup>
-                      {sortedSurveyDetail.questions[
-                        showSurveyNumber - 1
-                      ].mcitem.map((item, index) => (
-                        <OptionWrapper
-                          style={{ marginTop: "0px" }}
-                          onChange={onChangeType4}
-                        >
-                          <OptionContainer>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={
-                                    inputs && inputs.includes(String(index + 1))
-                                  }
-                                  onChange={onChangeType4}
-                                  name={index + 1}
-                                />
-                              }
-                              label={item}
-                              sx={{ width: 800, pl: 1 }}
-                            />
-                          </OptionContainer>
-                        </OptionWrapper>
-                      ))}
-                    </FormGroup>
-                  </FormControl>
-                </>
-              )}
+                    >
+                      <ImgDiv
+                        src={
+                          sortedSurveyDetail.questions[showSurveyNumber - 1]
+                            .questionImgUrl
+                        }
+                      ></ImgDiv>
+                    </ImageWrap>
+                    <FormControl
+                      sx={{ m: 3 }}
+                      component="fieldset"
+                      variant="standard"
+                    >
+                      <FormGroup>
+                        {sortedSurveyDetail.questions[
+                          showSurveyNumber - 1
+                        ].mcitem.map((item, index) => (
+                          <OptionWrapper
+                            style={{ marginTop: "0px" }}
+                            onChange={onChangeType4}
+                          >
+                            <OptionContainer>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={
+                                      inputs && inputs.includes(String(index + 1))
+                                    }
+                                    onChange={onChangeType4}
+                                    name={index + 1}
+                                  />
+                                }
+                                label={item}
+                                sx={{ width: 800, pl: 1 }}
+                              />
+                            </OptionContainer>
+                          </OptionWrapper>
+                        ))}
+                      </FormGroup>
+                    </FormControl>
+                  </>
+                )}
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1]
                 .questionTypeId === 5 && ( //5번 타입의 문항(감정바) 경우 아래의 식을 수행
-                <>
-                  <ImageWrap
-                    style={{ margin: "auto", marginBottom: "20px" }}
-                    imgUrl={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .questionImgUrl
-                    }
-                  >
-                    <ImgDiv
-                      src={
+                  <>
+                    <ImageWrap
+                      style={{ margin: "auto", marginBottom: "20px" }}
+                      imgUrl={
                         sortedSurveyDetail.questions[showSurveyNumber - 1]
                           .questionImgUrl
                       }
-                    ></ImgDiv>
-                  </ImageWrap>
-                  <div style={{ width: "60vh", margin: "auto" }}>
-                    <EmotionText>
-                      <strong>감정을 직접 표현해보세요</strong>
+                    >
+                      <ImgDiv
+                        src={
+                          sortedSurveyDetail.questions[showSurveyNumber - 1]
+                            .questionImgUrl
+                        }
+                      ></ImgDiv>
+                    </ImageWrap>
+                    <div style={{ width: "60vh", margin: "auto" }}>
+                      <EmotionText>
+                        <strong>감정을 직접 표현해보세요</strong>
 
-                      <div>
-                        <text>
-                          {inputs >= 0 && inputs < 20 && "매우 나쁨"}
-                          {inputs >= 20 && inputs < 40 && "나쁨"}
-                          {inputs >= 40 && inputs < 60 && "보통"}
-                          {inputs >= 60 && inputs < 80 && "좋음"}
-                          {inputs >= 80 && inputs <= 100 && "매우좋음"}
-                        </text>
+                        <div>
+                          <text>
+                            {inputs >= 0 && inputs < 20 && "매우 나쁨"}
+                            {inputs >= 20 && inputs < 40 && "나쁨"}
+                            {inputs >= 40 && inputs < 60 && "보통"}
+                            {inputs >= 60 && inputs < 80 && "좋음"}
+                            {inputs >= 80 && inputs <= 100 && "매우좋음"}
+                          </text>
 
-                        <p>
-                          {inputs >= 0 && inputs < 20 && (
-                            <EmotionVerybad width="40px" height="40px" />
-                          )}
-                          {inputs >= 20 && inputs < 40 && (
-                            <EmotionBad width="40px" height="40px" />
-                          )}
-                          {inputs >= 40 && inputs < 60 && (
-                            <EmotionMedium width="40px" height="40px" />
-                          )}
-                          {inputs >= 60 && inputs < 80 && (
-                            <EmotionGood width="40px" height="40px" />
-                          )}
-                          {inputs >= 80 && inputs <= 100 && (
-                            <EmotionVerygood width="40px" height="40px" />
-                          )}
-                        </p>
-                      </div>
-                    </EmotionText>
-                    <EmotionSlider
-                      onChange={onChangeType5}
-                      valueLabelDisplay="auto"
-                      value={inputs}
-                    />
-                  </div>
-                </>
-              )}
+                          <p>
+                            {inputs >= 0 && inputs < 20 && (
+                              <EmotionVerybad width="40px" height="40px" />
+                            )}
+                            {inputs >= 20 && inputs < 40 && (
+                              <EmotionBad width="40px" height="40px" />
+                            )}
+                            {inputs >= 40 && inputs < 60 && (
+                              <EmotionMedium width="40px" height="40px" />
+                            )}
+                            {inputs >= 60 && inputs < 80 && (
+                              <EmotionGood width="40px" height="40px" />
+                            )}
+                            {inputs >= 80 && inputs <= 100 && (
+                              <EmotionVerygood width="40px" height="40px" />
+                            )}
+                          </p>
+                        </div>
+                      </EmotionText>
+                      <EmotionSlider
+                        onChange={onChangeType5}
+                        valueLabelDisplay="auto"
+                        value={inputs}
+                      />
+                    </div>
+                  </>
+                )}
 
               {sortedSurveyDetail.questions[showSurveyNumber - 1]
                 .questionTypeId === 6 && ( //6번 타입의 문항(선형배율) 경우 아래의 식을 수행
-                <>
-                  <ImageWrap
-                    style={{ margin: "auto", marginBottom: "20px" }}
-                    imgUrl={
-                      sortedSurveyDetail.questions[showSurveyNumber - 1]
-                        .questionImgUrl
-                    }
-                  >
-                    <ImgDiv
-                      src={
+                  <>
+                    <ImageWrap
+                      style={{ margin: "auto", marginBottom: "20px" }}
+                      imgUrl={
                         sortedSurveyDetail.questions[showSurveyNumber - 1]
                           .questionImgUrl
                       }
-                    ></ImgDiv>
-                  </ImageWrap>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <LinerBtn
-                      checked={inputs === "1" ? true : false}
-                      name="1"
-                      onClick={onChangeType6}
                     >
-                      1<br />
-                      <span style={{ fontSize: "11px" }}>매우 그렇지 않다</span>
-                    </LinerBtn>
-                    <LinerBtn
-                      checked={inputs === "2" ? true : false}
-                      name="2"
-                      onClick={onChangeType6}
-                    >
-                      2<br />
-                      <span style={{ fontSize: "11px" }}>그렇지 않다</span>{" "}
-                    </LinerBtn>
-                    <LinerBtn
-                      checked={inputs === "3" ? true : false}
-                      name="3"
-                      onClick={onChangeType6}
-                    >
-                      3<br />
-                      <span style={{ fontSize: "11px" }}>보통이다</span>{" "}
-                    </LinerBtn>
-                    <LinerBtn
-                      checked={inputs === "4" ? true : false}
-                      name="4"
-                      onClick={onChangeType6}
-                    >
-                      4<br />
-                      <span style={{ fontSize: "11px" }}>약간 그렇다</span>
-                    </LinerBtn>
-                    <LinerBtn
-                      checked={inputs === "5" ? true : false}
-                      name="5"
-                      onClick={onChangeType6}
-                    >
-                      5<br />
-                      <span style={{ fontSize: "11px" }}>매우 그렇다</span>{" "}
-                    </LinerBtn>
-                  </div>
-                </>
-              )}
+                      <ImgDiv
+                        src={
+                          sortedSurveyDetail.questions[showSurveyNumber - 1]
+                            .questionImgUrl
+                        }
+                      ></ImgDiv>
+                    </ImageWrap>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <LinerBtn
+                        checked={inputs === "1" ? true : false}
+                        name="1"
+                        onClick={onChangeType6}
+                      >
+                        1<br />
+                        <span style={{ fontSize: "11px" }}>매우 그렇지 않다</span>
+                      </LinerBtn>
+                      <LinerBtn
+                        checked={inputs === "2" ? true : false}
+                        name="2"
+                        onClick={onChangeType6}
+                      >
+                        2<br />
+                        <span style={{ fontSize: "11px" }}>그렇지 않다</span>{" "}
+                      </LinerBtn>
+                      <LinerBtn
+                        checked={inputs === "3" ? true : false}
+                        name="3"
+                        onClick={onChangeType6}
+                      >
+                        3<br />
+                        <span style={{ fontSize: "11px" }}>보통이다</span>{" "}
+                      </LinerBtn>
+                      <LinerBtn
+                        checked={inputs === "4" ? true : false}
+                        name="4"
+                        onClick={onChangeType6}
+                      >
+                        4<br />
+                        <span style={{ fontSize: "11px" }}>약간 그렇다</span>
+                      </LinerBtn>
+                      <LinerBtn
+                        checked={inputs === "5" ? true : false}
+                        name="5"
+                        onClick={onChangeType6}
+                      >
+                        5<br />
+                        <span style={{ fontSize: "11px" }}>매우 그렇다</span>{" "}
+                      </LinerBtn>
+                    </div>
+                  </>
+                )}
               <br />
               {console.log(result)}
               {/* <hr />
