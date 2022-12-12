@@ -131,9 +131,7 @@ const Section3 = () => {
                 {/* <TopLine>설문 발송</TopLine> */}
                 <Heading lightText={false}>발송관리</Heading>
                 <Subtitle darkText={true}>
-                  대상을 지정해서 설문을 발송하고
-                  <br />
-                  설문 응답 여부을 추적할 수 있습니다
+                  대상을 지정해서 설문을 발송하고<br />설문 응답 여부을 추적할 수 있습니다
                 </Subtitle>
                 <BtnWrap></BtnWrap>
               </TextWrapper>

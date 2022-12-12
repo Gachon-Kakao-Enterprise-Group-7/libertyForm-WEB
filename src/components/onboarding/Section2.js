@@ -129,8 +129,7 @@ const Section2 = () => {
               <TextWrapper>
                 <Heading lightText={false}>대시보드</Heading>
                 <Subtitle darkText={true}>
-                  한눈에 볼 수 있는 설문 현황, 자유로운 기능 <br /> 리버티폼의
-                  대시보드로부터 시작됩니다
+                  한눈에 볼 수 있는 설문 현황, 자유로운 기능 <br /> 리버티폼의 대시보드로부터 시작됩니다
                 </Subtitle>
                 <BtnWrap></BtnWrap>
               </TextWrapper>
