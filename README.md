@@ -32,13 +32,13 @@ npm start
 
 ### 멤버 👋
 
-| 이름                                                  | 역할             | 내용                                                         |
+| 이름                                                  | 역할             | 비고                                                        |
 | ----------------------------------------------------- | ---------------- | ------------------------------------------------------------ |
-| [김형준](https://github.com/YNNJN) [PM천재]      | BE, PM | 포스트/댓글 CRUD(FE), github 데이터 연동(FE), 마크다운파서 구현 |
-| [백우진](https://github.com/junhok82) [프론트엔드캐리머신]     | ML | 회원관리(BE), 소셜로그인(BE), github 데이터 연동(BE), 인프라 구축 |
-| [이가영](https://github.com/YNNJN) [프론트엔드새싹]      | FE, 디자인  | 포스트/댓글 CRUD(FE), github 데이터 연동(FE), 마크다운파서 구현 |
-| [이상협](https://github.com/beaverbae2) [ML천재] | FE, 디자인            
-| [한만규](https://github.com/jane399) [프론트엔드천재]       | FE, 디자인         
+| [김형준](https://github.com/YNNJN) [PM 천재]      | BE, PM | |
+| [백우진](https://github.com/junhok82) [FE 캐리머신]| ML |  |
+| [이가영](https://github.com/YNNJN) [FE 새싹]      | FE, 디자인 |  |
+| [이상협](https://github.com/beaverbae2) [ML 천재] | FE, 디자인 | |
+| [한만규](https://github.com/jane399) [FE 천재]    | FE, 디자인 |  |
 ## Usage example
 
 A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
