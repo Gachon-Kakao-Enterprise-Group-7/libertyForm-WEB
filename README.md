@@ -3,7 +3,7 @@
 <p align="center"><a href=""></a><img src="https://img.shields.io/badge/copyright-gachonkakaoenter-yellow" alt="copyright"/></a>
 <a href=""><img src="https://img.shields.io/badge/npm-8.19.1-green" alt="npm"/></a> <a href=""><img src="https://img.shields.io/badge/node-13.6-brightgreen" alt="npm"/>
 
-<img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207022445-f45ebd93-4933-4a78-abab-db99da125f5d.png">
+<img width="1440" alt="mian" src="https://img.shields.io/badge/react-18.2.0-skyblue">
 <p align="center">Spring Boot & React.js(Styled Components)를 이용한 설문조사 웹 프로젝트</p>
 
 
