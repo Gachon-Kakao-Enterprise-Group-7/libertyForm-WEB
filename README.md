@@ -64,12 +64,13 @@ npm start
 | [이상협](https://github.com/beaverbae2) [ML 천재] | FE, 디자인 | |
 | [한만규](https://github.com/jane399) [FE 천재]    | FE, 디자인 |  |
 
+<br>
 
 ### 로드맵
 
 <img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207028438-fb8a41e2-fe45-4162-bf7c-3200e9a57332.png">
 
-
+<br>
 
 ## Usage example
 
