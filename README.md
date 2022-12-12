@@ -1,6 +1,7 @@
 
 <h1 align="center"> LIBERTY FORM </h1>
-![image](https://user-images.githubusercontent.com/63089026/207019891-0225fcf8-c8db-447b-8630-eb0ab5ea6a0d.png)
+![Uploading image.png…]()
+<p align="center">Spring Boot & Vue를 이용한 Restful 웹 프로젝트</p>
 > <p align="center">Spring Boot & Vue를 이용한 Restful 웹 프로젝트</p>
 
 
