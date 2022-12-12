@@ -90,7 +90,7 @@ npm start
 <br>
 
 
-<p align="center"> <img src="./img/로그인_전_메인페이지.gif" width="65%"/> </p>
+<p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207036792-bb8c15bb-6d0c-4bf0-b488-311d0c4e2eb8.gif" width="65%"/> </p>
 
 <br>
 
