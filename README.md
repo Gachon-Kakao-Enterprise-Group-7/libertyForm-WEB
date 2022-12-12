@@ -3,7 +3,7 @@
 <p align="center"><a href=""></a><img src="https://img.shields.io/badge/copyright-ssafy-blueviolet" alt="copyright"/></a> <a href=""><img src="https://img.shields.io/badge/java-8-green" alt="java"/></a> <a href=""><img src="https://img.shields.io/badge/npm%20package-6.14.4-brightgreen" alt="npm"/></a> <a href=""><img src="https://img.shields.io/badge/node-13.6-brightgreen" alt="node"/></a> <a href="https://meeting.ssafy.com/s03p21a06/channels/locker"><img src="https://img.shields.io/badge/chat-on%20mattermost-yellowgreen" alt="chat on notion"/></a> <a href="https://www.notion.so/LOCKER-23e10fa8c4cb42d29c3f6719823be559"><img src="https://img.shields.io/badge/chat-on%20notion-red" alt="chat on notion"/></a> <a href=""><img src="https://img.shields.io/badge/release-v1.0.1-blue" alt="release"/></a> <a href=""><img src="https://img.shields.io/badge/License-MIT%20-orange" alt="MIT License"/></a></p>
 
 <img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207022445-f45ebd93-4933-4a78-abab-db99da125f5d.png">
-<p align="center">Node.js & React.js(Styled Components)를 이용한 설문조사 웹 프로젝트</p>
+<p align="center">Spring Boot & React.js(Styled Components)를 이용한 설문조사 웹 프로젝트</p>
 
 
 <br>
@@ -76,11 +76,10 @@ npm start
 
 ### 프로젝트
 
->  Github과 가장 긴밀하게 연결되는 새로운 솔루션, **LOCKER**
+>  자유롭고 편리한 소통의 시작, **LIBERTYFORM**
 >
->  - '개발자가 만든 개발자 블로그'를 모토로
->  - 개발자로서 가장 불편한 지점에 대한 문제의식에서 시작했습니다
->  - 개발자, 일단 넌 LOCKER에 다 때려 넣어봐. 정리는 우리가 할게 :)
+>  - 'Google Form, Type Form을 벤치마킹하여
+>  - 편의성, 유연성, 직관성을 모두 제공하는 설문관리 웹페이지를 만들기 위해 시작했습니다.
 
 <br>
 
