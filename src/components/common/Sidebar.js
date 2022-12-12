@@ -213,20 +213,8 @@ function Sidebar() {
   const now = new Date();
 
   const donutdata = {
-    a: state.filter(
-      (survey, index) =>
-        Math.ceil(
-          (new Date(`${survey.expirationDate}:00:00:00`) - now) /
-            (1000 * 60 * 60 * 24)
-        ) >= 0
-    ).length,
-    b: state.filter(
-      (survey, index) =>
-        Math.ceil(
-          (new Date(`${survey.expirationDate}:00:00:00`) - now) /
-            (1000 * 60 * 60 * 24)
-        ) < 0
-    ).length,
+    a: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length,
+    b: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length
   };
 
   return (
@@ -235,32 +223,25 @@ function Sidebar() {
         <TopWrapper>
           <Main>
             <DWrapper>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  paddingRight: "10px",
-                  paddingTop: "15px",
-                }}
-                tag="h3"
-                size={400}
-              >
+              <Text style={{ fontWeight: 'bold', paddingRight: '10px', paddingTop: '15px' }} tag="h3" size={400}  >
                 설문 현황
               </Text>
 
-              <Plot
-                width={250}
-                height={250}
-                data={donutdata}
-                style={{ marginRight: "10px" }}
-              >
-                <Donut
-                  startAngle={90}
+              <Plot width={250} height={250} data={donutdata} style={{ marginRight: '10px' }}>
+                <Donut startAngle={90}
                   endAngle={-270}
                   innerRadius={70}
-                  outerRadius={100}
-                >
-                  <Donut.Pie dataKey="a" color="#ffcd00" name="진행설문" />
-                  <Donut.Pie dataKey="b" color="#ff7800" name="종료설문" />
+                  outerRadius={100} >
+                  <Donut.Pie
+                    dataKey="a"
+                    color='#ffcd00'
+                    name="진행설문"
+                  />
+                  <Donut.Pie
+                    dataKey="b"
+                    color='#ff7800'
+                    name="종료설문"
+                  />
                   <Donut.Label x={0} y={0}>
                     <Text tag="tspan" size={500} bold>
                       {state.length}
@@ -281,46 +262,22 @@ function Sidebar() {
                             <Text bold>{donutdata[dataKey]}</Text>
                           </Flex>
                         </>
-                      ),
+                      )
                     };
                   }}
                 </Tooltip>
               </Plot>
               <CheckboxWrapper>
-                <Checkbox theme="#f5c525">
+                <Checkbox theme='#f5c525'>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>
-                      진행중 설문{" "}
-                      {
-                        state.filter(
-                          (survey, index) =>
-                            Math.ceil(
-                              (new Date(`${survey.expirationDate}:00:00:00`) -
-                                now) /
-                                (1000 * 60 * 60 * 24)
-                            ) >= 0
-                        ).length
-                      }
-                    </Text>
+                    <Text>진행중 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
-                <Checkbox theme="#eb7830" style={{ marginBottom: "10px" }}>
+                <Checkbox theme='#eb7830' style={{ marginBottom: '10px' }}>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>
-                      만료된 설문{" "}
-                      {
-                        state.filter(
-                          (survey, index) =>
-                            Math.ceil(
-                              (new Date(`${survey.expirationDate}:00:00:00`) -
-                                now) /
-                                (1000 * 60 * 60 * 24)
-                            ) < 0
-                        ).length
-                      }
-                    </Text>
+                    <Text>만료된 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
               </CheckboxWrapper>
@@ -330,12 +287,7 @@ function Sidebar() {
         <ItemWrapper>
           {itemsData.map((item, index) => {
             return (
-              <NavItem
-                key={index}
-                className={({ isActive }) => (isActive ? "active" : "")}
-                to={item.link}
-                onClick="window.location.reload()"
-              >
+              <NavItem key={index} className={({ isActive }) => (isActive ? "active" : "")} to={item.link} onClick="window.location.reload()">
                 <Icon>{item.icon}</Icon>
                 <NameLink>{item.name}</NameLink>
               </NavItem>
@@ -344,6 +296,7 @@ function Sidebar() {
         </ItemWrapper>
       </Wrapper>
     </div>
-  );
+
+  )
 }
-export default Sidebar;
+export default Sidebar
