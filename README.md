@@ -1,6 +1,6 @@
 
 <h1 align="center"> LIBERTY FORM </h1>
- <img src="./img/README/main.png" width="65%"/>
+ <img src="./src/img/README/main.png" width="65%"/>
 D:\leega2\kakaoenter\fornt\libertyForm-WEB-develop\src\img\README
 ![20221212_191942](https://user-images.githubusercontent.com/63089026/207021100-7c809a32-73dc-4b7c-bfbb-438c0657ca36.png)
 
