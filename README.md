@@ -8,8 +8,8 @@
 
 
 ### Front-End
-|JavaScript|React|Styled <br/> Components|esLint|Prettier|
-| :--: | :--: | :--: | :--: | :--: |
+|JavaScript|React|Styled <br/> Components|
+| :--: | :--: | :--: |
 | <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://styled-components.com/logo.png" alt="icon" width="65" height="65" /> 
 
 <br>
