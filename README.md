@@ -114,6 +114,6 @@ npm start
 > 완료된 설문은 드롭다운 버튼을 클릭했을때 미리보기, 이력관리 삭제하기 기능을 제공한다.
 > 
   
-<p align="center"> <img src=https://user-images.githubusercontent.com/63089026/207057129-0d609f1f-7d3c-46d7-adad-33700a94650e.png" width="65%"/> </p>
+<p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207057129-0d609f1f-7d3c-46d7-adad-33700a94650e.png" width="65%"/> </p>
 
 <br>
