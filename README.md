@@ -20,9 +20,9 @@
 
 - 프로젝트 기간 : 2020.9.1 ~ 2020.12.13 (16주)
 
-### LIBERTYFORM 실행
+<br>
 
-OS X & Linux:
+### LIBERTYFORM 실행
 
 ```sh
 npm install --force
