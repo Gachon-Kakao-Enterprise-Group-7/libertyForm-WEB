@@ -4,7 +4,7 @@
 <a href=""><img src="https://img.shields.io/badge/npm-8.19.1-green" alt="npm"/></a> <a href=""><img src="https://img.shields.io/badge/react-18.2.0-skyblue" alt="npm"/>
 
 <img width="1440" alt="mian" src="https://user-images.githubusercontent.com/63089026/207022445-f45ebd93-4933-4a78-abab-db99da125f5d.png">
-<p align="center">Spring Boot & React.js(Styled Components)를 이용한 설문조사 웹 프로젝트</p>
+<p align="center">Spring Boot & React.js를 이용한 설문조사 웹 프로젝트</p>
 
 
 ### Front-End
@@ -16,7 +16,7 @@
 
 ### Common
 
-- common : <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/> <img src="https://img.shields.io/badge/AWS-232F3E?style=flat&logo=AmazonAWS&logoColor=white"/> <img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=AmazonAWS&logoColor=white"/> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=prettier&logoColor=white"/>
+- common : <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/>
 - 협업툴 : <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white"/> <img src="https://img.shields.io/badge/Slack-4A154B?style=flat&logo=Slack&logoColor=white"/> <img src="https://img.shields.io/badge/Jira-blue?style=flat-square&logo=jira&logoColor=white"/> <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=Figma&logoColor=white"/> <img src="https://img.shields.io/badge/Gather-pupple?style=flat-square&logo=gather&logoColor=white"/>
 
 <br>
