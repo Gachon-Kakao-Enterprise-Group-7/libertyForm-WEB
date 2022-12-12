@@ -117,3 +117,7 @@ npm start
 <p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207057129-0d609f1f-7d3c-46d7-adad-33700a94650e.png" width="65%"/> </p>
 
 <br>
+  
+  <p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207059304-e74dd652-3586-40c4-be1b-f80d44630a4b.gif" width="65%"/> </p>
+  
+  
