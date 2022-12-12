@@ -1,8 +1,6 @@
 
 <h1 align="center"> LIBERTY FORM </h1>
- <img src="./src/img/README/main.png"/>
-![main](https://user-images.githubusercontent.com/63089026/207022039-7bee2469-9c0f-4506-a97f-ff38ca4dc0be.png)
-![20221212_191942](https://user-images.githubusercontent.com/63089026/207021100-7c809a32-73dc-4b7c-bfbb-438c0657ca36.png)
+<p align="center"><a href=""></a><img src="https://img.shields.io/badge/copyright-ssafy-blueviolet" alt="copyright"/></a> <a href=""><img src="https://img.shields.io/badge/java-8-green" alt="java"/></a> <a href=""><img src="https://img.shields.io/badge/npm%20package-6.14.4-brightgreen" alt="npm"/></a> <a href=""><img src="https://img.shields.io/badge/node-13.6-brightgreen" alt="node"/></a> <a href="https://meeting.ssafy.com/s03p21a06/channels/locker"><img src="https://img.shields.io/badge/chat-on%20mattermost-yellowgreen" alt="chat on notion"/></a> <a href="https://www.notion.so/LOCKER-23e10fa8c4cb42d29c3f6719823be559"><img src="https://img.shields.io/badge/chat-on%20notion-red" alt="chat on notion"/></a> <a href=""><img src="https://img.shields.io/badge/release-v1.0.1-blue" alt="release"/></a> <a href=""><img src="https://img.shields.io/badge/License-MIT%20-orange" alt="MIT License"/></a></p>
 
 <p align="center">Spring Boot & Vue를 이용한 Restful 웹 프로젝트</p>
 <p align="center">Spring Boot & Vue를 이용한 Restful 웹 프로젝트</p>
