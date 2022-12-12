@@ -13,6 +13,8 @@
 | <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://styled-components.com/logo.png" alt="icon" width="65" height="65" /> 
   
  ### Back-End
+  
+  <img src="https://img.shields.io/badge/Jira-blue?style=flat-square&logo=jira&logoColor=white"/>
 
 |JavaScript|Nodejs|MySql|Rest|
 | :--: | :--: | :--: | :--: |
