@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { ReactComponent as Survey } from "svg/survey.svg";
 import { ReactComponent as Response } from "svg/survey_response.svg";
 import { ReactComponent as Period } from "svg/survey_period.svg";
-import { Flex } from "@semcore/flex-box";
 
 const InfoDiv = styled.div`
   display: flex;
@@ -14,7 +13,6 @@ const InfoDiv = styled.div`
 
 const Info = styled.div`
   width: 30%;
-  margin: auto;
   padding: 20px;
   padding-left: 30px;
   display: flex;
@@ -28,6 +26,7 @@ const ItemDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 function Surveyinfo(props) {
   let result = props.result;
   console.log(result);
@@ -85,7 +84,7 @@ function Surveyinfo(props) {
             </p>
           </ItemDiv>
         </Info>
-        <Info>
+        <Info style={{ padding: "15px" }}>
           <Period style={{ width: "80px", height: "80px", fill: "grey" }} />
           <ItemDiv style={{ marginLeft: "20px", marginTop: "10px" }}>
             <p
