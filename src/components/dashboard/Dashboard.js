@@ -99,130 +99,63 @@ const Dashboard = () => {
   console.log(state);
   const now = new Date(); //현재시간을 가져 올 수 있다.
 
-  const ongoingSurvey = state.filter(
-    (survey, index) =>
-      Math.ceil(
-        (new Date(`${survey.expirationDate}:00:00:00`) - now) /
-          (1000 * 60 * 60 * 24)
-      ) >= 0
-  ).length;
-  const expiredSurvey = state.filter(
-    (survey, index) =>
-      Math.ceil(
-        (new Date(`${survey.expirationDate}:00:00:00`) - now) /
-          (1000 * 60 * 60 * 24)
-      ) < 0
-  ).length;
+  const ongoingSurvey = state.filter((survey, index) => Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24)) >= 0).length;
+  const expiredSurvey = state.filter((survey, index) => Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24)) < 0).length;
 
   return (
     <>
       <HeaderContent>
-        <Text1>환영합니다,</Text1>
-        <Text2>설문지 대시보드입니다.</Text2>
+        <div>
+          <Text1>환영합니다,</Text1>
+          <Text2>설문지 대시보드입니다.</Text2>
+        </div>
       </HeaderContent>
 
-      {ongoingSurvey + expiredSurvey > 0 && (
+      {ongoingSurvey + expiredSurvey > 0
+        &&
         <TaskWrapper>
           <Header>
             <TeamsTitle>진행중 설문</TeamsTitle>
           </Header>
           <TasksWrapper>
             {/* filter함수를 써서 먼저 expireDate랑 현재 시간이랑 비교해서 시간이 남은 설문만 보여주고 map함수로 뿌려준다.  */}
-            {state &&
-              state
-                .filter(
-                  (survey, index) =>
-                    Math.ceil(
-                      (new Date(`${survey.expirationDate}:00:00:00`) - now) /
-                        (1000 * 60 * 60 * 24)
-                    ) >= 0
-                )
-                .map((survey, index) => (
-                  <Taskcard
-                    surveyId={survey.surveyId}
-                    code={survey.code}
-                    key={index}
-                    title={survey.name}
-                    expirationDate={survey.expirationDate}
-                    createdAt={survey.createdAt}
-                    thumbnailImgUrl={survey.thumbnailImgUrl}
-                    end={false}
-                  />
-                ))}
+            {state && (
+              state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0 && survey.status === 'ACTIVE').map((survey, index) => (
+                <Taskcard surveyId={survey.surveyId} code={survey.code} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} thumbnailImgUrl={survey.thumbnailImgUrl} end={false} />
+              ))
+            )}
           </TasksWrapper>
         </TaskWrapper>
-      )}
-      {ongoingSurvey + expiredSurvey > 0 && (
+      }
+      {ongoingSurvey + expiredSurvey > 0
+        &&
         <TaskWrapper>
           <Header>
             <TeamsTitle>완료된 설문</TeamsTitle>
           </Header>
           <TasksWrapper>
-            {state &&
-              state
-                .filter(
-                  (survey, index) =>
-                    Math.ceil(
-                      (new Date(`${survey.expirationDate}:00:00:00`) - now) /
-                        (1000 * 60 * 60 * 24)
-                    ) < 0
-                )
-                .map((survey, index) => (
-                  <Taskcard
-                    surveyId={survey.surveyId}
-                    code={survey.code}
-                    key={index}
-                    title={survey.name}
-                    expirationDate={survey.expirationDate}
-                    createdAt={survey.createdAt}
-                    thumbnailImgUrl={survey.thumbnailImgUrl}
-                    end={true}
-                  />
-                ))}
+            {state && (
+              state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0 || survey.status === "EXPIRED").map((survey, index) => (
+                <Taskcard surveyId={survey.surveyId} code={survey.code} key={index} title={survey.name} expirationDate={survey.expirationDate} createdAt={survey.createdAt} thumbnailImgUrl={survey.thumbnailImgUrl} end={true} />
+              ))
+            )}
           </TasksWrapper>
         </TaskWrapper>
-      )}
-      {ongoingSurvey + expiredSurvey === 0 && (
-        <Nosurvey
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+      }
+      {ongoingSurvey + expiredSurvey === 0
+        &&
+        <Nosurvey style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Bulb width={130}></Bulb>
-          <div
-            style={{
-              fontSize: "30px",
-              fontWeight: "bold",
-              marginTop: "20px",
-              marginBottom: "10px",
-              color: "rgb(103 102 102)",
-            }}
-          >
-            반갑습니다. {localStorage.getItem("name")}님
-          </div>
-          <div
-            style={{
-              fontSize: "20px",
-              fontWeight: "bold",
-              color: "rgb(103 102 102)",
-            }}
-          >
-            리버티폼과 함께 당신이 표현하고싶은 모든것을 자유롭게 표현하세요
-          </div>
+          <div style={{ fontSize: '30px', fontWeight: 'bold', marginTop: '20px', marginBottom: '10px', color: 'rgb(103 102 102)' }}>반갑습니다. {localStorage.getItem('name')}님</div>
+          <div style={{ fontSize: '20px', fontWeight: 'bold', color: 'rgb(103 102 102)' }}>리버티폼과 함께 당신이 표현하고싶은 모든것을 자유롭게 표현하세요</div>
           <TeamsTitle></TeamsTitle>
-          <MksurveyBtn
-            onClick={() => {
-              document.location.href = "/home/mksurvey";
-            }}
-          >
-            설문 생성하기
-          </MksurveyBtn>
+          <MksurveyBtn onClick={() => { document.location.href = '/home/mksurvey' }}>설문 생성하기</MksurveyBtn>
         </Nosurvey>
-      )}
+      }
     </>
+
+
   );
-};
+}
 
 export default Dashboard;
