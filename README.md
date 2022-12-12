@@ -118,6 +118,11 @@ npm start
 
 <br>
   
-  <p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207059304-e74dd652-3586-40c4-be1b-f80d44630a4b.gif" width="65%"/> </p>
+
+  ## 기타 기능
+  
+ > [기타 기능 바로가기](https://gachonkakao.notion.site/Web-eb565457e5b94961a4619fd2ac67f740)
+  
+  
   
   
