@@ -29,7 +29,7 @@
 
 > [LIBERTYFORM 바로가기](https://liberty-form.shop/)
 >
-> [스크럼 기록 바로가기]()
+> [LIBERTYFORM 상세](https://gachonkakao.notion.site/366e0b11df094a2db419d16e01c7cdbe)
 
 - 팀명 & 서비스 이름 : LIBERTYFORM
 
