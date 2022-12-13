@@ -37,7 +37,7 @@
 
 - 팀원 : 백우진, 이가영, 이상협, 한만규
 
-- 프로젝트 기간 : 2020.9.1 ~ 2020.12.13 (16주)
+- 프로젝트 기간 : 2020.9.27 ~ 2020.12.13
 
 <br>
 
@@ -54,11 +54,11 @@ npm start
 
 | 이름                                                  | 역할             | 비고                                                        |
 | ----------------------------------------------------- | ---------------- | ------------------------------------------------------------ |
-| [김형준](https://github.com/YNNJN) [PM 천재]      | BE, PM | |
-| [백우진](https://github.com/junhok82) [FE 캐리머신]| FE, 디자인 |  |
-| [이가영](https://github.com/YNNJN) [FE 새싹]      | FE, 디자인 |  |
-| [이상협](https://github.com/beaverbae2) [ML 천재] | ML | |
-| [한만규](https://github.com/bluesushi264) [FE 천재]    | FE, 디자인 |  |
+| [김형준](https://github.com/hyeong-jun-kim)       | BE, PM | |
+| [백우진](https://github.com/bwj0509) | FE |  |
+| [이가영](https://github.com/gayoung1115)     | FE |  |
+| [이상협](https://github.com/dltkdguq97)  | ML | |
+| [한만규](https://github.com/bluesushi264)     | FE |  |
 
 <br>
 
