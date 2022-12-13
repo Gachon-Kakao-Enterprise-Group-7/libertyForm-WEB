@@ -209,14 +209,13 @@ function Sidebar() {
   ];
 
   const state = useSelector((state) => state.survey.previewsurvey);
-
   const now = new Date();
 
   const donutdata = {
-    a: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length,
-    b: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length
+    a: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0 && survey.status === 'ACTIVE').length,
+    b: state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0 || survey.status === 'EXPIRED').length
   };
-
+  console.log(donutdata)
   return (
     <div>
       <Wrapper>
@@ -271,13 +270,13 @@ function Sidebar() {
                 <Checkbox theme='#f5c525'>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>진행중 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0).length}</Text>
+                    <Text>진행중 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) >= 0 && survey.status === 'ACTIVE').length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
                 <Checkbox theme='#eb7830' style={{ marginBottom: '10px' }}>
                   <Checkbox.Value checked={true} />
                   <Checkbox.Text pr={3}>
-                    <Text>만료된 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0).length}</Text>
+                    <Text>만료된 설문    {state.filter((survey, index) => (Math.ceil((new Date(`${survey.expirationDate}:00:00:00`) - now) / (1000 * 60 * 60 * 24))) < 0 || survey.status === 'EXPIRED').length}</Text>
                   </Checkbox.Text>
                 </Checkbox>
               </CheckboxWrapper>
