@@ -7,24 +7,6 @@
 <p align="center">Spring Boot & React.js를 이용한 설문조사 웹 프로젝트</p>
 
 
-<h2 align="center"> 목차 📜 </h2>
-
-### ✔︎ 소개
-  - [X] 멤버
-  - [X] 로드맵
-  - [X] 프로젝트
-### ✔︎ 서비스
-  - [X] 로그인
-  - [X] 대시보드
-  - [X] 기타 기능
-### ✔︎ 회고
-
-<br>
-
-<br>
-
-<h2 align="center"> 소개 🏷 </h2>
-
 ### LIBERTYFORM
 
 > [LIBERTYFORM 바로가기](https://liberty-form.shop/)
