@@ -74,51 +74,8 @@ npm start
 
 >  자유롭고 편리한 소통의 시작, **LIBERTYFORM**
 >
->  - 'Google Form, Type Form을 벤치마킹하여
 >  - 편의성, 유연성, 직관성을 모두 제공하는 설문관리 웹페이지를 만들기 위해 시작했습니다.
 
-<br>
-
-1. 설문관리 기본 기능은 물론
-2. 설문별 **`발송자 이력관리, 설문발송, 설문 분석`** 기능
-3. 설문 욕구를 자극하는 세련된 UI까지!
-
-<br>
-
-
-<p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207046938-36ca43e1-300c-4bf6-8b0a-2c50956b9574.gif" width="65%"/> </p>
-
-<br>
-
-<br>
-
-<h2 align="center"> 서비스 ⭐️ </h2>
-
-## 기본 기능
-  
-### 로그인
-
-> 사용자는 일반로그인, 소셜로그인을 이용해 로그인할 수 있습니다.  
-> 회원가입시 올바르지 않은 형식의 이메일, 패스워드를 입력할 경우 경고 메세지를 출력하였습니다.
-  
-<p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207049405-f1638f9e-7643-4d62-88ec-238b557ec9e9.gif" width="65%"/> </p>
-
-<br>
-
-### 대시보드
-  
-> 사용자에게 진행중 섦문과 완료된 설문을 분류하여 보여줍니다.
-> 진행중 설문은 드롭다운 버튼을 클릭했을때 링크생성, 수정하기, 미리보기, 이력관리, 삭제하기 기능을 제공한합니다.
-> 완료된 설문은 드롭다운 버튼을 클릭했을때 미리보기, 이력관리 삭제하기 기능을 제공합니다
-  
-<p align="center"> <img src="https://user-images.githubusercontent.com/63089026/207057129-0d609f1f-7d3c-46d7-adad-33700a94650e.png" width="65%"/> </p>
-
-<br>
-  
-
-  ## 기타 기능
-  
- > [기타 기능 바로가기](https://gachonkakao.notion.site/Web-eb565457e5b94961a4619fd2ac67f740)
   
   
   
