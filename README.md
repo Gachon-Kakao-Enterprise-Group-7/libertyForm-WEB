@@ -7,11 +7,11 @@
 <p align="center">Spring Boot & React.js를 이용한 설문조사 웹 프로젝트</p>
 
 
-### LIBERTYFORM
+### LIBERTYFORM (수정중)
 
 > [LIBERTYFORM 바로가기](https://liberty-form.shop/)
 >
-> [LIBERTYFORM 상세](https://gachonkakao.notion.site/366e0b11df094a2db419d16e01c7cdbe)
+> [LIBERTYFORM 상세(노션)](https://gachonkakao.notion.site/366e0b11df094a2db419d16e01c7cdbe)
 
 - 팀명 & 서비스 이름 : LIBERTYFORM
 
